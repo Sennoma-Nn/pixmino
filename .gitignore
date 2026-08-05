@@ -1,0 +1,8 @@
+.vscode/
+.vscode/*
+*.swp
+*.swo
+.DS_Store
+.DS_Store?
+.Spotlight-V100
+.Trashes
