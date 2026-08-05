@@ -2,16 +2,21 @@ local push = require("lib.push")
 local vgafont = require("lib.vgafont")
 
 local style = {
-    block_size = 8;
+    block_size = 8,
     playfield_width = 2
 }
 
 local playfield = {
-    width = 10;
-    height = 20;
+    width = 10,
+    height = 20
 }
 
-local font = nil
+local ui_font = nil
+local bold_font = nil
+
+local is_in_game = false
+local time = 0
+local lines = 0
 
 function love.load()
     love.graphics.setDefaultFilter("nearest", "nearest")
@@ -26,7 +31,8 @@ function love.load()
         }
     )
 
-    font = vgafont.load("font/IB-FULL.F08", "cp437")
+    ui_font = vgafont.load("font/QUADBM.F08", "cp437")
+    bold_font = vgafont.load("font/IB-FULL.F08", "cp437")
 end
 
 function love.draw()
@@ -36,9 +42,11 @@ function love.draw()
 
     local pw = playfield.width * style.block_size
     local ph = playfield.height * style.block_size
-    local gx = (push:getWidth() - pw) / 2
     local gy = (push:getHeight() - ph) / 2
+    local gx = gy
     local bw = style.playfield_width
+    local ix = gx + pw + bw + 8
+    local iy = gy + ph + bw - 8
 
     love.graphics.setColor(0, 0, 0)
     love.graphics.rectangle("fill", gx, gy, pw, ph)
@@ -49,12 +57,36 @@ function love.draw()
     love.graphics.rectangle("fill", gx - bw, gy, bw, ph)
     love.graphics.rectangle("fill", gx + pw, gy, bw, ph)
 
-    if font then
-        love.graphics.setColor(1, 1, 1)
-        vgafont.print(font, "√11\r\n♥♦♣♠\r\n◙◙◙◙◙◙◙◙◙◙\r\nHELLO\r\nPIXTRIS", gx, gy, 1)
-    end
+    local info = {
+        color = {
+            text     = {1, 1, 1, 1},
+            out_line = {0, 0, 0, 1}
+        },
+        time = string.format(
+            "%02d:%02d.%02d",
+            math.floor(time / 60),
+            math.floor(time % 60),
+            math.floor((time * 100) % 100)
+        ),
+        lines = string.format("%dl",   lines),
+    }
+
+    vgafont.print_outlined(bold_font, info.time,  ix, iy - 12 * 0, 1, info.color.text, info.color.out_line)
+    vgafont.print_outlined(bold_font, info.lines, ix, iy - 12 * 1, 1, info.color.text, info.color.out_line)
 
     push:apply("end")
+end
+
+function love.update(dt)
+    if is_in_game then
+        time = time + dt
+    end
+end
+
+function love.keypressed(key)
+    if key == "f4" then
+        push:switchFullscreen()
+    end
 end
 
 function love.resize(w, h)
