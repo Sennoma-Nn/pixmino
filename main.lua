@@ -4,6 +4,7 @@
 local push = require("lib.push")
 local vgafont = require("lib.vgafont")
 local menu = require("menu")
+local game = require("game")
 
 local style = {
     block_size = 8,
@@ -17,18 +18,6 @@ local playfield = {
 
 local ui_fonts = {}
 local bold_font = nil
-
-local time = 0
-local clears = 0
-local scores = 0
-local level = 0
-
-local function reset_game_stats()
-    time = 0
-    clears = 0
-    scores = 0
-    level = 0
-end
 
 local colors = {
     yellow       = { 1, 0.8, 0, 1 },
@@ -68,31 +57,8 @@ function love.load()
     }
 end
 
-local function draw_game_info(gx, gy, pw, ph, bw)
-    local ix = gx + pw + bw + 8
-    local iy = gy + ph + bw - 8
-
-    local info = {
-        scores = string.format("SCORES %d", scores),
-        clears = string.format("CLEARS %d", clears),
-        level  = string.format("LEVEL  %d", level),
-        time   = string.format("TIME   %02d:%02d.%02d",
-            math.floor(time / 60),
-            math.floor(time % 60),
-            math.floor((time * 100) % 100)
-        ),
-    }
-
-    vgafont.print_outlined(bold_font, info.scores, ix, iy - 8 * 3, 1, colors.white, colors.out_line)
-    vgafont.print_outlined(bold_font, info.clears, ix, iy - 8 * 2, 1, colors.white, colors.out_line)
-    vgafont.print_outlined(bold_font, info.level,  ix, iy - 8 * 1, 1, colors.white, colors.out_line)
-    vgafont.print_outlined(bold_font, info.time,   ix, iy - 8 * 0, 1, colors.white, colors.out_line)
-end
-
 function love.draw()
     push:apply("start")
-
-    love.graphics.clear(unpack(colors.background))
 
     local pw = playfield.width * style.block_size
     local ph = playfield.height * style.block_size
@@ -100,16 +66,7 @@ function love.draw()
     local gx = gy
     local bw = style.playfield_width
 
-    love.graphics.setColor(unpack(colors.playfield_bg))
-    love.graphics.rectangle("fill", gx, gy, pw, ph)
-
-    love.graphics.setColor(unpack(colors.white))
-    love.graphics.rectangle("fill", gx - bw, gy - bw, pw + bw * 2, bw)
-    love.graphics.rectangle("fill", gx - bw, gy + ph, pw + bw * 2, bw)
-    love.graphics.rectangle("fill", gx - bw, gy, bw, ph)
-    love.graphics.rectangle("fill", gx + pw, gy, bw, ph)
-
-    draw_game_info(gx, gy, pw, ph, bw)
+    game.draw(bold_font, colors, gx, gy, pw, ph, bw)
 
     if menu.state ~= "GAME" then
         menu.draw(gx, gy, pw, ph, bw, colors, ui_fonts)
@@ -120,7 +77,7 @@ end
 
 function love.update(dt)
     if menu.state == "GAME" then
-        time = time + dt
+        game.update(dt)
     end
 end
 
@@ -132,7 +89,7 @@ function love.keypressed(key)
 
     if menu.state == "GAME" then
         if key == "escape" then
-            reset_game_stats()
+            game.reset()
             menu.go_to("MENU_MAIN")
         end
         return
