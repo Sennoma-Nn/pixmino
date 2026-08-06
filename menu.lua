@@ -1,3 +1,6 @@
+-- Copyright (C) 2026 Sennoma-Nn
+-- SPDX-License-Identifier: GPL-3.0-or-later
+
 local vgafont = require("lib.vgafont")
 local locale = require("locale")
 local utils = require("utils")
@@ -61,6 +64,11 @@ menu.data = {
         {
             text_key = "ABOUT_GAME",
             desc_key = "ABOUT_GAME_DESC",
+            action = false
+        },
+        {
+            text_key = "SOURCE",
+            desc_key = "SOURCE_DESC",
             action = false
         },
         {

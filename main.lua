@@ -1,3 +1,6 @@
+-- Copyright (C) 2026 Sennoma-Nn
+-- SPDX-License-Identifier: GPL-3.0-or-later
+
 local push = require("lib.push")
 local vgafont = require("lib.vgafont")
 local menu = require("menu")
@@ -28,13 +31,14 @@ local function reset_game_stats()
 end
 
 local colors = {
-    yellow     = { 1, 0.8, 0, 1 },
-    white      = { 1, 1, 1, 1 },
-    light_gray = { 0.75, 0.75, 0.75, 1 },
-    gray       = { 0.5, 0.5, 0.5, 1 },
-    black      = { 0, 0, 0, 1 },
-    out_line   = { 0, 0, 0, 1 },
-    background = { 0.1, 0.1, 0.15 },
+    yellow       = { 1, 0.8, 0, 1 },
+    white        = { 1, 1, 1, 1 },
+    light_gray   = { 0.75, 0.75, 0.75, 1 },
+    gray         = { 0.5, 0.5, 0.5, 1 },
+    black        = { 0, 0, 0, 1 },
+    out_line     = { 0, 0, 0, 1 },
+    playfield_bg = { 0, 0, 0, 0.6 },
+    background   = { 0.1, 0.1, 0.15 },
 }
 
 function love.load()
@@ -42,6 +46,8 @@ function love.load()
 
     vgafont.register_codepage("symbol", {
         [0] = "⎋",
+        [1] = "©",
+        [2] = "🄯",
     })
 
     push:setupScreen(
@@ -94,7 +100,7 @@ function love.draw()
     local gx = gy
     local bw = style.playfield_width
 
-    love.graphics.setColor(unpack(colors.black))
+    love.graphics.setColor(unpack(colors.playfield_bg))
     love.graphics.rectangle("fill", gx, gy, pw, ph)
 
     love.graphics.setColor(unpack(colors.white))

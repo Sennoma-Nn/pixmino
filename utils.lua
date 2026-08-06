@@ -1,3 +1,6 @@
+-- Copyright (C) 2026 Sennoma-Nn
+-- SPDX-License-Identifier: GPL-3.0-or-later
+
 local utils = {}
 
 function utils.utf8_len(text)

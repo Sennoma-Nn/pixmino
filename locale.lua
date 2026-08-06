@@ -1,7 +1,10 @@
+-- Copyright (C) 2026 Sennoma-Nn
+-- SPDX-License-Identifier: GPL-3.0-or-later
+
 local locale = {}
 
 locale.langs = { "en", "ja" }
-locale.current = "ja"
+locale.current = "en"
 
 local ver = "DEMO"
 
@@ -36,6 +39,15 @@ locale.t = {
     ABOUT_GAME_DESC = {
         en = "PIXTRIS " .. ver .. "\r\nMade with LÖVE.",
         ja = "ﾋﾟｸｾﾄﾘｽ " .. ver .. "\r\nLÖVE ﾃﾞ ｻｸｾｲ｡",
+    },
+
+    SOURCE = {
+        en = "SOURCE",
+        ja = "ｿｰｽ",
+    },
+    SOURCE_DESC = {
+        en = "Source Code:\r\n\nGitHub:\r\nSennoma-Nn/pixtris\r\n\nLicensed under GPLv3.\r\n🄯 2026 Sennoma-Nn",
+        ja = "ｿｰｽ ｺｰﾄﾞ:\r\n\nGitHub:\r\nSennoma-Nn/pixtris\r\n\nGPLv3 ﾗｲｾﾝｽ ﾃﾞ ｺｳｶｲ｡\r\n🄯 2026 Sennoma-Nn",
     },
 
     SP_THANKS = {

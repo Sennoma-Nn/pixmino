@@ -1,3 +1,8 @@
+-- vgafont.lua
+
+-- Copyright (C) 2026 Sennoma-Nn
+-- SPDX-License-Identifier: MIT
+
 local vgafont = {}
 
 vgafont.codepage_table = {}
