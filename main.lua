@@ -19,13 +19,14 @@ local playfield = {
 local ui_fonts = {}
 local bold_font = nil
 
-local colors = {
+Colors = {
     yellow       = { 1, 0.8, 0, 1 },
     white        = { 1, 1, 1, 1 },
     light_gray   = { 0.75, 0.75, 0.75, 1 },
     gray         = { 0.5, 0.5, 0.5, 1 },
     black        = { 0, 0, 0, 1 },
     out_line     = { 0, 0, 0, 1 },
+    mino_border  = { 0, 0, 0, 0.2 },
     playfield_bg = { 0, 0, 0, 0.6 },
     background   = { 0.1, 0.1, 0.15 },
 }
@@ -74,10 +75,10 @@ function love.draw()
     local gx = gy
     local bw = style.playfield_width
 
-    game.draw(bold_font, colors, gx, gy, pw, ph, bw, style.block_size)
+    game.draw(bold_font, Colors, gx, gy, pw, ph, bw, style.block_size)
 
     if menu.state ~= "GAME" then
-        menu.draw(gx, gy, pw, ph, bw, colors, ui_fonts)
+        menu.draw(gx, gy, pw, ph, bw, Colors, ui_fonts)
     end
 
     push:apply("end")

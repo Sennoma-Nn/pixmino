@@ -423,6 +423,11 @@ local function draw_block(px, py, bs, color)
     love.graphics.rectangle("fill", px, py, bs, bs)
 end
 
+local function has_same_id(x, y, id)
+    local row = game.pf_data[y]
+    return row and row[x] and row[x].id == id
+end
+
 local function draw_playfield_cells(gx, gy, ph, bs)
     if not game.pf then return end
     for y = 1, game.pf.height do
@@ -438,21 +443,97 @@ local function draw_playfield_cells(gx, gy, ph, bs)
     end
 end
 
+local function draw_mino_borders(gx, gy, ph, bs)
+    if not game.pf then return end
+    love.graphics.setColor(unpack(Colors.mino_border))
+    for y = 1, game.pf.height do
+        local row = game.pf_data[y]
+        if row then
+            local py = gy + ph - y * bs
+            for x = 1, game.pf.width do
+                local cell = row[x]
+                if cell then
+                    local px = gx + (x - 1) * bs
+                    local id = cell.id
+
+                    if not has_same_id(x, y + 1, id) then
+                        love.graphics.rectangle("fill", px + 1, py, bs - 2, 1)
+                    end
+                    if not has_same_id(x, y - 1, id) then
+                        love.graphics.rectangle("fill", px + 1, py + bs - 1, bs - 2, 1)
+                    end
+                    if not has_same_id(x - 1, y, id) then
+                        love.graphics.rectangle("fill", px, py + 1, 1, bs - 2)
+                    end
+                    if not has_same_id(x + 1, y, id) then
+                        love.graphics.rectangle("fill", px + bs - 1, py + 1, 1, bs - 2)
+                    end
+
+                    love.graphics.rectangle("fill", px, py, 1, 1)
+                    love.graphics.rectangle("fill", px + bs - 1, py, 1, 1)
+                    love.graphics.rectangle("fill", px, py + bs - 1, 1, 1)
+                    love.graphics.rectangle("fill", px + bs - 1, py + bs - 1, 1, 1)
+                end
+            end
+        end
+    end
+end
+
+local function draw_matrix_borders(m, origin_px, origin_py, bs)
+    local n = #m
+    love.graphics.setColor(unpack(Colors.mino_border))
+    for r = 1, n do
+        for c = 1, n do
+            if m[r][c] ~= 0 then
+                local px = origin_px + (c - 1) * bs
+                local py = origin_py + (r - 1) * bs
+
+                if r - 1 < 1 or m[r - 1][c] == 0 then
+                    love.graphics.rectangle("fill", px + 1, py, bs - 2, 1)
+                end
+                if r + 1 > n or m[r + 1][c] == 0 then
+                    love.graphics.rectangle("fill", px + 1, py + bs - 1, bs - 2, 1)
+                end
+                if c - 1 < 1 or m[r][c - 1] == 0 then
+                    love.graphics.rectangle("fill", px, py + 1, 1, bs - 2)
+                end
+                if c + 1 > n or m[r][c + 1] == 0 then
+                    love.graphics.rectangle("fill", px + bs - 1, py + 1, 1, bs - 2)
+                end
+
+                love.graphics.rectangle("fill", px, py, 1, 1)
+                love.graphics.rectangle("fill", px + bs - 1, py, 1, 1)
+                love.graphics.rectangle("fill", px, py + bs - 1, 1, 1)
+                love.graphics.rectangle("fill", px + bs - 1, py + bs - 1, 1, 1)
+            end
+        end
+    end
+end
+
 local function draw_piece(gx, gy, ph, bs)
     if not game.piece then return end
     local p = game.piece
+    local m = get_matrix(p.shape, p.dir)
     local dy = drop_y(p) - p.y
 
+    -- ghost
+    local ghost_ox, ghost_oy = gx + (p.x - 2) * bs, gy + ph - (p.y + dy + 1) * bs
     for _, cell in ipairs(piece_cells(p)) do
         local gy2 = cell.y + dy
         if gy2 >= 1 and gy2 <= game.pf.height then
             local ghost_color = { p.color[1], p.color[2], p.color[3], 0.25 }
             draw_block(gx + (cell.x - 1) * bs, gy + ph - gy2 * bs, bs, ghost_color)
         end
+    end
+    draw_matrix_borders(m, ghost_ox, ghost_oy, bs)
+
+    local ox, oy = gx + (p.x - 2) * bs, gy + ph - (p.y + 1) * bs
+    for _, cell in ipairs(piece_cells(p)) do
         if cell.y >= 1 and cell.y <= game.pf.height then
             draw_block(gx + (cell.x - 1) * bs, gy + ph - cell.y * bs, bs, p.color)
         end
     end
+    draw_matrix_borders(m, ox, oy, bs)
 end
 
 local function draw_preview(shape, px, py, bs)
@@ -465,6 +546,7 @@ local function draw_preview(shape, px, py, bs)
             end
         end
     end
+    draw_matrix_borders(m, px, py, bs)
 end
 
 local function draw_next_hold(font, colors, gx, gy, pw, ph, bw, bs)
@@ -520,9 +602,10 @@ function game.draw(font, colors, gx, gy, pw, ph, bw, bs)
     love.graphics.rectangle("fill", gx + pw, gy, bw, ph)
 
     draw_playfield_cells(gx, gy, ph, bs)
+    draw_mino_borders(gx, gy, ph, bs)
     draw_piece(gx, gy, ph, bs)
-    draw_next_hold(font, colors, gx, gy, pw, ph, bw, bs)
-    draw_game_info(font, colors, gx, gy, pw, ph, bw)
+    draw_next_hold(font, Colors, gx, gy, pw, ph, bw, bs)
+    draw_game_info(font, Colors, gx, gy, pw, ph, bw)
 end
 
 return game
