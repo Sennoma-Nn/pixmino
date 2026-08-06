@@ -30,8 +30,14 @@ local colors = {
     background   = { 0.1, 0.1, 0.15 },
 }
 
+local debug_flags = {
+    piece = true,
+    pf_data = false,
+}
+
 function love.load()
     love.graphics.setDefaultFilter("nearest", "nearest")
+    love.math.setRandomSeed(os.time())
 
     vgafont.register_codepage("symbol", {
         [0] = "⎋",
@@ -55,6 +61,8 @@ function love.load()
         vgafont.load("font/QUADBM.F08",       "cp437"),
         vgafont.load("font/SYMBOL.F08",       "symbol"),
     }
+
+    game.set_debug(debug_flags)
 end
 
 function love.draw()
@@ -66,7 +74,7 @@ function love.draw()
     local gx = gy
     local bw = style.playfield_width
 
-    game.draw(bold_font, colors, gx, gy, pw, ph, bw)
+    game.draw(bold_font, colors, gx, gy, pw, ph, bw, style.block_size)
 
     if menu.state ~= "GAME" then
         menu.draw(gx, gy, pw, ph, bw, colors, ui_fonts)
@@ -77,6 +85,9 @@ end
 
 function love.update(dt)
     if menu.state == "GAME" then
+        if not game.started then
+            game.start(playfield)
+        end
         game.update(dt)
     end
 end
@@ -89,8 +100,24 @@ function love.keypressed(key)
 
     if menu.state == "GAME" then
         if key == "escape" then
-            game.reset()
+            game.stop()
             menu.go_to("MENU_MAIN")
+        elseif key == "z" then
+            game.rotate_ccw()
+        elseif key == "x" then
+            game.rotate_cw()
+        elseif key == "a" then
+            game.rotate_180()
+        elseif key == "c" then
+            game.do_hold()
+        elseif key == "space" then
+            game.hard_drop()
+        elseif key == "," then
+            game.move_left()
+        elseif key == "/" then
+            game.move_right()
+        elseif key == "." then
+            game.soft_drop()
         end
         return
     end
