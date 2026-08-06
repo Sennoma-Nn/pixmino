@@ -1,6 +1,5 @@
 local push = require("lib.push")
 local vgafont = require("lib.vgafont")
-local locale = require("locale")
 local menu = require("menu")
 
 local style = {
@@ -41,6 +40,10 @@ local colors = {
 function love.load()
     love.graphics.setDefaultFilter("nearest", "nearest")
 
+    vgafont.register_codepage("symbol", {
+        [0] = "⎋",
+    })
+
     push:setupScreen(
         320 * 1, 180 * 1,
         320 * 4, 180 * 4,
@@ -53,13 +56,10 @@ function love.load()
 
     bold_font = vgafont.load("font/IB-FULL.F08", "cp437")
     ui_fonts = {
-        en = vgafont.load("font/QUADBM.F08",       "cp437"),
-        ja = vgafont.load("font/QUADBM_CP897.F08", "jisx0201"),
+        vgafont.load("font/QUADBM_CP897.F08", "jisx0201"),
+        vgafont.load("font/QUADBM.F08",       "cp437"),
+        vgafont.load("font/SYMBOL.F08",       "symbol"),
     }
-end
-
-local function get_ui_font()
-    return ui_fonts[locale.current]
 end
 
 local function draw_game_info(gx, gy, pw, ph, bw)
@@ -106,7 +106,7 @@ function love.draw()
     draw_game_info(gx, gy, pw, ph, bw)
 
     if menu.state ~= "GAME" then
-        menu.draw(gx, gy, pw, ph, bw, colors, get_ui_font())
+        menu.draw(gx, gy, pw, ph, bw, colors, ui_fonts)
     end
 
     push:apply("end")

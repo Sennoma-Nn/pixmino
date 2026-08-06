@@ -209,8 +209,15 @@ function vgafont.char_to_code(font, char)
     return nil
 end
 
-function vgafont.get_height(font)
-    return font.height
+function vgafont._is_font_list(fonts)
+    return fonts[1] ~= nil and fonts.height == nil
+end
+
+function vgafont.get_height(fonts)
+    if vgafont._is_font_list(fonts) then
+        return fonts[1].height
+    end
+    return fonts.height
 end
 
 function vgafont._utf8_len(byte)
@@ -221,15 +228,15 @@ function vgafont._utf8_len(byte)
     return 4
 end
 
-function vgafont._draw_char_ex(font, x, y, code, scale, color, image, quads)
+function vgafont._draw_char_ex(x, y, code, scale, color, image, quads)
     local q = quads[code]
     if not q then return end
     love.graphics.setColor(unpack(color))
     love.graphics.draw(image, q, x, y, 0, scale, scale)
 end
 
-function vgafont._print_ex(font, text, x, y, scale, color, image, quads)
-    local fh = font.height
+function vgafont._print_ex(fonts, text, x, y, scale, color, outline)
+    local fh = vgafont.get_height(fonts)
     local char_w = 8 * scale
     local line_h = fh * scale
 
@@ -250,20 +257,27 @@ function vgafont._print_ex(font, text, x, y, scale, color, image, quads)
         elseif c == "\r" then
             cx = x
         else
-            local code
-            if #c == 1 and string.byte(c) <= 255 then
-                local byte_code = string.byte(c)
-                if rawget(font.to_utf8, byte_code) == nil then
-                    code = byte_code
-                else
-                    code = rawget(font.to_code, c)
+            local matched_font, code
+
+            if vgafont._is_font_list(fonts) then
+                for _, f in ipairs(fonts) do
+                    code = vgafont.char_to_code(f, c)
+                    if code ~= nil and code >= 0 and code <= 255 then
+                        matched_font = f
+                        break
+                    end
                 end
             else
-                code = vgafont.char_to_code(font, c)
+                code = vgafont.char_to_code(fonts, c)
+                if code ~= nil and code >= 0 and code <= 255 then
+                    matched_font = fonts
+                end
             end
 
-            if code ~= nil and code >= 0 and code <= 255 then
-                vgafont._draw_char_ex(font, cx, cy, code, scale, color, image, quads)
+            if matched_font then
+                local image = outline and matched_font.image_outline or matched_font.image
+                local quads = outline and matched_font.quads_outline or matched_font.quads
+                vgafont._draw_char_ex(cx, cy, code, scale, color, image, quads)
             end
             cx = cx + char_w
         end
@@ -272,35 +286,46 @@ function vgafont._print_ex(font, text, x, y, scale, color, image, quads)
     end
 end
 
-function vgafont.draw_char(font, x, y, char, scale, color)
+function vgafont.draw_char(fonts, x, y, char, scale, color)
     color = color or {1, 1, 1, 1}
     scale = scale or 1
 
+    local matched_font = fonts
     local code
     if type(char) == "number" then
         code = char
     else
-        code = vgafont.char_to_code(font, char)
+        if vgafont._is_font_list(fonts) then
+            for _, f in ipairs(fonts) do
+                code = vgafont.char_to_code(f, char)
+                if code ~= nil then
+                    matched_font = f
+                    break
+                end
+            end
+        else
+            code = vgafont.char_to_code(fonts, char)
+        end
     end
 
     if code == nil or code < 0 or code > 255 then return end
 
-    vgafont._draw_char_ex(font, x, y, code, scale, color, font.image, font.quads)
+    vgafont._draw_char_ex(x, y, code, scale, color, matched_font.image, matched_font.quads)
 end
 
-function vgafont.print(font, text, x, y, scale, color)
+function vgafont.print(fonts, text, x, y, scale, color)
     scale = scale or 1
     color = color or {1, 1, 1, 1}
-    vgafont._print_ex(font, text, x, y, scale, color, font.image, font.quads)
+    vgafont._print_ex(fonts, text, x, y, scale, color, false)
 end
 
-function vgafont.print_outlined(font, text, x, y, scale, color, outline_color)
+function vgafont.print_outlined(fonts, text, x, y, scale, color, outline_color)
     scale = scale or 1
     color = color or {1, 1, 1, 1}
     outline_color = outline_color or {0, 0, 0, 1}
 
-    vgafont._print_ex(font, text, x - 1, y - 1, scale, outline_color, font.image_outline, font.quads_outline)
-    vgafont._print_ex(font, text, x, y, scale, color, font.image, font.quads)
+    vgafont._print_ex(fonts, text, x - 1, y - 1, scale, outline_color, true)
+    vgafont._print_ex(fonts, text, x, y, scale, color, false)
 end
 
 return vgafont

@@ -75,8 +75,6 @@ function menu.draw(gx, gy, pw, ph, bw, colors, font)
     local data = menu.data[menu.state]
     if not data then return end
 
-    font = font or vgafont
-
     local num_items = #data
     local line_height = vgafont.get_height(font) + 2
     local total_h = num_items * line_height
@@ -94,14 +92,16 @@ function menu.draw(gx, gy, pw, ph, bw, colors, font)
 
         if i == menu.selection then
             local highlight = disabled and colors.light_gray or colors.yellow
-            vgafont.print_outlined(font, text, item_x, item_y, 1, highlight, colors.out_line)
+            vgafont.print(font, text, item_x, item_y, 1, highlight)
 
             local desc = locale.get(item.desc_key) or ""
-            vgafont.print_outlined(font, desc, desc_x, desc_y, 1, colors.white, colors.out_line)
+            vgafont.print(font, desc, desc_x, desc_y, 1, colors.white)
         else
-            vgafont.print_outlined(font, text, item_x, item_y, 1, color, colors.out_line)
+            vgafont.print(font, text, item_x, item_y, 1, color)
         end
     end
+
+    vgafont.print(font, locale.get("BACK_TIP"), gx + 4, gy + 4, 1, colors.gray)
 end
 
 function menu.keypressed(key)

@@ -1,68 +1,68 @@
 local locale = {}
 
 locale.langs = { "en", "ja" }
-locale.current = "en"
+locale.current = "ja"
+
+local ver = "DEMO"
 
 locale.t = {
+    BACK_TIP = {
+        en = "⎋ TO BACK",
+        ja = "⎋ ﾃﾞ ﾓﾄﾞﾙ",
+    },
+
     START = {
         en = "START",
         ja = "ｽﾀｰﾄ",
-    },
-    ABOUT = {
-        en = "ABOUT",
-        ja = "ｾﾂﾒｲ",
-    },
-    ABOUT_GAME = {
-        en = "GAME",
-        ja = "ｹﾞｰﾑ",
-    },
-    SP_THANKS = {
-        en = "SP.THANKS",
-        ja = "SP.ｻﾝｸｽ",
-    },
-    MARATHON = {
-        en = "MARATHON",
-        ja = "ﾏﾗｿﾝ",
-    },
-    SPRINT = {
-        en = "SPRINT",
-        ja = "40 ﾗｲﾝ",
     },
     START_DESC = {
         en = "Start Game!",
         ja = "ｹﾞｰﾑｦ ｽﾀｰﾄ!",
     },
-    ABOUT_GAME_DESC = {
-        en = "PIXTRIS V0.0.1",
-        ja = "ﾋﾟｸｾﾄﾘｽ V0.0.1",
-    },
-    SP_THANKS_DESC = {
-        en = "Special Thanks:\r\n\nUlydev:\r\nLibrary Push for LÖVE.\r\n\nSoda 261:\r\nProvided \"IB-FULL\" font.",
-        ja = "ｽﾍﾟｼｬﾙ ｻﾝｸｽ:\r\n\nUlydev:\r\nLove2D ﾖｳ ﾗｲﾌﾞﾗﾘ Push｡\r\n\nSoda 261:\r\n｢IB-FULL｣ ﾌｫﾝﾄ ﾃｲｷｮｳ｡",
+
+    ABOUT = {
+        en = "ABOUT",
+        ja = "ｾﾂﾒｲ",
     },
     ABOUT_DESC = {
         en = "About PIXTRIS.",
         ja = "ﾋﾟｸｾﾄﾘｽﾆ ﾂｲﾃ｡",
     },
+
+    ABOUT_GAME = {
+        en = "GAME",
+        ja = "ｹﾞｰﾑ",
+    },
+    ABOUT_GAME_DESC = {
+        en = "PIXTRIS " .. ver .. "\r\nMade with LÖVE.",
+        ja = "ﾋﾟｸｾﾄﾘｽ " .. ver .. "\r\nLÖVE ﾃﾞ ｻｸｾｲ｡",
+    },
+
+    SP_THANKS = {
+        en = "SP.THANKS",
+        ja = "SP.ｻﾝｸｽ",
+    },
+    SP_THANKS_DESC = {
+        en = "Special Thanks:\r\n\nUlydev:\r\n- Library Push for LÖVE.\r\n\nSoda 261:\r\n- Provided \"IB-FULL\" font\r\n  4 displaying game stats.",
+        ja = "ｽﾍﾟｼｬﾙ ｻﾝｸｽ:\r\n\nUlydev:\r\n- LÖVE ﾖｳ ﾗｲﾌﾞﾗﾘ Push｡\r\n\nSoda 261:\r\n- ｹﾞｰﾑ ｼﾞｮｳﾎｳ ﾋｮｳｼﾞ ﾖｳ\r\n  ｢IB-FULL｣ ﾌｫﾝﾄ ﾃｲｷｮｳ｡",
+    },
+
+    MARATHON = {
+        en = "MARATHON",
+        ja = "ﾏﾗｿﾝ",
+    },
     MARATHON_DESC = {
         en = "Clear 150 lines,\r\nScore as high as possible!",
         ja = "150 ﾗｲﾝｦ ｸﾘｱ､\r\nｽｺｱｦ ﾈﾗｴ!",
     },
+
+    SPRINT = {
+        en = "SPRINT",
+        ja = "40 ﾗｲﾝ",
+    },
     SPRINT_DESC = {
         en = "Clear 40 lines,\r\nFinish as fast as possible!",
         ja = "40 ﾗｲﾝｦ ｸﾘｱ､\r\nﾊﾔｻｦ ｷｿｴ!",
-    },
-    CLEARS = {
-        en = "CLEARS",
-        ja = "ﾗｲﾝ",
-    },
-    SCORE = {
-        en = "SCORE",
-        ja = "ｽｺｱ",
-    },
-    TIME = {
-        en = "TIME",
-        ja = "ﾀｲﾑ",
     },
 }
 
