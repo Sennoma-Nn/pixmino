@@ -298,6 +298,8 @@ local function clear_lines()
     if cleared > 0 then
         game.clears = game.clears + cleared
     end
+
+    return cleared
 end
 
 local function lock_piece()
@@ -326,7 +328,12 @@ local function lock_piece()
         print(table.concat(out, "\n"))
     end
 
-    clear_lines()
+    local cleared = clear_lines()
+    if cleared > 0 then
+        game.ren = game.ren + 1
+    else
+        game.ren = -1
+    end
     game.spawn()
 end
 

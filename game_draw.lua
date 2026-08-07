@@ -169,12 +169,14 @@ local function draw_game_info(font, gx, gy, pw, ph, bw)
     local ix = gx + pw + bw + 8
     local iy = gy + ph + bw - 8
 
+
     local info = {
-        ren    = string.format("REN %d", game.ren),
-        b2b    = string.format("B2B %d", game.b2b),
         scores = string.format("SCORES %d", game.scores),
         clears = string.format("CLEARS %d", game.clears),
         level  = string.format("LEVEL  %d", game.level),
+        ren    = (game.ren >= 0) and string.format("REN    %d", game.ren) or string.format("REN   %d", game.ren),
+        b2b    = (game.b2b >= 0) and string.format("B2B    %d", game.b2b) or string.format("B2B   %d", game.b2b),
+
         time   = string.format("TIME   %02d:%02d.%02d",
             math.floor(game.time / 60),
             math.floor(game.time % 60),
@@ -185,14 +187,12 @@ local function draw_game_info(font, gx, gy, pw, ph, bw)
     local total = game.lock_resets_total or 30
     local left = (game.piece and game.piece.lock_resets) or 0
 
-    vgafont.print_outlined(font, info.ren, ix, iy - 8 * 8, 1, Colors.white, Colors.out_line)
-    vgafont.print_outlined(font, info.b2b, ix, iy - 8 * 7, 1, Colors.white, Colors.out_line)
-
-    vgafont.print_outlined(font, info.scores, ix, iy - 8 * 5, 1, Colors.white, Colors.out_line)
-    vgafont.print_outlined(font, info.clears, ix, iy - 8 * 4, 1, Colors.white, Colors.out_line)
-    vgafont.print_outlined(font, info.level, ix, iy - 8 * 3, 1, Colors.white, Colors.out_line)
-    vgafont.print_outlined(font, info.time, ix, iy - 8 * 2, 1, Colors.white, Colors.out_line)
-
+    vgafont.print_outlined(font, info.scores, ix, iy - 8 * 7, 1, Colors.white, Colors.out_line)
+    vgafont.print_outlined(font, info.clears, ix, iy - 8 * 6, 1, Colors.white, Colors.out_line)
+    vgafont.print_outlined(font, info.level, ix, iy - 8 * 5, 1, Colors.white, Colors.out_line)
+    vgafont.print_outlined(font, info.ren, ix, iy - 8 * 4, 1, Colors.white, Colors.out_line)
+    vgafont.print_outlined(font, info.b2b, ix, iy - 8 * 3, 1, Colors.white, Colors.out_line)
+    vgafont.print_outlined(font, info.time, ix, iy - 8 * 1, 1, Colors.white, Colors.out_line)
     vgafont.print_outlined(font, string.rep("♦", total), ix, iy - 8 * 0, 1, Colors.gray, Colors.out_line)
     vgafont.print_outlined(font, string.rep("♦", left), ix, iy - 8 * 0, 1, Colors.white, Colors.out_line)
 end
