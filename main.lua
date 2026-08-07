@@ -56,6 +56,7 @@ local debug_flags = {
     piece = false,
     pf_data = false,
     wallkick = false,
+    reset = false,
 }
 
 local function das_ms()

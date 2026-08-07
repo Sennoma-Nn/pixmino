@@ -166,7 +166,7 @@ local function dbg(action)
             .. " color=" .. table.concat(p.color, ",")
             .. " lock_delay=" .. p.lock_delay
             .. " lock_resets=" .. p.lock_resets
-            .. " drop=" .. p.drop)
+            .. " drop_sum=" .. p.drop_sum)
     end
 end
 
@@ -261,9 +261,14 @@ local function drop_y(piece)
 end
 
 local function reset_lock(piece)
-    if piece.lock_resets <= 0 then return end
-    piece.lock_resets = piece.lock_resets - 1
-    piece.lock_delay = lock_delay
+    if piece.lock_resets > 0 then
+        piece.lock_resets = piece.lock_resets - 1
+        piece.lock_delay = lock_delay
+    end
+
+    if game.debug_flags and game.debug_flags.reset then
+        print(string.format("RESET: resets=%d delay=%.2f", piece.lock_resets, piece.lock_delay))
+    end
 end
 
 local function clear_lines()
@@ -374,9 +379,9 @@ local function new_piece(shape, x, y)
         x = x,
         y = y,
         color = minos[shape].color,
-        lock_delay = 0,
+        lock_delay = lock_delay,
         lock_resets = lock_resets,
-        drop = 0,
+        drop_sum = 0,
     }
 end
 
@@ -399,14 +404,16 @@ end
 
 function game.do_hold()
     if not game.piece or not game.can_hold then return end
+    local old_rst = game.piece.lock_resets
+    local prev_shape = game.piece.shape
     local held = game.hold
-    game.hold = game.piece.shape
-    if held then
-        local x, y = spawn_pos(held)
-        game.piece = new_piece(held, x, y)
-    else
-        game.spawn()
-    end
+    game.hold = prev_shape
+
+    local new_shape = held or take_bag()
+    local x, y = spawn_pos(new_shape)
+    game.piece = new_piece(new_shape, x, y)
+    game.piece.lock_resets = math.min(old_rst + 2, lock_resets)
+    game.ensure_next()
     game.can_hold = false
     dbg("HOLD")
 end
@@ -415,8 +422,8 @@ function game.move_left()
     local p = game.piece
     if not p then return false end
     if not collides(p, p.x - 1, p.y, p.dir) then
-        p.x = p.x - 1
         if is_grounded(p) then reset_lock(p) end
+        p.x = p.x - 1
         dbg("LEFT")
         return true
     end
@@ -427,8 +434,8 @@ function game.move_right()
     local p = game.piece
     if not p then return false end
     if not collides(p, p.x + 1, p.y, p.dir) then
-        p.x = p.x + 1
         if is_grounded(p) then reset_lock(p) end
+        p.x = p.x + 1
         dbg("RIGHT")
         return true
     end
@@ -459,16 +466,17 @@ end
 local function rotate_to(nd)
     local p = game.piece
     if not p or nd == p.dir then return end
+    local is_grounded = is_grounded(p)
 
     if try_wallkick(p, nd) then
-        if is_grounded(p) then reset_lock(p) end
+        if is_grounded then reset_lock(p) end
         dbg("ROT")
         return
     end
 
     if not collides(p, p.x, p.y, nd) then
         p.dir = nd
-        if is_grounded(p) then reset_lock(p) end
+        if is_grounded then reset_lock(p) end
         dbg("ROT")
     end
 end
@@ -520,19 +528,14 @@ function game.update(dt)
     if not game.piece then return end
 
     if collides(game.piece, game.piece.x, game.piece.y - 1, game.piece.dir) then
-        if game.piece.lock_resets <= 0 then
-            lock_piece()
-            return
-        end
-        if game.piece.lock_delay <= 0 then
-            game.piece.lock_delay = lock_delay
-        end
         game.piece.lock_delay = game.piece.lock_delay - dt
         if game.piece.lock_delay <= 0 then
             lock_piece()
         end
     else
-        game.piece.lock_delay = 0
+        if game.piece.lock_resets > 0 then
+            game.piece.lock_delay = lock_delay
+        end
     end
 end
 
