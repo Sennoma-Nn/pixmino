@@ -1,15 +1,15 @@
 -- Copyright (C) 2026 Sennoma-Nn
 -- SPDX-License-Identifier: GPL-3.0-or-later
 
-local game = {}
+local game        = {}
 
-local minos = {
+local minos       = {
     I = {
         shapes = {
-            {0,0,0,0},
-            {1,1,1,1},
-            {0,0,0,0},
-            {0,0,0,0}
+            { 0, 0, 0, 0 },
+            { 1, 1, 1, 1 },
+            { 0, 0, 0, 0 },
+            { 0, 0, 0, 0 }
         },
         color = { 0.2, 0.8, 1.0, 1 },
         preview = {
@@ -19,10 +19,10 @@ local minos = {
     },
     O = {
         shapes = {
-            {0,0,0,0},
-            {0,1,1,0},
-            {0,1,1,0},
-            {0,0,0,0}
+            { 0, 0, 0, 0 },
+            { 0, 1, 1, 0 },
+            { 0, 1, 1, 0 },
+            { 0, 0, 0, 0 }
         },
         color = { 1.0, 0.9, 0.4, 1 },
         preview = {
@@ -32,9 +32,9 @@ local minos = {
     },
     T = {
         shapes = {
-            {0,1,0},
-            {1,1,1},
-            {0,0,0}
+            { 0, 1, 0 },
+            { 1, 1, 1 },
+            { 0, 0, 0 }
         },
         color = { 0.7, 0.4, 1.0, 1 },
         preview = {
@@ -44,9 +44,9 @@ local minos = {
     },
     S = {
         shapes = {
-            {0,1,1},
-            {1,1,0},
-            {0,0,0}
+            { 0, 1, 1 },
+            { 1, 1, 0 },
+            { 0, 0, 0 }
         },
         color = { 0.2, 0.9, 0.5, 1 },
         preview = {
@@ -56,9 +56,9 @@ local minos = {
     },
     Z = {
         shapes = {
-            {1,1,0},
-            {0,1,1},
-            {0,0,0}
+            { 1, 1, 0 },
+            { 0, 1, 1 },
+            { 0, 0, 0 }
         },
         color = { 1.0, 0.4, 0.4, 1 },
         preview = {
@@ -68,9 +68,9 @@ local minos = {
     },
     J = {
         shapes = {
-            {1,0,0},
-            {1,1,1},
-            {0,0,0}
+            { 1, 0, 0 },
+            { 1, 1, 1 },
+            { 0, 0, 0 }
         },
         color = { 0.3, 0.5, 1.0, 1 },
         preview = {
@@ -80,9 +80,9 @@ local minos = {
     },
     L = {
         shapes = {
-            {0,0,1},
-            {1,1,1},
-            {0,0,0}
+            { 0, 0, 1 },
+            { 1, 1, 1 },
+            { 0, 0, 0 }
         },
         color = { 1.0, 0.6, 0.3, 1 },
         preview = {
@@ -92,29 +92,29 @@ local minos = {
     },
 }
 
-local lock_delay = 0.5
+local lock_delay  = 0.5
 local lock_resets = 30
-local next_count = 3
+local next_count  = 3
 
-game.pf_data = {}
-game.bag = {}
-game.next = {}
-game.hold = nil
-game.can_hold = true
-game.piece = nil
-game.piece_id = 0
-game.started = false
-game.pf = nil
-game.debug_flags = {}
+game.pf_data      = {}
+game.bag          = {}
+game.next         = {}
+game.hold         = nil
+game.can_hold     = true
+game.piece        = nil
+game.piece_id     = 0
+game.started      = false
+game.pf           = nil
+game.debug_flags  = {}
 
-game.time = 0
-game.clears = 0
-game.scores = 0
-game.level = 0
+game.time         = 0
+game.clears       = 0
+game.scores       = 0
+game.level        = 0
 
-local cw    = { ["0"] = "R", ["R"] = "2", ["2"] = "L", ["L"] = "0" }
-local ccw   = { ["0"] = "L", ["L"] = "2", ["2"] = "R", ["R"] = "0" }
-local half  = { ["0"] = "2", ["2"] = "0", ["R"] = "L", ["L"] = "R" }
+local cw          = { ["0"] = "R", ["R"] = "2", ["2"] = "L", ["L"] = "0" }
+local ccw         = { ["0"] = "L", ["L"] = "2", ["2"] = "R", ["R"] = "0" }
+local half        = { ["0"] = "2", ["2"] = "0", ["R"] = "L", ["L"] = "R" }
 
 local function dbg(action)
     if not (game.debug_flags and game.debug_flags.piece) then return end

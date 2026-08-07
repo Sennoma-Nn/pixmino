@@ -182,8 +182,8 @@ local function draw_game_info(font, gx, gy, pw, ph, bw)
 
     vgafont.print_outlined(font, info.scores, ix, iy - 8 * 3, 1, Colors.white, Colors.out_line)
     vgafont.print_outlined(font, info.clears, ix, iy - 8 * 2, 1, Colors.white, Colors.out_line)
-    vgafont.print_outlined(font, info.level,  ix, iy - 8 * 1, 1, Colors.white, Colors.out_line)
-    vgafont.print_outlined(font, info.time,   ix, iy - 8 * 0, 1, Colors.white, Colors.out_line)
+    vgafont.print_outlined(font, info.level, ix, iy - 8 * 1, 1, Colors.white, Colors.out_line)
+    vgafont.print_outlined(font, info.time, ix, iy - 8 * 0, 1, Colors.white, Colors.out_line)
 end
 
 function render.draw(font, gx, gy, pw, ph, bw, bs)
