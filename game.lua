@@ -3,15 +3,15 @@
 
 local game        = {}
 
-local SRS_JLSTZ   = {
-    ["0>R"] = { { 0, 0 }, { -1, 0 }, { -1, 1 }, { 0, -2 }, { -1, -2 } },
+local PRS_JLSTZ   = {
+    ["0>R"] = { { 0, 0 }, { -1, 0 }, { -1, 1 }, { 0, -2 }, { -1, -2 }, { 0, 1 } },
     ["R>0"] = { { 0, 0 }, { 1, 0 }, { 1, -1 }, { 0, 2 }, { 1, 2 } },
     ["R>2"] = { { 0, 0 }, { 1, 0 }, { 1, -1 }, { 0, 2 }, { 1, 2 } },
     ["2>R"] = { { 0, 0 }, { -1, 0 }, { -1, 1 }, { 0, -2 }, { -1, -2 } },
     ["2>L"] = { { 0, 0 }, { 1, 0 }, { 1, 1 }, { 0, -2 }, { 1, -2 } },
     ["L>2"] = { { 0, 0 }, { -1, 0 }, { -1, -1 }, { 0, 2 }, { -1, 2 } },
     ["L>0"] = { { 0, 0 }, { -1, 0 }, { -1, -1 }, { 0, 2 }, { -1, 2 } },
-    ["0>L"] = { { 0, 0 }, { 1, 0 }, { 1, 1 }, { 0, -2 }, { 1, -2 } },
+    ["0>L"] = { { 0, 0 }, { 1, 0 }, { 1, 1 }, { 0, -2 }, { 1, -2 }, { 0, 1 } },
 
     ["0>2"] = { { 0, 0 }, { 0, 1 }, { 1, 1 }, { -1, 1 }, { 1, 0 }, { -1, 0 } },
     ["2>0"] = { { 0, 0 }, { 0, -1 }, { -1, -1 }, { 1, -1 }, { -1, 0 }, { 1, 0 } },
@@ -19,7 +19,7 @@ local SRS_JLSTZ   = {
     ["L>R"] = { { 0, 0 }, { -1, 0 }, { -1, 2 }, { -1, 1 }, { 0, 2 }, { 0, 1 } },
 }
 
-local SRS_I       = {
+local PRS_I       = {
     ["0>R"] = { { 0, 0 }, { -2, 0 }, { 1, 0 }, { -2, -1 }, { 1, 2 } },
     ["R>0"] = { { 0, 0 }, { 2, 0 }, { -1, 0 }, { 2, 1 }, { -1, -2 } },
     ["R>2"] = { { 0, 0 }, { -1, 0 }, { 2, 0 }, { -1, 2 }, { 2, -1 } },
@@ -28,6 +28,23 @@ local SRS_I       = {
     ["L>2"] = { { 0, 0 }, { -2, 0 }, { 1, 0 }, { -2, -1 }, { 1, 2 } },
     ["L>0"] = { { 0, 0 }, { 1, 0 }, { -2, 0 }, { 1, -2 }, { -2, 1 } },
     ["0>L"] = { { 0, 0 }, { -1, 0 }, { 2, 0 }, { -1, 2 }, { 2, -1 } },
+
+    ["0>2"] = { { 0, 0 }, { 0, 1 } },
+    ["2>0"] = { { 0, 0 }, { 0, -1 } },
+    ["R>L"] = { { 0, 0 }, { 1, 0 } },
+    ["L>R"] = { { 0, 0 }, { -1, 0 } },
+}
+
+local PRS_O       = {
+    ["0>R"] = { { 1, 0 }, { 1, -1 }, { 1, 1 } },
+    ["R>2"] = { { 1, 0 }, { 1, -1 }, { 1, 1 } },
+    ["2>L"] = { { 1, 0 }, { 1, -1 }, { 1, 1 } },
+    ["L>0"] = { { 1, 0 }, { 1, -1 }, { 1, 1 } },
+
+    ["R>0"] = { { -1, 0 }, { -1, -1 }, { -1, 1 } },
+    ["2>R"] = { { -1, 0 }, { -1, -1 }, { -1, 1 } },
+    ["L>2"] = { { -1, 0 }, { -1, -1 }, { -1, 1 } },
+    ["0>L"] = { { -1, 0 }, { -1, -1 }, { -1, 1 } },
 }
 
 local minos       = {
@@ -44,7 +61,18 @@ local minos       = {
             offset = { 0, 0 }
         },
         spawn = { 0, 1 },
-        wallkick = { srs = SRS_I },
+        wallkick = { prs = PRS_I },
+        spin = {
+            shapes = {
+                { 1, 0, 0, 1 },
+                { 0, 0, 0, 0 },
+                { 1, 0, 0, 1 },
+                { 0, 0, 0, 0 }
+            },
+            threshold = {
+                [1] = 3,
+            },
+        },
     },
     O = {
         shapes = {
@@ -59,6 +87,21 @@ local minos       = {
             offset = { -1, 1 }
         },
         spawn = { 0, 1 },
+        wallkick = { prs = PRS_O },
+        spin = {
+            shapes = {
+                { 0, 1, 1, 0 },
+                { 2, 0, 0, 4 },
+                { 2, 0, 0, 4 },
+                { 0, 3, 3, 0 }
+            },
+            threshold = {
+                [1] = 1,
+                [2] = 1,
+                [3] = 1,
+                [4] = 1,
+            },
+        },
     },
     T = {
         shapes = {
@@ -71,7 +114,17 @@ local minos       = {
             width = 3,
             offset = { 0, 0 }
         },
-        wallkick = { srs = SRS_JLSTZ },
+        wallkick = { prs = PRS_JLSTZ },
+        spin = {
+            shapes = {
+                { 1, 0, 1 },
+                { 0, 0, 0 },
+                { 1, 0, 1 }
+            },
+            threshold = {
+                [1] = 3,
+            },
+        },
     },
     S = {
         shapes = {
@@ -84,7 +137,17 @@ local minos       = {
             width = 3,
             offset = { 0, 0 }
         },
-        wallkick = { srs = SRS_JLSTZ },
+        wallkick = { prs = PRS_JLSTZ },
+        spin = {
+            shapes = {
+                { 1, 0, 0 },
+                { 0, 0, 1 },
+                { 0, 0, 0 }
+            },
+            threshold = {
+                [1] = 2,
+            },
+        },
     },
     Z = {
         shapes = {
@@ -97,7 +160,17 @@ local minos       = {
             width = 3,
             offset = { 0, 0 }
         },
-        wallkick = { srs = SRS_JLSTZ },
+        wallkick = { prs = PRS_JLSTZ },
+        spin = {
+            shapes = {
+                { 0, 0, 1 },
+                { 1, 0, 0 },
+                { 0, 0, 0 }
+            },
+            threshold = {
+                [1] = 2,
+            },
+        },
     },
     J = {
         shapes = {
@@ -110,7 +183,18 @@ local minos       = {
             width = 3,
             offset = { 0, 0 }
         },
-        wallkick = { srs = SRS_JLSTZ },
+        wallkick = { prs = PRS_JLSTZ },
+        spin = {
+            shapes = {
+                { 0, 2, 1 },
+                { 0, 0, 0 },
+                { 2, 2, 1 }
+            },
+            threshold = {
+                [1] = 1,
+                [2] = 2,
+            },
+        },
     },
     L = {
         shapes = {
@@ -123,7 +207,18 @@ local minos       = {
             width = 3,
             offset = { 0, 0 }
         },
-        wallkick = { srs = SRS_JLSTZ },
+        wallkick = { prs = PRS_JLSTZ },
+        spin = {
+            shapes = {
+                { 1, 2, 0 },
+                { 0, 0, 0 },
+                { 1, 2, 2 }
+            },
+            threshold = {
+                [1] = 1,
+                [2] = 2,
+            },
+        },
     },
 }
 
@@ -226,6 +321,64 @@ local function piece_cells(piece)
         end
     end
     return cells
+end
+
+local function spin_matrix(shape, dir)
+    local s = minos[shape].spin
+    if not s then return nil end
+    local m = s.shapes
+    local rotations = { ["0"] = 0, ["R"] = 1, ["2"] = 2, ["L"] = 3 }
+    for i = 1, rotations[dir] do
+        m = rot90(m)
+    end
+    return m, #m, s.threshold
+end
+
+local function check_spin(piece)
+    local m, n, threshold = spin_matrix(piece.shape, piece.dir)
+    if not m then return false, "" end
+
+    local cr = 2
+    local groups = {}
+    local order = {}
+    for r = 1, n do
+        for c = 1, n do
+            local label = m[r][c]
+            if label ~= 0 then
+                if not groups[label] then
+                    groups[label] = { blocked = 0, total = 0 }
+                    order[#order + 1] = label
+                end
+                groups[label].total = groups[label].total + 1
+                local cx = piece.x + (c - cr)
+                local cy = piece.y + (cr - r)
+                if cx < 1 or cx > game.pf.width or cy < 1 then
+                    groups[label].blocked = groups[label].blocked + 1
+                else
+                    local row = game.pf_data[cy]
+                    if row and row[cx] then
+                        groups[label].blocked = groups[label].blocked + 1
+                    end
+                end
+            end
+        end
+    end
+
+    local is_spin = true
+    local descs = {}
+    for i, label in ipairs(order) do
+        local g = groups[label]
+        local need = 1
+        if threshold then
+            need = threshold[label]
+        end
+        if not need then need = 1 end
+        descs[#descs + 1] = string.format("%d:%d/%d", label, g.blocked, g.total)
+        if g.blocked < need then
+            is_spin = false
+        end
+    end
+    return is_spin, table.concat(descs, ",")
 end
 
 local function collides(piece, x, y, dir)
@@ -341,6 +494,12 @@ local function lock_piece()
         game.ren = -1
     end
 
+    if p.spin and p.spin_mini and cleared == 1 then
+        if game.debug_flags and game.debug_flags.spin then
+            print(string.format("MINI SPIN: id=%d shape=%s dir=%s clears=1", p.id, p.shape, p.dir))
+        end
+    end
+
     game.piece = nil
 end
 
@@ -384,6 +543,8 @@ local function new_piece(shape, x, y)
         lock_delay = lock_delay,
         lock_resets = lock_resets,
         drop_sum = 0,
+        spin = false,
+        spin_mini = false,
     }
 end
 
@@ -426,6 +587,8 @@ function game.move_left()
     if not collides(p, p.x - 1, p.y, p.dir) then
         if is_grounded(p) then reset_lock(p) end
         p.x = p.x - 1
+        p.spin = false
+        p.spin_mini = false
         dbg("LEFT")
         return true
     end
@@ -438,6 +601,8 @@ function game.move_right()
     if not collides(p, p.x + 1, p.y, p.dir) then
         if is_grounded(p) then reset_lock(p) end
         p.x = p.x + 1
+        p.spin = false
+        p.spin_mini = false
         dbg("RIGHT")
         return true
     end
@@ -446,9 +611,9 @@ end
 
 local function try_wallkick(piece, nd)
     local from = piece.dir
-    local srs = minos[piece.shape].wallkick and minos[piece.shape].wallkick.srs
-    local moves = srs and srs[from .. ">" .. nd]
-    if not moves then return false end
+    local prs = minos[piece.shape].wallkick and minos[piece.shape].wallkick.prs
+    local moves = prs and prs[from .. ">" .. nd]
+    if not moves then return false, false end
 
     for i, off in ipairs(moves) do
         local nx = piece.x + off[1]
@@ -459,27 +624,45 @@ local function try_wallkick(piece, nd)
             if game.debug_flags and game.debug_flags.wallkick then
                 print(string.format("WALLKICK %s>%s: test %d (%+d,%+d)", from, nd, i, off[1], off[2]))
             end
-            return true
+            local wallkicked = (off[1] ~= 0 or off[2] ~= 0)
+            return true, wallkicked
         end
     end
-    return false
+    return false, false
 end
 
 local function rotate_to(nd)
     local p = game.piece
     if not p or nd == p.dir then return end
     local is_grounded = is_grounded(p)
+    local rotated = false
+    local wallkicked = false
 
-    if try_wallkick(p, nd) then
+    p.spin = false
+    p.spin_mini = false
+
+    local kicked, wk = try_wallkick(p, nd)
+    if kicked then
+        rotated = true
+        wallkicked = wk
         if is_grounded then reset_lock(p) end
-        dbg("ROT")
-        return
+    elseif not collides(p, p.x, p.y, nd) then
+        p.dir = nd
+        rotated = true
+        if is_grounded then reset_lock(p) end
     end
 
-    if not collides(p, p.x, p.y, nd) then
-        p.dir = nd
-        if is_grounded then reset_lock(p) end
+    if rotated then
         dbg("ROT")
+        local is_spin, groups = check_spin(p)
+        if is_spin then
+            p.spin = true
+            p.spin_mini = wallkicked
+            if game.debug_flags and game.debug_flags.spin then
+                print(string.format("SPIN: shape=%s dir=%s groups={%s} wallkick=%s",
+                    p.shape, p.dir, groups, tostring(wallkicked)))
+            end
+        end
     end
 end
 
@@ -500,6 +683,8 @@ function game.soft_drop()
     if not p then return false end
     if not collides(p, p.x, p.y - 1, p.dir) then
         p.y = p.y - 1
+        p.spin = false
+        p.spin_mini = false
         dbg("SOFT")
         return true
     end
@@ -529,6 +714,8 @@ local function apply_gravity(dt)
             break
         end
         p.y = p.y - 1
+        p.spin = false
+        p.spin_mini = false
         p.drop_sum = p.drop_sum - 1
         dbg("GRAV")
     end

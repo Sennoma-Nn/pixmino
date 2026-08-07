@@ -58,6 +58,7 @@ local debug_flags = {
     pf_data = false,
     wallkick = false,
     reset = false,
+    spin = false,
 }
 
 
