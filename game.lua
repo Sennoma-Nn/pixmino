@@ -148,6 +148,7 @@ game.scores       = 0
 game.level        = 0
 game.ren          = -1
 game.b2b          = -1
+game.gravity      = 1 / 64
 
 local cw          = { ["0"] = "R", ["R"] = "2", ["2"] = "L", ["L"] = "0" }
 local ccw         = { ["0"] = "L", ["L"] = "2", ["2"] = "R", ["R"] = "0" }
@@ -339,7 +340,8 @@ local function lock_piece()
     else
         game.ren = -1
     end
-    game.spawn()
+
+    game.piece = nil
 end
 
 local function refill_bag()
@@ -511,6 +513,21 @@ function game.hard_drop()
     lock_piece()
 end
 
+local function apply_gravity(dt)
+    local p = game.piece
+    if not p then return end
+    p.drop_sum = p.drop_sum + game.gravity * 60 * dt
+    while p.drop_sum >= 1 do
+        if collides(p, p.x, p.y - 1, p.dir) then
+            p.drop_sum = 0
+            break
+        end
+        p.y = p.y - 1
+        p.drop_sum = p.drop_sum - 1
+        dbg("GRAV")
+    end
+end
+
 function game.start(playfield)
     game.reset()
     game.pf = playfield
@@ -520,12 +537,17 @@ function game.start(playfield)
     game.hold = nil
     game.piece_id = 0
     game.started = true
-    game.spawn()
+    game.piece = nil
 end
 
 function game.update(dt)
     game.time = game.time + dt
-    if not game.piece then return end
+
+    if not game.piece then
+        game.spawn()
+    end
+
+    apply_gravity(dt)
 
     if collides(game.piece, game.piece.x, game.piece.y - 1, game.piece.dir) then
         game.piece.lock_delay = game.piece.lock_delay - dt
