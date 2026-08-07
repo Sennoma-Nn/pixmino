@@ -146,6 +146,8 @@ game.time         = 0
 game.clears       = 0
 game.scores       = 0
 game.level        = 0
+game.ren          = -1
+game.b2b          = -1
 
 local cw          = { ["0"] = "R", ["R"] = "2", ["2"] = "L", ["L"] = "0" }
 local ccw         = { ["0"] = "L", ["L"] = "2", ["2"] = "R", ["R"] = "0" }
@@ -169,10 +171,12 @@ local function dbg(action)
 end
 
 function game.reset()
-    game.time = 0
+    game.time   = 0
     game.clears = 0
     game.scores = 0
-    game.level = 0
+    game.level  = 0
+    game.ren    = -1
+    game.b2b    = -1
 end
 
 function game.stop()
