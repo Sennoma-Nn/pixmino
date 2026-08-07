@@ -187,11 +187,18 @@ local function draw_game_info(font, gx, gy, pw, ph, bw)
     local total = game.lock_resets_total or 30
     local left = (game.piece and game.piece.lock_resets) or 0
 
+    if game.notify and game.notify.time > 0 and game.notify.text then
+        vgafont.print_outlined(font, game.notify.text, ix, iy - 8 * 9, 1, game.notify.color, Colors.out_line)
+    end
+
+    local ren_color = (game.ren > 0) and Colors.yellow or Colors.white
+    local b2b_color = (game.b2b > 0) and Colors.yellow or Colors.white
+
     vgafont.print_outlined(font, info.scores, ix, iy - 8 * 7, 1, Colors.white, Colors.out_line)
     vgafont.print_outlined(font, info.clears, ix, iy - 8 * 6, 1, Colors.white, Colors.out_line)
     vgafont.print_outlined(font, info.level, ix, iy - 8 * 5, 1, Colors.white, Colors.out_line)
-    vgafont.print_outlined(font, info.ren, ix, iy - 8 * 4, 1, Colors.white, Colors.out_line)
-    vgafont.print_outlined(font, info.b2b, ix, iy - 8 * 3, 1, Colors.white, Colors.out_line)
+    vgafont.print_outlined(font, info.ren, ix, iy - 8 * 4, 1, ren_color, Colors.out_line)
+    vgafont.print_outlined(font, info.b2b, ix, iy - 8 * 3, 1, b2b_color, Colors.out_line)
     vgafont.print_outlined(font, info.time, ix, iy - 8 * 1, 1, Colors.white, Colors.out_line)
     vgafont.print_outlined(font, string.rep("♦", total), ix, iy - 8 * 0, 1, Colors.gray, Colors.out_line)
     vgafont.print_outlined(font, string.rep("♦", left), ix, iy - 8 * 0, 1, Colors.white, Colors.out_line)

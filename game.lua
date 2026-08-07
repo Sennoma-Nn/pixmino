@@ -5,12 +5,12 @@ local game        = {}
 
 local PRS_JLSTZ   = {
     ["0>R"] = { { 0, 0 }, { -1, 0 }, { -1, 1 }, { 0, -2 }, { -1, -2 }, { 0, 1 } },
-    ["R>0"] = { { 0, 0 }, { 1, 0 }, { 1, -1 }, { 0, 2 }, { 1, 2 } },
-    ["R>2"] = { { 0, 0 }, { 1, 0 }, { 1, -1 }, { 0, 2 }, { 1, 2 } },
-    ["2>R"] = { { 0, 0 }, { -1, 0 }, { -1, 1 }, { 0, -2 }, { -1, -2 } },
-    ["2>L"] = { { 0, 0 }, { 1, 0 }, { 1, 1 }, { 0, -2 }, { 1, -2 } },
-    ["L>2"] = { { 0, 0 }, { -1, 0 }, { -1, -1 }, { 0, 2 }, { -1, 2 } },
-    ["L>0"] = { { 0, 0 }, { -1, 0 }, { -1, -1 }, { 0, 2 }, { -1, 2 } },
+    ["R>0"] = { { 0, 0 }, { 0, -1 }, { 1, 0 }, { 1, -1 }, { 0, 2 }, { 1, 2 } },
+    ["R>2"] = { { 0, 0 }, { 1, 0 }, { 1, -1 }, { 0, -1 }, { 0, 2 }, { 1, 2 } },
+    ["2>R"] = { { 0, 0 }, { -1, 0 }, { -1, -1 }, { -1, 1 }, { 0, -2 }, { -1, -2 } },
+    ["2>L"] = { { 0, 0 }, { 1, 0 }, { 1, -1 }, { 1, 1 }, { 0, -2 }, { 1, -2 } },
+    ["L>2"] = { { 0, 0 }, { -1, 0 }, { -1, -1 }, { 0, -1 }, { 0, 2 }, { -1, 2 } },
+    ["L>0"] = { { 0, 0 }, { 0, -1 }, { -1, 0 }, { -1, -1 }, { 0, 2 }, { -1, 2 } },
     ["0>L"] = { { 0, 0 }, { 1, 0 }, { 1, 1 }, { 0, -2 }, { 1, -2 }, { 0, 1 } },
 
     ["0>2"] = { { 0, 0 }, { 0, 1 }, { 1, 1 }, { -1, 1 }, { 1, 0 }, { -1, 0 } },
@@ -242,8 +242,10 @@ game.clears       = 0
 game.scores       = 0
 game.level        = 0
 game.ren          = -1
-game.b2b          = -1
+game.b2b          = 0
 game.gravity      = 1 / 64
+
+game.notify       = { text = nil, color = nil, time = 0 }
 
 local cw          = { ["0"] = "R", ["R"] = "2", ["2"] = "L", ["L"] = "0" }
 local ccw         = { ["0"] = "L", ["L"] = "2", ["2"] = "R", ["R"] = "0" }
@@ -272,7 +274,7 @@ function game.reset()
     game.scores = 0
     game.level  = 0
     game.ren    = -1
-    game.b2b    = -1
+    game.b2b    = 0
 end
 
 function game.stop()
@@ -283,6 +285,12 @@ end
 
 function game.set_debug(flags)
     game.debug_flags = flags
+end
+
+function game.set_notify(text, color)
+    game.notify.text = text
+    game.notify.color = color
+    game.notify.time = 2
 end
 
 local function rot90(m)
@@ -494,7 +502,27 @@ local function lock_piece()
         game.ren = -1
     end
 
-    if p.spin and p.spin_mini and cleared == 1 then
+    local is_spin = p.spin.activation
+    local is_mini = is_spin and p.spin.is_wallkick and cleared == 1
+
+    if cleared > 0 then
+        if cleared >= 4 or (is_spin and cleared > 0) then
+            game.b2b = game.b2b + 1
+        else
+            game.b2b = 0
+        end
+    end
+
+    local clear_names = { "SINGLE", "DOUBLE", "TRIPLE", "QUAD" }
+    if is_spin then
+        local mini = is_mini and "MINI " or ""
+        local clear_name = (cleared > 0 and clear_names[cleared]) or "ZERO"
+        game.set_notify(string.format("%s SPIN %s%s", p.shape, mini, clear_name), p.color)
+    elseif cleared > 0 then
+        game.set_notify(clear_names[cleared], p.color)
+    end
+
+    if is_mini then
         if game.debug_flags and game.debug_flags.spin then
             print(string.format("MINI SPIN: id=%d shape=%s dir=%s clears=1", p.id, p.shape, p.dir))
         end
@@ -532,6 +560,11 @@ local function get_id()
     return game.piece_id
 end
 
+local function reset_piece_spin(piece)
+    piece.spin.activation = false
+    piece.spin.is_wallkick = false
+end
+
 local function new_piece(shape, x, y)
     return {
         id = get_id(),
@@ -543,8 +576,7 @@ local function new_piece(shape, x, y)
         lock_delay = lock_delay,
         lock_resets = lock_resets,
         drop_sum = 0,
-        spin = false,
-        spin_mini = false,
+        spin = { activation = false, is_wallkick = false },
     }
 end
 
@@ -587,8 +619,7 @@ function game.move_left()
     if not collides(p, p.x - 1, p.y, p.dir) then
         if is_grounded(p) then reset_lock(p) end
         p.x = p.x - 1
-        p.spin = false
-        p.spin_mini = false
+        reset_piece_spin(p)
         dbg("LEFT")
         return true
     end
@@ -601,8 +632,7 @@ function game.move_right()
     if not collides(p, p.x + 1, p.y, p.dir) then
         if is_grounded(p) then reset_lock(p) end
         p.x = p.x + 1
-        p.spin = false
-        p.spin_mini = false
+        reset_piece_spin(p)
         dbg("RIGHT")
         return true
     end
@@ -638,8 +668,7 @@ local function rotate_to(nd)
     local rotated = false
     local wallkicked = false
 
-    p.spin = false
-    p.spin_mini = false
+    reset_piece_spin(p)
 
     local kicked, wk = try_wallkick(p, nd)
     if kicked then
@@ -656,8 +685,8 @@ local function rotate_to(nd)
         dbg("ROT")
         local is_spin, groups = check_spin(p)
         if is_spin then
-            p.spin = true
-            p.spin_mini = wallkicked
+            p.spin.activation = true
+            p.spin.is_wallkick = wallkicked
             if game.debug_flags and game.debug_flags.spin then
                 print(string.format("SPIN: shape=%s dir=%s groups={%s} wallkick=%s",
                     p.shape, p.dir, groups, tostring(wallkicked)))
@@ -683,8 +712,7 @@ function game.soft_drop()
     if not p then return false end
     if not collides(p, p.x, p.y - 1, p.dir) then
         p.y = p.y - 1
-        p.spin = false
-        p.spin_mini = false
+        reset_piece_spin(p)
         dbg("SOFT")
         return true
     end
@@ -714,8 +742,7 @@ local function apply_gravity(dt)
             break
         end
         p.y = p.y - 1
-        p.spin = false
-        p.spin_mini = false
+        reset_piece_spin(p)
         p.drop_sum = p.drop_sum - 1
         dbg("GRAV")
     end
@@ -735,6 +762,13 @@ end
 
 function game.update(dt)
     game.time = game.time + dt
+
+    if game.notify.time > 0 then
+        game.notify.time = game.notify.time - dt
+        if game.notify.time < 0 then
+            game.notify.time = 0
+        end
+    end
 
     game.input_mod.update(dt)
 
