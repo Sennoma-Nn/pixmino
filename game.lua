@@ -3,6 +3,33 @@
 
 local game        = {}
 
+local SRS_JLSTZ   = {
+    ["0>R"] = { { 0, 0 }, { -1, 0 }, { -1, 1 }, { 0, -2 }, { -1, -2 } },
+    ["R>0"] = { { 0, 0 }, { 1, 0 }, { 1, -1 }, { 0, 2 }, { 1, 2 } },
+    ["R>2"] = { { 0, 0 }, { 1, 0 }, { 1, -1 }, { 0, 2 }, { 1, 2 } },
+    ["2>R"] = { { 0, 0 }, { -1, 0 }, { -1, 1 }, { 0, -2 }, { -1, -2 } },
+    ["2>L"] = { { 0, 0 }, { 1, 0 }, { 1, 1 }, { 0, -2 }, { 1, -2 } },
+    ["L>2"] = { { 0, 0 }, { -1, 0 }, { -1, -1 }, { 0, 2 }, { -1, 2 } },
+    ["L>0"] = { { 0, 0 }, { -1, 0 }, { -1, -1 }, { 0, 2 }, { -1, 2 } },
+    ["0>L"] = { { 0, 0 }, { 1, 0 }, { 1, 1 }, { 0, -2 }, { 1, -2 } },
+
+    ["0>2"] = { { 0, 0 }, { 0, 1 }, { 1, 1 }, { -1, 1 }, { 1, 0 }, { -1, 0 } },
+    ["2>0"] = { { 0, 0 }, { 0, -1 }, { -1, -1 }, { 1, -1 }, { -1, 0 }, { 1, 0 } },
+    ["R>L"] = { { 0, 0 }, { 1, 0 }, { 1, 2 }, { 1, 1 }, { 0, 2 }, { 0, 1 } },
+    ["L>R"] = { { 0, 0 }, { -1, 0 }, { -1, 2 }, { -1, 1 }, { 0, 2 }, { 0, 1 } },
+}
+
+local SRS_I       = {
+    ["0>R"] = { { 0, 0 }, { -2, 0 }, { 1, 0 }, { -2, -1 }, { 1, 2 } },
+    ["R>0"] = { { 0, 0 }, { 2, 0 }, { -1, 0 }, { 2, 1 }, { -1, -2 } },
+    ["R>2"] = { { 0, 0 }, { -1, 0 }, { 2, 0 }, { -1, 2 }, { 2, -1 } },
+    ["2>R"] = { { 0, 0 }, { 1, 0 }, { -2, 0 }, { 1, -2 }, { -2, 1 } },
+    ["2>L"] = { { 0, 0 }, { 2, 0 }, { -1, 0 }, { 2, 1 }, { -1, -2 } },
+    ["L>2"] = { { 0, 0 }, { -2, 0 }, { 1, 0 }, { -2, -1 }, { 1, 2 } },
+    ["L>0"] = { { 0, 0 }, { 1, 0 }, { -2, 0 }, { 1, -2 }, { -2, 1 } },
+    ["0>L"] = { { 0, 0 }, { -1, 0 }, { 2, 0 }, { -1, 2 }, { 2, -1 } },
+}
+
 local minos       = {
     I = {
         shapes = {
@@ -16,6 +43,7 @@ local minos       = {
             width = 4,
             offset = { 0, 0 }
         },
+        wallkick = { srs = SRS_I },
     },
     O = {
         shapes = {
@@ -41,6 +69,7 @@ local minos       = {
             width = 3,
             offset = { 0, 0 }
         },
+        wallkick = { srs = SRS_JLSTZ },
     },
     S = {
         shapes = {
@@ -53,6 +82,7 @@ local minos       = {
             width = 3,
             offset = { 0, 0 }
         },
+        wallkick = { srs = SRS_JLSTZ },
     },
     Z = {
         shapes = {
@@ -65,6 +95,7 @@ local minos       = {
             width = 3,
             offset = { 0, 0 }
         },
+        wallkick = { srs = SRS_JLSTZ },
     },
     J = {
         shapes = {
@@ -77,6 +108,7 @@ local minos       = {
             width = 3,
             offset = { 0, 0 }
         },
+        wallkick = { srs = SRS_JLSTZ },
     },
     L = {
         shapes = {
@@ -89,6 +121,7 @@ local minos       = {
             width = 3,
             offset = { 0, 0 }
         },
+        wallkick = { srs = SRS_JLSTZ },
     },
 }
 
@@ -387,9 +420,37 @@ function game.move_right()
     return false
 end
 
+local function try_wallkick(piece, nd)
+    local from = piece.dir
+    local srs = minos[piece.shape].wallkick and minos[piece.shape].wallkick.srs
+    local moves = srs and srs[from .. ">" .. nd]
+    if not moves then return false end
+
+    for i, off in ipairs(moves) do
+        local nx = piece.x + off[1]
+        local ny = piece.y + off[2]
+        if not collides(piece, nx, ny, nd) then
+            piece.x, piece.y = nx, ny
+            piece.dir = nd
+            if game.debug_flags and game.debug_flags.wallkick then
+                print(string.format("WALLKICK %s>%s: test %d (%+d,%+d)", from, nd, i, off[1], off[2]))
+            end
+            return true
+        end
+    end
+    return false
+end
+
 local function rotate_to(nd)
     local p = game.piece
     if not p or nd == p.dir then return end
+
+    if try_wallkick(p, nd) then
+        if is_grounded(p) then reset_lock(p) end
+        dbg("ROT")
+        return
+    end
+
     if not collides(p, p.x, p.y, nd) then
         p.dir = nd
         if is_grounded(p) then reset_lock(p) end
