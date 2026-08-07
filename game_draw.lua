@@ -176,12 +176,12 @@ local function draw_game_info(font, gx, gy, pw, ph, bw)
         clears = string.format("CLEARS %d", game.clears),
         level  = string.format("LEVEL  %d", game.level),
         ren    = (game.ren >= 0) and string.format("REN    %d", game.ren) or string.format("REN   %d", game.ren),
-        b2b    = (game.b2b >= 0) and string.format("B2B    %d", game.b2b) or string.format("B2B   %d", game.b2b),
+        b2b    = string.format("B2B    %d", game.b2b),
 
-        time   = string.format("TIME   %02d:%02d.%02d",
-            math.floor(game.time / 60),
-            math.floor(game.time % 60),
-            math.floor((game.time * 100) % 100)
+        time   = string.format((game.time >= 0) and "TIME   %02d:%02d.%02d" or "TIME  -%02d:%02d.%02d",
+            math.floor(math.abs(game.time) / 60),
+            math.floor(math.abs(game.time) % 60),
+            math.floor((math.abs(game.time) * 100) % 100)
         ),
     }
 

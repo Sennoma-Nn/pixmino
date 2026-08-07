@@ -10,6 +10,7 @@ local menu = {}
 menu.state = "MENU_MAIN"
 menu.selection = 1
 menu.selections = {}
+menu.selected_mode = ""
 menu.parent = {
     MENU_START = "MENU_MAIN",
     MENU_ABOUT = "MENU_MAIN",
@@ -47,6 +48,7 @@ menu.data = {
             text_key = "MARATHON",
             desc_key = "MARATHON_DESC",
             action = function()
+                menu.selected_mode = "marathon"
                 menu.state = "GAME"
                 menu.reset()
             end
@@ -55,6 +57,7 @@ menu.data = {
             text_key = "SPRINT",
             desc_key = "SPRINT_DESC",
             action = function()
+                menu.selected_mode = "sprint"
                 menu.state = "GAME"
                 menu.reset()
             end

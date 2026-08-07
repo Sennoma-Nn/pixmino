@@ -64,13 +64,16 @@ local minos       = {
         wallkick = { prs = PRS_I },
         spin = {
             shapes = {
-                { 1, 0, 0, 1 },
-                { 0, 0, 0, 0 },
-                { 1, 0, 0, 1 },
-                { 0, 0, 0, 0 }
+                { 0, 0, 0, 0, 0, 0 },
+                { 0, 1, 0, 0, 1, 0 },
+                { 2, 0, 0, 0, 0, 2 },
+                { 0, 1, 0, 0, 1, 0 },
+                { 0, 0, 0, 0, 0, 0 },
+                { 0, 0, 0, 0, 0, 0 }
             },
             threshold = {
                 [1] = 3,
+                [2] = 2,
             },
         },
     },
@@ -236,6 +239,8 @@ game.piece_id     = 0
 game.started      = false
 game.pf           = nil
 game.debug_flags  = {}
+game.mode         = nil
+game.mode_state   = nil
 
 game.time         = 0
 game.clears       = 0
@@ -243,7 +248,7 @@ game.scores       = 0
 game.level        = 1
 game.ren          = -1
 game.b2b          = 0
-game.gravity      = 1 / 64
+game.gravity      = 0
 
 game.notify       = { text = nil, color = nil, time = 0 }
 
@@ -269,7 +274,7 @@ local function dbg(action)
 end
 
 function game.reset()
-    game.time   = 0
+    game.time   = -1
     game.clears = 0
     game.scores = 0
     game.level  = 1
@@ -347,7 +352,8 @@ local function check_spin(piece)
     local m, n, threshold = spin_matrix(piece.shape, piece.dir)
     if not m then return false, "" end
 
-    local cr = 2
+    local i, ns = get_matrix(piece.shape, piece.dir)
+    local cr = (n - ns) / 2 + 2
     local groups = {}
     local order = {}
     for r = 1, n do
@@ -496,7 +502,9 @@ local function calc_score(cleared, is_spin, is_mini, is_perfect, b2b_eligible)
     end
 
     if game.debug_flags and game.debug_flags.score then
-        print(string.format("CALC SCORE: cleared=%d base=%d level=%d gained=%d spin=%s mini=%s perfect=%s b2b_eligible=%s", cleared, base, game.level, total, tostring(is_spin), tostring(is_mini), tostring(is_perfect), tostring(b2b_eligible)))
+        print(string.format(
+            "CALC SCORE: cleared=%d base=%d level=%d gained=%d spin=%s mini=%s perfect=%s b2b_eligible=%s", cleared, base,
+            game.level, total, tostring(is_spin), tostring(is_mini), tostring(is_perfect), tostring(b2b_eligible)))
     end
 
     return total
@@ -559,7 +567,7 @@ local function lock_piece()
     elseif is_spin then
         local mini = is_mini and "MINI " or ""
         local clear_name = (cleared > 0 and clear_names[cleared]) or "ZERO"
-        game.set_notify(string.format("%s SPIN %s%s", p.shape, mini, clear_name), p.color)
+        game.set_notify(string.format("%s%s SPIN %s", mini, p.shape, clear_name), p.color)
     elseif cleared > 0 then
         game.set_notify(clear_names[cleared], p.color)
     end
@@ -646,7 +654,7 @@ function game.do_hold()
     local held = game.hold
     game.hold = prev_shape
 
-    local new_shape = held or take_bag()
+    local new_shape = held or table.remove(game.next, 1)
     local x, y = spawn_pos(new_shape)
     game.piece = new_piece(new_shape, x, y)
     game.piece.lock_resets = math.min(old_rst + 2, lock_resets)
@@ -790,8 +798,9 @@ local function apply_gravity(dt)
     end
 end
 
-function game.start(playfield)
+function game.start(playfield, mode)
     game.reset()
+    game.mode = mode
     game.pf = playfield
     game.pf_data = {}
     game.bag = {}
@@ -805,6 +814,14 @@ end
 function game.update(dt)
     game.time = game.time + dt
 
+    if type(game.mode) == "function" then
+        game.mode_state = game.mode(game.time, game.clears, game.scores, game.level, game.ren, game.b2b, game.gravity)
+        if game.mode_state then
+            game.level = game.mode_state.level or game.level
+            game.gravity = game.mode_state.gravity or game.gravity
+        end
+    end
+
     if game.notify.time > 0 then
         game.notify.time = game.notify.time - dt
         if game.notify.time < 0 then
@@ -812,22 +829,26 @@ function game.update(dt)
         end
     end
 
-    game.input_mod.update(dt)
+    game.ensure_next()
 
-    if not game.piece then
-        game.spawn()
-    end
+    if game.time >= 0 then
+        game.input_mod.update(dt)
 
-    apply_gravity(dt)
-
-    if collides(game.piece, game.piece.x, game.piece.y - 1, game.piece.dir) then
-        game.piece.lock_delay = game.piece.lock_delay - dt
-        if game.piece.lock_delay <= 0 then
-            lock_piece()
+        if not game.piece then
+            game.spawn()
         end
-    else
-        if game.piece.lock_resets > 0 then
-            game.piece.lock_delay = lock_delay
+
+        apply_gravity(dt)
+
+        if collides(game.piece, game.piece.x, game.piece.y - 1, game.piece.dir) then
+            game.piece.lock_delay = game.piece.lock_delay - dt
+            if game.piece.lock_delay <= 0 then
+                lock_piece()
+            end
+        else
+            if game.piece.lock_resets > 0 then
+                game.piece.lock_delay = lock_delay
+            end
         end
     end
 end

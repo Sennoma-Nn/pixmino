@@ -7,6 +7,7 @@ local menu = require("menu")
 local game = require("game")
 local render = require("game_draw")
 local input = require("input")
+local modes = require("mode")
 
 local style = {
     block_size = 8,
@@ -115,10 +116,15 @@ end
 function love.update(dt)
     if menu.state == "GAME" then
         if not game.started then
-            game.start(playfield)
+            game.start(playfield, modes[menu.selected_mode])
             input.reset()
         end
         game.update(dt)
+
+        if game.mode_state and game.mode_state.target then
+            game.stop()
+            menu.go_to("MENU_MAIN")
+        end
     end
 end
 
