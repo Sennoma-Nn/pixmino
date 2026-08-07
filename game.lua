@@ -278,6 +278,7 @@ function game.reset()
 end
 
 function game.stop()
+    game.reset()
     game.started = false
     game.pf = nil
     game.piece = nil
@@ -493,6 +494,11 @@ local function calc_score(cleared, is_spin, is_mini, is_perfect, b2b_eligible)
     if not is_perfect and b2b_eligible then
         total = total * 1.5
     end
+
+    if game.debug_flags and game.debug_flags.score then
+        print(string.format("CALC SCORE: cleared=%d base=%d level=%d gained=%d spin=%s mini=%s perfect=%s b2b_eligible=%s", cleared, base, game.level, total, tostring(is_spin), tostring(is_mini), tostring(is_perfect), tostring(b2b_eligible)))
+    end
+
     return total
 end
 

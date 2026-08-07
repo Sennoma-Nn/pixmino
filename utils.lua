@@ -7,6 +7,16 @@ function utils.frame_ms(frames)
     return frames * (1000 / 60)
 end
 
+function utils.color_blend(c1, c2, ratio)
+    ratio = math.max(0, math.min(ratio or 0, 1))
+    return {
+        c1[1] * (1 - ratio) + c2[1] * ratio,
+        c1[2] * (1 - ratio) + c2[2] * ratio,
+        c1[3] * (1 - ratio) + c2[3] * ratio,
+        c1[4] or 1,
+    }
+end
+
 function utils.utf8_len(text)
     local count = 0
     local i = 1

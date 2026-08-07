@@ -59,6 +59,7 @@ local debug_flags = {
     wallkick = false,
     reset = false,
     spin = false,
+    score = false,
 }
 
 

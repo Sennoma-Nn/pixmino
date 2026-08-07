@@ -3,6 +3,7 @@
 
 local vgafont = require("lib.vgafont")
 local game = require("game")
+local utils = require("utils")
 
 local render = {}
 
@@ -188,7 +189,8 @@ local function draw_game_info(font, gx, gy, pw, ph, bw)
     local left = (game.piece and game.piece.lock_resets) or 0
 
     if game.notify and game.notify.time > 0 and game.notify.text then
-        vgafont.print_outlined(font, game.notify.text, ix, iy - 8 * 9, 1, game.notify.color, Colors.out_line)
+        local show_color = utils.color_blend(game.notify.color, Colors.white, 0.4)
+        vgafont.print_outlined(font, game.notify.text, ix, iy - 8 * 9, 1, show_color, Colors.out_line)
     end
 
     local ren_color = (game.ren > 0) and Colors.yellow or Colors.white
