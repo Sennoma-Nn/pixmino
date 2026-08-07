@@ -126,16 +126,22 @@ local function draw_piece(gx, gy, ph, bs)
 end
 
 local function draw_preview(shape, px, py, bs)
-    local m = game.shapes[shape]
-    local color = game.shape_colors[shape]
-    for r = 1, #m do
-        for c = 1, #m do
+    local mino = game.shapes[shape]
+    local m = mino.shapes
+    local color = mino.color
+    local pv = mino.preview
+    local ox = px + pv.offset[1] * bs
+    local oy = py - pv.offset[2] * bs
+    local n = #m
+    for r = 1, n do
+        for c = 1, n do
             if m[r][c] ~= 0 then
-                draw_block(px + (c - 1) * bs, py + (r - 1) * bs, bs, color)
+                draw_block(ox + (c - 1) * bs, oy + (r - 1) * bs, bs, color)
             end
         end
     end
-    draw_matrix_borders(m, px, py, bs)
+    draw_matrix_borders(m, ox, oy, bs)
+    return pv.width
 end
 
 local function draw_next_hold(font, gx, gy, pw, ph, bw, bs)
@@ -144,13 +150,15 @@ local function draw_next_hold(font, gx, gy, pw, ph, bw, bs)
 
     vgafont.print_outlined(font, "NEXT", ix, gy - 2, 1, Colors.white, Colors.out_line)
     local py = gy + 10
+    local px = ix
     for i = 1, next_count do
         if game.next[i] then
-            draw_preview(game.next[i], ix + (i - 1) * (4 * bs + 4), py, bs)
+            local w = draw_preview(game.next[i], px, py, bs)
+            px = px + w * bs + 8
         end
     end
 
-    local hold_y = py + 4 * bs + 12
+    local hold_y = py + 4 * bs
     vgafont.print_outlined(font, "HOLD", ix, hold_y, 1, Colors.white, Colors.out_line)
     if game.hold then
         draw_preview(game.hold, ix, hold_y + 12, bs)

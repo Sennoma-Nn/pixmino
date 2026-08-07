@@ -3,54 +3,93 @@
 
 local game = {}
 
-local shapes = {
+local minos = {
     I = {
-        {0,0,0,0},
-        {1,1,1,1},
-        {0,0,0,0},
-        {0,0,0,0}
+        shapes = {
+            {0,0,0,0},
+            {1,1,1,1},
+            {0,0,0,0},
+            {0,0,0,0}
+        },
+        color = { 0.2, 0.8, 1.0, 1 },
+        preview = {
+            width = 4,
+            offset = { 0, 0 }
+        },
     },
     O = {
-        {0,0,0,0},
-        {0,1,1,0},
-        {0,1,1,0},
-        {0,0,0,0}
+        shapes = {
+            {0,0,0,0},
+            {0,1,1,0},
+            {0,1,1,0},
+            {0,0,0,0}
+        },
+        color = { 1.0, 0.9, 0.4, 1 },
+        preview = {
+            width = 2,
+            offset = { -1, 1 }
+        },
     },
     T = {
-        {0,1,0},
-        {1,1,1},
-        {0,0,0}
+        shapes = {
+            {0,1,0},
+            {1,1,1},
+            {0,0,0}
+        },
+        color = { 0.7, 0.4, 1.0, 1 },
+        preview = {
+            width = 3,
+            offset = { 0, 0 }
+        },
     },
     S = {
-        {0,1,1},
-        {1,1,0},
-        {0,0,0}
+        shapes = {
+            {0,1,1},
+            {1,1,0},
+            {0,0,0}
+        },
+        color = { 0.2, 0.9, 0.5, 1 },
+        preview = {
+            width = 3,
+            offset = { 0, 0 }
+        },
     },
     Z = {
-        {1,1,0},
-        {0,1,1},
-        {0,0,0}
+        shapes = {
+            {1,1,0},
+            {0,1,1},
+            {0,0,0}
+        },
+        color = { 1.0, 0.4, 0.4, 1 },
+        preview = {
+            width = 3,
+            offset = { 0, 0 }
+        },
     },
     J = {
-        {1,0,0},
-        {1,1,1},
-        {0,0,0}
+        shapes = {
+            {1,0,0},
+            {1,1,1},
+            {0,0,0}
+        },
+        color = { 0.3, 0.5, 1.0, 1 },
+        preview = {
+            width = 3,
+            offset = { 0, 0 }
+        },
     },
     L = {
-        {0,0,1},
-        {1,1,1},
-        {0,0,0}
+        shapes = {
+            {0,0,1},
+            {1,1,1},
+            {0,0,0}
+        },
+        color = { 1.0, 0.6, 0.3, 1 },
+        preview = {
+            width = 3,
+            offset = { 0, 0 }
+        },
     },
-}
-
-local shape_colors = {
-    I = { 0.2, 0.8, 1.0, 1 },
-    O = { 1.0, 0.9, 0.4, 1 },
-    T = { 0.7, 0.4, 1.0, 1 },
-    S = { 0.2, 0.9, 0.5, 1 },
-    Z = { 1.0, 0.4, 0.4, 1 },
-    J = { 0.3, 0.5, 1.0, 1 },
-    L = { 1.0, 0.6, 0.3, 1 },
 }
 
 local lock_delay = 0.5
@@ -124,7 +163,7 @@ local function rot90(m)
 end
 
 local function get_matrix(shape, dir)
-    local m = shapes[shape]
+    local m = minos[shape].shapes
     local rotations = { ["0"] = 0, ["R"] = 1, ["2"] = 2, ["L"] = 3 }
     for _ = 1, rotations[dir] do
         m = rot90(m)
@@ -288,7 +327,7 @@ local function new_piece(shape, x, y)
         dir = "0",
         x = x,
         y = y,
-        color = shape_colors[shape],
+        color = minos[shape].color,
         lock_delay = 0,
         lock_resets = lock_resets,
         drop = 0,
@@ -416,8 +455,8 @@ function game.update(dt)
     end
 end
 
-game.shapes = shapes
-game.shape_colors = shape_colors
+-- 暴露给渲染模块
+game.shapes = minos
 game.get_matrix = get_matrix
 game.drop_y = drop_y
 game.piece_cells = piece_cells

@@ -33,7 +33,7 @@ Colors = {
 }
 
 local debug_flags = {
-    piece = true,
+    piece = false,
     pf_data = false,
 }
 
