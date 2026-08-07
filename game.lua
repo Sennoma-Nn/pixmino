@@ -43,6 +43,7 @@ local minos       = {
             width = 4,
             offset = { 0, 0 }
         },
+        spawn = { 0, 1 },
         wallkick = { srs = SRS_I },
     },
     O = {
@@ -57,6 +58,7 @@ local minos       = {
             width = 2,
             offset = { -1, 1 }
         },
+        spawn = { 0, 1 },
     },
     T = {
         shapes = {
@@ -367,16 +369,18 @@ local function new_piece(shape, x, y)
     }
 end
 
-local function spawn_pos()
-    return math.floor(game.pf.width / 2), game.pf.height - 1
+local function spawn_pos(shape)
+    local s = minos[shape].spawn or { 0, 0 }
+    return math.floor(game.pf.width / 2) + s[1], game.pf.height - 1 + s[2]
 end
 
 function game.spawn()
     if #game.next == 0 then
         game.ensure_next()
     end
-    local x, y = spawn_pos()
-    game.piece = new_piece(table.remove(game.next, 1), x, y)
+    local shape = table.remove(game.next, 1)
+    local x, y = spawn_pos(shape)
+    game.piece = new_piece(shape, x, y)
     game.can_hold = true
     game.ensure_next()
     dbg("SPAWN")
@@ -387,7 +391,7 @@ function game.do_hold()
     local held = game.hold
     game.hold = game.piece.shape
     if held then
-        local x, y = spawn_pos()
+        local x, y = spawn_pos(held)
         game.piece = new_piece(held, x, y)
     else
         game.spawn()
@@ -475,7 +479,6 @@ function game.soft_drop()
     if not p then return false end
     if not collides(p, p.x, p.y - 1, p.dir) then
         p.y = p.y - 1
-        if is_grounded(p) then reset_lock(p) end
         dbg("SOFT")
         return true
     end

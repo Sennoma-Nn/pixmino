@@ -36,9 +36,9 @@ Colors = {
 
 Settings = {
     input = {
-        das = 8,
-        arr = 0,
-        drop_arr = 0,
+        das = 10,
+        arr = 2,
+        drop_arr = 2,
     },
     keys = {
         ccw = "z",
