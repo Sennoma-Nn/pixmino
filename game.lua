@@ -365,22 +365,26 @@ end
 
 function game.move_left()
     local p = game.piece
-    if not p then return end
+    if not p then return false end
     if not collides(p, p.x - 1, p.y, p.dir) then
         p.x = p.x - 1
         if is_grounded(p) then reset_lock(p) end
         dbg("LEFT")
+        return true
     end
+    return false
 end
 
 function game.move_right()
     local p = game.piece
-    if not p then return end
+    if not p then return false end
     if not collides(p, p.x + 1, p.y, p.dir) then
         p.x = p.x + 1
         if is_grounded(p) then reset_lock(p) end
         dbg("RIGHT")
+        return true
     end
+    return false
 end
 
 local function rotate_to(nd)
@@ -407,12 +411,14 @@ end
 
 function game.soft_drop()
     local p = game.piece
-    if not p then return end
+    if not p then return false end
     if not collides(p, p.x, p.y - 1, p.dir) then
         p.y = p.y - 1
         if is_grounded(p) then reset_lock(p) end
         dbg("SOFT")
+        return true
     end
+    return false
 end
 
 function game.hard_drop()
@@ -455,7 +461,6 @@ function game.update(dt)
     end
 end
 
--- 暴露给渲染模块
 game.shapes = minos
 game.get_matrix = get_matrix
 game.drop_y = drop_y

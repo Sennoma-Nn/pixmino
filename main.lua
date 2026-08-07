@@ -35,8 +35,8 @@ Colors = {
 Settings = {
     input = {
         das = 10,
-        arr = 2,
-        drop_arr = 2,
+        arr = 3,
+        drop_arr = 3,
     },
     keys = {
         ccw = "z",
@@ -123,6 +123,15 @@ local function tick_held(held, das_ms, arr_ms, action)
     if not held.active then return end
     local ms = love.timer.getDelta() * 1000
 
+    if arr_ms <= 0 then
+        if das_ms and held.das_t < das_ms then
+            held.das_t = held.das_t + ms
+            return
+        end
+        while action() do end
+        return
+    end
+
     if das_ms and held.das_t < das_ms then
         held.das_t = held.das_t + ms
     end
@@ -131,7 +140,10 @@ local function tick_held(held, das_ms, arr_ms, action)
         held.arr_t = held.arr_t + ms
         while held.arr_t >= arr_ms do
             held.arr_t = held.arr_t - arr_ms
-            action()
+            if not action() then
+                held.arr_t = 0
+                break
+            end
         end
     end
 end
