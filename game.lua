@@ -543,6 +543,8 @@ end
 function game.update(dt)
     game.time = game.time + dt
 
+    game.input_mod.update(dt)
+
     if not game.piece then
         game.spawn()
     end

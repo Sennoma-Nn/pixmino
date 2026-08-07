@@ -3,6 +3,10 @@
 
 local utils = {}
 
+function utils.frame_ms(frames)
+    return frames * (1000 / 60)
+end
+
 function utils.utf8_len(text)
     local count = 0
     local i = 1
