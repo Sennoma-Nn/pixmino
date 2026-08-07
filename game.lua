@@ -240,7 +240,7 @@ game.debug_flags  = {}
 game.time         = 0
 game.clears       = 0
 game.scores       = 0
-game.level        = 0
+game.level        = 1
 game.ren          = -1
 game.b2b          = 0
 game.gravity      = 1 / 64
@@ -272,7 +272,7 @@ function game.reset()
     game.time   = 0
     game.clears = 0
     game.scores = 0
-    game.level  = 0
+    game.level  = 1
     game.ren    = -1
     game.b2b    = 0
 end
@@ -469,6 +469,33 @@ local function clear_lines()
     return cleared
 end
 
+local function calc_score(cleared, is_spin, is_mini, is_perfect, b2b_eligible)
+    local base
+    if is_perfect then
+        local pc = { [1] = 800, [2] = 1200, [3] = 1800, [4] = 2000 }
+        base = pc[cleared] or 0
+        if cleared == 4 and b2b_eligible then
+            base = 3200
+        end
+    elseif is_spin then
+        if cleared == 0 then
+            base = is_mini and 100 or 400
+        else
+            local sp = { [1] = 800, [2] = 1200, [3] = 1600, [4] = 2000 }
+            base = sp[cleared] or 0
+        end
+    else
+        local ns = { [1] = 100, [2] = 300, [3] = 500, [4] = 800 }
+        base = ns[cleared] or 0
+    end
+
+    local total = base * game.level
+    if not is_perfect and b2b_eligible then
+        total = total * 1.5
+    end
+    return total
+end
+
 local function lock_piece()
     local p = game.piece
     for _, cell in ipairs(piece_cells(p)) do
@@ -505,6 +532,8 @@ local function lock_piece()
     local is_spin = p.spin.activation
     local is_mini = is_spin and p.spin.is_wallkick and cleared == 1
 
+    local b2b_eligible = game.b2b > 0
+
     if cleared > 0 then
         if cleared >= 4 or (is_spin and cleared > 0) then
             game.b2b = game.b2b + 1
@@ -513,8 +542,15 @@ local function lock_piece()
         end
     end
 
+    local is_perfect = cleared > 0 and next(game.pf_data) == nil
+
+    game.scores = game.scores + calc_score(cleared, is_spin, is_mini, is_perfect, b2b_eligible)
+
     local clear_names = { "SINGLE", "DOUBLE", "TRIPLE", "QUAD" }
-    if is_spin then
+    if is_perfect then
+        local prefix = is_spin and ("%s SPIN "):format(p.shape) or ""
+        game.set_notify(prefix .. "PERFECT CLEAR", p.color)
+    elseif is_spin then
         local mini = is_mini and "MINI " or ""
         local clear_name = (cleared > 0 and clear_names[cleared]) or "ZERO"
         game.set_notify(string.format("%s SPIN %s%s", p.shape, mini, clear_name), p.color)
