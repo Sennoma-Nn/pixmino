@@ -5,6 +5,7 @@ local push = require("lib.push")
 local vgafont = require("lib.vgafont")
 local menu = require("menu")
 local game = require("game")
+local render = require("game_draw")
 
 local style = {
     block_size = 8,
@@ -75,7 +76,7 @@ function love.draw()
     local gx = gy
     local bw = style.playfield_width
 
-    game.draw(bold_font, Colors, gx, gy, pw, ph, bw, style.block_size)
+    render.draw(bold_font, gx, gy, pw, ph, bw, style.block_size)
 
     if menu.state ~= "GAME" then
         menu.draw(gx, gy, pw, ph, bw, Colors, ui_fonts)
