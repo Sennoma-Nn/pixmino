@@ -28,15 +28,17 @@ Colors = {
     black        = { 0, 0, 0, 1 },
     out_line     = { 0, 0, 0, 1 },
     mino_border  = { 0, 0, 0, 0.2 },
+    piece_border = { 0, 0, 0, 0.6 },
+    ghost_border = { 1, 1, 1, 0.2 },
     playfield_bg = { 0, 0, 0, 0.6 },
     background   = { 0.1, 0.1, 0.15 },
 }
 
 Settings = {
     input = {
-        das = 10,
-        arr = 3,
-        drop_arr = 3,
+        das = 8,
+        arr = 0,
+        drop_arr = 0,
     },
     keys = {
         ccw = "z",

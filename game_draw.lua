@@ -69,9 +69,9 @@ local function draw_mino_borders(gx, gy, ph, bs)
     end
 end
 
-local function draw_matrix_borders(m, origin_px, origin_py, bs)
+local function draw_matrix_borders(m, origin_px, origin_py, bs, border_color)
     local n = #m
-    love.graphics.setColor(unpack(Colors.mino_border))
+    love.graphics.setColor(unpack(border_color or Colors.mino_border))
     for r = 1, n do
         for c = 1, n do
             if m[r][c] ~= 0 then
@@ -114,7 +114,7 @@ local function draw_piece(gx, gy, ph, bs)
             draw_block(gx + (cell.x - 1) * bs, gy + ph - gy2 * bs, bs, ghost_color)
         end
     end
-    draw_matrix_borders(m, ghost_ox, ghost_oy, bs)
+    draw_matrix_borders(m, ghost_ox, ghost_oy, bs, Colors.ghost_border)
 
     local ox, oy = gx + (p.x - 2) * bs, gy + ph - (p.y + 1) * bs
     for _, cell in ipairs(game.piece_cells(p)) do
@@ -122,7 +122,7 @@ local function draw_piece(gx, gy, ph, bs)
             draw_block(gx + (cell.x - 1) * bs, gy + ph - cell.y * bs, bs, p.color)
         end
     end
-    draw_matrix_borders(m, ox, oy, bs)
+    draw_matrix_borders(m, ox, oy, bs, Colors.piece_border)
 end
 
 local function draw_preview(shape, px, py, bs)
@@ -179,6 +179,12 @@ local function draw_game_info(font, gx, gy, pw, ph, bw)
             math.floor((game.time * 100) % 100)
         ),
     }
+
+    local total = game.lock_resets_total or 30
+    local left = (game.piece and game.piece.lock_resets) or 0
+    local resets_y = iy - 8 * 4
+    vgafont.print_outlined(font, string.rep("♦", total), ix, resets_y, 1, Colors.gray, Colors.out_line)
+    vgafont.print_outlined(font, string.rep("♦", left), ix, resets_y, 1, Colors.white, Colors.out_line)
 
     vgafont.print_outlined(font, info.scores, ix, iy - 8 * 3, 1, Colors.white, Colors.out_line)
     vgafont.print_outlined(font, info.clears, ix, iy - 8 * 2, 1, Colors.white, Colors.out_line)

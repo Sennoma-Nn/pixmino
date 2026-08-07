@@ -126,7 +126,7 @@ local minos       = {
 }
 
 local lock_delay  = 0.5
-local lock_resets = 30
+local lock_resets = 15
 local next_count  = 3
 
 game.pf_data      = {}
@@ -523,6 +523,7 @@ function game.update(dt)
 end
 
 game.shapes = minos
+game.lock_resets_total = lock_resets
 game.get_matrix = get_matrix
 game.drop_y = drop_y
 game.piece_cells = piece_cells
