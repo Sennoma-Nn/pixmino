@@ -516,6 +516,12 @@ end
 local function apply_gravity(dt)
     local p = game.piece
     if not p then return end
+
+    if collides(p, p.x, p.y - 1, p.dir) then
+        p.drop_sum = 0
+        return
+    end
+
     p.drop_sum = p.drop_sum + game.gravity * 60 * dt
     while p.drop_sum >= 1 do
         if collides(p, p.x, p.y - 1, p.dir) then
