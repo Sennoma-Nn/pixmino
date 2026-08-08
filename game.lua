@@ -241,6 +241,8 @@ game.pf           = nil
 game.debug_flags  = {}
 game.mode         = nil
 game.mode_state   = nil
+game.cleared      = false
+game.result       = nil
 
 game.time         = 0
 game.clears       = 0
@@ -274,7 +276,7 @@ local function dbg(action)
 end
 
 function game.reset()
-    game.time   = -1
+    game.time   = -1.5
     game.clears = 0
     game.scores = 0
     game.level  = 1
@@ -284,6 +286,8 @@ end
 
 function game.stop()
     game.reset()
+    game.cleared = false
+    game.result = nil
     game.started = false
     game.pf = nil
     game.piece = nil
@@ -800,6 +804,8 @@ end
 
 function game.start(playfield, mode)
     game.reset()
+    game.cleared = false
+    game.result = nil
     game.mode = mode
     game.pf = playfield
     game.pf_data = {}
@@ -812,6 +818,8 @@ function game.start(playfield, mode)
 end
 
 function game.update(dt)
+    if game.cleared then return end
+
     game.time = game.time + dt
 
     if type(game.mode) == "function" then
@@ -819,6 +827,11 @@ function game.update(dt)
         if game.mode_state then
             game.level = game.mode_state.level or game.level
             game.gravity = game.mode_state.gravity or game.gravity
+            if game.mode_state.target and not game.cleared then
+                game.cleared = true
+                game.result = game.mode_state.result
+                return
+            end
         end
     end
 

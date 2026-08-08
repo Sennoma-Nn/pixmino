@@ -82,37 +82,36 @@ menu.data = {
     },
 }
 
-function menu.draw(gx, gy, pw, ph, bw, colors, font)
+function menu.draw(gx, gy, pw, ph, bw)
     local data = menu.data[menu.state]
     if not data then return end
 
     local num_items = #data
-    local line_height = vgafont.get_height(font) + 2
-    local total_h = num_items * line_height
+    local total_h = num_items * 10
     local start_y = gy + (ph - total_h) / 2
     local desc_x = gx + pw + bw + 8
     local desc_y = gy - 1
 
     for i, item in ipairs(data) do
         local text = locale.get(item.text_key)
-        local item_y = start_y + (i - 1) * line_height
+        local item_y = start_y + (i - 1) * 10
         local item_x = gx + (pw - utils.utf8_len(text) * 8) / 2
 
         local disabled = (item.action == false)
-        local color = disabled and colors.gray or colors.white
+        local color = disabled and Colors.gray or Colors.white
 
         if i == menu.selection then
-            local highlight = disabled and colors.light_gray or colors.yellow
-            vgafont.print(font, text, item_x, item_y, 1, highlight)
+            local highlight = disabled and Colors.light_gray or Colors.yellow
+            vgafont.print(Fonts.ui_fonts, text, item_x, item_y, 1, highlight)
 
             local desc = locale.get(item.desc_key) or ""
-            vgafont.print(font, desc, desc_x, desc_y, 1, colors.white)
+            vgafont.print(Fonts.ui_fonts, desc, desc_x, desc_y, 1, Colors.white)
         else
-            vgafont.print(font, text, item_x, item_y, 1, color)
+            vgafont.print(Fonts.ui_fonts, text, item_x, item_y, 1, color)
         end
     end
 
-    vgafont.print(font, locale.get("BACK_TIP"), gx + 4, gy + 4, 1, colors.gray)
+    vgafont.print(Fonts.ui_fonts, locale.get("BACK_TIP"), gx + 4, gy + 4, 1, Colors.gray)
 end
 
 function menu.keypressed(key)

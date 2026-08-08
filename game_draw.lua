@@ -4,6 +4,8 @@
 local vgafont = require("lib.vgafont")
 local game = require("game")
 local utils = require("utils")
+local menu = require("menu")
+local locale = require("locale")
 
 local render = {}
 
@@ -206,7 +208,7 @@ local function draw_game_info(font, gx, gy, pw, ph, bw)
     vgafont.print_outlined(font, string.rep("♦", left), ix, iy - 8 * 0, 1, Colors.white, Colors.out_line)
 end
 
-function render.draw(font, gx, gy, pw, ph, bw, bs)
+function render.draw(gx, gy, pw, ph, bw, bs)
     love.graphics.clear(unpack(Colors.background))
 
     love.graphics.setColor(unpack(Colors.playfield_bg))
@@ -221,8 +223,39 @@ function render.draw(font, gx, gy, pw, ph, bw, bs)
     draw_playfield_cells(gx, gy, ph, bs)
     draw_mino_borders(gx, gy, ph, bs)
     draw_piece(gx, gy, ph, bs)
-    draw_next_hold(font, gx, gy, pw, ph, bw, bs)
-    draw_game_info(font, gx, gy, pw, ph, bw)
+    draw_next_hold(Fonts.bold_font, gx, gy, pw, ph, bw, bs)
+    draw_game_info(Fonts.bold_font, gx, gy, pw, ph, bw)
+
+    if game.cleared then
+        love.graphics.setColor(0, 0, 0, 0.6)
+        love.graphics.rectangle("fill", gx, gy, pw, ph)
+
+        vgafont.print(Fonts.ui_fonts, locale.get("BACK_TIP"), gx + 4, gy + 4, 1, Colors.gray)
+
+        local label = "CLEAR"
+        local lw = utils.utf8_len(label) * 8
+        local cy = gy + ph / 2 - 16
+        vgafont.print(Fonts.bold_font, label, gx + (pw - lw) / 2, cy, 1, Colors.white)
+
+        local y = gy + ph / 2
+        for _, item in ipairs(game.result) do
+            local text = tostring(item)
+            local w = utils.utf8_len(text) * 8
+            vgafont.print(Fonts.bold_font, text, gx + (pw - w) / 2, y, 1, Colors.white)
+            y = y + 8
+        end
+    end
+
+    if game.time < 0 and menu.state == "GAME" then
+        local label
+        if game.time < -0.5 then
+            label = "READY"
+        else
+            label = "GO"
+        end
+        local lw = utils.utf8_len(label) * 8
+        vgafont.print(Fonts.bold_font, label, gx + (pw - lw) / 2, gy + (ph - 8) / 2, 1, Colors.white)
+    end
 end
 
 return render

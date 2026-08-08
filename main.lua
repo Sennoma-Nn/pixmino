@@ -19,8 +19,10 @@ local playfield = {
     height = 20
 }
 
-local ui_fonts = {}
-local bold_font = nil
+Fonts = {
+    ui_fonts = {},
+    bold_font = nil,
+}
 
 Colors = {
     yellow       = { 1, 0.8, 0, 1 },
@@ -38,9 +40,9 @@ Colors = {
 
 Settings = {
     input = {
-        das = 10,
-        arr = 2,
-        drop_arr = 2,
+        das = 8,
+        arr = 0,
+        drop_arr = 0,
     },
     keys = {
         ccw = "z",
@@ -84,8 +86,8 @@ function love.load()
         }
     )
 
-    bold_font = vgafont.load("font/IB-FULL.F08", "cp437")
-    ui_fonts = {
+    Fonts.bold_font = vgafont.load("font/IB-FULL.F08", "cp437")
+    Fonts.ui_fonts = {
         vgafont.load("font/QUADBM_CP897.F08", "jisx0201"),
         vgafont.load("font/QUADBM.F08", "cp437"),
         vgafont.load("font/SYMBOL.F08", "symbol"),
@@ -104,10 +106,10 @@ function love.draw()
     local gx = gy
     local bw = style.playfield_width
 
-    render.draw(bold_font, gx, gy, pw, ph, bw, style.block_size)
+    render.draw(gx, gy, pw, ph, bw, style.block_size)
 
     if menu.state ~= "GAME" then
-        menu.draw(gx, gy, pw, ph, bw, Colors, ui_fonts)
+        menu.draw(gx, gy, pw, ph, bw)
     end
 
     push:apply("end")
@@ -120,11 +122,6 @@ function love.update(dt)
             input.reset()
         end
         game.update(dt)
-
-        if game.mode_state and game.mode_state.target then
-            game.stop()
-            menu.go_to("MENU_MAIN")
-        end
     end
 end
 

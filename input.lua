@@ -77,11 +77,20 @@ local function soft_drop_rep(rep, now, old, ms)
     if not old then
         rep.active = true
         rep.arr_t = 0
+        local ar0 = utils.frame_ms(Settings.input.drop_arr)
+        if ar0 <= 0 then
+            while game.soft_drop() do end
+            return
+        end
         game.soft_drop()
         return
     end
     if not rep.active then return end
     local ar = utils.frame_ms(Settings.input.drop_arr)
+    if ar <= 0 then
+        while game.soft_drop() do end
+        return
+    end
     rep.arr_t = rep.arr_t + ms
     while rep.arr_t >= ar do
         rep.arr_t = rep.arr_t - ar
