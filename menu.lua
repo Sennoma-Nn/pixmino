@@ -4,6 +4,8 @@
 local vgafont = require("lib.vgafont")
 local locale = require("locale")
 local utils = require("utils")
+local push = require("lib.push")
+local settings = require("settings")
 
 local menu = {}
 
@@ -11,9 +13,13 @@ menu.state = "MENU_MAIN"
 menu.selection = 1
 menu.selections = {}
 menu.selected_mode = ""
+menu.waiting_key = nil
 menu.parent = {
     MENU_START = "MENU_MAIN",
     MENU_ABOUT = "MENU_MAIN",
+    MENU_SETTINGS = "MENU_MAIN",
+    MENU_SETTINGS_CTRL = "MENU_SETTINGS",
+    MENU_KEYS = "MENU_SETTINGS_CTRL",
 }
 
 function menu.go_to(new_state)
@@ -24,6 +30,7 @@ end
 
 function menu.reset()
     menu.selections = {}
+    menu.waiting_key = nil
 end
 
 menu.data = {
@@ -33,6 +40,13 @@ menu.data = {
             desc_key = "START_DESC",
             action = function()
                 menu.go_to("MENU_START")
+            end
+        },
+        {
+            text_key = "SETTINGS",
+            desc_key = "SETTINGS_DESC",
+            action = function()
+                menu.go_to("MENU_SETTINGS")
             end
         },
         {
@@ -82,6 +96,25 @@ menu.data = {
     },
 }
 
+for state, items in pairs(settings.menu) do
+    menu.data[state] = items
+end
+
+local function control_desc(item)
+    if item.type == "toggle" then
+        return item.get() and "ON" or "OFF"
+    elseif item.type == "value" then
+        return "< " .. tostring(item.get()) .. " >"
+    elseif item.type == "list" then
+        local idx = item.get_index()
+        local val = string.upper(item.items[idx])
+        return "< " .. tostring(val) .. " >"
+    elseif item.type == "keys" then
+        return "[ " .. (string.upper(Settings.keys[item.key_name])) .. " ]"
+    end
+    return nil
+end
+
 function menu.draw(gx, gy, pw, ph, bw)
     local data = menu.data[menu.state]
     if not data then return end
@@ -93,45 +126,91 @@ function menu.draw(gx, gy, pw, ph, bw)
     local desc_y = gy - 1
 
     for i, item in ipairs(data) do
-        local text = locale.get(item.text_key)
+        local label = locale.get(item.text_key or "")
+
         local item_y = start_y + (i - 1) * 10
-        local item_x = gx + (pw - utils.utf8_len(text) * 8) / 2
+        local item_x = gx + (pw - utils.utf8_len(label) * 8) / 2
 
         local disabled = (item.action == false)
         local color = disabled and Colors.gray or Colors.white
 
         if i == menu.selection then
             local highlight = disabled and Colors.light_gray or Colors.yellow
-            vgafont.print(Fonts.ui_fonts, text, item_x, item_y, 1, highlight)
+            vgafont.print(Fonts.ui_fonts, label, item_x, item_y, 1, highlight)
 
-            local desc = locale.get(item.desc_key) or ""
-            vgafont.print(Fonts.ui_fonts, desc, desc_x, desc_y, 1, Colors.white)
+            if item.type == "keys" and menu.waiting_key == item.key_name then
+                local tip = locale.get("PRESS_KEY_TIP")
+                vgafont.print_outlined(Fonts.ui_fonts, tip, desc_x, desc_y, 1, Colors.yellow, Colors.out_line)
+            else
+                local current = control_desc(item)
+                local desc = item.desc_key and locale.get(item.desc_key)
+                local display
+                if not desc or desc == item.desc_key then
+                    display = current
+                elseif current then
+                    display = desc .. "\r\n\n" .. current
+                else
+                    display = desc
+                end
+                if display then
+                    vgafont.print_outlined(Fonts.ui_fonts, display, desc_x, desc_y, 1, Colors.white, Colors.out_line)
+                end
+            end
         else
-            vgafont.print(Fonts.ui_fonts, text, item_x, item_y, 1, color)
+            vgafont.print(Fonts.ui_fonts, label, item_x, item_y, 1, color)
         end
     end
 
-    vgafont.print(Fonts.ui_fonts, locale.get("BACK_TIP"), gx + 4, gy + 4, 1, Colors.gray)
+    if not menu.waiting_key then
+        vgafont.print(Fonts.ui_fonts, locale.get("BACK_TIP"), gx + 4, gy + 4, 1, Colors.gray)
+    end
 end
 
 function menu.keypressed(key)
     local data = menu.data[menu.state]
     if not data then return false end
 
-    if key == "up" then
-        menu.selection = menu.selection - 1
-        if menu.selection < 1 then
-            menu.selection = #data
+    if menu.waiting_key then
+        if key ~= "escape" then
+            Settings.keys[menu.waiting_key] = key
         end
+        menu.waiting_key = nil
+        return true
+    end
+
+    local item = data[menu.selection]
+
+    if key == "up" then
+        menu.selection = utils.wrap_index(menu.selection - 1, #data)
         return true
     elseif key == "down" then
-        menu.selection = menu.selection + 1
-        if menu.selection > #data then
-            menu.selection = 1
-        end
+        menu.selection = utils.wrap_index(menu.selection + 1, #data)
         return true
+    elseif key == "left" or key == "right" then
+        if item and item.type ~= "action" and item.type ~= "toggle" then
+            local delta = (key == "right") and 1 or -1
+            if item.type == "value" then
+                item.set(utils.clamp(item.get() + delta, item.min, item.max))
+            elseif item.type == "list" then
+                local idx = utils.clamp(item.get_index() + delta, 1, #item.items)
+                item.set_index(idx)
+            end
+            return true
+        end
     elseif key == "return" or key == "space" then
-        local action = data[menu.selection].action
+        if item.type == "toggle" then
+            item.set(not item.get())
+            return true
+        end
+        if item.type == "keys" then
+            menu.waiting_key = item.key_name
+            return true
+        end
+        if item.jmp then
+            menu.go_to(item.jmp)
+            return true
+        end
+        local action = item.action
         if type(action) == "function" then
             action()
         end

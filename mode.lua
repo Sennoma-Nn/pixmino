@@ -1,3 +1,5 @@
+local utils = require("utils")
+
 local mode = {
     marathon = function(time, clears, scores, level, ren, b2b, gravity)
         local lv = math.floor(clears / 10) + 1
@@ -12,10 +14,7 @@ local mode = {
         }
     end,
     sprint = function(time, clears, scores, level, ren, b2b, gravity)
-        local time_str = string.format("%02d:%02d.%02d",
-            math.floor(time / 60),
-            math.floor(time % 60),
-            math.floor(time * 100) % 100)
+        local time_str = utils.format_time(time)
 
         return {
             level = 1,

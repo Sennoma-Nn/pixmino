@@ -7,6 +7,12 @@ function utils.frame_ms(frames)
     return frames * (1000 / 60)
 end
 
+function utils.clamp(v, lo, hi)
+    if v < lo then return lo end
+    if v > hi then return hi end
+    return v
+end
+
 function utils.color_blend(c1, c2, ratio)
     ratio = math.max(0, math.min(ratio or 0, 1))
     return {
@@ -38,6 +44,51 @@ function utils.utf8_len(text)
         i = i + len
     end
     return count
+end
+
+function utils.format_time(seconds)
+    local s = math.abs(seconds)
+    return string.format("%02d:%02d.%02d",
+        math.floor(s / 60),
+        math.floor(s % 60),
+        math.floor((s * 100) % 100))
+end
+
+function utils.rot90(m)
+    local n = #m
+    local out = {}
+    for r = 1, n do
+        out[r] = {}
+        for c = 1, n do
+            out[r][c] = m[n - c + 1][r]
+        end
+    end
+    return out
+end
+
+function utils.rotate_matrix(m, dir)
+    local rotations = { ["0"] = 0, ["R"] = 1, ["2"] = 2, ["L"] = 3 }
+    local out = m
+    for _ = 1, rotations[dir] or 0 do
+        out = utils.rot90(out)
+    end
+    return out
+end
+
+function utils.shuffle(t)
+    for i = #t, 2, -1 do
+        local j = love.math.random(i)
+        t[i], t[j] = t[j], t[i]
+    end
+    return t
+end
+
+function utils.is_empty(t)
+    return next(t) == nil
+end
+
+function utils.wrap_index(i, n)
+    return ((i - 1) % n) + 1
 end
 
 return utils

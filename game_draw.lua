@@ -173,6 +173,8 @@ local function draw_game_info(font, gx, gy, pw, ph, bw)
     local iy = gy + ph + bw - 8
 
 
+    local sign = game.time < 0 and "-" or " "
+
     local info = {
         scores = string.format("SCORES %d", game.scores),
         clears = string.format("CLEARS %d", game.clears),
@@ -180,14 +182,10 @@ local function draw_game_info(font, gx, gy, pw, ph, bw)
         ren    = (game.ren >= 0) and string.format("REN    %d", game.ren) or string.format("REN   %d", game.ren),
         b2b    = string.format("B2B    %d", game.b2b),
 
-        time   = string.format((game.time >= 0) and "TIME   %02d:%02d.%02d" or "TIME  -%02d:%02d.%02d",
-            math.floor(math.abs(game.time) / 60),
-            math.floor(math.abs(game.time) % 60),
-            math.floor((math.abs(game.time) * 100) % 100)
-        ),
+        time   = string.format("TIME  %s%s", sign, utils.format_time(game.time)),
     }
 
-    local total = game.lock_resets_total or 30
+    local total = game.lock_resets_total
     local left = (game.piece and game.piece.lock_resets) or 0
 
     if game.notify and game.notify.time > 0 and game.notify.text then

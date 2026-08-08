@@ -9,6 +9,8 @@ local render = require("game_draw")
 local input = require("input")
 local modes = require("mode")
 
+require("settings")
+
 local style = {
     block_size = 8,
     playfield_width = 2
@@ -36,24 +38,6 @@ Colors = {
     ghost_border = { 1, 1, 1, 0.2 },
     playfield_bg = { 0, 0, 0, 0.6 },
     background   = { 0.1, 0.1, 0.15 },
-}
-
-Settings = {
-    input = {
-        das = 8,
-        arr = 0,
-        drop_arr = 0,
-    },
-    keys = {
-        ccw = "z",
-        cw = "x",
-        rot180 = "a",
-        hold = "c",
-        hard_drop = "space",
-        soft_drop = ".",
-        left = ",",
-        right = "/",
-    }
 }
 
 local debug_flags = {

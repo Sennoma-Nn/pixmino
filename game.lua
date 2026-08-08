@@ -1,6 +1,8 @@
 -- Copyright (C) 2026 Sennoma-Nn
 -- SPDX-License-Identifier: GPL-3.0-or-later
 
+local utils       = require("utils")
+
 local game        = {}
 
 local PRS_JLSTZ   = {
@@ -303,24 +305,8 @@ function game.set_notify(text, color)
     game.notify.time = 2
 end
 
-local function rot90(m)
-    local n = #m
-    local out = {}
-    for r = 1, n do
-        out[r] = {}
-        for c = 1, n do
-            out[r][c] = m[n - c + 1][r]
-        end
-    end
-    return out
-end
-
 local function get_matrix(shape, dir)
-    local m = minos[shape].shapes
-    local rotations = { ["0"] = 0, ["R"] = 1, ["2"] = 2, ["L"] = 3 }
-    for _ = 1, rotations[dir] do
-        m = rot90(m)
-    end
+    local m = utils.rotate_matrix(minos[shape].shapes, dir)
     return m, #m
 end
 
@@ -343,18 +329,12 @@ end
 
 local function spin_matrix(shape, dir)
     local s = minos[shape].spin
-    if not s then return nil end
-    local m = s.shapes
-    local rotations = { ["0"] = 0, ["R"] = 1, ["2"] = 2, ["L"] = 3 }
-    for i = 1, rotations[dir] do
-        m = rot90(m)
-    end
+    local m = utils.rotate_matrix(s.shapes, dir)
     return m, #m, s.threshold
 end
 
 local function check_spin(piece)
     local m, n, threshold = spin_matrix(piece.shape, piece.dir)
-    if not m then return false, "" end
 
     local i, ns = get_matrix(piece.shape, piece.dir)
     local cr = (n - ns) / 2 + 2
@@ -387,11 +367,7 @@ local function check_spin(piece)
     local descs = {}
     for i, label in ipairs(order) do
         local g = groups[label]
-        local need = 1
-        if threshold then
-            need = threshold[label]
-        end
-        if not need then need = 1 end
+        local need = threshold and threshold[label] or 1
         descs[#descs + 1] = string.format("%d:%d/%d", label, g.blocked, g.total)
         if g.blocked < need then
             is_spin = false
@@ -553,14 +529,14 @@ local function lock_piece()
     local b2b_eligible = game.b2b > 0
 
     if cleared > 0 then
-        if cleared >= 4 or (is_spin and cleared > 0) then
+        if cleared >= 4 or is_spin then
             game.b2b = game.b2b + 1
         else
             game.b2b = 0
         end
     end
 
-    local is_perfect = cleared > 0 and next(game.pf_data) == nil
+    local is_perfect = cleared > 0 and utils.is_empty(game.pf_data)
 
     game.scores = game.scores + calc_score(cleared, is_spin, is_mini, is_perfect, b2b_eligible)
 
@@ -586,11 +562,7 @@ local function lock_piece()
 end
 
 local function refill_bag()
-    local bag = { "I", "O", "T", "S", "Z", "J", "L" }
-    for i = #bag, 2, -1 do
-        local j = love.math.random(i)
-        bag[i], bag[j] = bag[j], bag[i]
-    end
+    local bag = utils.shuffle({ "I", "O", "T", "S", "Z", "J", "L" })
     for _, s in ipairs(bag) do
         game.bag[#game.bag + 1] = s
     end
