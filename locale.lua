@@ -6,7 +6,7 @@ local locale = {}
 locale.langs = { "en", "ja" }
 locale.current = "en"
 
-local ver = "v0.0.2"
+local ver = "v0.0.3"
 
 locale.t = {
     BACK_TIP = {

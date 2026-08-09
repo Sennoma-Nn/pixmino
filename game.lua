@@ -66,18 +66,24 @@ local minos          = {
         spawn = { 0, 1 },
         wallkick = { prs = PRS_I },
         spin = {
-            shapes = {
+            mask = {
                 { 0, 0, 0, 0, 0, 0 },
-                { 0, 1, 0, 0, 1, 0 },
+                { 0, 1, 3, 3, 1, 0 },
                 { 2, 0, 0, 0, 0, 2 },
-                { 0, 1, 0, 0, 1, 0 },
+                { 0, 1, 4, 4, 1, 0 },
                 { 0, 0, 0, 0, 0, 0 },
                 { 0, 0, 0, 0, 0, 0 }
             },
-            threshold = {
-                [1] = 3,
-                [2] = 2,
-            },
+            result = function(mask)
+                local is_spin = mask[1] >= 3 and mask[2] == 2
+                local is_mini = mask[3] == 0 or mask[4] == 0
+
+                if not is_spin then
+                    return { spin = false, mini = false }
+                end
+
+                return { spin = true, mini = is_mini }
+            end,
         },
     },
     O = {
@@ -95,18 +101,31 @@ local minos          = {
         spawn = { 0, 1 },
         wallkick = { prs = PRS_O },
         spin = {
-            shapes = {
+            mask = {
                 { 0, 1, 1, 0 },
                 { 2, 0, 0, 4 },
                 { 2, 0, 0, 4 },
                 { 0, 3, 3, 0 }
             },
-            threshold = {
-                [1] = 1,
-                [2] = 1,
-                [3] = 1,
-                [4] = 1,
-            },
+            result = function(mask)
+                local is_spin = true
+                is_spin = is_spin and mask[1] > 0
+                is_spin = is_spin and mask[2] > 0
+                is_spin = is_spin and mask[3] > 0
+                is_spin = is_spin and mask[4] > 0
+
+                local is_mini = false
+                is_mini = is_mini or mask[1] < 2
+                is_mini = is_mini or mask[2] < 2
+                is_mini = is_mini or mask[3] < 2
+                is_mini = is_mini or mask[4] < 2
+
+                if not is_spin then
+                    return { spin = false, mini = false }
+                end
+
+                return { spin = true, mini = is_mini }
+            end,
         },
     },
     T = {
@@ -122,14 +141,20 @@ local minos          = {
         },
         wallkick = { prs = PRS_JLSTZ },
         spin = {
-            shapes = {
-                { 1, 0, 1 },
+            mask = {
+                { 2, 0, 2 },
                 { 0, 0, 0 },
                 { 1, 0, 1 }
             },
-            threshold = {
-                [1] = 3,
-            },
+            result = function(mask)
+                local sum = mask[1] + mask[2]
+
+                if sum < 3 then
+                    return { spin = false, mini = false }
+                end
+
+                return { spin = true, mini = (mask[2] ~= 2) }
+            end,
         },
     },
     S = {
@@ -145,14 +170,23 @@ local minos          = {
         },
         wallkick = { prs = PRS_JLSTZ },
         spin = {
-            shapes = {
-                { 1, 0, 0 },
-                { 0, 0, 1 },
-                { 0, 0, 0 }
+            mask = {
+                { 0, 0, 0, 0, 0 },
+                { 0, 1, 0, 0, 0 },
+                { 2, 0, 0, 1, 0 },
+                { 0, 2, 0, 0, 0 },
+                { 0, 0, 0, 0, 0 }
             },
-            threshold = {
-                [1] = 2,
-            },
+            result = function(mask)
+                local is_spin = mask[1] == 2 or mask[2] == 2
+                local is_mini = mask[2] == 2 and mask[1] ~= 2
+
+                if not is_spin then
+                    return { spin = false, mini = false }
+                end
+
+                return { spin = true, mini = is_mini }
+            end,
         },
     },
     Z = {
@@ -168,14 +202,23 @@ local minos          = {
         },
         wallkick = { prs = PRS_JLSTZ },
         spin = {
-            shapes = {
-                { 0, 0, 1 },
-                { 1, 0, 0 },
-                { 0, 0, 0 }
+            mask = {
+                { 0, 0, 0, 0, 0 },
+                { 0, 0, 0, 1, 0 },
+                { 0, 1, 0, 0, 2 },
+                { 0, 0, 0, 2, 0 },
+                { 0, 0, 0, 0, 0 }
             },
-            threshold = {
-                [1] = 2,
-            },
+            result = function(mask)
+                local is_spin = mask[1] == 2 or mask[2] == 2
+                local is_mini = mask[2] == 2 and mask[1] ~= 2
+
+                if not is_spin then
+                    return { spin = false, mini = false }
+                end
+
+                return { spin = true, mini = is_mini }
+            end,
         },
     },
     J = {
@@ -191,15 +234,23 @@ local minos          = {
         },
         wallkick = { prs = PRS_JLSTZ },
         spin = {
-            shapes = {
-                { 0, 2, 1 },
-                { 0, 0, 0 },
-                { 2, 2, 1 }
+            mask = {
+                { 0, 0, 0, 0, 0 },
+                { 3, 0, 2, 1, 0 },
+                { 3, 0, 0, 0, 0 },
+                { 0, 2, 2, 1, 0 },
+                { 0, 0, 0, 0, 0 }
             },
-            threshold = {
-                [1] = 1,
-                [2] = 2,
-            },
+            result = function(mask)
+                local is_spin = mask[1] >= 1 and mask[2] >= 2
+                local is_mini = mask[3] < 1
+
+                if not is_spin then
+                    return { spin = false, mini = false }
+                end
+
+                return { spin = true, mini = is_mini }
+            end,
         },
     },
     L = {
@@ -215,15 +266,23 @@ local minos          = {
         },
         wallkick = { prs = PRS_JLSTZ },
         spin = {
-            shapes = {
-                { 1, 2, 0 },
-                { 0, 0, 0 },
-                { 1, 2, 2 }
+            mask = {
+                { 0, 0, 0, 0, 0 },
+                { 0, 1, 2, 0, 3 },
+                { 0, 0, 0, 0, 3 },
+                { 0, 1, 2, 2, 0 },
+                { 0, 0, 0, 0, 0 }
             },
-            threshold = {
-                [1] = 1,
-                [2] = 2,
-            },
+            result = function(mask)
+                local is_spin = mask[1] >= 1 and mask[2] >= 2
+                local is_mini = mask[3] < 1
+
+                if not is_spin then
+                    return { spin = false, mini = false }
+                end
+
+                return { spin = true, mini = is_mini }
+            end,
         },
     },
 }
@@ -376,51 +435,41 @@ end
 
 local function spin_matrix(shape, dir)
     local s = minos[shape].spin
-    local m = utils.rotate_matrix(s.shapes, dir)
-    return m, #m, s.threshold
+    local m = utils.rotate_matrix(s.mask, dir)
+    return m, #m
 end
 
 local function check_spin(piece)
-    local m, n, threshold = spin_matrix(piece.shape, piece.dir)
-
-    local i, ns = get_matrix(piece.shape, piece.dir)
+    local spin_def = minos[piece.shape].spin
+    local m, n = spin_matrix(piece.shape, piece.dir)
+    local _, ns = get_matrix(piece.shape, piece.dir)
     local cr = (n - ns) / 2 + 2
-    local groups = {}
-    local order = {}
+
+    local mask = {}
     for r = 1, n do
         for c = 1, n do
             local label = m[r][c]
             if label ~= 0 then
-                if not groups[label] then
-                    groups[label] = { blocked = 0, total = 0 }
-                    order[#order + 1] = label
-                end
-                groups[label].total = groups[label].total + 1
                 local cx = piece.x + (c - cr)
                 local cy = piece.y + (cr - r)
-                if cx < 1 or cx > game.pf.width or cy < 1 then
-                    groups[label].blocked = groups[label].blocked + 1
-                else
-                    local row = game.pf_data[cy]
-                    if row and row[cx] then
-                        groups[label].blocked = groups[label].blocked + 1
-                    end
-                end
+                local blocked = (cx < 1 or cx > game.pf.width or cy < 1)
+                    or (game.pf_data[cy] and game.pf_data[cy][cx])
+                mask[label] = (mask[label] or 0) + (blocked and 1 or 0)
             end
         end
     end
 
-    local is_spin = true
-    local descs = {}
-    for i, label in ipairs(order) do
-        local g = groups[label]
-        local need = threshold and threshold[label] or 1
-        descs[#descs + 1] = string.format("%d:%d/%d", label, g.blocked, g.total)
-        if g.blocked < need then
-            is_spin = false
+    if game.debug_flags and game.debug_flags.spin then
+        local parts = {}
+        for label, count in pairs(mask) do
+            parts[#parts + 1] = label .. "=" .. count
         end
+        table.sort(parts)
+        print(string.format("SPIN MASK: shape=%s dir=%s {%s}", piece.shape, piece.dir, table.concat(parts, ",")))
     end
-    return is_spin, table.concat(descs, ",")
+
+    local res = spin_def.result(mask)
+    return res.spin, res.mini
 end
 
 local function collides(piece, x, y, dir)
@@ -571,7 +620,7 @@ local function lock_piece()
     end
 
     local is_spin = p.spin.activation
-    local is_mini = is_spin and p.spin.is_wallkick and cleared == 1
+    local is_mini = is_spin and p.spin.mini
 
     local b2b_eligible = game.b2b > 0
 
@@ -635,7 +684,7 @@ end
 
 local function reset_piece_spin(piece)
     piece.spin.activation = false
-    piece.spin.is_wallkick = false
+    piece.spin.mini = false
 end
 
 local function new_piece(shape, x, y)
@@ -649,7 +698,7 @@ local function new_piece(shape, x, y)
         lock_delay = lock_delay,
         lock_resets = lock_resets,
         drop_sum = 0,
-        spin = { activation = false, is_wallkick = false },
+        spin = { activation = false, mini = false },
     }
 end
 
@@ -761,14 +810,12 @@ local function rotate_to(nd)
 
     if rotated then
         dbg("ROT")
-        local is_spin, groups = check_spin(p)
-        if is_spin then
-            p.spin.activation = true
-            p.spin.is_wallkick = wallkicked
-            if game.debug_flags and game.debug_flags.spin then
-                print(string.format("SPIN: shape=%s dir=%s groups={%s} wallkick=%s",
-                    p.shape, p.dir, groups, tostring(wallkicked)))
-            end
+        local is_spin, is_mini = check_spin(p)
+        p.spin.activation = is_spin
+        p.spin.mini = is_mini
+        if is_spin and game.debug_flags and game.debug_flags.spin then
+            print(string.format("SPIN: shape=%s dir=%s mini=%s",
+                p.shape, p.dir, tostring(is_mini)))
         end
     end
 end
