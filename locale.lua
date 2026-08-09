@@ -28,8 +28,8 @@ locale.t = {
         ja = "ｾﾂﾒｲ",
     },
     ABOUT_DESC = {
-        en = "About PIXTRIS.",
-        ja = "ﾋﾟｸｾﾄﾘｽﾆ ﾂｲﾃ｡",
+        en = "About PIXMINO.",
+        ja = "ﾋﾟｸｾﾐﾉ ﾂｲﾃ｡",
     },
 
     ABOUT_GAME = {
@@ -37,8 +37,8 @@ locale.t = {
         ja = "ｹﾞｰﾑ",
     },
     ABOUT_GAME_DESC = {
-        en = "PIXTRIS " .. ver .. "\r\nMade with LÖVE.",
-        ja = "ﾋﾟｸｾﾄﾘｽ " .. ver .. "\r\nLÖVE ﾃﾞ ｻｸｾｲ｡",
+        en = "PIXMINO " .. ver .. "\r\nMade with LÖVE.",
+        ja = "ﾋﾟｸｾﾐﾉ " .. ver .. "\r\nLÖVE ﾃﾞ ｻｸｾｲ｡",
     },
 
     SOURCE = {
@@ -46,8 +46,8 @@ locale.t = {
         ja = "ｿｰｽ",
     },
     SOURCE_DESC = {
-        en = "Source Code:\r\n\nGitHub:\r\nSennoma-Nn/pixtris\r\n\nLicensed under GPLv3.\r\n🄯 2026 Sennoma-Nn",
-        ja = "ｿｰｽ ｺｰﾄﾞ:\r\n\nGitHub:\r\nSennoma-Nn/pixtris\r\n\nGPLv3 ﾗｲｾﾝｽ ﾃﾞ ｺｳｶｲ｡\r\n🄯 2026 Sennoma-Nn",
+        en = "Source Code:\r\n\nGitHub:\r\nSennoma-Nn/pixmino\r\n\nLicensed under GPLv3.\r\n🄯 2026 Sennoma-Nn",
+        ja = "ｿｰｽ ｺｰﾄﾞ:\r\n\nGitHub:\r\nSennoma-Nn/pixmino\r\n\nGPLv3 ﾗｲｾﾝｽ ﾃﾞ ｺｳｶｲ｡\r\n🄯 2026 Sennoma-Nn",
     },
 
     SP_THANKS = {
