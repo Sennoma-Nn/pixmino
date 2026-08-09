@@ -129,26 +129,44 @@ function love.keypressed(key)
             end
             return
         end
-        if game.paused then
-            if key == "escape" then
-                game.resume()
-            elseif key == "up" then
-                game.pause_move(-1)
+        if game.over then
+            if key == "up" then
+                game.modal_move(-1)
             elseif key == "down" then
-                game.pause_move(1)
+                game.modal_move(1)
             elseif key == "return" or key == "space" then
-                local choice = game.pause_choose()
+                if game.modal_choose() == "restart" then
+                    game.stop()
+                else
+                    game.stop()
+                    menu.go_to("MENU_MAIN")
+                end
+            elseif key == "escape" then
+                game.stop()
+                menu.go_to("MENU_MAIN")
+            end
+            return
+        end
+        if game.modal_active then
+            if key == "escape" then
+                game.close_modal()
+            elseif key == "up" then
+                game.modal_move(-1)
+            elseif key == "down" then
+                game.modal_move(1)
+            elseif key == "return" or key == "space" then
+                local choice = game.modal_choose()
                 if choice == "quit" then
                     game.stop()
                     menu.go_to("MENU_MAIN")
                 elseif choice == "restart" then
                     game.stop()
                 else
-                    game.resume()
+                    game.close_modal()
                 end
             end
         elseif key == "escape" then
-            game.begin_pause()
+            game.open_modal()
         end
         return
     end

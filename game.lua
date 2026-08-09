@@ -246,9 +246,10 @@ game.mode            = nil
 game.mode_state      = nil
 game.cleared         = false
 game.result          = nil
-game.paused          = false
-game.pause_selection = 1
+game.modal_active    = false
+game.modal_selection = 1
 game.mode_key        = nil
+game.over            = false
 
 game.time            = 0
 game.clears          = 0
@@ -297,30 +298,42 @@ function game.stop()
     game.started = false
     game.pf = nil
     game.piece = nil
-    game.paused = false
-    game.pause_selection = 1
+    game.modal_active = false
+    game.modal_selection = 1
     game.mode_key = nil
+    game.over = false
 end
 
-function game.begin_pause()
+function game.open_modal()
     if game.cleared then return end
-    game.paused = true
-    game.pause_selection = 1
+    game.modal_active = true
+    game.modal_selection = 1
 end
 
-function game.resume()
-    game.paused = false
+function game.close_modal()
+    game.modal_active = false
 end
 
-function game.pause_move(delta)
-    local items = { "CONTINUE", "RESTART", "QUIT" }
+local function modal_items()
+    if game.over then
+        return { "RESTART", "QUIT" }
+    end
+    return { "CONTINUE", "RESTART", "QUIT" }
+end
+
+function game.get_modal_items()
+    return modal_items()
+end
+
+function game.modal_move(delta)
+    local items = modal_items()
     local n = #items
-    game.pause_selection = utils.wrap_index(game.pause_selection + delta, n)
+    game.modal_selection = utils.wrap_index(game.modal_selection + delta, n)
 end
 
-function game.pause_choose()
-    local items = { "CONTINUE", "RESTART", "QUIT" }
-    local choice = items[game.pause_selection]
+function game.modal_choose()
+    local items = modal_items()
+    local choice = items[game.modal_selection]
     if choice == "RESTART" then
         return "restart"
     elseif choice == "QUIT" then
@@ -655,6 +668,11 @@ function game.spawn()
     game.can_hold = true
     game.ensure_next()
     dbg("SPAWN")
+
+    if collides(game.piece, game.piece.x, game.piece.y, game.piece.dir) then
+        return false
+    end
+    return true
 end
 
 function game.do_hold()
@@ -822,18 +840,20 @@ function game.start(playfield, mode, mode_key)
     game.piece_id = 0
     game.started = true
     game.piece = nil
+    game.over = false
 end
 
 function game.update(dt)
     if game.cleared then return end
-    if game.paused then return end
+    if game.modal_active then return end
+    if game.over then return end
 
     game.time = game.time + dt
 
     if type(game.mode) == "function" then
         local old_record = save.get_record(game.mode_key)
         game.mode_state = game.mode(game.time, game.clears, game.scores, game.level, game.ren, game.b2b, game.gravity,
-        old_record)
+            old_record)
         if game.mode_state then
             game.level = game.mode_state.level or game.level
             game.gravity = game.mode_state.gravity or game.gravity
@@ -858,22 +878,28 @@ function game.update(dt)
     game.ensure_next()
 
     if game.time >= 0 then
-        game.input_mod.update(dt)
-
         if not game.piece then
-            game.spawn()
+            local is_spawn = game.spawn()
+            if not is_spawn then
+                game.over = true
+                return
+            end
         end
+
+        game.input_mod.update(dt)
 
         apply_gravity(dt)
 
-        if collides(game.piece, game.piece.x, game.piece.y - 1, game.piece.dir) then
-            game.piece.lock_delay = game.piece.lock_delay - dt
-            if game.piece.lock_delay <= 0 then
-                lock_piece()
-            end
-        else
-            if game.piece.lock_resets > 0 then
-                game.piece.lock_delay = lock_delay
+        if game.piece then
+            if collides(game.piece, game.piece.x, game.piece.y - 1, game.piece.dir) then
+                game.piece.lock_delay = game.piece.lock_delay - dt
+                if game.piece.lock_delay <= 0 then
+                    lock_piece()
+                end
+            else
+                if game.piece.lock_resets > 0 then
+                    game.piece.lock_delay = lock_delay
+                end
             end
         end
     end

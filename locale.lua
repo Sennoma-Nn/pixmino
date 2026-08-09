@@ -65,6 +65,10 @@ locale.t = {
         en = "PAUSED",
         ja = "ﾎﾟｰｽﾞ",
     },
+    GAME_OVER = {
+        en = "GAME OVER",
+        ja = "ｹﾞｰﾑｵｰﾊﾞｰ",
+    },
     BEST = {
         en = "BEST",
         ja = "ｻｲｺｳｷﾛｸ",

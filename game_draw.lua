@@ -183,20 +183,25 @@ local function draw_next_hold(font, gx, gy, pw, ph, bw, bs)
     end
 end
 
-local function draw_pause(font, gx, gy, pw, ph)
+local function draw_modal(font, gx, gy, pw, ph, title_key)
     love.graphics.setColor(0, 0, 0, 0.6)
     love.graphics.rectangle("fill", gx, gy, pw, ph)
 
-    local label = locale.get("PAUSE")
-    local lw = utils.utf8_len(label) * 8
-    vgafont.print_outlined(Fonts.ui_fonts, label, gx + (pw - lw) / 2, gy + ph / 2 - 24, 1, Colors.white, Colors.out_line)
+    local items = game.get_modal_items()
+    local n = #items
+    local content_h = 8 + 10 + (n - 1) * 10 + 8
+    local top = math.ceil((ph - content_h) / 2)
 
-    local items = { "CONTINUE", "RESTART", "QUIT" }
+    local label = locale.get(title_key or "PAUSE")
+    local lw = utils.utf8_len(label) * 8
+    vgafont.print_outlined(Fonts.ui_fonts, label, gx + (pw - lw) / 2, gy + top, 1, Colors.white, Colors.out_line)
+
     for i, key in ipairs(items) do
         local text = locale.get(key)
         local w = utils.utf8_len(text) * 8
-        local color = (i == game.pause_selection) and Colors.yellow or Colors.white
-        vgafont.print_outlined(Fonts.ui_fonts, text, gx + (pw - w) / 2, gy + ph / 2 - 8 + (i - 1) * 10, 1, color, Colors.out_line)
+        local color = (i == game.modal_selection) and Colors.yellow or Colors.white
+        vgafont.print_outlined(Fonts.ui_fonts, text, gx + (pw - w) / 2, gy + top + 8 + 10 + (i - 1) * 10, 1, color,
+            Colors.out_line)
     end
 end
 
@@ -275,11 +280,13 @@ function render.draw(gx, gy, pw, ph, bw, bs)
             vgafont.print_outlined(Fonts.bold_font, text, gx + (pw - w) / 2, y, 1, Colors.white, Colors.out_line)
             y = y + 8
         end
-    elseif game.paused then
-        draw_pause(Fonts.bold_font, gx, gy, pw, ph)
+    elseif game.over then
+        draw_modal(Fonts.bold_font, gx, gy, pw, ph, "GAME_OVER")
+    elseif game.modal_active then
+        draw_modal(Fonts.bold_font, gx, gy, pw, ph, "PAUSE")
     end
 
-    if game.time < 0 and menu.state == "GAME" and not game.paused then
+    if game.time < 0 and menu.state == "GAME" and not game.modal_active then
         local label
         if game.time < -0.5 then
             label = "READY"
