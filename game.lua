@@ -1,11 +1,12 @@
 -- Copyright (C) 2026 Sennoma-Nn
 -- SPDX-License-Identifier: GPL-3.0-or-later
 
-local utils       = require("utils")
+local utils          = require("utils")
+local save           = require("save")
 
-local game        = {}
+local game           = {}
 
-local PRS_JLSTZ   = {
+local PRS_JLSTZ      = {
     ["0>R"] = { { 0, 0 }, { -1, 0 }, { -1, 1 }, { 0, -2 }, { -1, -2 }, { 0, 1 } },
     ["R>0"] = { { 0, 0 }, { 0, -1 }, { 1, 0 }, { 1, -1 }, { 0, 2 }, { 1, 2 } },
     ["R>2"] = { { 0, 0 }, { 1, 0 }, { 1, -1 }, { 0, -1 }, { 0, 2 }, { 1, 2 } },
@@ -21,7 +22,7 @@ local PRS_JLSTZ   = {
     ["L>R"] = { { 0, 0 }, { 0, -1 }, { 0, -2 }, { -1, 0 }, { -1, 2 }, { -1, 1 }, { 0, 2 }, { 0, 1 } },
 }
 
-local PRS_I       = {
+local PRS_I          = {
     ["0>R"] = { { 0, 0 }, { -2, 0 }, { 1, 0 }, { -2, -1 }, { 1, 2 } },
     ["R>0"] = { { 0, 0 }, { 2, 0 }, { -1, 0 }, { 2, 1 }, { -1, -2 } },
     ["R>2"] = { { 0, 0 }, { -1, 0 }, { 2, 0 }, { -1, 2 }, { 2, -1 } },
@@ -37,7 +38,7 @@ local PRS_I       = {
     ["L>R"] = { { 0, 0 }, { 0, -1 }, { 0, 1 }, { 0, -2 }, { -1, 0 } },
 }
 
-local PRS_O       = {
+local PRS_O          = {
     ["0>R"] = { { 1, 0 }, { 1, -1 }, { 1, 1 } },
     ["R>2"] = { { 1, 0 }, { 1, -1 }, { 1, 1 } },
     ["2>L"] = { { 1, 0 }, { 1, -1 }, { 1, 1 } },
@@ -49,7 +50,7 @@ local PRS_O       = {
     ["0>L"] = { { -1, 0 }, { -1, -1 }, { -1, 1 } },
 }
 
-local minos       = {
+local minos          = {
     I = {
         shapes = {
             { 0, 0, 0, 0 },
@@ -227,38 +228,41 @@ local minos       = {
     },
 }
 
-local lock_delay  = 0.5
-local lock_resets = 15
-local next_count  = 3
+local lock_delay     = 0.5
+local lock_resets    = 15
+local next_count     = 3
 
-game.pf_data      = {}
-game.bag          = {}
-game.next         = {}
-game.hold         = nil
-game.can_hold     = true
-game.piece        = nil
-game.piece_id     = 0
-game.started      = false
-game.pf           = nil
-game.debug_flags  = {}
-game.mode         = nil
-game.mode_state   = nil
-game.cleared      = false
-game.result       = nil
+game.pf_data         = {}
+game.bag             = {}
+game.next            = {}
+game.hold            = nil
+game.can_hold        = true
+game.piece           = nil
+game.piece_id        = 0
+game.started         = false
+game.pf              = nil
+game.debug_flags     = {}
+game.mode            = nil
+game.mode_state      = nil
+game.cleared         = false
+game.result          = nil
+game.paused          = false
+game.pause_selection = 1
+game.mode_key        = nil
 
-game.time         = 0
-game.clears       = 0
-game.scores       = 0
-game.level        = 1
-game.ren          = -1
-game.b2b          = 0
-game.gravity      = 0
+game.time            = 0
+game.clears          = 0
+game.scores          = 0
+game.level           = 1
+game.ren             = -1
+game.b2b             = 0
+game.gravity         = 0
 
-game.notify       = { text = nil, color = nil, time = 0 }
+game.notify          = { text = nil, color = nil, time = 0 }
 
-local cw          = { ["0"] = "R", ["R"] = "2", ["2"] = "L", ["L"] = "0" }
-local ccw         = { ["0"] = "L", ["L"] = "2", ["2"] = "R", ["R"] = "0" }
-local half        = { ["0"] = "2", ["2"] = "0", ["R"] = "L", ["L"] = "R" }
+local cw             = { ["0"] = "R", ["R"] = "2", ["2"] = "L", ["L"] = "0" }
+local ccw            = { ["0"] = "L", ["L"] = "2", ["2"] = "R", ["R"] = "0" }
+local half           = { ["0"] = "2", ["2"] = "0", ["R"] = "L", ["L"] = "R" }
 
 local function dbg(action)
     if not (game.debug_flags and game.debug_flags.piece) then return end
@@ -293,6 +297,36 @@ function game.stop()
     game.started = false
     game.pf = nil
     game.piece = nil
+    game.paused = false
+    game.pause_selection = 1
+    game.mode_key = nil
+end
+
+function game.begin_pause()
+    if game.cleared then return end
+    game.paused = true
+    game.pause_selection = 1
+end
+
+function game.resume()
+    game.paused = false
+end
+
+function game.pause_move(delta)
+    local items = { "CONTINUE", "RESTART", "QUIT" }
+    local n = #items
+    game.pause_selection = utils.wrap_index(game.pause_selection + delta, n)
+end
+
+function game.pause_choose()
+    local items = { "CONTINUE", "RESTART", "QUIT" }
+    local choice = items[game.pause_selection]
+    if choice == "RESTART" then
+        return "restart"
+    elseif choice == "QUIT" then
+        return "quit"
+    end
+    return "continue"
 end
 
 function game.set_debug(flags)
@@ -774,11 +808,12 @@ local function apply_gravity(dt)
     end
 end
 
-function game.start(playfield, mode)
+function game.start(playfield, mode, mode_key)
     game.reset()
     game.cleared = false
     game.result = nil
     game.mode = mode
+    game.mode_key = mode_key
     game.pf = playfield
     game.pf_data = {}
     game.bag = {}
@@ -791,17 +826,23 @@ end
 
 function game.update(dt)
     if game.cleared then return end
+    if game.paused then return end
 
     game.time = game.time + dt
 
     if type(game.mode) == "function" then
-        game.mode_state = game.mode(game.time, game.clears, game.scores, game.level, game.ren, game.b2b, game.gravity)
+        local old_record = save.get_record(game.mode_key)
+        game.mode_state = game.mode(game.time, game.clears, game.scores, game.level, game.ren, game.b2b, game.gravity,
+        old_record)
         if game.mode_state then
             game.level = game.mode_state.level or game.level
             game.gravity = game.mode_state.gravity or game.gravity
             if game.mode_state.target and not game.cleared then
                 game.cleared = true
                 game.result = game.mode_state.result
+                if game.mode_key and game.mode_state.record_update and game.mode_state.record ~= nil then
+                    save.update_record(game.mode_key, game.mode_state.record)
+                end
                 return
             end
         end

@@ -1,27 +1,54 @@
 local utils = require("utils")
 
 local mode = {
-    marathon = function(time, clears, scores, level, ren, b2b, gravity)
+    marathon = function(time, clears, scores, level, ren, b2b, gravity, old_record)
         local lv = math.floor(clears / 10) + 1
         local i = level - 1
         local time_per_cell = (0.8 - (i * 0.007)) ^ i
+
+        local update
+        if old_record == nil then
+            update = true
+        else
+            update = scores > old_record
+        end
+
         return {
             level = lv,
             gravity = 1.0 / (60.0 * time_per_cell),
             target = clears >= 150,
             record = scores,
-            result = { "SCORES", scores }
+            result = { "SCORES", scores },
+            record_update = update,
+            goal_lines = {
+                { line = 50,  color = { 1, 1, 1, 0.5 } },
+                { line = 100, color = { 1, 1, 1, 0.5 } },
+                { line = 150, color = { 1, 0, 0, 1 } },
+            }
         }
     end,
-    sprint = function(time, clears, scores, level, ren, b2b, gravity)
+
+    sprint = function(time, clears, scores, level, ren, b2b, gravity, old_record)
         local time_str = utils.format_time(time)
+
+        local update
+        if old_record == nil then
+            update = true
+        else
+            update = time < old_record
+        end
 
         return {
             level = 1,
             gravity = 1 / 64,
             target = clears >= 40,
             record = time,
-            result = { "TIME", time_str }
+            result = { "TIME", time_str },
+            record_update = update,
+            goal_lines = {
+                { line = 20, color = { 1, 1, 1, 0.5 } },
+                { line = 40, color = { 1, 0, 0, 1 } },
+            }
         }
     end,
 }

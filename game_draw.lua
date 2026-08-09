@@ -21,6 +21,21 @@ local function has_same_id(x, y, id)
     return row and row[x] and row[x].id == id
 end
 
+local function draw_goal_lines(gx, gy, pw, ph, bs)
+    local mode_state = game.mode_state
+    if not mode_state or not mode_state.goal_lines then return end
+    if not game.pf then return end
+
+    for _, m in ipairs(mode_state.goal_lines) do
+        local remaining = m.line - game.clears
+        if remaining >= 1 and remaining <= game.pf.height then
+            local py = gy + ph - remaining * bs
+            love.graphics.setColor(unpack(m.color))
+            love.graphics.rectangle("fill", gx, py, pw, 1)
+        end
+    end
+end
+
 local function draw_playfield_cells(gx, gy, ph, bs)
     if not game.pf then return end
     for y = 1, game.pf.height do
@@ -168,6 +183,23 @@ local function draw_next_hold(font, gx, gy, pw, ph, bw, bs)
     end
 end
 
+local function draw_pause(font, gx, gy, pw, ph)
+    love.graphics.setColor(0, 0, 0, 0.6)
+    love.graphics.rectangle("fill", gx, gy, pw, ph)
+
+    local label = locale.get("PAUSE")
+    local lw = utils.utf8_len(label) * 8
+    vgafont.print_outlined(Fonts.ui_fonts, label, gx + (pw - lw) / 2, gy + ph / 2 - 24, 1, Colors.white, Colors.out_line)
+
+    local items = { "CONTINUE", "RESTART", "QUIT" }
+    for i, key in ipairs(items) do
+        local text = locale.get(key)
+        local w = utils.utf8_len(text) * 8
+        local color = (i == game.pause_selection) and Colors.yellow or Colors.white
+        vgafont.print_outlined(Fonts.ui_fonts, text, gx + (pw - w) / 2, gy + ph / 2 - 8 + (i - 1) * 10, 1, color, Colors.out_line)
+    end
+end
+
 local function draw_game_info(font, gx, gy, pw, ph, bw)
     local ix = gx + pw + bw + 8
     local iy = gy + ph + bw - 8
@@ -218,6 +250,7 @@ function render.draw(gx, gy, pw, ph, bw, bs)
     love.graphics.rectangle("fill", gx - bw, gy, bw, ph)
     love.graphics.rectangle("fill", gx + pw, gy, bw, ph)
 
+    draw_goal_lines(gx, gy, pw, ph, bs)
     draw_playfield_cells(gx, gy, ph, bs)
     draw_mino_borders(gx, gy, ph, bs)
     draw_piece(gx, gy, ph, bs)
@@ -228,23 +261,25 @@ function render.draw(gx, gy, pw, ph, bw, bs)
         love.graphics.setColor(0, 0, 0, 0.6)
         love.graphics.rectangle("fill", gx, gy, pw, ph)
 
-        vgafont.print(Fonts.ui_fonts, locale.get("BACK_TIP"), gx + 4, gy + 4, 1, Colors.gray)
+        vgafont.print_outlined(Fonts.ui_fonts, locale.get("BACK_TIP"), gx + 4, gy + 4, 1, Colors.gray, Colors.out_line)
 
         local label = "CLEAR"
         local lw = utils.utf8_len(label) * 8
         local cy = gy + ph / 2 - 16
-        vgafont.print(Fonts.bold_font, label, gx + (pw - lw) / 2, cy, 1, Colors.white)
+        vgafont.print_outlined(Fonts.bold_font, label, gx + (pw - lw) / 2, cy, 1, Colors.white, Colors.out_line)
 
         local y = gy + ph / 2
         for _, item in ipairs(game.result) do
             local text = tostring(item)
             local w = utils.utf8_len(text) * 8
-            vgafont.print(Fonts.bold_font, text, gx + (pw - w) / 2, y, 1, Colors.white)
+            vgafont.print_outlined(Fonts.bold_font, text, gx + (pw - w) / 2, y, 1, Colors.white, Colors.out_line)
             y = y + 8
         end
+    elseif game.paused then
+        draw_pause(Fonts.bold_font, gx, gy, pw, ph)
     end
 
-    if game.time < 0 and menu.state == "GAME" then
+    if game.time < 0 and menu.state == "GAME" and not game.paused then
         local label
         if game.time < -0.5 then
             label = "READY"

@@ -8,6 +8,7 @@ local game = require("game")
 local render = require("game_draw")
 local input = require("input")
 local modes = require("mode")
+local save = require("save")
 
 require("settings")
 
@@ -79,6 +80,11 @@ function love.load()
 
     game.set_debug(debug_flags)
     game.input_mod = input
+
+    local fullscreen = save.load()
+    if fullscreen then
+        push:switchFullscreen()
+    end
 end
 
 function love.draw()
@@ -102,7 +108,7 @@ end
 function love.update(dt)
     if menu.state == "GAME" then
         if not game.started then
-            game.start(playfield, modes[menu.selected_mode])
+            game.start(playfield, modes[menu.selected_mode], menu.selected_mode)
             input.reset()
         end
         game.update(dt)
@@ -116,9 +122,33 @@ function love.keypressed(key)
     end
 
     if menu.state == "GAME" then
-        if key == "escape" then
-            game.stop()
-            menu.go_to("MENU_MAIN")
+        if game.cleared then
+            if key == "escape" then
+                game.stop()
+                menu.go_to("MENU_MAIN")
+            end
+            return
+        end
+        if game.paused then
+            if key == "escape" then
+                game.resume()
+            elseif key == "up" then
+                game.pause_move(-1)
+            elseif key == "down" then
+                game.pause_move(1)
+            elseif key == "return" or key == "space" then
+                local choice = game.pause_choose()
+                if choice == "quit" then
+                    game.stop()
+                    menu.go_to("MENU_MAIN")
+                elseif choice == "restart" then
+                    game.stop()
+                else
+                    game.resume()
+                end
+            end
+        elseif key == "escape" then
+            game.begin_pause()
         end
         return
     end
@@ -130,4 +160,8 @@ end
 
 function love.resize(w, h)
     push:resize(w, h)
+end
+
+function love.quit()
+    save.flush()
 end

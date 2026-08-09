@@ -6,7 +6,7 @@ local locale = {}
 locale.langs = { "en", "ja" }
 locale.current = "en"
 
-local ver = "v0.0.1"
+local ver = "v0.0.2"
 
 locale.t = {
     BACK_TIP = {
@@ -61,13 +61,38 @@ locale.t = {
         "ｽﾍﾟｼｬﾙ ｻﾝｸｽ:\r\n\nUlydev:\r\n- LÖVE ﾖｳ ﾗｲﾌﾞﾗﾘ Push｡\r\n\nSoda 261:\r\n- ｹﾞｰﾑ ｼﾞｮｳﾎｳ ﾋｮｳｼﾞ ﾖｳ\r\n  ｢IB-FULL｣ ﾌｫﾝﾄ ﾃｲｷｮｳ｡",
     },
 
+    PAUSE = {
+        en = "PAUSED",
+        ja = "ﾎﾟｰｽﾞ",
+    },
+    BEST = {
+        en = "BEST",
+        ja = "ｻｲｺｳｷﾛｸ",
+    },
+    CONTINUE = {
+        en = "CONTINUE",
+        ja = "ﾂﾂﾞｹ",
+    },
+    RESTART = {
+        en = "RESTART",
+        ja = "ﾘｽﾀｰﾄ",
+    },
+    QUIT = {
+        en = "QUIT",
+        ja = "ｼｭｳﾘｮｳ",
+    },
+    QUIT_DESC = {
+        en = "Exit the game.",
+        ja = "ｹﾞｰﾑｦ ｼｭｳﾘｮｳ｡",
+    },
+
     SETTINGS = {
         en = "SETTINGS",
         ja = "ｾｯﾃｨﾝｸﾞ",
     },
     SETTINGS_DESC = {
         en = "Adjust game settings.",
-        ja = "ｹﾞｰﾑ ｾｯﾃｨﾝｸﾞｦ ﾁｮｳｾｲ",
+        ja = "ｹﾞｰﾑ ｾｯﾃｨﾝｸﾞｦ ﾁｮｳｾｲ｡",
     },
 
     JMP_CTRL = {

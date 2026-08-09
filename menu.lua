@@ -6,6 +6,7 @@ local locale = require("locale")
 local utils = require("utils")
 local push = require("lib.push")
 local settings = require("settings")
+local save = require("save")
 
 local menu = {}
 
@@ -56,11 +57,20 @@ menu.data = {
                 menu.go_to("MENU_ABOUT")
             end
         },
+        {
+            text_key = "QUIT",
+            desc_key = "QUIT_DESC",
+            action = function()
+                love.event.quit()
+            end
+        },
     },
     MENU_START = {
         {
+            mode = "marathon",
             text_key = "MARATHON",
             desc_key = "MARATHON_DESC",
+            bast_format = function(i) return i end,
             action = function()
                 menu.selected_mode = "marathon"
                 menu.state = "GAME"
@@ -68,8 +78,10 @@ menu.data = {
             end
         },
         {
+            mode = "sprint",
             text_key = "SPRINT",
             desc_key = "SPRINT_DESC",
+            bast_format = function(i) return utils.format_time(i) end,
             action = function()
                 menu.selected_mode = "sprint"
                 menu.state = "GAME"
@@ -115,6 +127,18 @@ local function control_desc(item)
     return nil
 end
 
+local function mode_record_text(item)
+    local label = locale.get("BEST")
+    local record = save.get_record(item.mode)
+    if record == nil then
+        return string.format("%s: /", label)
+    end
+    if type(item.bast_format) == "function" then
+        return string.format("%s: %s", label, tostring(item.bast_format(record)))
+    end
+    return string.format("%s: %.2f", label, record)
+end
+
 function menu.draw(gx, gy, pw, ph, bw)
     local data = menu.data[menu.state]
     if not data then return end
@@ -151,6 +175,9 @@ function menu.draw(gx, gy, pw, ph, bw)
                     display = desc .. "\r\n\n" .. current
                 else
                     display = desc
+                end
+                if item.mode and display then
+                    display = display .. "\r\n\n" .. mode_record_text(item)
                 end
                 if display then
                     vgafont.print_outlined(Fonts.ui_fonts, display, desc_x, desc_y, 1, Colors.white, Colors.out_line)

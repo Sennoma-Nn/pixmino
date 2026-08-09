@@ -102,7 +102,7 @@ function vgafont.load(path, codepage)
         local byte = string.byte(data, i)
         local s = ""
         for b = 7, 0, -1 do
-            s = s .. ((byte >> b) & 1)
+            s = s .. bit.band(bit.rshift(byte, b), 1)
         end
         table.insert(bits, s)
     end
