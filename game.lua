@@ -452,12 +452,14 @@ local function drop_y(piece)
 end
 
 local function reset_lock(piece)
+    game_debug.reset("old", piece)
+
     if piece.lock_resets > 0 then
         piece.lock_resets = piece.lock_resets - 1
         piece.lock_delay = lock_delay
     end
 
-    game_debug.reset(piece)
+    game_debug.reset("new", piece)
 end
 
 local function clear_lines()
