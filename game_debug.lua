@@ -13,8 +13,8 @@ function game_debug.detect_features()
     return {
         goto_forward  = supports_syntax("goto a ::a::"),
         goto_backward = supports_syntax("::b:: goto b"),
-        bit_shift     = supports_syntax("return 1 << 1"),
-        idiv          = supports_syntax("return 5 // 2"),
+        bit_operator  = supports_syntax("return 1 << 1"),
+        idiv_operator = supports_syntax("return 5 // 2"),
     }
 end
 
