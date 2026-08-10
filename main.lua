@@ -41,16 +41,6 @@ Colors = {
     background   = { 0.1, 0.1, 0.15 },
 }
 
-local debug_flags = {
-    piece = false,
-    pf_data = false,
-    wallkick = false,
-    reset = false,
-    spin = false,
-    score = false,
-}
-
-
 function love.load()
     love.graphics.setDefaultFilter("nearest", "nearest")
     love.math.setRandomSeed(os.time())
@@ -78,7 +68,6 @@ function love.load()
         vgafont.load("font/SYMBOL.F08", "symbol"),
     }
 
-    game.set_debug(debug_flags)
     game.input_mod = input
 
     local fullscreen = save.load()

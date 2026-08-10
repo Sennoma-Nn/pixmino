@@ -3,6 +3,7 @@
 
 local utils          = require("utils")
 local save           = require("save")
+local game_debug     = require("game_debug")
 
 local game           = {}
 
@@ -274,7 +275,6 @@ game.piece           = nil
 game.piece_id        = 0
 game.started         = false
 game.pf              = nil
-game.debug_flags     = {}
 game.mode            = nil
 game.mode_state      = nil
 game.cleared         = false
@@ -297,23 +297,6 @@ game.notify          = { text = nil, color = nil, time = 0 }
 local cw             = { ["0"] = "R", ["R"] = "2", ["2"] = "L", ["L"] = "0" }
 local ccw            = { ["0"] = "L", ["L"] = "2", ["2"] = "R", ["R"] = "0" }
 local half           = { ["0"] = "2", ["2"] = "0", ["R"] = "L", ["L"] = "R" }
-
-local function dbg(action)
-    if not (game.debug_flags and game.debug_flags.piece) then return end
-    local p = game.piece
-    if p then
-        print(action
-            .. " id=" .. p.id
-            .. " shape=" .. p.shape
-            .. " dir=" .. p.dir
-            .. " x=" .. p.x
-            .. " y=" .. p.y
-            .. " color=" .. table.concat(p.color, ",")
-            .. " lock_delay=" .. p.lock_delay
-            .. " lock_resets=" .. p.lock_resets
-            .. " drop_sum=" .. p.drop_sum)
-    end
-end
 
 function game.reset()
     game.time   = -1.5
@@ -375,10 +358,6 @@ function game.modal_choose()
     return "continue"
 end
 
-function game.set_debug(flags)
-    game.debug_flags = flags
-end
-
 function game.set_notify(text, color)
     game.notify.text = text
     game.notify.color = color
@@ -433,14 +412,7 @@ local function check_spin(piece)
         end
     end
 
-    if game.debug_flags and game.debug_flags.spin then
-        local parts = {}
-        for label, count in pairs(mask) do
-            parts[#parts + 1] = label .. "=" .. count
-        end
-        table.sort(parts)
-        print(string.format("SPIN MASK: shape=%s dir=%s {%s}", piece.shape, piece.dir, table.concat(parts, ",")))
-    end
+    game_debug.spin_mask(piece.shape, piece.dir, mask)
 
     local res = spin_def.result(mask)
     return res.spin, res.mini
@@ -485,9 +457,7 @@ local function reset_lock(piece)
         piece.lock_delay = lock_delay
     end
 
-    if game.debug_flags and game.debug_flags.reset then
-        print(string.format("RESET: resets=%d delay=%.2f", piece.lock_resets, piece.lock_delay))
-    end
+    game_debug.reset(piece)
 end
 
 local function clear_lines()
@@ -551,11 +521,7 @@ local function calc_score(cleared, is_spin, is_mini, is_perfect, b2b_eligible)
         total = total * 1.5
     end
 
-    if game.debug_flags and game.debug_flags.score then
-        print(string.format(
-            "CALC SCORE: cleared=%d base=%d level=%d gained=%d spin=%s mini=%s perfect=%s b2b_eligible=%s", cleared, base,
-            game.level, total, tostring(is_spin), tostring(is_mini), tostring(is_perfect), tostring(b2b_eligible)))
-    end
+    game_debug.score(cleared, base, game.level, total, is_spin, is_mini, is_perfect, b2b_eligible)
 
     return total
 end
@@ -571,20 +537,8 @@ local function lock_piece()
         row[cell.x] = { color = p.color, id = p.id }
     end
 
-    dbg("LOCK")
-
-    if game.debug_flags and game.debug_flags.pf_data then
-        local out = {}
-        for y = game.pf.height, 1, -1 do
-            local row = game.pf_data[y]
-            local line = {}
-            for x = 1, game.pf.width do
-                line[x] = (row and row[x]) and tostring(row[x].id) or "."
-            end
-            out[#out + 1] = table.concat(line, " ")
-        end
-        print(table.concat(out, "\n"))
-    end
+    game_debug.piece("LOCK", p)
+    game_debug.pf_data(game.pf, game.pf_data)
 
     local cleared = clear_lines()
     if cleared > 0 then
@@ -623,9 +577,7 @@ local function lock_piece()
     end
 
     if is_mini then
-        if game.debug_flags and game.debug_flags.spin then
-            print(string.format("MINI SPIN: id=%d shape=%s dir=%s clears=1", p.id, p.shape, p.dir))
-        end
+        game_debug.mini_spin(p)
     end
 
     game.piece = nil
@@ -690,7 +642,7 @@ function game.spawn()
     game.piece = new_piece(shape, x, y)
     game.can_hold = true
     game.ensure_next()
-    dbg("SPAWN")
+    game_debug.piece("SPAWN", game.piece)
 
     if collides(game.piece, game.piece.x, game.piece.y, game.piece.dir) then
         return false
@@ -711,7 +663,7 @@ function game.do_hold()
     game.piece.lock_resets = math.min(old_rst + 2, lock_resets)
     game.ensure_next()
     game.can_hold = false
-    dbg("HOLD")
+    game_debug.piece("HOLD", game.piece)
 end
 
 function game.move_left()
@@ -721,7 +673,7 @@ function game.move_left()
         if is_grounded(p) then reset_lock(p) end
         p.x = p.x - 1
         reset_piece_spin(p)
-        dbg("LEFT")
+        game_debug.piece("LEFT", p)
         return true
     end
     return false
@@ -734,7 +686,7 @@ function game.move_right()
         if is_grounded(p) then reset_lock(p) end
         p.x = p.x + 1
         reset_piece_spin(p)
-        dbg("RIGHT")
+        game_debug.piece("RIGHT", p)
         return true
     end
     return false
@@ -752,9 +704,7 @@ local function try_wallkick(piece, nd)
         if not collides(piece, nx, ny, nd) then
             piece.x, piece.y = nx, ny
             piece.dir = nd
-            if game.debug_flags and game.debug_flags.wallkick then
-                print(string.format("WALLKICK %s>%s: test %d (%+d,%+d)", from, nd, i, off[1], off[2]))
-            end
+            game_debug.wallkick(from, nd, i, off)
             local wallkicked = (off[1] ~= 0 or off[2] ~= 0)
             return true, wallkicked
         end
@@ -783,13 +733,12 @@ local function rotate_to(nd)
     end
 
     if rotated then
-        dbg("ROT")
+        game_debug.piece("ROT", p)
         local is_spin, is_mini = check_spin(p)
         p.spin.activation = is_spin
         p.spin.mini = is_mini
-        if is_spin and game.debug_flags and game.debug_flags.spin then
-            print(string.format("SPIN: shape=%s dir=%s mini=%s",
-                p.shape, p.dir, tostring(is_mini)))
+        if is_spin then
+            game_debug.spin(p, is_mini)
         end
     end
 end
@@ -812,7 +761,7 @@ function game.soft_drop()
     if not collides(p, p.x, p.y - 1, p.dir) then
         p.y = p.y - 1
         reset_piece_spin(p)
-        dbg("SOFT")
+        game_debug.piece("SOFT", p)
         return true
     end
     return false
@@ -843,7 +792,7 @@ local function apply_gravity(dt)
         p.y = p.y - 1
         reset_piece_spin(p)
         p.drop_sum = p.drop_sum - 1
-        dbg("GRAV")
+        game_debug.piece("GRAV", p)
     end
 end
 

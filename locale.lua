@@ -2,15 +2,22 @@
 -- SPDX-License-Identifier: GPL-3.0-or-later
 
 local locale = {}
+local game_debug = require("game_debug")
 
 locale.langs = { "en", "ja" }
 locale.current = "en"
 
 local ver = "v0.0.4"
 
+local features = game_debug.detect_features()
+
 local env_info = "LÖVE " .. love._version .. "\r\n" ..
     string.gsub(_VERSION:upper(), " ", "  ") ..
-    "\r\nOS   " .. love._os
+    "\r\nOS   " .. love._os ..
+    "\r\n\nGOTO_FORWARD  " .. (features.goto_forward and "YES" or "NO") ..
+    "\r\nGOTO_BACKWARD " .. (features.goto_backward and "YES" or "NO") ..
+    "\r\nBIT_SHIFT     " .. (features.bit_shift and "YES" or "NO") ..
+    "\r\nIDIV          " .. (features.idiv and "YES" or "NO")
 
 locale.t = {
     BACK_TIP = {
