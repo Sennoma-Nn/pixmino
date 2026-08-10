@@ -64,7 +64,7 @@ function love.load()
     Fonts.bold_font = vgafont.load("font/IB-FULL.F08", "cp437")
     Fonts.ui_fonts = {
         vgafont.load("font/QUADBM_CP897.F08", "jisx0201"),
-        vgafont.load("font/QUADBM.F08", "cp437"),
+        vgafont.load("font/QUADBM_CP437.F08", "cp437"),
         vgafont.load("font/SYMBOL.F08", "symbol"),
     }
 
