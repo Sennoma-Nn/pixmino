@@ -96,6 +96,11 @@ menu.data = {
             action = false
         },
         {
+            text_key = "ENVIRONMENT",
+            desc_key = "ENVIRONMENT_DESC",
+            action = false
+        },
+        {
             text_key = "SOURCE",
             desc_key = "SOURCE_DESC",
             action = false

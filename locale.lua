@@ -6,7 +6,11 @@ local locale = {}
 locale.langs = { "en", "ja" }
 locale.current = "en"
 
-local ver = "v0.0.3"
+local ver = "v0.0.4"
+
+local env_info = "LÖVE " .. love._version .. "\r\n" ..
+    string.gsub(_VERSION:upper(), " ", "  ") ..
+    "\r\nOS   " .. love._os
 
 locale.t = {
     BACK_TIP = {
@@ -37,8 +41,17 @@ locale.t = {
         ja = "ｹﾞｰﾑ",
     },
     ABOUT_GAME_DESC = {
-        en = "PIXMINO " .. ver .. "\r\nMade with LÖVE.",
-        ja = "ﾋﾟｸｾﾐﾉ " .. ver .. "\r\nLÖVE ﾃﾞ ｻｸｾｲ｡",
+        en = "PIXMINO " .. ver .. "\r\n\nMade with LÖVE.",
+        ja = "ﾋﾟｸｾﾐﾉ " .. ver .. "\r\n\nLÖVE ﾃﾞ ｻｸｾｲ｡",
+    },
+
+    ENVIRONMENT = {
+        en = "RUNTIME",
+        ja = "ｶﾝｷｮｳ",
+    },
+    ENVIRONMENT_DESC = {
+        en = "Runtime environment:\r\n\n" .. env_info,
+        ja = "ｶﾝｷｮｳ:\r\n\n" .. env_info,
     },
 
     SOURCE = {

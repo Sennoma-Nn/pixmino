@@ -78,11 +78,7 @@ local minos          = {
                 local is_spin = mask[1] >= 3 and mask[2] == 2
                 local is_mini = mask[3] == 0 or mask[4] == 0
 
-                if not is_spin then
-                    return { spin = false, mini = false }
-                end
-
-                return { spin = true, mini = is_mini }
+                return { spin = is_spin, mini = is_mini }
             end,
         },
     },
@@ -120,11 +116,7 @@ local minos          = {
                 is_mini = is_mini or mask[3] < 2
                 is_mini = is_mini or mask[4] < 2
 
-                if not is_spin then
-                    return { spin = false, mini = false }
-                end
-
-                return { spin = true, mini = is_mini }
+                return { spin = is_spin, mini = is_mini }
             end,
         },
     },
@@ -148,12 +140,10 @@ local minos          = {
             },
             result = function(mask)
                 local sum = mask[1] + mask[2]
+                local is_spin = sum >= 3
+                local is_mini = mask[2] ~= 2
 
-                if sum < 3 then
-                    return { spin = false, mini = false }
-                end
-
-                return { spin = true, mini = (mask[2] ~= 2) }
+                return { spin = is_spin, mini = is_mini }
             end,
         },
     },
@@ -181,11 +171,7 @@ local minos          = {
                 local is_spin = mask[1] == 2 or mask[2] == 2
                 local is_mini = mask[2] == 2 and mask[1] ~= 2
 
-                if not is_spin then
-                    return { spin = false, mini = false }
-                end
-
-                return { spin = true, mini = is_mini }
+                return { spin = is_spin, mini = is_mini }
             end,
         },
     },
@@ -213,11 +199,7 @@ local minos          = {
                 local is_spin = mask[1] == 2 or mask[2] == 2
                 local is_mini = mask[2] == 2 and mask[1] ~= 2
 
-                if not is_spin then
-                    return { spin = false, mini = false }
-                end
-
-                return { spin = true, mini = is_mini }
+                return { spin = is_spin, mini = is_mini }
             end,
         },
     },
@@ -245,11 +227,7 @@ local minos          = {
                 local is_spin = mask[1] >= 1 and mask[2] >= 2
                 local is_mini = mask[3] < 1
 
-                if not is_spin then
-                    return { spin = false, mini = false }
-                end
-
-                return { spin = true, mini = is_mini }
+                return { spin = is_spin, mini = is_mini }
             end,
         },
     },
@@ -277,11 +255,7 @@ local minos          = {
                 local is_spin = mask[1] >= 1 and mask[2] >= 2
                 local is_mini = mask[3] < 1
 
-                if not is_spin then
-                    return { spin = false, mini = false }
-                end
-
-                return { spin = true, mini = is_mini }
+                return { spin = is_spin, mini = is_mini }
             end,
         },
     },
@@ -642,7 +616,7 @@ local function lock_piece()
         game.set_notify(prefix .. "PERFECT CLEAR", p.color)
     elseif is_spin then
         local mini = is_mini and "MINI " or ""
-        local clear_name = (cleared > 0 and clear_names[cleared]) or "ZERO"
+        local clear_name = (cleared > 0 and clear_names[cleared]) or "NONE"
         game.set_notify(string.format("%s%s SPIN %s", mini, p.shape, clear_name), p.color)
     elseif cleared > 0 then
         game.set_notify(clear_names[cleared], p.color)
