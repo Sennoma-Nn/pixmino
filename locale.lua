@@ -7,7 +7,7 @@ local game_debug = require("game_debug")
 locale.langs = { "en", "ja" }
 locale.current = "en"
 
-local ver = "v0.0.5"
+local ver = "v0.0.6"
 
 local features = game_debug.detect_features()
 
@@ -153,11 +153,11 @@ locale.t = {
 
     CCW = {
         en = "CCW",
-        ja = "ﾋｶﾞｲ",
+        ja = "ﾋﾀﾞﾘｶｲﾃﾝ",
     },
     CW = {
         en = "CW",
-        ja = "ｶｲﾃﾝ",
+        ja = "ﾐｷﾞｶｲﾃﾝ",
     },
     ROT180 = {
         en = "ROT.180",
@@ -238,15 +238,15 @@ locale.t = {
 
     CCW_DESC = {
         en = "Rotate counter-clockwise.",
-        ja = "ﾋｶﾞｲ ﾈｼﾞﾘ｡",
+        ja = "ﾋﾀﾞﾘ ｶｲﾃﾝ｡",
     },
     CW_DESC = {
         en = "Rotate clockwise.",
-        ja = "ｶｲﾃﾝ｡",
+        ja = "ﾐｷﾞ ｶｲﾃﾝ｡",
     },
     ROT180_DESC = {
         en = "Rotate 180 degrees.",
-        ja = "180ﾄﾞ ﾈｼﾞﾘ｡",
+        ja = "180ﾄﾞ ｶｲﾃﾝ｡",
     },
     HOLD_DESC = {
         en = "Hold current piece.",
