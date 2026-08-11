@@ -13,7 +13,7 @@ local names = {
 
 function sfx.load()
     for _, name in ipairs(names) do
-        sources[name] = love.audio.newSource("sfx/" .. name .. ".wav", "static")
+        sources[name] = love.audio.newSource("assets/sfx/" .. name .. ".wav", "static")
     end
 end
 

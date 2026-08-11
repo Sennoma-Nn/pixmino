@@ -2,7 +2,7 @@
 -- SPDX-License-Identifier: GPL-3.0-or-later
 
 local locale = {}
-local game_debug = require("game_debug")
+local game_debug = require("src.game_debug")
 
 locale.langs = { "en", "ja" }
 locale.current = "en"

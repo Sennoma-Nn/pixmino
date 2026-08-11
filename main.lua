@@ -3,15 +3,15 @@
 
 local push = require("lib.push")
 local vgafont = require("lib.vgafont")
-local menu = require("menu")
-local game = require("game")
-local render = require("game_draw")
-local input = require("input")
-local modes = require("mode")
-local save = require("save")
-local sfx = require("sfx")
+local menu = require("src.menu")
+local game = require("src.game")
+local render = require("src.game_draw")
+local input = require("src.input")
+local modes = require("src.mode")
+local save = require("src.save")
+local sfx = require("src.sfx")
 
-require("settings")
+require("src.settings")
 
 local style = {
     block_size = 8,
@@ -62,11 +62,11 @@ function love.load()
         }
     )
 
-    Fonts.bold_font = vgafont.load("font/IB-FULL.F08", "cp437")
+    Fonts.bold_font = vgafont.load("assets/font/IB-FULL.F08", "cp437")
     Fonts.ui_fonts = {
-        vgafont.load("font/QUADBM_CP897.F08", "jisx0201"),
-        vgafont.load("font/QUADBM_CP437.F08", "cp437"),
-        vgafont.load("font/SYMBOL.F08", "symbol"),
+        vgafont.load("assets/font/QUADBM_CP897.F08", "jisx0201"),
+        vgafont.load("assets/font/QUADBM_CP437.F08", "cp437"),
+        vgafont.load("assets/font/SYMBOL.F08", "symbol"),
     }
 
     game.input_mod = input

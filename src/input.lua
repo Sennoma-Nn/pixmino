@@ -1,8 +1,8 @@
 -- Copyright (C) 2026 Sennoma-Nn
 -- SPDX-License-Identifier: GPL-3.0-or-later
 
-local game = require("game")
-local utils = require("utils")
+local game = require("src.game")
+local utils = require("src.utils")
 
 local input = {}
 

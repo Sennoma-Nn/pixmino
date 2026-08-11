@@ -1,4 +1,4 @@
-local utils = require("utils")
+local utils = require("src.utils")
 
 local mode = {
     marathon = function(time, clears, scores, level, ren, b2b, gravity, old_record)
