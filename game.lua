@@ -4,6 +4,7 @@
 local utils          = require("utils")
 local save           = require("save")
 local game_debug     = require("game_debug")
+local sfx            = require("sfx")
 
 local game           = {}
 
@@ -162,15 +163,15 @@ local minos          = {
         wallkick = { prs = PRS_JLSTZ },
         spin = {
             mask = {
-                { 0, 0, 0, 0, 0 },
-                { 0, 1, 0, 0, 0 },
+                { 0, 0, 0, 3, 0 },
+                { 0, 1, 0, 0, 3 },
                 { 2, 0, 0, 1, 0 },
                 { 0, 2, 0, 0, 0 },
                 { 0, 0, 0, 0, 0 }
             },
             result = function(mask)
-                local is_spin = mask[1] == 2 or mask[2] == 2
-                local is_mini = mask[2] == 2 and mask[1] ~= 2
+                local is_spin = mask[1] == 2 or mask[2] == 2 or mask[3] == 2
+                local is_mini = (mask[2] == 2 or mask[3] == 2) and mask[1] ~= 2
 
                 return { spin = is_spin, mini = is_mini }
             end,
@@ -190,15 +191,15 @@ local minos          = {
         wallkick = { prs = PRS_JLSTZ },
         spin = {
             mask = {
-                { 0, 0, 0, 0, 0 },
-                { 0, 0, 0, 1, 0 },
+                { 0, 3, 0, 0, 0 },
+                { 3, 0, 0, 1, 0 },
                 { 0, 1, 0, 0, 2 },
                 { 0, 0, 0, 2, 0 },
                 { 0, 0, 0, 0, 0 }
             },
             result = function(mask)
-                local is_spin = mask[1] == 2 or mask[2] == 2
-                local is_mini = mask[2] == 2 and mask[1] ~= 2
+                local is_spin = mask[1] == 2 or mask[2] == 2 or mask[3] == 2
+                local is_mini = (mask[2] == 2 or mask[3] == 2) and mask[1] ~= 2
 
                 return { spin = is_spin, mini = is_mini }
             end,
@@ -283,6 +284,7 @@ game.modal_active    = false
 game.modal_selection = 1
 game.mode_key        = nil
 game.over            = false
+game.draw_spin_mask  = false
 
 game.time            = 0
 game.clears          = 0
@@ -318,6 +320,7 @@ function game.stop()
     game.modal_selection = 1
     game.mode_key = nil
     game.over = false
+    game.notify = { text = "Never Gonna Give You Up", color = nil, time = 0 }
 end
 
 function game.open_modal()
@@ -390,6 +393,27 @@ local function spin_matrix(shape, dir)
     local s = minos[shape].spin
     local m = utils.rotate_matrix(s.mask, dir)
     return m, #m
+end
+
+local function spin_mask_cells(piece)
+    local m, n = spin_matrix(piece.shape, piece.dir)
+    local _, ns = get_matrix(piece.shape, piece.dir)
+    local cr = (n - ns) / 2 + 2
+
+    local cells = {}
+    for r = 1, n do
+        for c = 1, n do
+            local label = m[r][c]
+            if label ~= 0 then
+                cells[#cells + 1] = {
+                    x = piece.x + (c - cr),
+                    y = piece.y + (cr - r),
+                    label = label,
+                }
+            end
+        end
+    end
+    return cells
 end
 
 local function check_spin(piece)
@@ -528,7 +552,7 @@ local function calc_score(cleared, is_spin, is_mini, is_perfect, b2b_eligible)
     return total
 end
 
-local function lock_piece()
+local function lock_piece(is_hard)
     local p = game.piece
     for _, cell in ipairs(piece_cells(p)) do
         local row = game.pf_data[cell.y]
@@ -563,6 +587,16 @@ local function lock_piece()
     end
 
     local is_perfect = cleared > 0 and utils.is_empty(game.pf_data)
+
+    if is_perfect then
+        sfx.play("perfect_clear")
+    elseif cleared > 0 then
+        sfx.play("clear")
+    elseif is_hard then
+        sfx.play("hard_drop")
+    else
+        sfx.play("lock")
+    end
 
     game.scores = game.scores + calc_score(cleared, is_spin, is_mini, is_perfect, b2b_eligible)
 
@@ -740,6 +774,7 @@ local function rotate_to(nd)
         p.spin.activation = is_spin
         p.spin.mini = is_mini
         if is_spin then
+            sfx.play("spin")
             game_debug.spin(p, is_mini)
         end
     end
@@ -773,7 +808,7 @@ function game.hard_drop()
     local p = game.piece
     if not p then return end
     p.y = drop_y(p)
-    lock_piece()
+    lock_piece(true)
 end
 
 local function apply_gravity(dt)
@@ -827,7 +862,11 @@ function game.update(dt)
         game.mode_state = game.mode(game.time, game.clears, game.scores, game.level, game.ren, game.b2b, game.gravity,
             old_record)
         if game.mode_state then
-            game.level = game.mode_state.level or game.level
+            local new_level = game.mode_state.level or game.level
+            if new_level > game.level then
+                sfx.play("level_up")
+            end
+            game.level = new_level
             game.gravity = game.mode_state.gravity or game.gravity
             if game.mode_state.target and not game.cleared then
                 game.cleared = true
@@ -882,5 +921,6 @@ game.lock_resets_total = lock_resets
 game.get_matrix = get_matrix
 game.drop_y = drop_y
 game.piece_cells = piece_cells
+game.spin_mask_cells = spin_mask_cells
 
 return game

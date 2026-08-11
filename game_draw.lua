@@ -143,6 +143,19 @@ local function draw_piece(gx, gy, ph, bs)
     draw_matrix_borders(m, ox, oy, bs, Colors.piece_border)
 end
 
+local function draw_spin_mask(gx, gy, ph, bs)
+    if not game.draw_spin_mask then return end
+    if not game.piece then return end
+
+    for _, cell in ipairs(game.spin_mask_cells(game.piece)) do
+        if cell.y >= 1 and cell.y <= game.pf.height then
+            local px = gx + (cell.x - 1) * bs
+            local py = gy + ph - cell.y * bs
+            vgafont.print(Fonts.bold_font, tostring(cell.label), px, py, 1, Colors.gray)
+        end
+    end
+end
+
 local function draw_preview(shape, px, py, bs)
     local mino = game.shapes[shape]
     local m = mino.shapes
@@ -259,6 +272,7 @@ function render.draw(gx, gy, pw, ph, bw, bs)
     draw_playfield_cells(gx, gy, ph, bs)
     draw_mino_borders(gx, gy, ph, bs)
     draw_piece(gx, gy, ph, bs)
+    draw_spin_mask(gx, gy, ph, bs)
     draw_next_hold(Fonts.bold_font, gx, gy, pw, ph, bw, bs)
     draw_game_info(Fonts.bold_font, gx, gy, pw, ph, bw)
 

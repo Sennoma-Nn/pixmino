@@ -9,6 +9,7 @@ local render = require("game_draw")
 local input = require("input")
 local modes = require("mode")
 local save = require("save")
+local sfx = require("sfx")
 
 require("settings")
 
@@ -69,6 +70,7 @@ function love.load()
     }
 
     game.input_mod = input
+    sfx.load()
 
     local fullscreen = save.load()
     if fullscreen then
