@@ -3,15 +3,15 @@
 
 local push = require("lib.push")
 local vgafont = require("lib.vgafont")
-local menu = require("src.menu")
-local game = require("src.game")
-local render = require("src.game_draw")
-local input = require("src.input")
-local modes = require("src.mode")
-local save = require("src.save")
-local sfx = require("src.sfx")
+local menu = require("src.menu.menu")
+local game = require("src.game.game")
+local render = require("src.game.draw")
+local input = require("src.game.input")
+local modes = require("src.menu.mode")
+local save = require("src.utils.save")
+local sfx = require("src.utils.sfx")
 
-require("src.settings")
+require("src.menu.settings")
 
 local style = {
     block_size = 8,

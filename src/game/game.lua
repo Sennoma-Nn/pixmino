@@ -1,11 +1,11 @@
 -- Copyright (C) 2026 Sennoma-Nn
 -- SPDX-License-Identifier: GPL-3.0-or-later
 
-local minos          = require("src.minos")
-local utils          = require("src.utils")
-local save           = require("src.save")
-local game_debug     = require("src.game_debug")
-local sfx            = require("src.sfx")
+local minos          = require("src.game.minos")
+local utils          = require("src.utils.utils")
+local save           = require("src.utils.save")
+local game_debug     = require("src.game.debug")
+local sfx            = require("src.utils.sfx")
 
 local game           = {}
 

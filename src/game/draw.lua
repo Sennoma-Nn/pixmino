@@ -2,10 +2,10 @@
 -- SPDX-License-Identifier: GPL-3.0-or-later
 
 local vgafont = require("lib.vgafont")
-local game = require("src.game")
-local utils = require("src.utils")
-local menu = require("src.menu")
-local locale = require("src.locale")
+local game = require("src.game.game")
+local utils = require("src.utils.utils")
+local menu = require("src.menu.menu")
+local locale = require("src.utils.locale")
 
 local render = {}
 

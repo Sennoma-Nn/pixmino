@@ -3,8 +3,8 @@
 
 local save = {}
 
-local settings = require("src.settings")
-local locale = require("src.locale")
+local settings = require("src.menu.settings")
+local locale = require("src.utils.locale")
 
 local settings_file = "settings.txt"
 local record_file = "record.txt"

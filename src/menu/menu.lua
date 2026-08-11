@@ -2,11 +2,11 @@
 -- SPDX-License-Identifier: GPL-3.0-or-later
 
 local vgafont = require("lib.vgafont")
-local locale = require("src.locale")
-local utils = require("src.utils")
+local locale = require("src.utils.locale")
+local utils = require("src.utils.utils")
 local push = require("lib.push")
-local settings = require("src.settings")
-local save = require("src.save")
+local settings = require("src.menu.settings")
+local save = require("src.utils.save")
 
 local menu = {}
 
