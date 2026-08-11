@@ -20,11 +20,19 @@ local mode = {
             record = scores,
             result = { "SCORES", scores },
             record_update = update,
+            save_on_over = true,
             goal_lines = {
                 { line = 50,  color = { 1, 1, 1, 0.5 } },
                 { line = 100, color = { 1, 1, 1, 0.5 } },
                 { line = 150, color = { 1, 0, 0, 1 } },
-            }
+            },
+            settings = {
+                input = {
+                    das = 9,
+                    arr = 2,
+                    drop_arr = 2,
+                },
+            },
         }
     end,
 
@@ -45,10 +53,11 @@ local mode = {
             record = time,
             result = { "TIME", time_str },
             record_update = update,
+            save_on_over = false,
             goal_lines = {
                 { line = 20, color = { 1, 1, 1, 0.5 } },
                 { line = 40, color = { 1, 0, 0, 1 } },
-            }
+            },
         }
     end,
 }

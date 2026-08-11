@@ -31,6 +31,7 @@ game.modal_selection = 1
 game.mode_key        = nil
 game.over            = false
 game.draw_spin_mask  = false
+game.active_settings = nil
 
 game.time            = 0
 game.clears          = 0
@@ -55,6 +56,33 @@ function game.reset()
     game.b2b    = 0
 end
 
+function game.load_settings(override)
+    game.active_settings = {
+        input = {
+            das = Settings.input.das,
+            arr = Settings.input.arr,
+            drop_arr = Settings.input.drop_arr,
+        },
+        keys = {},
+    }
+    for k, v in pairs(Settings.keys) do
+        game.active_settings.keys[k] = v
+    end
+
+    if override then
+        if override.input then
+            for k, v in pairs(override.input) do
+                game.active_settings.input[k] = v
+            end
+        end
+        if override.keys then
+            for k, v in pairs(override.keys) do
+                game.active_settings.keys[k] = v
+            end
+        end
+    end
+end
+
 function game.stop()
     game.reset()
     game.cleared = false
@@ -66,6 +94,7 @@ function game.stop()
     game.modal_selection = 1
     game.mode_key = nil
     game.over = false
+    game.active_settings = nil
     game.notify = { text = "Never Gonna Give You Up", color = nil, time = 0 }
 end
 
@@ -594,6 +623,7 @@ function game.start(playfield, mode, mode_key)
     game.started = true
     game.piece = nil
     game.over = false
+    game.load_settings()
 end
 
 function game.update(dt)
@@ -608,6 +638,9 @@ function game.update(dt)
         game.mode_state = game.mode(game.time, game.clears, game.scores, game.level, game.ren, game.b2b, game.gravity,
             old_record)
         if game.mode_state then
+            if game.mode_state.settings then
+                game.load_settings(game.mode_state.settings)
+            end
             local new_level = game.mode_state.level or game.level
             if new_level > game.level then
                 sfx.play("level_up")
@@ -639,6 +672,12 @@ function game.update(dt)
             local is_spawn = game.spawn()
             if not is_spawn then
                 game.over = true
+                if game.mode_key and game.mode_state
+                    and game.mode_state.save_on_over
+                    and game.mode_state.record_update
+                    and game.mode_state.record ~= nil then
+                    save.update_record(game.mode_key, game.mode_state.record)
+                end
                 return
             end
         end

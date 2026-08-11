@@ -6,6 +6,13 @@ local utils = require("src.utils")
 
 local input = {}
 
+local function active_settings()
+    if game.active_settings then
+        return game.active_settings
+    end
+    return Settings
+end
+
 input.old = {
     left = false,
     right = false,
@@ -53,8 +60,9 @@ local function axis_move(rep, now, old, ms, move_fn)
         return
     end
     if not rep.active then return end
-    local ds = utils.frame_ms(Settings.input.das)
-    local ar = utils.frame_ms(Settings.input.arr)
+    local s = active_settings()
+    local ds = utils.frame_ms(s.input.das)
+    local ar = utils.frame_ms(s.input.arr)
     rep.das_t = rep.das_t + ms
     if rep.das_t >= ds then
         rep.arr_t = rep.arr_t + ms
@@ -77,7 +85,7 @@ local function soft_drop_rep(rep, now, old, ms)
     if not old then
         rep.active = true
         rep.arr_t = 0
-        local ar0 = utils.frame_ms(Settings.input.drop_arr)
+        local ar0 = utils.frame_ms(active_settings().input.drop_arr)
         if ar0 <= 0 then
             while game.soft_drop() do end
             return
@@ -86,7 +94,7 @@ local function soft_drop_rep(rep, now, old, ms)
         return
     end
     if not rep.active then return end
-    local ar = utils.frame_ms(Settings.input.drop_arr)
+    local ar = utils.frame_ms(active_settings().input.drop_arr)
     if ar <= 0 then
         while game.soft_drop() do end
         return
@@ -102,7 +110,7 @@ local function soft_drop_rep(rep, now, old, ms)
 end
 
 function input.update(dt)
-    local k       = Settings.keys
+    local k       = active_settings().keys
     local now     = input.now
     local old     = input.old
     local rep     = input.rep

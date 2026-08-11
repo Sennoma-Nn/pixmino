@@ -6,7 +6,7 @@ local push = require("lib.push")
 
 Settings = {
     input = {
-        das = 10,
+        das = 9,
         arr = 2,
         drop_arr = 2,
     },
