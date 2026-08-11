@@ -219,7 +219,7 @@ local minos     = {
                 { 0, 0, 0, 0, 0 }
             },
             result = function(mask)
-                local is_spin = mask[1] >= 1 and mask[2] >= 2
+                local is_spin = mask[1] >= 1 and mask[2] >= 1
                 local is_mini = mask[3] < 1
 
                 return { spin = is_spin, mini = is_mini }
@@ -247,7 +247,7 @@ local minos     = {
                 { 0, 0, 0, 0, 0 }
             },
             result = function(mask)
-                local is_spin = mask[1] >= 1 and mask[2] >= 2
+                local is_spin = mask[1] >= 1 and mask[2] >= 1
                 local is_mini = mask[3] < 1
 
                 return { spin = is_spin, mini = is_mini }
