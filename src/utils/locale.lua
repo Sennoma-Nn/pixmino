@@ -49,8 +49,8 @@ locale.t = {
     },
     ABOUT_DESC = {
         en = "About PIXMINO.",
-        ja = "ﾋﾟｸｾﾐﾉ ﾂｲﾃ｡",
-        bpmf = "ㄍㄨㄢ ㄩˊ ㄊㄨㄩㄢㄌㄧㄈㄤ",
+        ja = "ﾋﾟｸｾﾐﾉﾆ ﾂｲﾃ｡",
+        bpmf = "ㄍㄨㄢ ㄩˊ ㄊㄨㄩㄢㄌㄧㄈㄤ｡",
         pinyin = "Guān yú XIANGSULIFANG.",
     },
 
