@@ -25,7 +25,7 @@ locale.t = {
         en = "⎋ TO BACK",
         ja = "⎋ ﾃﾞ ﾓﾄﾞﾙ",
         bpmf = "⎋ ㄈㄢㄏㄨㄟ",
-        pinyin = "⎋ TUĪCHŪ",
+        pinyin = "⎋ FǍNHUÍ",
     },
 
     START = {
