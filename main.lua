@@ -12,6 +12,7 @@ local save = require("src.utils.save")
 local sfx = require("src.utils.sfx")
 
 require("src.menu.settings")
+require("custom_cp")
 
 local style = {
     block_size = 8,
@@ -46,12 +47,6 @@ function love.load()
     love.graphics.setDefaultFilter("nearest", "nearest")
     love.math.setRandomSeed(os.time())
 
-    vgafont.register_codepage("symbol", {
-        [0] = "⎋",
-        [1] = "©",
-        [2] = "🄯",
-    })
-
     push:setupScreen(
         320 * 1, 180 * 1,
         320 * 4, 180 * 4,
@@ -64,9 +59,10 @@ function love.load()
 
     Fonts.bold_font = vgafont.load("assets/font/IB-FULL.F08", "cp437")
     Fonts.ui_fonts = {
-        vgafont.load("assets/font/QUADBM_CP897.F08", "jisx0201"),
-        vgafont.load("assets/font/QUADBM_CP437.F08", "cp437"),
-        vgafont.load("assets/font/SYMBOL.F08", "symbol"),
+        vgafont.load("assets/font/QUADBM/CP897.F08", "jisx0201"),
+        vgafont.load("assets/font/QUADBM/CP437.F08", "cp437"),
+        vgafont.load("assets/font/QUADBM/ext/BPMF.F08", "bpmf"),
+        vgafont.load("assets/font/QUADBM/ext/SYMBOL.F08", "symbol"),
     }
 
     game.input_mod = input

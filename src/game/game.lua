@@ -1,51 +1,54 @@
 -- Copyright (C) 2026 Sennoma-Nn
 -- SPDX-License-Identifier: GPL-3.0-or-later
 
-local minos          = require("src.game.minos")
-local utils          = require("src.utils.utils")
-local save           = require("src.utils.save")
-local game_debug     = require("src.game.debug")
-local sfx            = require("src.utils.sfx")
+local minos            = require("src.game.minos")
+local utils            = require("src.utils.utils")
+local save             = require("src.utils.save")
+local game_debug       = require("src.game.debug")
+local sfx              = require("src.utils.sfx")
 
-local game           = {}
+local game             = {}
 
-local lock_delay     = 0.5
-local lock_resets    = 15
-local next_count     = 3
+local lock_resets      = 15
+local next_count       = 3
 
-game.pf_data         = {}
-game.bag             = {}
-game.next            = {}
-game.hold            = nil
-game.can_hold        = true
-game.piece           = nil
-game.piece_id        = 0
-game.started         = false
-game.pf              = nil
-game.mode            = nil
-game.mode_state      = nil
-game.cleared         = false
-game.result          = nil
-game.modal_active    = false
-game.modal_selection = 1
-game.mode_key        = nil
-game.over            = false
-game.draw_spin_mask  = false
-game.active_settings = nil
+game.pf_data           = {}
+game.bag               = {}
+game.next              = {}
+game.hold              = nil
+game.can_hold          = true
+game.piece             = nil
+game.piece_id          = 0
+game.started           = false
+game.pf                = nil
+game.mode              = nil
+game.mode_state        = nil
+game.cleared           = false
+game.result            = nil
+game.modal_active      = false
+game.modal_selection   = 1
+game.mode_key          = nil
+game.over              = false
+game.draw_spin_mask    = false
+game.active_settings   = nil
+game.lock_delay_frames = 30
+game.lock_wait         = 0
+game.clear_wait        = 0
+game.wait              = 0
 
-game.time            = 0
-game.clears          = 0
-game.scores          = 0
-game.level           = 1
-game.ren             = -1
-game.b2b             = 0
-game.gravity         = 0
+game.time              = 0
+game.clears            = 0
+game.scores            = 0
+game.level             = 1
+game.ren               = -1
+game.b2b               = 0
+game.gravity           = 0
 
-game.notify          = { text = nil, color = nil, time = 0 }
+game.notify            = { text = nil, color = nil, time = 0 }
 
-local cw             = { ["0"] = "R", ["R"] = "2", ["2"] = "L", ["L"] = "0" }
-local ccw            = { ["0"] = "L", ["L"] = "2", ["2"] = "R", ["R"] = "0" }
-local half           = { ["0"] = "2", ["2"] = "0", ["R"] = "L", ["L"] = "R" }
+local cw               = { ["0"] = "R", ["R"] = "2", ["2"] = "L", ["L"] = "0" }
+local ccw              = { ["0"] = "L", ["L"] = "2", ["2"] = "R", ["R"] = "0" }
+local half             = { ["0"] = "2", ["2"] = "0", ["R"] = "L", ["L"] = "R" }
 
 function game.reset()
     game.time   = -1.5
@@ -95,6 +98,10 @@ function game.stop()
     game.mode_key = nil
     game.over = false
     game.active_settings = nil
+    game.lock_delay_frames = 30
+    game.lock_wait = 0
+    game.clear_wait = 0
+    game.wait = 0
     game.notify = { text = "Never Gonna Give You Up", color = nil, time = 0 }
 end
 
@@ -255,7 +262,7 @@ local function reset_lock(piece)
 
     if piece.lock_resets > 0 then
         piece.lock_resets = piece.lock_resets - 1
-        piece.lock_delay = lock_delay
+        piece.lock_delay = game.lock_delay_frames / 60
     end
 
     game_debug.reset("new", piece)
@@ -361,6 +368,12 @@ local function lock_piece(is_hard)
         end
     end
 
+    if cleared > 0 then
+        game.wait = game.clear_wait
+    else
+        game.wait = game.lock_wait
+    end
+
     local is_perfect = cleared > 0 and utils.is_empty(game.pf_data)
 
     if is_perfect then
@@ -432,7 +445,7 @@ local function new_piece(shape, x, y)
         x = x,
         y = y,
         color = minos[shape].color,
-        lock_delay = lock_delay,
+        lock_delay = game.lock_delay_frames / 60,
         lock_resets = lock_resets,
         drop_sum = 0,
         spin = { activation = false, mini = false },
@@ -623,6 +636,10 @@ function game.start(playfield, mode, mode_key)
     game.started = true
     game.piece = nil
     game.over = false
+    game.lock_delay_frames = 30
+    game.lock_wait = 0
+    game.clear_wait = 0
+    game.wait = 0
     game.load_settings()
 end
 
@@ -641,6 +658,9 @@ function game.update(dt)
             if game.mode_state.settings then
                 game.load_settings(game.mode_state.settings)
             end
+            game.lock_delay_frames = game.mode_state.lock_delay or game.lock_delay_frames
+            game.lock_wait = game.mode_state.lock_wait or game.lock_wait
+            game.clear_wait = game.mode_state.clear_wait or game.clear_wait
             local new_level = game.mode_state.level or game.level
             if new_level > game.level then
                 sfx.play("level_up")
@@ -656,6 +676,11 @@ function game.update(dt)
                 return
             end
         end
+    end
+
+    if game.wait > 0 then
+        game.wait = game.wait - 1
+        return
     end
 
     if game.notify.time > 0 then
@@ -694,7 +719,7 @@ function game.update(dt)
                 end
             else
                 if game.piece.lock_resets > 0 then
-                    game.piece.lock_delay = lock_delay
+                    game.piece.lock_delay = game.lock_delay_frames / 60
                 end
             end
         end

@@ -21,6 +21,9 @@ local mode = {
             result = { "SCORES", scores },
             record_update = update,
             save_on_over = true,
+            lock_delay = math.max(2 ^ (-(lv - 1) / 14 * 8) * 60, 30),
+            lock_wait = 6,
+            clear_wait = 15,
             goal_lines = {
                 { line = 50,  color = { 1, 1, 1, 0.5 } },
                 { line = 100, color = { 1, 1, 1, 0.5 } },
@@ -54,6 +57,9 @@ local mode = {
             result = { "TIME", time_str },
             record_update = update,
             save_on_over = false,
+            lock_delay = 30,
+            lock_wait = 0,
+            clear_wait = 0,
             goal_lines = {
                 { line = 20, color = { 1, 1, 1, 0.5 } },
                 { line = 40, color = { 1, 0, 0, 1 } },
