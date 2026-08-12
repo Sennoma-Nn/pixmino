@@ -123,12 +123,13 @@ local function draw_piece(gx, gy, ph, bs)
     local p = game.piece
     local m = game.get_matrix(p.shape, p.dir)
     local dy = game.drop_y(p) - p.y
+    local color = game.bone and game.bone_color or p.color
 
     local ghost_ox, ghost_oy = gx + (p.x - 2) * bs, gy + ph - (p.y + dy + 1) * bs
     for _, cell in ipairs(game.piece_cells(p)) do
         local gy2 = cell.y + dy
         if gy2 >= 1 and gy2 <= game.pf.height then
-            local ghost_color = { p.color[1], p.color[2], p.color[3], 0.25 }
+            local ghost_color = { color[1], color[2], color[3], 0.25 }
             draw_block(gx + (cell.x - 1) * bs, gy + ph - gy2 * bs, bs, ghost_color)
         end
     end
@@ -137,7 +138,7 @@ local function draw_piece(gx, gy, ph, bs)
     local ox, oy = gx + (p.x - 2) * bs, gy + ph - (p.y + 1) * bs
     for _, cell in ipairs(game.piece_cells(p)) do
         if cell.y >= 1 and cell.y <= game.pf.height then
-            draw_block(gx + (cell.x - 1) * bs, gy + ph - cell.y * bs, bs, p.color)
+            draw_block(gx + (cell.x - 1) * bs, gy + ph - cell.y * bs, bs, color)
         end
     end
     draw_matrix_borders(m, ox, oy, bs, Colors.piece_border)
@@ -159,7 +160,7 @@ end
 local function draw_preview(shape, px, py, bs)
     local mino = game.shapes[shape]
     local m = mino.shapes
-    local color = mino.color
+    local color = game.bone and game.bone_color or mino.color
     local pv = mino.preview
     local ox = px + pv.offset[1] * bs
     local oy = py - pv.offset[2] * bs
@@ -199,6 +200,9 @@ end
 local function draw_modal(font, gx, gy, pw, ph, title_key)
     love.graphics.setColor(0, 0, 0, 0.6)
     love.graphics.rectangle("fill", gx, gy, pw, ph)
+
+    local mode_name = locale.get(game.mode_key:upper())
+    vgafont.print_outlined(Fonts.ui_fonts, mode_name, gx + 4, gy + 4, 1, Colors.gray, Colors.out_line)
 
     local items = game.get_modal_items()
     local n = #items

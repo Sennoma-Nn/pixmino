@@ -88,6 +88,17 @@ menu.data = {
                 menu.reset()
             end
         },
+        {
+            mode = "master",
+            text_key = "MASTER",
+            desc_key = "MASTER_DESC",
+            bast_format = function(i) return i end,
+            action = function()
+                menu.selected_mode = "master"
+                menu.state = "GAME"
+                menu.reset()
+            end
+        },
     },
     MENU_ABOUT = {
         {

@@ -7,10 +7,10 @@ local save             = require("src.utils.save")
 local game_debug       = require("src.game.debug")
 local sfx              = require("src.utils.sfx")
 
-local game             = {}
-
-local lock_resets      = 15
 local next_count       = 3
+local bone_color       = { 0, 0.6, 0, 1 }
+
+local game             = {}
 
 game.pf_data           = {}
 game.bag               = {}
@@ -18,7 +18,7 @@ game.next              = {}
 game.hold              = nil
 game.can_hold          = true
 game.piece             = nil
-game.piece_id          = 0
+game.piece_id          = 1
 game.started           = false
 game.pf                = nil
 game.mode              = nil
@@ -32,9 +32,11 @@ game.over              = false
 game.draw_spin_mask    = false
 game.active_settings   = nil
 game.lock_delay_frames = 30
+game.lock_resets_total = 15
 game.lock_wait         = 0
 game.clear_wait        = 0
 game.wait              = 0
+game.bone              = false
 
 game.time              = 0
 game.clears            = 0
@@ -99,9 +101,11 @@ function game.stop()
     game.over = false
     game.active_settings = nil
     game.lock_delay_frames = 30
+    game.lock_resets_total = 15
     game.lock_wait = 0
     game.clear_wait = 0
     game.wait = 0
+    game.bone = false
     game.notify = { text = "Never Gonna Give You Up", color = nil, time = 0 }
 end
 
@@ -342,7 +346,11 @@ local function lock_piece(is_hard)
             row = {}
             game.pf_data[cell.y] = row
         end
-        row[cell.x] = { color = p.color, id = p.id }
+        if game.bone then
+            row[cell.x] = { color = bone_color, id = 0 }
+        else
+            row[cell.x] = { color = p.color, id = p.id }
+        end
     end
 
     game_debug.piece("LOCK", p)
@@ -446,7 +454,7 @@ local function new_piece(shape, x, y)
         y = y,
         color = minos[shape].color,
         lock_delay = game.lock_delay_frames / 60,
-        lock_resets = lock_resets,
+        lock_resets = game.lock_resets_total,
         drop_sum = 0,
         spin = { activation = false, mini = false },
     }
@@ -484,7 +492,7 @@ function game.do_hold()
     local new_shape = held or table.remove(game.next, 1)
     local x, y = spawn_pos(new_shape)
     game.piece = new_piece(new_shape, x, y)
-    game.piece.lock_resets = math.min(old_rst + 2, lock_resets)
+    game.piece.lock_resets = math.min(old_rst + 2, game.lock_resets_total)
     game.ensure_next()
     game.can_hold = false
     game_debug.piece("HOLD", game.piece)
@@ -632,7 +640,7 @@ function game.start(playfield, mode, mode_key)
     game.bag = {}
     game.next = {}
     game.hold = nil
-    game.piece_id = 0
+    game.piece_id = 1
     game.started = true
     game.piece = nil
     game.over = false
@@ -640,6 +648,7 @@ function game.start(playfield, mode, mode_key)
     game.lock_wait = 0
     game.clear_wait = 0
     game.wait = 0
+    game.bone = false
     game.load_settings()
 end
 
@@ -659,8 +668,10 @@ function game.update(dt)
                 game.load_settings(game.mode_state.settings)
             end
             game.lock_delay_frames = game.mode_state.lock_delay or game.lock_delay_frames
+            game.lock_resets_total = game.mode_state.lock_resets or game.lock_resets_total
             game.lock_wait = game.mode_state.lock_wait or game.lock_wait
             game.clear_wait = game.mode_state.clear_wait or game.clear_wait
+            game.bone = game.mode_state.bone or false
             local new_level = game.mode_state.level or game.level
             if new_level > game.level then
                 sfx.play("level_up")
@@ -727,7 +738,7 @@ function game.update(dt)
 end
 
 game.shapes = minos
-game.lock_resets_total = lock_resets
+game.bone_color = bone_color
 game.get_matrix = get_matrix
 game.drop_y = drop_y
 game.piece_cells = piece_cells

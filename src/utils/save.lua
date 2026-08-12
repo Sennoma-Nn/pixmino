@@ -35,6 +35,7 @@ end
 save.record = {
     marathon = nil,
     sprint = nil,
+    master = nil,
 }
 
 function save.flush_record()
@@ -51,12 +52,14 @@ function save.load_record()
     save.record = {
         marathon = nil,
         sprint = nil,
+        master = nil,
     }
     local text = love.filesystem.read(record_file)
     if text then
         local pairs = decode_pairs(text)
         save.record.marathon = tonumber(pairs.marathon)
         save.record.sprint = tonumber(pairs.sprint)
+        save.record.master = tonumber(pairs.master)
     end
 end
 

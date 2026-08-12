@@ -14,8 +14,8 @@ local features = game_debug.detect_features()
 local env_info = "LÖVE   " .. love._version .. "\r\n" ..
     string.gsub(_VERSION:upper(), " ", "    ") ..
     "\r\n" .. jit.version:upper() ..
-    "\r\nOS     " .. love._os ..
-    "\r\n\nGOTO FORWARD  " .. (features.goto_forward and "YES" or "NO") ..
+    "\r\nOS     " .. love._os .. "\n" ..
+    "\r\nGOTO FORWARD  " .. (features.goto_forward and "YES" or "NO") ..
     "\r\nGOTO BACKWARD " .. (features.goto_backward and "YES" or "NO") ..
     "\r\nBIT OPERATOR  " .. (features.bit_operator and "YES" or "NO") ..
     "\r\nIDIV OPERATOR " .. (features.idiv_operator and "YES" or "NO")
@@ -247,7 +247,18 @@ locale.t = {
     SPRINT_DESC = {
         en = "Clear 40 lines,\r\nFinish as fast as possible!",
         ja = "40 ﾗｲﾝｦ ｸﾘｱ､\r\nﾊﾔｻｦ ｷｿｴ!",
-        bpmf = "ㄒㄧㄠ ㄔㄨˊ40 ㄌㄧㄝˋ，\r\nㄩㄝˋㄎㄨㄞˋㄩㄝˋㄏㄠˇ!",
+        bpmf = "ㄒㄧㄠ ㄔㄨˊ 40 ㄌㄧㄝˋ，\r\nㄩㄝˋ ㄎㄨㄞˋ ㄩㄝˋ ㄏㄠˇ!",
+    },
+
+    MASTER = {
+        en = "MASTER",
+        ja = "ﾏｽﾀｰ",
+        bpmf = "ㄉㄚㄕ",
+    },
+    MASTER_DESC = {
+        en = "Clear 200 lines,\r\n20G with shorter lock delay!",
+        ja = "200 ﾗｲﾝｦ ｸﾘｱ､\r\nﾛｯｸ ﾁｴﾝ ﾐｼﾞｶｸ ﾅﾙ 20G!",
+        bpmf = "ㄒㄧㄠ ㄔㄨˊ 200 ㄌㄧㄝˋ，\r\n20G ㄅㄧㄥˋ ㄑㄧㄝˇ ㄙㄨㄛˇ ㄉㄧㄥˋ ㄍㄥˋ ㄎㄨㄞˋ!",
     },
 
     JMP_CTRL_DESC = {

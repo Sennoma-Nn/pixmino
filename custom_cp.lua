@@ -1,9 +1,9 @@
 local vgafont = require("lib.vgafont")
 
 vgafont.register_codepage("symbol", {
-    [0] = "⎋",
-    [1] = "©",
-    [2] = "🄯",
+    [128] = "⎋",
+    [129] = "©",
+    [130] = "🄯",
 })
 
 vgafont.register_codepage("pinyin", {

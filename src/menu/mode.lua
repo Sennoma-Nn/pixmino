@@ -25,7 +25,7 @@ local mode = {
             lock_wait = 6,
             clear_wait = 15,
             goal_lines = {
-                { line = 50,  color = { 1, 1, 1, 0.5 } },
+                { line = 50,  color = { 1, 1, 1, 0.25 } },
                 { line = 100, color = { 1, 1, 1, 0.5 } },
                 { line = 150, color = { 1, 0, 0, 1 } },
             },
@@ -63,6 +63,51 @@ local mode = {
             goal_lines = {
                 { line = 20, color = { 1, 1, 1, 0.5 } },
                 { line = 40, color = { 1, 0, 0, 1 } },
+            },
+        }
+    end,
+
+    master = function(time, clears, scores, level, ren, b2b, gravity, old_record)
+        local lv = math.floor(clears / 10) + 1
+
+        local update
+        if old_record == nil then
+            update = true
+        else
+            update = clears > old_record
+        end
+
+        local lock_delay = 30 - 0.75 * (lv - 1)
+        local das = 10 - 0.2 * (lv - 1)
+        local arr = lv > 15 and 2 or 1
+        local clear_wait = 15 - 0.4 * (lv - 1)
+        local bone = lv > 25
+
+        return {
+            level = lv,
+            gravity = 1200,
+            target = clears >= 300,
+            record = clears,
+            result = { "LINES", clears },
+            record_update = update,
+            save_on_over = true,
+            lock_delay = lock_delay,
+            lock_wait = 6,
+            clear_wait = clear_wait,
+            lock_resets = 20,
+            bone = bone,
+            goal_lines = {
+                { line = 75, color = { 1, 1, 1, 0.25 } },
+                { line = 150, color = { 1, 1, 1, 0.5 } },
+                { line = 225, color = { 1, 1, 1, 0.25 } },
+                { line = 250, color = { 0, 1, 0, 0.5 } },
+                { line = 300, color = { 1, 0, 0, 1 } },
+            },
+            settings = {
+                input = {
+                    das = das,
+                    arr = arr,
+                },
             },
         }
     end,
