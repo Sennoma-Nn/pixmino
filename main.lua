@@ -62,6 +62,7 @@ function love.load()
         vgafont.load("assets/font/QUADBM/CP897.F08", "jisx0201"),
         vgafont.load("assets/font/QUADBM/CP437.F08", "cp437"),
         vgafont.load("assets/font/QUADBM/ext/BPMF.F08", "bpmf"),
+        vgafont.load("assets/font/QUADBM/ext/PINYIN.F08", "pinyin"),
         vgafont.load("assets/font/QUADBM/ext/SYMBOL.F08", "symbol"),
     }
 
