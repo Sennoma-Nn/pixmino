@@ -7,7 +7,7 @@ local game_debug = require("src.game.debug")
 locale.langs = { "en", "ja", "bpmf" }
 locale.current = "en"
 
-local ver = "v0.0.9"
+local ver = "v0.0.10"
 
 local features = game_debug.detect_features()
 
