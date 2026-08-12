@@ -256,9 +256,9 @@ locale.t = {
         bpmf = "ㄉㄚㄕ",
     },
     MASTER_DESC = {
-        en = "Clear 200 lines,\r\n20G with shorter lock delay!",
-        ja = "200 ﾗｲﾝｦ ｸﾘｱ､\r\nﾛｯｸ ﾁｴﾝ ﾐｼﾞｶｸ ﾅﾙ 20G!",
-        bpmf = "ㄒㄧㄠ ㄔㄨˊ 200 ㄌㄧㄝˋ，\r\n20G ㄅㄧㄥˋ ㄑㄧㄝˇ ㄙㄨㄛˇ ㄉㄧㄥˋ ㄍㄥˋ ㄎㄨㄞˋ!",
+        en = "Clear 200 lines,\r\nPieces drop instantly,\r\nLess time to act!",
+        ja = "200 ﾗｲﾝｦ ｸﾘｱ､\r\nﾌﾞﾛｯｸ ﾁｮｸｾﾂ ﾗｯｶ､\r\nｿｳｻ ｼﾞｶﾝ ﾐｼﾞｶｸ ﾅﾙ!",
+        bpmf = "ㄒㄧㄠ ㄔㄨˊ 200 ㄌㄧㄝˋ，\r\nㄈㄤ ㄎㄨㄞˋㄓˊㄐㄧㄝ ㄌㄨㄛˋㄉㄧˋ,\r\nㄘㄠ ㄗㄨㄛˋㄕˊㄐㄧㄢ ㄩㄝˋㄌㄞˊㄩㄝˋㄉㄨㄢˇ!",
     },
 
     JMP_CTRL_DESC = {
