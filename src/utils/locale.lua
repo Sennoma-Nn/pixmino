@@ -89,11 +89,11 @@ locale.t = {
     },
     SP_THANKS_DESC = {
         en =
-        "Special Thanks:\r\n\nUlydev:\r\n- Library Push for LÖVE.\r\n\nSoda 261:\r\n- Provided \"IB-FULL\" font\r\n  4 displaying game stats.",
+        "Special Thanks:\r\n\nUlydev: (MIT)\r\n- Library Push for LÖVE.\r\n\nSoda 261:\r\n- Provided \"IB-FULL\" font\r\n  4 displaying game stats.\r\n\nmOsh: (CC0)\r\n- 8BIT SFX Library.",
         ja =
-        "ｽﾍﾟｼｬﾙ ｻﾝｸｽ:\r\n\nUlydev:\r\n- LÖVE ﾖｳ ﾗｲﾌﾞﾗﾘ Push｡\r\n\nSoda 261:\r\n- ｹﾞｰﾑ ｼﾞｮｳﾎｳ ﾋｮｳｼﾞ ﾖｳ\r\n  ｢IB-FULL｣ ﾌｫﾝﾄ ﾃｲｷｮｳ｡",
+        "ｽﾍﾟｼｬﾙ ｻﾝｸｽ:\r\n\nUlydev: (MIT)\r\n- LÖVE ﾖｳ ﾗｲﾌﾞﾗﾘ Push｡\r\n\nSoda 261:\r\n- ｹﾞｰﾑ ｼﾞｮｳﾎｳ ﾋｮｳｼﾞ ﾖｳ\r\n  ｢IB-FULL｣ ﾌｫﾝﾄ ﾃｲｷｮｳ｡\r\n\nmOsh: (CC0)\r\n- 8BIT SFX ﾗｲﾌﾞﾗﾘ｡",
         bpmf =
-        "ㄊㄜˋㄅㄧㄝˊㄍㄢˇㄒㄧㄝˋ:\r\n\nUlydev:\r\n- ㄩㄥˋㄩˊLÖVE ˙ㄉㄜ Push ㄎㄨˋ｡\r\n\nSoda 261:\r\n- ㄊㄧˊㄍㄨㄥˋ｢IB-FULL｣ ㄗˋㄒㄧㄥˊ\r\n  ㄩㄥˋㄩˊㄧㄡˊㄒㄧˋㄒㄧㄣˋㄒㄧ ㄒㄧㄢˇㄕˋ｡",
+        "ㄊㄜˋㄅㄧㄝˊㄍㄢˇㄒㄧㄝˋ:\r\n\nUlydev: (MIT)\r\n- ㄩㄥˋㄩˊLÖVE ˙ㄉㄜ Push ㄎㄨˋ｡\r\n\nSoda 261:\r\n- ㄊㄧˊㄍㄨㄥˋ｢IB-FULL｣ ㄗˋㄒㄧㄥˊ\r\n  ㄩㄥˋㄩˊㄧㄡˊㄒㄧˋㄒㄧㄣˋㄒㄧ ㄒㄧㄢˇㄕˋ｡\r\n\nmOsh: (CC0)\r\n- 8BIT SFX ㄎㄨˋ｡",
     },
 
     PAUSE = {
