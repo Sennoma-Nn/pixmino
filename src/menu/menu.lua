@@ -18,6 +18,7 @@ menu.waiting_key = nil
 menu.parent = {
     MENU_START = "MENU_MAIN",
     MENU_ABOUT = "MENU_MAIN",
+    MENU_THANKS = "MENU_ABOUT",
     MENU_SETTINGS = "MENU_MAIN",
     MENU_SETTINGS_CTRL = "MENU_SETTINGS",
     MENU_KEYS = "MENU_SETTINGS_CTRL",
@@ -119,6 +120,28 @@ menu.data = {
         {
             text_key = "SP_THANKS",
             desc_key = "SP_THANKS_DESC",
+            jmp = "MENU_THANKS"
+        },
+    },
+    MENU_THANKS = {
+        {
+            text_key = "SP_PUSH",
+            desc_key = "SP_PUSH_DESC",
+            action = false
+        },
+        {
+            text_key = "SP_IBFULL",
+            desc_key = "SP_IBFULL_DESC",
+            action = false
+        },
+        {
+            text_key = "SP_QUANPIXEL",
+            desc_key = "SP_QUANPIXEL_DESC",
+            action = false
+        },
+        {
+            text_key = "SP_SFX",
+            desc_key = "SP_SFX_DESC",
             action = false
         },
     },
@@ -175,7 +198,7 @@ function menu.draw(gx, gy, pw, ph, bw)
         local color = disabled and Colors.gray or Colors.white
 
         if i == menu.selection then
-            local highlight = disabled and Colors.light_gray or Colors.yellow
+            local highlight = disabled and Colors.light_yellow or Colors.yellow
             fontprint.print(Fonts.ui_fonts, label, item_x, item_y, 1, highlight)
 
             if item.type == "keys" and menu.waiting_key == item.key_name then

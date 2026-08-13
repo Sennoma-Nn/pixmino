@@ -100,14 +100,63 @@ locale.t = {
         zh_tw = "特別感謝",
     },
     SP_THANKS_DESC = {
+        en = "Special Thanks",
+        ja = "ｽﾍﾟｼｬﾙ ｻﾝｸｽ",
+        zh_cn = "特别鸣谢",
+        zh_tw = "特別感謝",
+    },
+
+    SP_PUSH = {
+        en = "PUSH",
+        ja = "PUSH",
+        zh_cn = "PUSH",
+        zh_tw = "PUSH",
+    },
+    SP_PUSH_DESC = {
+        en = "Ulydev: (MIT)\r\n\nLibrary Push for LÖVE.",
+        ja = "Ulydev: (MIT)\r\n\nLÖVE ﾖｳ ﾗｲﾌﾞﾗﾘ Push｡",
+        zh_cn = "Ulydev: (MIT)\r\n\n用于 LÖVE 的 Push 函数库｡",
+        zh_tw = "Ulydev: (MIT)\r\n\n用於 LÖVE 的 Push 函式庫｡",
+    },
+
+    SP_IBFULL = {
+        en = "IB-FULL",
+        ja = "IB-FULL",
+        zh_cn = "IB-FULL",
+        zh_tw = "IB-FULL",
+    },
+    SP_IBFULL_DESC = {
+        en = "Soda 261:\r\n\nProvided \"IB-FULL\" font,\r\nfor displaying game stats.",
+        ja = "Soda 261:\r\n\nｹﾞｰﾑ ｼﾞｮｳﾎｳ ﾋｮｳｼﾞ ﾖｳ\r\n｢IB-FULL｣ ﾌｫﾝﾄ ﾃｲｷｮｳ｡",
+        zh_cn = "Soda 261:\r\n\n提供｢IB-FULL｣字体,\r\n用于显示游戏信息｡",
+        zh_tw = "Soda 261:\r\n\n提供｢IB-FULL｣字型,\r\n用於顯示遊戲資訊｡",
+    },
+
+    SP_QUANPIXEL = {
+        en = "QUANPIXEL",
+        ja = "QUANPIXEL",
+        zh_cn = "全小素",
+        zh_tw = "全小素",
+    },
+    SP_QUANPIXEL_DESC = {
         en =
-        "Special Thanks:\r\n\nUlydev: (MIT)\r\n- Library Push for LÖVE.\r\n\nSoda 261:\r\n- Provided \"IB-FULL\" font\r\n  4 displaying game stats.\r\n\nmOsh: (CC0)\r\n- 8BIT SFX Library.",
-        ja =
-        "ｽﾍﾟｼｬﾙ ｻﾝｸｽ:\r\n\nUlydev: (MIT)\r\n- LÖVE ﾖｳ ﾗｲﾌﾞﾗﾘ Push｡\r\n\nSoda 261:\r\n- ｹﾞｰﾑ ｼﾞｮｳﾎｳ ﾋｮｳｼﾞ ﾖｳ\r\n  ｢IB-FULL｣ ﾌｫﾝﾄ ﾃｲｷｮｳ｡\r\n\nmOsh: (CC0)\r\n- 8BIT SFX ﾗｲﾌﾞﾗﾘ｡",
-        zh_cn =
-        "特别鸣谢:\r\n\nUlydev: (MIT)\r\n- 用于 LÖVE 的 Push 函数库｡\r\n\nSoda 261:\r\n- 提供｢IB-FULL｣字体\r\n  用于显示游戏信息｡\r\n\nmOsh: (CC0)\r\n- 8BIT SFX 库｡",
-        zh_tw =
-        "特別感謝:\r\n\nUlydev: (MIT)\r\n- 用於 LÖVE 的 Push 函式庫｡\r\n\nSoda 261:\r\n- 提供｢IB-FULL｣字型\r\n  用於顯示遊戲資訊｡\r\n\nmOsh: (CC0)\r\n- 8BIT SFX 庫｡",
+        "Galmuri8, Chill Bitmap,\r\nDiaowinner: (OFL 1.1)\r\n\nProvided \"QuanPixel 8px\" font,\r\nfor displaying Chinese characters.",
+        ja = "Galmuri8, Chill Bitmap,\r\nDiaowinner: (OFL 1.1)\r\n\nﾁｭｳｺﾞｸｺﾞ ﾖｳ\r\n｢QuanPixel 8px｣ ﾌｫﾝﾄ｡",
+        zh_cn = "Galmuri8, Chill Bitmap,\r\nDiaowinner: (OFL 1.1)\r\n\n提供｢全小素8PX｣字体,\r\n用于显示中文｡",
+        zh_tw = "Galmuri8, Chill Bitmap,\r\nDiaowinner: (OFL 1.1)\r\n\n提供｢全小素8PX｣字型,\r\n用於顯示中文｡",
+    },
+
+    SP_SFX = {
+        en = "8BIT SFX",
+        ja = "8BIT SFX",
+        zh_cn = "8BIT SFX",
+        zh_tw = "8BIT SFX",
+    },
+    SP_SFX_DESC = {
+        en = "mOsh: (CC0)\r\n\n8BIT SFX Library.",
+        ja = "mOsh: (CC0)\r\n\n8BIT SFX ﾗｲﾌﾞﾗﾘ｡",
+        zh_cn = "mOsh: (CC0)\r\n\n8BIT SFX 库｡",
+        zh_tw = "mOsh: (CC0)\r\n\n8BIT SFX 庫｡",
     },
 
     PAUSE = {

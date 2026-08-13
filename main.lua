@@ -32,6 +32,7 @@ Fonts = {
 
 Colors = {
     yellow       = { 1, 0.8, 0, 1 },
+    light_yellow = { 1, 0.9, 0.4, 1 },
     white        = { 1, 1, 1, 1 },
     light_gray   = { 0.75, 0.75, 0.75, 1 },
     gray         = { 0.5, 0.5, 0.5, 1 },
