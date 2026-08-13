@@ -128,22 +128,20 @@ local function draw_piece(gx, gy, ph, bs)
     local dy = game.drop_y(p) - p.y
     local color = game.bone and game.bone_color or p.color
 
-    if not (game.gravity >= 20) then
-        local ghost_ox, ghost_oy = gx + (p.x - 2) * bs, gy + ph - (p.y + dy + 1) * bs
-        for _, cell in ipairs(game.piece_cells(p)) do
-            local gy2 = cell.y + dy
-            if gy2 >= 1 and gy2 <= game.pf.height then
-                local ghost_color = { color[1], color[2], color[3], 0.25 }
-                draw_block(gx + (cell.x - 1) * bs, gy + ph - gy2 * bs, bs, ghost_color)
-            end
+    local ghost_ox, ghost_oy = gx + (p.x - 2) * bs, gy + ph - (p.y + dy + 1) * bs
+    for _, cell in ipairs(game.piece_cells(p)) do
+        local gy2 = cell.y + dy
+        if gy2 >= 1 and gy2 <= game.pf.height then
+            local ghost_color = { color[1], color[2], color[3], 0.25 }
+            draw_block(gx + (cell.x - 1) * bs, gy + ph - gy2 * bs, bs, ghost_color)
         end
-        draw_matrix_borders(m, ghost_ox, ghost_oy, bs, color, Colors.ghost_border)
     end
+    draw_matrix_borders(m, ghost_ox, ghost_oy, bs, color, Colors.ghost_border)
 
     local ox, oy = gx + (p.x - 2) * bs, gy + ph - (p.y + 1) * bs
     for _, cell in ipairs(game.piece_cells(p)) do
         if cell.y >= 1 and cell.y <= game.pf.height then
-            draw_block(gx + (cell.x - 1) * bs, gy + ph - cell.y * bs, bs, color)    
+            draw_block(gx + (cell.x - 1) * bs, gy + ph - cell.y * bs, bs, color)
         end
     end
     draw_matrix_borders(m, ox, oy, bs, color, Colors.piece_border)
