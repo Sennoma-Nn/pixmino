@@ -132,7 +132,8 @@ local function draw_piece(gx, gy, ph, bs)
     for _, cell in ipairs(game.piece_cells(p)) do
         local gy2 = cell.y + dy
         if gy2 >= 1 and gy2 <= game.pf.height then
-            local ghost_color = { color[1], color[2], color[3], 0.25 }
+            local ghost_color = utils.strip_a(color)
+            ghost_color[4] = 0.25
             draw_block(gx + (cell.x - 1) * bs, gy + ph - gy2 * bs, bs, ghost_color)
         end
     end
@@ -247,7 +248,7 @@ local function draw_game_info(font, gx, gy, pw, ph, bw)
 
     if game.notify and game.notify.time > 0 and game.notify.text then
         local show_color = utils.color_blend(game.notify.color, Colors.white, 0.4)
-        vgafont.print_outlined(font, game.notify.text, ix, iy - 8 * 9, 1, show_color, Colors.out_line)
+        vgafont.print_outlined(font, game.notify.text, ix, iy - 8 * 9, 1, utils.strip_a(show_color), Colors.out_line)
     end
 
     local ren_color = (game.ren > 0) and Colors.yellow or Colors.white

@@ -19,7 +19,7 @@ function game_debug.detect_features()
 end
 
 game_debug.flags = {
-    piece = false,
+    piece = true,
     pf_data = false,
     wallkick = false,
     reset = false,

@@ -346,11 +346,7 @@ local function lock_piece(is_hard)
             row = {}
             game.pf_data[cell.y] = row
         end
-        if game.bone then
-            row[cell.x] = { color = bone_color, id = 0 }
-        else
-            row[cell.x] = { color = p.color, id = p.id }
-        end
+        row[cell.x] = { color = p.color, id = p.id }
     end
 
     game_debug.piece("LOCK", p)
@@ -476,6 +472,11 @@ function game.spawn()
     game.ensure_next()
     game_debug.piece("SPAWN", game.piece)
 
+    if game.bone then
+        game.piece.color = bone_color
+        game.piece.id = 0
+    end
+
     if collides(game.piece, game.piece.x, game.piece.y, game.piece.dir) then
         return false
     end
@@ -496,6 +497,11 @@ function game.do_hold()
     game.ensure_next()
     game.can_hold = false
     game_debug.piece("HOLD", game.piece)
+
+    if game.bone then
+        game.piece.color = bone_color
+        game.piece.id = 0
+    end
 end
 
 function game.move_left()
