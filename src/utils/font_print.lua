@@ -3,6 +3,7 @@
 
 local vgafont = require("lib.vgafont")
 local utils = require("src.utils.utils")
+local quan = require("src.utils.decode_quan_bdf")
 
 local fontprint = {}
 
@@ -12,8 +13,8 @@ local function is_font_list(fonts)
     return fonts[1] ~= nil and fonts.height == nil
 end
 
-local function get_bdf(fonts)
-    return fonts.bdf
+local function get_quan(fonts)
+    return quan.get()
 end
 
 local function find_vga(fonts, c)
@@ -61,8 +62,6 @@ local function print_ex(fonts, text, x, y, scale, color, outline)
     local char_w = SLOT_W * scale
     local line_h = fh * scale
 
-    local bdf = get_bdf(fonts)
-
     local cx = x
     local cy = y
     local i = 1
@@ -85,6 +84,7 @@ local function print_ex(fonts, text, x, y, scale, color, outline)
                 local quads = outline and matched.quads_outline or matched.quads
                 vgafont._draw_char_ex(cx, cy, code, scale, color, image, quads)
             else
+                local bdf = get_quan()
                 local g = bdf and bdf.glyphs[c]
                 if g then
                     draw_bdf_glyph(bdf, g, cx, cy, scale, color, outline)
@@ -118,7 +118,7 @@ function fontprint.draw_char(fonts, x, y, char, scale, color)
 
     if type(char) ~= "number" then
         if not has_vga_glyph(fonts, char) then
-            local bdf = get_bdf(fonts)
+            local bdf = get_quan()
             local g = bdf and bdf.glyphs[char]
             if g then
                 draw_bdf_glyph(bdf, g, x, y, scale, color)

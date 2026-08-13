@@ -19,6 +19,9 @@ local PER_ROW = 128
 ---@field yoff integer?
 ---@field rows string[]?
 
+local raw_data = nil
+local cached_font = nil
+
 local byte_bits = {}
 for b = 0, 255 do
     local t = {}
@@ -56,10 +59,15 @@ local function utf8_char(cp)
     end
 end
 
-function quan.load(path)
-    local file = love.filesystem.newFile(path)
-    if not file then return nil end
-    if not file:open("r") then return nil end
+local function ensure_raw()
+    if raw_data == nil then
+        raw_data = love.filesystem.read("assets/font/quan.bdf")
+    end
+    return raw_data
+end
+
+local function parse(data)
+    if not data or #data == 0 then return nil end
 
     ---@type number
     local ascent = 6
@@ -70,7 +78,7 @@ function quan.load(path)
     ---@type quan_glyph?
     local cur = nil
 
-    for line in file:lines() do
+    for line in string.gmatch(data .. "\n", "([^\n]*)\n") do
         line = line:gsub("\r$", "")
 
         if in_bitmap then
@@ -123,7 +131,6 @@ function quan.load(path)
             end
         end
     end
-    file:close()
 
     local n = #entries
     if n == 0 then return nil end
@@ -184,6 +191,13 @@ function quan.load(path)
         height = ascent + descent,
         ascent = ascent,
     }
+end
+
+function quan.get()
+    if cached_font == nil then
+        cached_font = parse(ensure_raw())
+    end
+    return cached_font
 end
 
 return quan

@@ -3,7 +3,6 @@
 
 local push = require("lib.push")
 local vgafont = require("lib.vgafont")
-local bdffont = require("src.utils.decode_quan_bdf")
 local menu = require("src.menu.menu")
 local game = require("src.game.game")
 local render = require("src.game.draw")
@@ -67,7 +66,6 @@ function love.load()
         vgafont.load("assets/font/QUADBM/ext/PINYIN.F08", "pinyin"),
         vgafont.load("assets/font/QUADBM/ext/SYMBOL.F08", "symbol"),
     }
-    Fonts.ui_fonts.bdf = bdffont.load("assets/font/quan.bdf")
 
     game.input_mod = input
     sfx.load()
