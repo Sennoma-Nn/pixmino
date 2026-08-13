@@ -23,6 +23,10 @@ function utils.color_blend(c1, c2, ratio)
     }
 end
 
+function utils.strip_a(color)
+    return { color[1], color[2], color[3] }
+end
+
 function utils.utf8_len(text)
     local count = 0
     local i = 1

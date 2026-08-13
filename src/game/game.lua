@@ -8,7 +8,7 @@ local game_debug       = require("src.game.debug")
 local sfx              = require("src.utils.sfx")
 
 local next_count       = 3
-local bone_color       = { 0, 0.6, 0, 1 }
+local bone_color       = { 1.0, 0.69, 0.0, 0.4 }
 
 local game             = {}
 

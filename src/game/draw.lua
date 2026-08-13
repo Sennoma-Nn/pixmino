@@ -53,7 +53,6 @@ end
 
 local function draw_mino_borders(gx, gy, ph, bs)
     if not game.pf then return end
-    love.graphics.setColor(unpack(Colors.mino_border))
     for y = 1, game.pf.height do
         local row = game.pf_data[y]
         if row then
@@ -63,6 +62,9 @@ local function draw_mino_borders(gx, gy, ph, bs)
                 if cell then
                     local px = gx + (x - 1) * bs
                     local id = cell.id
+                    local border_color = utils.color_blend(utils.strip_a(cell.color), utils.strip_a(Colors.mino_border),
+                        Colors.mino_border[4])
+                    love.graphics.setColor(unpack(border_color))
 
                     if not has_same_id(x, y + 1, id) then
                         love.graphics.rectangle("fill", px + 1, py, bs - 2, 1)
@@ -87,14 +89,15 @@ local function draw_mino_borders(gx, gy, ph, bs)
     end
 end
 
-local function draw_matrix_borders(m, origin_px, origin_py, bs, border_color)
+local function draw_matrix_borders(m, origin_px, origin_py, bs, color, base_color)
     local n = #m
-    love.graphics.setColor(unpack(border_color or Colors.mino_border))
     for r = 1, n do
         for c = 1, n do
             if m[r][c] ~= 0 then
                 local px = origin_px + (c - 1) * bs
                 local py = origin_py + (r - 1) * bs
+                local border_color = utils.color_blend(utils.strip_a(color), utils.strip_a(base_color), base_color[4])
+                love.graphics.setColor(unpack(border_color))
 
                 if r - 1 < 1 or m[r - 1][c] == 0 then
                     love.graphics.rectangle("fill", px + 1, py, bs - 2, 1)
@@ -125,23 +128,25 @@ local function draw_piece(gx, gy, ph, bs)
     local dy = game.drop_y(p) - p.y
     local color = game.bone and game.bone_color or p.color
 
-    local ghost_ox, ghost_oy = gx + (p.x - 2) * bs, gy + ph - (p.y + dy + 1) * bs
-    for _, cell in ipairs(game.piece_cells(p)) do
-        local gy2 = cell.y + dy
-        if gy2 >= 1 and gy2 <= game.pf.height then
-            local ghost_color = { color[1], color[2], color[3], 0.25 }
-            draw_block(gx + (cell.x - 1) * bs, gy + ph - gy2 * bs, bs, ghost_color)
+    if not (game.gravity >= 20) then
+        local ghost_ox, ghost_oy = gx + (p.x - 2) * bs, gy + ph - (p.y + dy + 1) * bs
+        for _, cell in ipairs(game.piece_cells(p)) do
+            local gy2 = cell.y + dy
+            if gy2 >= 1 and gy2 <= game.pf.height then
+                local ghost_color = { color[1], color[2], color[3], 0.25 }
+                draw_block(gx + (cell.x - 1) * bs, gy + ph - gy2 * bs, bs, ghost_color)
+            end
         end
+        draw_matrix_borders(m, ghost_ox, ghost_oy, bs, color, Colors.ghost_border)
     end
-    draw_matrix_borders(m, ghost_ox, ghost_oy, bs, Colors.ghost_border)
 
     local ox, oy = gx + (p.x - 2) * bs, gy + ph - (p.y + 1) * bs
     for _, cell in ipairs(game.piece_cells(p)) do
         if cell.y >= 1 and cell.y <= game.pf.height then
-            draw_block(gx + (cell.x - 1) * bs, gy + ph - cell.y * bs, bs, color)
+            draw_block(gx + (cell.x - 1) * bs, gy + ph - cell.y * bs, bs, color)    
         end
     end
-    draw_matrix_borders(m, ox, oy, bs, Colors.piece_border)
+    draw_matrix_borders(m, ox, oy, bs, color, Colors.piece_border)
 end
 
 local function draw_spin_mask(gx, gy, ph, bs)
@@ -172,7 +177,7 @@ local function draw_preview(shape, px, py, bs)
             end
         end
     end
-    draw_matrix_borders(m, ox, oy, bs)
+    draw_matrix_borders(m, ox, oy, bs, color, Colors.mino_border)
     return pv.width
 end
 

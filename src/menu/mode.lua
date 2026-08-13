@@ -97,10 +97,10 @@ local mode = {
             lock_resets = 20,
             bone = bone,
             goal_lines = {
-                { line = 75, color = { 1, 1, 1, 0.25 } },
+                { line = 75,  color = { 1, 1, 1, 0.25 } },
                 { line = 150, color = { 1, 1, 1, 0.5 } },
                 { line = 225, color = { 1, 1, 1, 0.25 } },
-                { line = 250, color = { 0, 1, 0, 0.5 } },
+                { line = 250, color = { 1.0, 0.69, 0.0, 0.5 } },
                 { line = 300, color = { 1, 0, 0, 1 } },
             },
             settings = {
