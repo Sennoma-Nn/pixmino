@@ -27,23 +27,20 @@ function utils.strip_a(color)
     return { color[1], color[2], color[3] }
 end
 
+function utils.utf8_char_len(byte)
+    if byte < 128 then return 1 end
+    if byte < 192 then return 0 end
+    if byte < 224 then return 2 end
+    if byte < 240 then return 3 end
+    return 4
+end
+
 function utils.utf8_len(text)
     local count = 0
     local i = 1
     while i <= #text do
-        local byte = string.byte(text, i)
-        local len
-        if byte < 128 then
-            len = 1
-        elseif byte < 192 then
-            len = 1
-        elseif byte < 224 then
-            len = 2
-        elseif byte < 240 then
-            len = 3
-        else
-            len = 4
-        end
+        local len = utils.utf8_char_len(string.byte(text, i))
+        if len == 0 then len = 1 end
         count = count + 1
         i = i + len
     end

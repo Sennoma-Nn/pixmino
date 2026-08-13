@@ -1,7 +1,7 @@
 -- Copyright (C) 2026 Sennoma-Nn
 -- SPDX-License-Identifier: GPL-3.0-or-later
 
-local vgafont = require("lib.vgafont")
+local fontprint = require("src.utils.font_print")
 local game = require("src.game.game")
 local utils = require("src.utils.utils")
 local menu = require("src.menu.menu")
@@ -156,7 +156,7 @@ local function draw_spin_mask(gx, gy, ph, bs)
         if cell.y >= 1 and cell.y <= game.pf.height then
             local px = gx + (cell.x - 1) * bs
             local py = gy + ph - cell.y * bs
-            vgafont.print(Fonts.bold_font, tostring(cell.label), px, py, 1, Colors.gray)
+            fontprint.print(Fonts.bold_font, tostring(cell.label), px, py, 1, Colors.gray)
         end
     end
 end
@@ -184,7 +184,7 @@ local function draw_next_hold(font, gx, gy, pw, ph, bw, bs)
     if not game.started then return end
     local ix = gx + pw + bw + 8
 
-    vgafont.print_outlined(font, "NEXT", ix, gy - 2, 1, Colors.white, Colors.out_line)
+    fontprint.print_outlined(font, "NEXT", ix, gy - 2, 1, Colors.white, Colors.out_line)
     local py = gy + 10
     local px = ix
     for i = 1, next_count do
@@ -195,7 +195,7 @@ local function draw_next_hold(font, gx, gy, pw, ph, bw, bs)
     end
 
     local hold_y = py + 4 * bs
-    vgafont.print_outlined(font, "HOLD", ix, hold_y, 1, Colors.white, Colors.out_line)
+    fontprint.print_outlined(font, "HOLD", ix, hold_y, 1, Colors.white, Colors.out_line)
     if game.hold then
         draw_preview(game.hold, ix, hold_y + 12, bs)
     end
@@ -206,7 +206,7 @@ local function draw_modal(font, gx, gy, pw, ph, title_key)
     love.graphics.rectangle("fill", gx, gy, pw, ph)
 
     local mode_name = locale.get(game.mode_key:upper())
-    vgafont.print_outlined(Fonts.ui_fonts, mode_name, gx + 4, gy + 4, 1, Colors.gray, Colors.out_line)
+    fontprint.print_outlined(Fonts.ui_fonts, mode_name, gx + 4, gy + 4, 1, Colors.gray, Colors.out_line)
 
     local items = game.get_modal_items()
     local n = #items
@@ -215,13 +215,13 @@ local function draw_modal(font, gx, gy, pw, ph, title_key)
 
     local label = locale.get(title_key or "PAUSE")
     local lw = utils.utf8_len(label) * 8
-    vgafont.print_outlined(Fonts.ui_fonts, label, gx + (pw - lw) / 2, gy + top, 1, Colors.white, Colors.out_line)
+    fontprint.print_outlined(Fonts.ui_fonts, label, gx + (pw - lw) / 2, gy + top, 1, Colors.white, Colors.out_line)
 
     for i, key in ipairs(items) do
         local text = locale.get(key)
         local w = utils.utf8_len(text) * 8
         local color = (i == game.modal_selection) and Colors.yellow or Colors.white
-        vgafont.print_outlined(Fonts.ui_fonts, text, gx + (pw - w) / 2, gy + top + 8 + 10 + (i - 1) * 10, 1, color,
+        fontprint.print_outlined(Fonts.ui_fonts, text, gx + (pw - w) / 2, gy + top + 8 + 10 + (i - 1) * 10, 1, color,
             Colors.out_line)
     end
 end
@@ -248,20 +248,20 @@ local function draw_game_info(font, gx, gy, pw, ph, bw)
 
     if game.notify and game.notify.time > 0 and game.notify.text then
         local show_color = utils.color_blend(game.notify.color, Colors.white, 0.4)
-        vgafont.print_outlined(font, game.notify.text, ix, iy - 8 * 9, 1, utils.strip_a(show_color), Colors.out_line)
+        fontprint.print_outlined(font, game.notify.text, ix, iy - 8 * 9, 1, utils.strip_a(show_color), Colors.out_line)
     end
 
     local ren_color = (game.ren > 0) and Colors.yellow or Colors.white
     local b2b_color = (game.b2b > 0) and Colors.yellow or Colors.white
 
-    vgafont.print_outlined(font, info.scores, ix, iy - 8 * 7, 1, Colors.white, Colors.out_line)
-    vgafont.print_outlined(font, info.clears, ix, iy - 8 * 6, 1, Colors.white, Colors.out_line)
-    vgafont.print_outlined(font, info.level, ix, iy - 8 * 5, 1, Colors.white, Colors.out_line)
-    vgafont.print_outlined(font, info.ren, ix, iy - 8 * 4, 1, ren_color, Colors.out_line)
-    vgafont.print_outlined(font, info.b2b, ix, iy - 8 * 3, 1, b2b_color, Colors.out_line)
-    vgafont.print_outlined(font, info.time, ix, iy - 8 * 1, 1, Colors.white, Colors.out_line)
-    vgafont.print_outlined(font, string.rep("♦", total), ix, iy - 8 * 0, 1, Colors.gray, Colors.out_line)
-    vgafont.print_outlined(font, string.rep("♦", left), ix, iy - 8 * 0, 1, Colors.white, Colors.out_line)
+    fontprint.print_outlined(font, info.scores, ix, iy - 8 * 7, 1, Colors.white, Colors.out_line)
+    fontprint.print_outlined(font, info.clears, ix, iy - 8 * 6, 1, Colors.white, Colors.out_line)
+    fontprint.print_outlined(font, info.level, ix, iy - 8 * 5, 1, Colors.white, Colors.out_line)
+    fontprint.print_outlined(font, info.ren, ix, iy - 8 * 4, 1, ren_color, Colors.out_line)
+    fontprint.print_outlined(font, info.b2b, ix, iy - 8 * 3, 1, b2b_color, Colors.out_line)
+    fontprint.print_outlined(font, info.time, ix, iy - 8 * 1, 1, Colors.white, Colors.out_line)
+    fontprint.print_outlined(font, string.rep("♦", total), ix, iy - 8 * 0, 1, Colors.gray, Colors.out_line)
+    fontprint.print_outlined(font, string.rep("♦", left), ix, iy - 8 * 0, 1, Colors.white, Colors.out_line)
 end
 
 function render.draw(gx, gy, pw, ph, bw, bs)
@@ -288,18 +288,18 @@ function render.draw(gx, gy, pw, ph, bw, bs)
         love.graphics.setColor(0, 0, 0, 0.6)
         love.graphics.rectangle("fill", gx, gy, pw, ph)
 
-        vgafont.print_outlined(Fonts.ui_fonts, locale.get("BACK_TIP"), gx + 4, gy + 4, 1, Colors.gray, Colors.out_line)
+        fontprint.print_outlined(Fonts.ui_fonts, locale.get("BACK_TIP"), gx + 4, gy + 4, 1, Colors.gray, Colors.out_line)
 
         local label = "CLEAR"
         local lw = utils.utf8_len(label) * 8
         local cy = gy + ph / 2 - 16
-        vgafont.print_outlined(Fonts.bold_font, label, gx + (pw - lw) / 2, cy, 1, Colors.white, Colors.out_line)
+        fontprint.print_outlined(Fonts.bold_font, label, gx + (pw - lw) / 2, cy, 1, Colors.white, Colors.out_line)
 
         local y = gy + ph / 2
         for _, item in ipairs(game.result) do
             local text = tostring(item)
             local w = utils.utf8_len(text) * 8
-            vgafont.print_outlined(Fonts.bold_font, text, gx + (pw - w) / 2, y, 1, Colors.white, Colors.out_line)
+            fontprint.print_outlined(Fonts.bold_font, text, gx + (pw - w) / 2, y, 1, Colors.white, Colors.out_line)
             y = y + 8
         end
     elseif game.over then
@@ -316,7 +316,7 @@ function render.draw(gx, gy, pw, ph, bw, bs)
             label = "GO"
         end
         local lw = utils.utf8_len(label) * 8
-        vgafont.print(Fonts.bold_font, label, gx + (pw - lw) / 2, gy + (ph - 8) / 2, 1, Colors.white)
+        fontprint.print(Fonts.bold_font, label, gx + (pw - lw) / 2, gy + (ph - 8) / 2, 1, Colors.white)
     end
 end
 

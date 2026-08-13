@@ -1,7 +1,7 @@
 -- Copyright (C) 2026 Sennoma-Nn
 -- SPDX-License-Identifier: GPL-3.0-or-later
 
-local vgafont = require("lib.vgafont")
+local fontprint = require("src.utils.font_print")
 local locale = require("src.utils.locale")
 local utils = require("src.utils.utils")
 local push = require("lib.push")
@@ -176,11 +176,11 @@ function menu.draw(gx, gy, pw, ph, bw)
 
         if i == menu.selection then
             local highlight = disabled and Colors.light_gray or Colors.yellow
-            vgafont.print(Fonts.ui_fonts, label, item_x, item_y, 1, highlight)
+            fontprint.print(Fonts.ui_fonts, label, item_x, item_y, 1, highlight)
 
             if item.type == "keys" and menu.waiting_key == item.key_name then
                 local tip = locale.get("PRESS_KEY_TIP")
-                vgafont.print_outlined(Fonts.ui_fonts, tip, desc_x, desc_y, 1, Colors.yellow, Colors.out_line)
+                fontprint.print_outlined(Fonts.ui_fonts, tip, desc_x, desc_y, 1, Colors.yellow, Colors.out_line)
             else
                 local current = control_desc(item)
                 local desc = item.desc_key and locale.get(item.desc_key)
@@ -196,16 +196,16 @@ function menu.draw(gx, gy, pw, ph, bw)
                     display = display .. "\r\n\n" .. mode_record_text(item)
                 end
                 if display then
-                    vgafont.print_outlined(Fonts.ui_fonts, display, desc_x, desc_y, 1, Colors.white, Colors.out_line)
+                    fontprint.print_outlined(Fonts.ui_fonts, display, desc_x, desc_y, 1, Colors.white, Colors.out_line)
                 end
             end
         else
-            vgafont.print(Fonts.ui_fonts, label, item_x, item_y, 1, color)
+            fontprint.print(Fonts.ui_fonts, label, item_x, item_y, 1, color)
         end
     end
 
     if not menu.waiting_key then
-        vgafont.print(Fonts.ui_fonts, locale.get("BACK_TIP"), gx + 4, gy + 4, 1, Colors.gray)
+        fontprint.print(Fonts.ui_fonts, locale.get("BACK_TIP"), gx + 4, gy + 4, 1, Colors.gray)
     end
 end
 
