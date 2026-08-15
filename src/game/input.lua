@@ -34,8 +34,8 @@ input.now = {
     hard_drop = false,
 }
 input.rep = {
-    left      = { active = false, das_t = 0, arr_t = 0 },
-    right     = { active = false, das_t = 0, arr_t = 0 },
+    left      = { active = false, das_t = 0, arr_t = 0, das_done = false },
+    right     = { active = false, das_t = 0, arr_t = 0, das_done = false },
     soft_drop = { active = false, arr_t = 0 },
 }
 
@@ -50,12 +50,14 @@ local function axis_move(rep, now, old, ms, move_fn)
         rep.active = false
         rep.das_t = 0
         rep.arr_t = 0
+        rep.das_done = false
         return
     end
     if not old then
         rep.active = true
         rep.das_t = 0
         rep.arr_t = 0
+        rep.das_done = false
         move_fn()
         return
     end
@@ -63,15 +65,30 @@ local function axis_move(rep, now, old, ms, move_fn)
     local s = active_settings()
     local ds = utils.frame_ms(s.input.das)
     local ar = utils.frame_ms(s.input.arr)
-    rep.das_t = rep.das_t + ms
-    if rep.das_t >= ds then
-        rep.arr_t = rep.arr_t + ms
-        while rep.arr_t >= ar do
-            rep.arr_t = rep.arr_t - ar
-            if not move_fn() then
-                rep.arr_t = 0
-                break
+
+    if not rep.das_done then
+        rep.das_t = rep.das_t + ms
+        if rep.das_t >= ds then
+            rep.das_done = true
+            rep.arr_t = 0
+            if move_fn() and ar <= 0 then
+                while move_fn() do end
             end
+        end
+        return
+    end
+
+    if ar <= 0 then
+        while move_fn() do end
+        return
+    end
+
+    rep.arr_t = rep.arr_t + ms
+    while rep.arr_t >= ar do
+        rep.arr_t = rep.arr_t - ar
+        if not move_fn() then
+            rep.arr_t = 0
+            break
         end
     end
 end
@@ -130,13 +147,15 @@ function input.update(dt)
         local right_just_pressed = now.right and not old.right
 
         if right_just_pressed and not left_just_pressed then
-            rep.left.active = false
-            rep.left.das_t  = 0
-            rep.left.arr_t  = 0
+            rep.left.active   = false
+            rep.left.das_t    = 0
+            rep.left.arr_t    = 0
+            rep.left.das_done = false
         elseif left_just_pressed and not right_just_pressed then
-            rep.right.active = false
-            rep.right.das_t  = 0
-            rep.right.arr_t  = 0
+            rep.right.active   = false
+            rep.right.das_t    = 0
+            rep.right.arr_t    = 0
+            rep.right.das_done = false
         end
     end
     
@@ -165,6 +184,7 @@ function input.reset()
                 v.active = false
                 v.das_t = 0
                 v.arr_t = 0
+                v.das_done = false
             end
         end
     end
