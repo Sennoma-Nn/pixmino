@@ -244,20 +244,20 @@ locale.t = {
     DAS = {
         en = "DAS",
         ja = "DAS",
-        zh_cn = "DAS",
-        zh_tw = "DAS",
+        zh_cn = "自动移动延迟",
+        zh_tw = "自動移動延遲",
     },
     ARR = {
         en = "ARR",
         ja = "ARR",
-        zh_cn = "ARR",
-        zh_tw = "ARR",
+        zh_cn = "自动重复速率",
+        zh_tw = "自動重複速率",
     },
     DP_ARR = {
         en = "DP.ARR",
         ja = "DP.ARR",
-        zh_cn = "DP.ARR",
-        zh_tw = "DP.ARR",
+        zh_cn = "软降自动重复速率",
+        zh_tw = "軟降自動重複速率",
     },
 
     CCW = {
@@ -275,8 +275,8 @@ locale.t = {
     ROT180 = {
         en = "ROT.180",
         ja = "180ﾄﾞ",
-        zh_cn = "180度",
-        zh_tw = "180度",
+        zh_cn = "翻转",
+        zh_tw = "翻轉",
     },
     HOLD = {
         en = "HOLD",
@@ -382,20 +382,20 @@ locale.t = {
     DAS_DESC = {
         en = "Delay before auto-repeat.",
         ja = "ｼﾞﾄﾞｳ ﾚﾝｿﾞｸﾏﾃﾞﾉ ﾁｴﾝ｡",
-        zh_cn = "自动连续前的延迟｡",
-        zh_tw = "自動連續前的延遲｡",
+        zh_cn = "自动移动前的延迟｡(DAS)",
+        zh_tw = "自動移動前的延遲｡(DAS)",
     },
     ARR_DESC = {
         en = "Auto-repeat rate.",
         ja = "ｼﾞﾄﾞｳ ﾚﾝｿﾞｸ ﾚｰﾄ｡",
-        zh_cn = "自动连续的速度｡",
-        zh_tw = "自動連續的速度｡",
+        zh_cn = "自动重复速率｡(ARR)",
+        zh_tw = "自動重複速率｡(ARR)",
     },
     DP_ARR_DESC = {
         en = "Soft drop auto-repeat rate.",
         ja = "ｿﾌﾄﾄﾞﾛｯﾌﾟ ﾚﾝｿﾞｸ ﾚｰﾄ｡",
-        zh_cn = "软降连续速度｡",
-        zh_tw = "軟降連續速度｡",
+        zh_cn = "软降自动重复速率｡(ARR)",
+        zh_tw = "軟降自動重複速率｡(ARR)",
     },
 
     CCW_DESC = {
