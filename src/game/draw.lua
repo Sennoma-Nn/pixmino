@@ -272,7 +272,7 @@ local function draw_game_info(font, gx, gy, pw, ph, bw)
     }
 
     local total = game.lock_resets_total
-    local left = (game.piece and game.piece.lock_resets) or 0
+    local left = (game.piece and game.piece.lock_resets) or game.lock_resets_total
 
     if game.notify and game.notify.time > 0 and game.notify.text then
         local show_color = utils.color_blend(game.notify.color, Colors.white, 0.4)
