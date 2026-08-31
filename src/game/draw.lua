@@ -16,9 +16,9 @@ local function draw_block(px, py, bs, color)
     love.graphics.rectangle("fill", px, py, bs, bs)
 end
 
-local function has_same_id(x, y, id)
+local function has_same_block(x, y, id, drop_count)
     local row = game.pf_data[y]
-    return row and row[x] and row[x].id == id
+    return row and row[x] and row[x].id == id and row[x].drop_count == drop_count
 end
 
 local function draw_goal_lines(gx, gy, pw, ph, bs)
@@ -62,20 +62,21 @@ local function draw_mino_borders(gx, gy, ph, bs)
                 if cell then
                     local px = gx + (x - 1) * bs
                     local id = cell.id
+                    local drop_count = cell.drop_count
                     local border_color = utils.color_blend(utils.strip_a(cell.color), utils.strip_a(Colors.mino_border),
                         Colors.mino_border[4])
                     love.graphics.setColor(unpack(border_color))
 
-                    if not has_same_id(x, y + 1, id) then
+                    if not has_same_block(x, y + 1, id, drop_count) then
                         love.graphics.rectangle("fill", px + 1, py, bs - 2, 1)
                     end
-                    if not has_same_id(x, y - 1, id) then
+                    if not has_same_block(x, y - 1, id, drop_count) then
                         love.graphics.rectangle("fill", px + 1, py + bs - 1, bs - 2, 1)
                     end
-                    if not has_same_id(x - 1, y, id) then
+                    if not has_same_block(x - 1, y, id, drop_count) then
                         love.graphics.rectangle("fill", px, py + 1, 1, bs - 2)
                     end
-                    if not has_same_id(x + 1, y, id) then
+                    if not has_same_block(x + 1, y, id, drop_count) then
                         love.graphics.rectangle("fill", px + bs - 1, py + 1, 1, bs - 2)
                     end
 

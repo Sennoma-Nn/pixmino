@@ -107,16 +107,20 @@ function game.stop()
     game.wait = 0
     game.bone = false
     game.notify = { text = "Never Gonna Give You Up", color = nil, time = 0 }
+    BGM = nil
+    sfx.set_bgm_volume(0.4)
 end
 
 function game.open_modal()
     if game.cleared then return end
     game.modal_active = true
     game.modal_selection = 1
+    sfx.set_bgm_volume(0.2)
 end
 
 function game.close_modal()
     game.modal_active = false
+    sfx.set_bgm_volume(0.4)
 end
 
 local function modal_items()
@@ -297,6 +301,9 @@ local function clear_lines()
             elseif drop > 0 then
                 game.pf_data[y - drop] = row
                 game.pf_data[y] = nil
+                for x in pairs(row) do
+                    row[x].drop_count = row[x].drop_count + 1
+                end
             end
         end
     end
@@ -346,7 +353,7 @@ local function lock_piece(is_hard)
             row = {}
             game.pf_data[cell.y] = row
         end
-        row[cell.x] = { color = p.color, id = p.id }
+        row[cell.x] = { color = p.color, id = p.id, drop_count = 0 }
     end
 
     game_debug.piece("LOCK", p)
@@ -655,6 +662,10 @@ function game.start(playfield, mode, mode_key)
     game.clear_wait = 0
     game.wait = 0
     game.bone = false
+    sfx.set_bgm_volume(0.4)
+    game.go_played = false
+    BGM = nil
+    sfx.play("Ready")
     game.load_settings()
 end
 
@@ -665,11 +676,19 @@ function game.update(dt)
 
     game.time = game.time + dt
 
+    if not game.go_played and game.time >= -0.5 then
+        game.go_played = true
+        sfx.play("Go")
+    end
+
     if type(game.mode) == "function" then
         local old_record = save.get_record(game.mode_key)
         game.mode_state = game.mode(game.time, game.clears, game.scores, game.level, game.ren, game.b2b, game.gravity,
             old_record)
         if game.mode_state then
+            if game.mode_state.bgm ~= nil and game.time >= 0 then
+                BGM = game.mode_state.bgm
+            end
             if game.mode_state.settings then
                 game.load_settings(game.mode_state.settings)
             end
@@ -687,6 +706,7 @@ function game.update(dt)
             if game.mode_state.target and not game.cleared then
                 game.cleared = true
                 game.result = game.mode_state.result
+                BGM = "cleared"
                 if game.mode_key and game.mode_state.record_update and game.mode_state.record ~= nil then
                     save.update_record(game.mode_key, game.mode_state.record)
                 end
@@ -714,6 +734,11 @@ function game.update(dt)
             local is_spawn = game.spawn()
             if not is_spawn then
                 game.over = true
+                if game.mode_state and game.mode_state.save_on_over then
+                    BGM = "cleared"
+                else
+                    sfx.set_bgm_volume(0.2)
+                end
                 if game.mode_key and game.mode_state
                     and game.mode_state.save_on_over
                     and game.mode_state.record_update

@@ -2,19 +2,32 @@ local sfx = {}
 
 local sources = {}
 
-local names = {
-    "clear",
-    "hard_drop",
-    "level_up",
-    "lock",
-    "perfect_clear",
-    "spin",
-}
+local bgm_source = nil
+local bgm_current = nil
+local bgm_volume = 0.4
+local bgm_files = {}
+
+local function scan_dir(dir, out)
+    local items = love.filesystem.getDirectoryItems(dir)
+    for _, filename in ipairs(items) do
+        local base = filename:match("^(.*)%.[^.]+$") or filename
+        if not out[base] then
+            out[base] = dir .. "/" .. filename
+        end
+    end
+end
 
 function sfx.load()
-    for _, name in ipairs(names) do
-        sources[name] = love.audio.newSource("assets/sfx/" .. name .. ".wav", "static")
+    local sfx_files = {}
+    scan_dir("assets/sfx", sfx_files)
+    for name, path in pairs(sfx_files) do
+        local ok, src = pcall(love.audio.newSource, path, "static")
+        if ok then
+            sources[name] = src
+        end
     end
+    bgm_files = {}
+    scan_dir("assets/bgm", bgm_files)
 end
 
 function sfx.play(name)
@@ -23,6 +36,42 @@ function sfx.play(name)
         src:stop()
         src:play()
     end
+end
+
+function sfx.set_bgm_volume(v)
+    bgm_volume = v
+    if bgm_source then
+        bgm_source:setVolume(v)
+    end
+end
+
+function sfx.update()
+    local name = BGM
+    if name == bgm_current then return end
+
+    if bgm_source then
+        bgm_source:stop()
+        bgm_source = nil
+    end
+    bgm_current = name
+
+    if not name then return end
+
+    local path = bgm_files[name]
+    if not path then
+        bgm_current = nil
+        return
+    end
+
+    local ok, src = pcall(love.audio.newSource, path, "stream")
+    if not ok then
+        bgm_current = nil
+        return
+    end
+    src:setLooping(true)
+    src:setVolume(bgm_volume)
+    bgm_source = src
+    bgm_source:play()
 end
 
 return sfx

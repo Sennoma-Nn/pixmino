@@ -140,6 +140,11 @@ menu.data = {
             action = false
         },
         {
+            text_key = "SP_BGM",
+            desc_key = "SP_BGM_DESC",
+            action = false
+        },
+        {
             text_key = "SP_SFX",
             desc_key = "SP_SFX_DESC",
             action = false

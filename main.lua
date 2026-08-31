@@ -101,7 +101,10 @@ function love.update(dt)
             input.reset()
         end
         game.update(dt)
+    else
+        BGM = "menu"
     end
+    sfx.update()
 end
 
 function love.keypressed(key)

@@ -126,10 +126,10 @@ locale.t = {
         zh_tw = "IB-FULL",
     },
     SP_IBFULL_DESC = {
-        en = "Soda 261:\r\n\nProvided \"IB-FULL\" font,\r\nfor displaying game stats.",
-        ja = "Soda 261:\r\n\nｹﾞｰﾑ ｼﾞｮｳﾎｳ ﾋｮｳｼﾞ ﾖｳ\r\n｢IB-FULL｣ ﾌｫﾝﾄ ﾃｲｷｮｳ｡",
-        zh_cn = "Soda 261:\r\n\n提供｢IB-FULL｣字体,\r\n用于显示游戏信息｡",
-        zh_tw = "Soda 261:\r\n\n提供｢IB-FULL｣字型,\r\n用於顯示遊戲資訊｡",
+        en = "Soda 261:\r\n\nMade \"IB-FULL\" font,\r\nfor displaying game stats.",
+        ja = "Soda 261:\r\n\nｹﾞｰﾑ ｼﾞｮｳﾎｳ ﾋｮｳｼﾞ ﾖｳ\r\n｢IB-FULL｣ ﾌｫﾝﾄ ｾｲｻｸ｡",
+        zh_cn = "Soda 261:\r\n\n制作｢IB-FULL｣字体,\r\n用于显示游戏信息｡",
+        zh_tw = "Soda 261:\r\n\n製作｢IB-FULL｣字型,\r\n用於顯示遊戲資訊｡",
     },
 
     SP_QUANPIXEL = {
@@ -140,23 +140,43 @@ locale.t = {
     },
     SP_QUANPIXEL_DESC = {
         en =
-        "Galmuri8, Chill Bitmap,\r\nDiaowinner: (OFL 1.1)\r\n\nProvided \"QuanPixel 8px\" font,\r\nfor displaying Chinese characters.",
+        "Galmuri8, Chill Bitmap,\r\nDiaowinner: (OFL 1.1)\r\n\n\"QuanPixel 8px\" font,\r\nfor displaying Chinese.",
         ja = "Galmuri8, Chill Bitmap,\r\nDiaowinner: (OFL 1.1)\r\n\nﾁｭｳｺﾞｸｺﾞ ﾖｳ\r\n｢QuanPixel 8px｣ ﾌｫﾝﾄ｡",
-        zh_cn = "Galmuri8, Chill Bitmap,\r\nDiaowinner: (OFL 1.1)\r\n\n提供｢全小素8PX｣字体,\r\n用于显示中文｡",
-        zh_tw = "Galmuri8, Chill Bitmap,\r\nDiaowinner: (OFL 1.1)\r\n\n提供｢全小素8PX｣字型,\r\n用於顯示中文｡",
+        zh_cn = "Galmuri8, Chill Bitmap,\r\nDiaowinner: (OFL 1.1)\r\n\n｢全小素8PX｣字体,\r\n用于显示中文｡",
+        zh_tw = "Galmuri8, Chill Bitmap,\r\nDiaowinner: (OFL 1.1)\r\n\n｢全小素8PX｣字型,\r\n用於顯示中文｡",
+    },
+
+    NAME_MILKYAO = {
+        en = "MilkYao",
+        ja = "MilkYao",
+        zh_ch = "缪锞尧",
+        zh_tw = "繆锞堯" -- 中文字型沒有「錁」只能用「锞」替代了 QwQ
+    },
+
+    SP_BGM = {
+        en = "BGM",
+        ja = "BGM",
+        zh_cn = "BGM",
+        zh_tw = "BGM"
+    },
+    SP_BGM_DESC = {
+        en = "MilkYao:\r\n\nMade all BGM for the game.",
+        ja = "MilkYao:\r\n\nｹﾞｰﾑ ｾﾞﾝﾌﾞﾉ BGM ｦ ｾｲｻｸ｡",
+        zh_cn = "缪锞尧:\r\n\n制作游戏全部BGM｡",
+        zh_tw = "繆锞堯:\r\n\n製作遊戲全部BGM｡"
     },
 
     SP_SFX = {
-        en = "8BIT SFX",
-        ja = "8BIT SFX",
-        zh_cn = "8BIT SFX",
-        zh_tw = "8BIT SFX",
+        en = "SFX",
+        ja = "SFX",
+        zh_cn = "SFX",
+        zh_tw = "SFX",
     },
     SP_SFX_DESC = {
-        en = "mOsh: (CC0)\r\n\n8BIT SFX Library.",
-        ja = "mOsh: (CC0)\r\n\n8BIT SFX ﾗｲﾌﾞﾗﾘ｡",
-        zh_cn = "mOsh: (CC0)\r\n\n8BIT SFX 库｡",
-        zh_tw = "mOsh: (CC0)\r\n\n8BIT SFX 庫｡",
+        en = 'mOsh: (CC0)\r\n\n8BIT SFX Library.\r\n\n\nMilkYao:\r\n\nMade "Ready", "Go" SFX.',
+        ja = "mOsh: (CC0)\r\n\n8BIT SFX ﾗｲﾌﾞﾗﾘ｡\r\n\n\nMilkYao:\r\n\n｢Ready｣｢Go｣ ｺｳｶｵﾝ ｾｲｻｸ｡",
+        zh_cn = "mOsh: (CC0)\r\n\n8BIT SFX 库｡\r\n\n\n缪锞尧:\r\n\n制作｢Ready｣｢Go｣音效｡",
+        zh_tw = "mOsh: (CC0)\r\n\n8BIT SFX 庫｡\r\n\n\n繆锞堯:\r\n\n製作｢Ready｣｢Go｣音效｡",
     },
 
     PAUSE = {
