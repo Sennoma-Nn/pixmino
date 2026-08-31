@@ -7,7 +7,7 @@ local game_debug = require("src.game.debug")
 locale.langs = { "en", "ja", "zh_cn", "zh_tw" }
 locale.current = "en"
 
-local ver = "v0.0.14"
+local ver = "v0.0.15"
 
 local features = game_debug.detect_features()
 
@@ -26,6 +26,19 @@ locale.t = {
         ja = "⎋ ﾃﾞ ﾓﾄﾞﾙ",
         zh_cn = "⎋ 返回",
         zh_tw = "⎋ 返回",
+    },
+
+    READY = {
+        en = "READY",
+        ja = "ﾚﾃﾞｨ",
+        zh_cn = "准备",
+        zh_tw = "準備",
+    },
+    GO = {
+        en = "GO",
+        ja = "ｺﾞｰ",
+        zh_cn = "开始",
+        zh_tw = "開始"
     },
 
     START = {

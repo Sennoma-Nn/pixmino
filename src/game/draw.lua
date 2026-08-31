@@ -312,12 +312,12 @@ function render.draw(gx, gy, pw, ph, bw, bs)
     if game.time < 0 and menu.state == "GAME" and not game.modal_active then
         local label
         if game.time < -0.5 then
-            label = "READY"
+            label = locale.get("READY")
         else
-            label = "GO"
+            label = locale.get("GO")
         end
         local lw = utils.utf8_len(label) * 8
-        fontprint.print(Fonts.bold_font, label, gx + (pw - lw) / 2, gy + (ph - 8) / 2, 1, Colors.white)
+        fontprint.print(Fonts.ui_fonts, label, gx + (pw - lw) / 2, gy + (ph - 8) / 2, 1, Colors.white)
     end
 end
 
