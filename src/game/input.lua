@@ -45,6 +45,64 @@ local function tap_action(now, old, action)
     end
 end
 
+function input.apply_preinput()
+    local s = active_settings()
+    if not s.preop then return end
+    local k           = s.keys
+    local old         = input.old
+    local rep         = input.rep
+
+    local hold_down   = love.keyboard.isDown(k.hold)
+    local cw_down     = love.keyboard.isDown(k.cw)
+    local ccw_down    = love.keyboard.isDown(k.ccw)
+    local rot180_down = love.keyboard.isDown(k.rot180)
+    local left_down   = love.keyboard.isDown(k.left)
+    local right_down  = love.keyboard.isDown(k.right)
+
+    if hold_down then
+        game.do_hold()
+        old.hold = true
+    end
+
+    if cw_down and ccw_down then
+        game.rotate_180(true)
+    elseif cw_down then
+        game.rotate_cw(true)
+    elseif ccw_down then
+        game.rotate_ccw(true)
+    elseif rot180_down then
+        game.rotate_180(true)
+    end
+
+    if cw_down then old.cw = true end
+    if rot180_down then old.rot180 = true end
+    if ccw_down then old.ccw = true end
+
+    if left_down then
+        old.left = true
+        if not rep.left.active then
+            rep.left.active = true
+            rep.left.das_t = 0
+            rep.left.arr_t = 0
+            rep.left.das_done = false
+        end
+    end
+    if right_down then
+        old.right = true
+        if not rep.right.active then
+            rep.right.active = true
+            rep.right.das_t = 0
+            rep.right.arr_t = 0
+            rep.right.das_done = false
+        end
+    end
+    if left_down then
+        game.move_left()
+    elseif right_down then
+        game.move_right()
+    end
+end
+
 local function axis_move(rep, now, old, ms, move_fn)
     if not now then
         rep.active = false
@@ -158,13 +216,13 @@ function input.update(dt)
             rep.right.das_done = false
         end
     end
-    
+
     tap_action(now.rot180, old.rot180, game.rotate_180)
     tap_action(now.cw, old.cw, game.rotate_cw)
     tap_action(now.ccw, old.ccw, game.rotate_ccw)
     tap_action(now.hold, old.hold, game.do_hold)
     tap_action(now.hard_drop, old.hard_drop, game.hard_drop)
-    
+
     axis_move(rep.left, now.left, old.left, ms, game.move_left)
     axis_move(rep.right, now.right, old.right, ms, game.move_right)
     soft_drop_rep(rep.soft_drop, now.soft_drop, old.soft_drop, ms)

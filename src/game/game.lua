@@ -68,6 +68,8 @@ function game.load_settings(override)
             arr = Settings.input.arr,
             drop_arr = Settings.input.drop_arr,
         },
+        preop = Settings.preop,
+        spawn_indicator = Settings.spawn_indicator,
         keys = {},
     }
     for k, v in pairs(Settings.keys) do
@@ -79,6 +81,12 @@ function game.load_settings(override)
             for k, v in pairs(override.input) do
                 game.active_settings.input[k] = v
             end
+        end
+        if override.preop ~= nil then
+            game.active_settings.preop = override.preop
+        end
+        if override.spawn_indicator ~= nil then
+            game.active_settings.spawn_indicator = override.spawn_indicator
         end
         if override.keys then
             for k, v in pairs(override.keys) do
@@ -484,6 +492,10 @@ function game.spawn()
         game.piece.id = 0
     end
 
+    if game.input_mod and game.active_settings and game.active_settings.preop then
+        game.input_mod.apply_preinput()
+    end
+
     if collides(game.piece, game.piece.x, game.piece.y, game.piece.dir) then
         return false
     end
@@ -537,13 +549,15 @@ function game.move_right()
     return false
 end
 
-local function try_wallkick(piece, nd)
+local function try_wallkick(piece, nd, no_kick)
     local from = piece.dir
     local prs = minos[piece.shape].wallkick and minos[piece.shape].wallkick.prs
     local moves = prs and prs[from .. ">" .. nd]
     if not moves then return false, false end
 
-    for i, off in ipairs(moves) do
+    local limit = no_kick and 1 or #moves
+    for i = 1, limit do
+        local off = moves[i]
         local nx = piece.x + off[1]
         local ny = piece.y + off[2]
         if not collides(piece, nx, ny, nd) then
@@ -557,7 +571,7 @@ local function try_wallkick(piece, nd)
     return false, false
 end
 
-local function rotate_to(nd)
+local function rotate_to(nd, no_kick)
     local p = game.piece
     if not p or nd == p.dir then return end
     local is_grounded = is_grounded(p)
@@ -566,12 +580,12 @@ local function rotate_to(nd)
 
     reset_piece_spin(p)
 
-    local kicked, wk = try_wallkick(p, nd)
+    local kicked, wk = try_wallkick(p, nd, no_kick)
     if kicked then
         rotated = true
         wallkicked = wk
         if is_grounded then reset_lock(p) end
-    elseif not collides(p, p.x, p.y, nd) then
+    elseif not no_kick and not collides(p, p.x, p.y, nd) then
         p.dir = nd
         rotated = true
         if is_grounded then reset_lock(p) end
@@ -589,16 +603,16 @@ local function rotate_to(nd)
     end
 end
 
-function game.rotate_cw()
-    if game.piece then rotate_to(cw[game.piece.dir]) end
+function game.rotate_cw(no_kick)
+    if game.piece then rotate_to(cw[game.piece.dir], no_kick) end
 end
 
-function game.rotate_ccw()
-    if game.piece then rotate_to(ccw[game.piece.dir]) end
+function game.rotate_ccw(no_kick)
+    if game.piece then rotate_to(ccw[game.piece.dir], no_kick) end
 end
 
-function game.rotate_180()
-    if game.piece then rotate_to(half[game.piece.dir]) end
+function game.rotate_180(no_kick)
+    if game.piece then rotate_to(half[game.piece.dir], no_kick) end
 end
 
 function game.soft_drop()
@@ -774,5 +788,6 @@ game.get_matrix = get_matrix
 game.drop_y = drop_y
 game.piece_cells = piece_cells
 game.spin_mask_cells = spin_mask_cells
+game.spawn_point = spawn_pos
 
 return game

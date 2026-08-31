@@ -66,6 +66,9 @@ local mode = {
                 { line = 20, color = { 1, 1, 1, 0.5 } },
                 { line = 40, color = { 1, 0, 0, 1 } },
             },
+            settings = {
+                preop = false
+            },
         }
     end,
 

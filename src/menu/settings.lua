@@ -5,6 +5,8 @@ local locale = require("src.utils.locale")
 local push = require("lib.push")
 
 Settings = {
+    preop = true,
+    spawn_indicator = true,
     input = {
         das = 9,
         arr = 2,
@@ -55,6 +57,13 @@ Settings.menu = {
             end,
         },
         {
+            type = "toggle",
+            text_key = "SPAWN_MARK",
+            desc_key = "SPAWN_MARK_DESC",
+            get = function() return Settings.spawn_indicator end,
+            set = function(v) Settings.spawn_indicator = v end,
+        },
+        {
             type = "list",
             text_key = "LANGUAGE",
             desc_key = "LANGUAGE_DESC",
@@ -103,6 +112,13 @@ Settings.menu = {
             max = 20,
             get = function() return Settings.input.drop_arr end,
             set = function(v) Settings.input.drop_arr = v end,
+        },
+        {
+            type = "toggle",
+            text_key = "PREOP",
+            desc_key = "PREOP_DESC",
+            get = function() return Settings.preop end,
+            set = function(v) Settings.preop = v end,
         },
     },
     MENU_KEYS = make_keys_items(),

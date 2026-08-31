@@ -77,6 +77,8 @@ function save.flush()
         das = settings.input.das,
         arr = settings.input.arr,
         drop_arr = settings.input.drop_arr,
+        preop = tostring(settings.preop),
+        spawn_indicator = tostring(settings.spawn_indicator),
         locale = locale.current,
         fullscreen = tostring(love.window.getFullscreen()),
     }
@@ -96,6 +98,13 @@ function save.load()
         settings.input.das = tonumber(pairs.das) or settings.input.das
         settings.input.arr = tonumber(pairs.arr) or settings.input.arr
         settings.input.drop_arr = tonumber(pairs.drop_arr) or settings.input.drop_arr
+
+        if pairs.preop ~= nil then
+            settings.preop = (pairs.preop == "true")
+        end
+        if pairs.spawn_indicator ~= nil then
+            settings.spawn_indicator = (pairs.spawn_indicator == "true")
+        end
 
         for i, k in ipairs(key_bindings) do
             local v = pairs["key_" .. k]

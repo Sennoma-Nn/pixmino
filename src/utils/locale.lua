@@ -7,7 +7,7 @@ local game_debug = require("src.game.debug")
 locale.langs = { "en", "ja", "zh_cn", "zh_tw" }
 locale.current = "en"
 
-local ver = "v0.0.15"
+local ver = "v0.0.16"
 
 local features = game_debug.detect_features()
 
@@ -291,6 +291,32 @@ locale.t = {
         ja = "DP.ARR",
         zh_cn = "软降自动重复速率",
         zh_tw = "軟降自動重複速率",
+    },
+
+    PREOP = {
+        en = "I*S",
+        ja = "ｾﾝｺｳﾆｭｳﾘｮｸ",
+        zh_cn = "预输入",
+        zh_tw = "預輸入",
+    },
+    PREOP_DESC = {
+        en = "Holding rotate, move, or\r\nhold keys, when a new\r\npiece spawns triggers it.",
+        ja = "ｱﾀﾗｼｲﾋﾟｰｽ ｽﾎﾟｰﾝｼﾞﾆ\r\nｷｰｦ ｵｻｴﾃ ｲﾙ ﾄ\r\nｶｲﾃﾝ･ｲﾄﾞｳ･ﾎｰﾙﾄﾞ｡",
+        zh_cn = "新MINO入场时\r\n提前按住按键立即触发\r\n旋转､移动或暂存｡",
+        zh_tw = "新MINO入場時\r\n提前按住按鍵立即觸發\r\n旋轉､移動或暫存｡",
+    },
+
+    SPAWN_MARK = {
+        en = "SPAWN",
+        ja = "ｽﾎﾟｰﾝ",
+        zh_cn = "出生标记",
+        zh_tw = "出生標記",
+    },
+    SPAWN_MARK_DESC = {
+        en = "Show the next piece's\r\nshape with X marks.",
+        ja = "ﾂｷﾞﾉﾋﾟｰｽ ﾉ ｶﾀﾁ ｦ\r\nX ﾃﾞ ﾋｮｳｼﾞ｡",
+        zh_cn = "用X显示下个MINO\r\n的形状｡",
+        zh_tw = "用X顯示下個MINO\r\n的形狀｡",
     },
 
     CCW = {

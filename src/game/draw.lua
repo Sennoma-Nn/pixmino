@@ -162,6 +162,33 @@ local function draw_spin_mask(gx, gy, ph, bs)
     end
 end
 
+local function draw_spawn_marker(gx, gy, ph, bs)
+    if not game.started then return end
+    if not game.pf then return end
+    if not game.active_settings or not game.active_settings.spawn_indicator then return end
+    if not game.next[1] then return end
+
+    local shape = game.next[1]
+    local x0, y0 = game.spawn_point(shape)
+    local m = game.get_matrix(shape, "0")
+    local n = #m
+    local cr = 2
+
+    for r = 1, n do
+        for c = 1, n do
+            if m[r][c] ~= 0 then
+                local cx = x0 + (c - cr)
+                local cy = y0 + (cr - r)
+                if cy >= 1 and cy <= game.pf.height then
+                    local px = gx + (cx - 1) * bs
+                    local py = gy + ph - cy * bs
+                    fontprint.print(Fonts.ui_fonts, "X", px, py, 1, Colors.gray)
+                end
+            end
+        end
+    end
+end
+
 local function draw_preview(shape, px, py, bs)
     local mino = game.shapes[shape]
     local m = mino.shapes
@@ -280,6 +307,7 @@ function render.draw(gx, gy, pw, ph, bw, bs)
     draw_goal_lines(gx, gy, pw, ph, bs)
     draw_playfield_cells(gx, gy, ph, bs)
     draw_mino_borders(gx, gy, ph, bs)
+    draw_spawn_marker(gx, gy, ph, bs)
     draw_piece(gx, gy, ph, bs)
     draw_spin_mask(gx, gy, ph, bs)
     draw_next_hold(Fonts.bold_font, gx, gy, pw, ph, bw, bs)
