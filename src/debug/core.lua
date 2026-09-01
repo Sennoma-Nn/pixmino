@@ -1,0 +1,156 @@
+-- Copyright (C) 2026 Sennoma-Nn
+-- SPDX-License-Identifier: GPL-3.0-or-later
+
+local biom      = require("src.debug.basic_IO_module")
+
+local core      = {}
+
+core.stack      = {}
+core.commands   = {}
+
+local next_pid  = 1
+local free_pids = {}
+
+function core.load()
+    local dir = "src/debug/command"
+    local files = love.filesystem.getDirectoryItems(dir)
+    for _, f in ipairs(files) do
+        if f:sub(-4) == ".lua" then
+            local path = dir .. "/" .. f:sub(1, -5)
+            local ok, cmd = pcall(require, path)
+            if ok and cmd and cmd.name then
+                core.commands[string.upper(cmd.name)] = cmd
+            end
+        end
+    end
+end
+
+local function alloc_pid()
+    local pid = table.remove(free_pids)
+    if pid then return pid end
+    local p = next_pid
+    next_pid = next_pid + 1
+    return p
+end
+
+local function release_pid(pid)
+    if pid then
+        free_pids[#free_pids + 1] = pid
+    end
+end
+
+function core.boot(name, args)
+    core.stack = {}
+    next_pid = 1
+    free_pids = {}
+    biom.flush_keys()
+    local c = core.commands[string.upper(name or "SHELL")]
+    if not c then return false end
+    core.stack[#core.stack + 1] = {
+        pid = alloc_pid(),
+        co  = coroutine.create(function()
+            c.run(biom, args or {})
+        end),
+    }
+    core.pump()
+    return true
+end
+
+function core.run(name, args)
+    local c = core.commands[string.upper(name or "")]
+    if not c then
+        return false
+    end
+    coroutine.yield("invoke", name, args or {})
+    return true
+end
+
+function core.busy()
+    return #core.stack > 0
+end
+
+function core.getpid()
+    local top = core.stack[#core.stack]
+    if not top then return nil end
+    return top.pid
+end
+
+local function step(...)
+    local top = core.stack[#core.stack]
+    if not top then return true, "idle" end
+
+    local ok, r1, r2, r3, r4 = coroutine.resume(top.co, ...)
+    if not ok then
+        core.stack[#core.stack] = nil
+        release_pid(top.pid)
+        return false, r1
+    elseif coroutine.status(top.co) == "dead" then
+        core.stack[#core.stack] = nil
+        release_pid(top.pid)
+        return true, "exit", r1
+    else
+        return true, r1, r2, r3, r4
+    end
+end
+
+local function spawn_named(name, args)
+    local c = core.commands[string.upper(name or "")]
+    if not c then return false end
+    core.stack[#core.stack + 1] = {
+        pid = alloc_pid(),
+        co  = coroutine.create(function()
+            c.run(biom, args or {})
+        end),
+    }
+    return true
+end
+
+local function pump_from(ok, sig, a, b)
+    while ok do
+        if sig == "idle" then
+            return
+        elseif sig == "getchar" then
+            local key, char = biom.read_key()
+            if key == nil and char == nil then
+                return
+            end
+            ok, sig, a, b = step(key, char)
+        elseif sig == "invoke" then
+            if spawn_named(a, b) then
+                ok, sig, a, b = step()
+            else
+                ok, sig, a, b = step(nil)
+            end
+        elseif sig == "exit" then
+            if core.busy() then
+                ok, sig, a, b = step()
+            else
+                return
+            end
+        else
+            return
+        end
+    end
+end
+
+function core.pump()
+    if core.busy() then
+        pump_from(step())
+    end
+end
+
+function core.poll_input()
+    if not core.busy() then return end
+    local key, char = biom.read_key()
+    if key == nil and char == nil then return end
+    pump_from(step(key, char))
+end
+
+function core.reset()
+    core.stack = {}
+    next_pid = 1
+    free_pids = {}
+    biom.flush_keys()
+end
+
+return core

@@ -1,6 +1,8 @@
 -- Copyright (C) 2026 Sennoma-Nn
 -- SPDX-License-Identifier: GPL-3.0-or-later
 
+GAMEVER = "v0.0.17"
+
 local push = require("lib.push")
 local vgafont = require("lib.vgafont")
 local menu = require("src.menu.menu")
@@ -10,6 +12,9 @@ local input = require("src.game.input")
 local modes = require("src.menu.mode")
 local save = require("src.utils.save")
 local sfx = require("src.utils.sfx")
+local core = require("src.debug.core")
+local biom = require("src.debug.basic_IO_module")
+local console = require("src.debug.console")
 
 require("src.menu.settings")
 require("custom_cp")
@@ -69,6 +74,8 @@ function love.load()
 
     game.input_mod = input
     sfx.load()
+    console.load()
+    core.load()
 
     local fullscreen = save.load()
     if fullscreen then
@@ -76,25 +83,75 @@ function love.load()
     end
 end
 
+local function apply_console_resolution(on)
+    if on then
+        push:setupScreen(
+            320 * 2, 180 * 2,
+            320 * 4, 180 * 4,
+            {
+                pixelperfect = true,
+                resizable = true,
+                canvas = true
+            }
+        )
+    else
+        push:setupScreen(
+            320 * 1, 180 * 1,
+            320 * 4, 180 * 4,
+            {
+                pixelperfect = true,
+                resizable = true,
+                canvas = true
+            }
+        )
+    end
+end
+
+local function console_toggle()
+    if console.visible then
+        console.visible = false
+        love.keyboard.setKeyRepeat(false)
+        core.reset()
+        apply_console_resolution(false)
+    else
+        console.visible = true
+        love.keyboard.setKeyRepeat(true)
+        biom.clear()
+        core.boot("SHELL")
+        BGM = nil
+        apply_console_resolution(true)
+    end
+end
+
 function love.draw()
     push:apply("start")
 
-    local pw = playfield.width * style.block_size
-    local ph = playfield.height * style.block_size
-    local gy = (push:getHeight() - ph) / 2
-    local gx = gy
-    local bw = style.playfield_width
+    if console.visible then
+        console.draw(0, 0)
+    else
+        local pw = playfield.width * style.block_size
+        local ph = playfield.height * style.block_size
+        local gy = (push:getHeight() - ph) / 2
+        local gx = gy
+        local bw = style.playfield_width
 
-    render.draw(gx, gy, pw, ph, bw, style.block_size)
+        render.draw(gx, gy, pw, ph, bw, style.block_size)
 
-    if menu.state ~= "GAME" then
-        menu.draw(gx, gy, pw, ph, bw)
+        if menu.state ~= "GAME" then
+            menu.draw(gx, gy, pw, ph, bw)
+        end
     end
 
     push:apply("end")
 end
 
 function love.update(dt)
+    if console.visible then
+        console.update(dt)
+        sfx.update()
+        return
+    end
+
     if menu.state == "GAME" then
         if not game.started then
             game.start(playfield, modes[menu.selected_mode], menu.selected_mode)
@@ -107,9 +164,32 @@ function love.update(dt)
     sfx.update()
 end
 
+local function is_settings_menu()
+    return menu.state == "MENU_SETTINGS"
+        or menu.state == "MENU_SETTINGS_CTRL"
+        or menu.state == "MENU_KEYS"
+end
+
 function love.keypressed(key)
     if key == "f4" then
         push:switchFullscreen()
+        return
+    end
+
+    if console.visible then
+        if key == "escape" or (key == "t" and (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl"))) then
+            console_toggle()
+            return
+        end
+        biom.push_key(key)
+        core.poll_input()
+        return
+    end
+
+    if is_settings_menu()
+        and key == "t"
+        and (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) then
+        console_toggle()
         return
     end
 
@@ -165,6 +245,13 @@ function love.keypressed(key)
 
     if menu.keypressed(key) then
         return
+    end
+end
+
+function love.textinput(text)
+    if console.visible then
+        biom.push_key(nil, text)
+        core.poll_input()
     end
 end
 

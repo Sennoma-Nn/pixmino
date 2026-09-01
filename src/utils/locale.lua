@@ -7,8 +7,6 @@ local game_debug = require("src.game.debug")
 locale.langs = { "en", "ja", "zh_cn", "zh_tw" }
 locale.current = "en"
 
-local ver = "v0.0.16"
-
 local features = game_debug.detect_features()
 
 local env_info = "LÖVE   " .. love._version .. "\r\n" ..
@@ -74,10 +72,10 @@ locale.t = {
         zh_tw = "遊戲",
     },
     ABOUT_GAME_DESC = {
-        en = "PIXMINO " .. ver .. "\r\n\nMade with LÖVE.",
-        ja = "ﾋﾟｸｾﾐﾉ " .. ver .. "\r\n\nLÖVE ﾃﾞ ｻｸｾｲ｡",
-        zh_cn = "像素立方 " .. ver .. "\r\n\n使用 LÖVE 开发｡",
-        zh_tw = "圖元立方 " .. ver .. "\r\n\n使用 LÖVE 開發｡",
+        en = "PIXMINO " .. GAMEVER .. "\r\n\nMade with LÖVE.",
+        ja = "ﾋﾟｸｾﾐﾉ " .. GAMEVER .. "\r\n\nLÖVE ﾃﾞ ｻｸｾｲ｡",
+        zh_cn = "像素立方 " .. GAMEVER .. "\r\n\n使用 LÖVE 开发｡",
+        zh_tw = "圖元立方 " .. GAMEVER .. "\r\n\n使用 LÖVE 開發｡",
     },
 
     ENVIRONMENT = {
