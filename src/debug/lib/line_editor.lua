@@ -2,8 +2,11 @@
 -- SPDX-License-Identifier: GPL-3.0-or-later
 
 local console = require("src.debug.console")
+local biom = require("src.debug.basic_IO_module")
 
 local line_editor = {}
+
+local fg_prompt = biom.fg(14)
 
 local UTF8_CHAR = "[%z\1-\127\194-\244][\128-\191]*"
 
@@ -37,9 +40,9 @@ function line_editor:read_line(biom, prompt_text)
     end
 
     local function render()
-        local text = prompt_text .. join_buf()
         biom.clear_line(cy)
-        biom.write(0, cy - 1, text)
+        biom.write(0, cy - 1, prompt_text, fg_prompt)
+        biom.write(#prompt_text, cy - 1, join_buf())
     end
 
     local function set_cursor()

@@ -8,7 +8,7 @@ local testcmd = {}
 testcmd.name = "TESTCMD"
 
 local fg_value = biom.fg(2)
-local fg_note  = biom.fg(8)
+local fg_note  = biom.fg(15)
 
 function testcmd.run(biom, args)
     biom.print_line("ARGC " .. tostring(#(args or {})), fg_note)

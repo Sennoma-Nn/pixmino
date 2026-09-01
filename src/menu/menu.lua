@@ -162,11 +162,16 @@ local function control_desc(item)
     if item.type == "toggle" then
         return item.get() and "ON" or "OFF"
     elseif item.type == "value" then
-        return "< " .. tostring(item.get()) .. " >"
+        local v = item.get()
+        local l = (v > item.min) and "◄" or " "
+        local r = (v < item.max) and "►" or " "
+        return l .. " " .. tostring(v) .. " " .. r
     elseif item.type == "list" then
         local idx = item.get_index()
         local val = string.upper(item.items[idx])
-        return "< " .. tostring(val) .. " >"
+        local l = (idx > 1) and "◄" or " "
+        local r = (idx < #item.items) and "►" or " "
+        return l .. " " .. tostring(val) .. " " .. r
     elseif item.type == "keys" then
         return "[ " .. (string.upper(Settings.input.keys[item.key_name])) .. " ]"
     end
@@ -214,19 +219,23 @@ function menu.draw(gx, gy, pw, ph, bw)
             else
                 local current = control_desc(item)
                 local desc = item.desc_key and locale.get(item.desc_key)
-                local display
-                if not desc or desc == item.desc_key then
-                    display = current
-                elseif current then
-                    display = desc .. "\r\n\n" .. current
-                else
-                    display = desc
+                local desc_valid = desc and desc ~= item.desc_key
+                local record_txt = item.mode and mode_record_text(item)
+
+                local line_h = fontprint.get_height(Fonts.ui_fonts)
+                local y = desc_y
+
+                if desc_valid then
+                    fontprint.print_outlined(Fonts.ui_fonts, desc, desc_x, y, 1, Colors.white, Colors.out_line)
+                    local lines = select(2, desc:gsub("\n", "")) + 1
+                    y = y + (lines + 1) * line_h
                 end
-                if item.mode and display then
-                    display = display .. "\r\n\n" .. mode_record_text(item)
+                if current then
+                    fontprint.print_outlined(Fonts.bold_font, current, desc_x, y, 1, Colors.white)
+                    y = y + 2 * line_h
                 end
-                if display then
-                    fontprint.print_outlined(Fonts.ui_fonts, display, desc_x, desc_y, 1, Colors.white, Colors.out_line)
+                if record_txt then
+                    fontprint.print_outlined(Fonts.ui_fonts, record_txt, desc_x, y, 1, Colors.white, Colors.out_line)
                 end
             end
         else

@@ -32,14 +32,17 @@ Settings = {
         fullscreen = false,
         locale = "en",
         spawn_indicator = true,
+    },
+    debug = {
+        unlock = false
     }
 }
 
-local key_actions = { "left", "right", "ccw", "cw", "rot180", "soft_drop", "hard_drop", "hold" }
+Settings.key_actions = { "left", "right", "ccw", "cw", "rot180", "soft_drop", "hard_drop", "hold" }
 
 local function make_keys_items()
     local items = {}
-    for _, k in ipairs(key_actions) do
+    for _, k in ipairs(Settings.key_actions) do
         items[#items + 1] = {
             type = "keys",
             text_key = k:upper(),

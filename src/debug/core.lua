@@ -2,6 +2,7 @@
 -- SPDX-License-Identifier: GPL-3.0-or-later
 
 local biom      = require("src.debug.basic_IO_module")
+local settings  = require("src.menu.settings")
 
 local core      = {}
 
@@ -39,6 +40,13 @@ local function release_pid(pid)
     end
 end
 
+local function allowed(cmd)
+    if cmd.danger and not settings.debug.unlock then
+        return false
+    end
+    return true
+end
+
 function core.boot(name, args)
     core.stack = {}
     next_pid = 1
@@ -61,6 +69,9 @@ function core.run(name, args)
     if not c then
         return false
     end
+    if not allowed(c) then
+        return false, "locked"
+    end
     coroutine.yield("invoke", name, args or {})
     return true
 end
@@ -73,6 +84,15 @@ function core.getpid()
     local top = core.stack[#core.stack]
     if not top then return nil end
     return top.pid
+end
+
+function core.exists(pid)
+    for _, p in ipairs(core.stack) do
+        if p.pid == pid then
+            return true
+        end
+    end
+    return false
 end
 
 local function step(...)
@@ -96,6 +116,7 @@ end
 local function spawn_named(name, args)
     local c = core.commands[string.upper(name or "")]
     if not c then return false end
+    if not allowed(c) then return false end
     core.stack[#core.stack + 1] = {
         pid = alloc_pid(),
         co  = coroutine.create(function()

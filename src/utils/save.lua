@@ -10,7 +10,7 @@ local sfx = require("src.utils.sfx")
 local settings_file = "settings.txt"
 local record_file = "record.txt"
 
-local key_bindings = { "ccw", "cw", "rot180", "hold", "hard_drop", "soft_drop", "left", "right" }
+local key_bindings = settings.key_actions
 
 local function encode_pairs(t)
     local lines = {}
@@ -84,6 +84,7 @@ function save.flush()
         fullscreen = tostring(settings.display.fullscreen),
         bgm_volume = settings.sound.volume.bgm,
         sfx_volume = settings.sound.volume.sfx,
+        debug_unlock = tostring(settings.debug.unlock),
     }
     for i, k in ipairs(key_bindings) do
         t["key_" .. k] = settings.input.keys[k]
@@ -131,6 +132,10 @@ function save.load()
 
         settings.display.fullscreen = (pairs.fullscreen == "true")
         fullscreen = settings.display.fullscreen
+
+        if pairs.debug_unlock ~= nil then
+            settings.debug.unlock = (pairs.debug_unlock == "true")
+        end
     end
 
     save.flush()

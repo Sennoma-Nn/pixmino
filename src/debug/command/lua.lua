@@ -7,10 +7,11 @@ local le      = require("src.debug.lib.line_editor")
 local lua     = {}
 
 lua.name      = "LUA"
+lua.danger    = true
 
 local fg_out  = biom.fg(2)
 local fg_err  = biom.fg(4)
-local fg_note = biom.fg(7)
+local fg_note = biom.fg(15)
 
 local history = {}
 local editor  = le.new(history)
@@ -72,6 +73,7 @@ function lua.run(biom, args)
             else
                 biom.print_line("=> " .. tostring(res), fg_err)
             end
+            biom.print_line("", fg_note)
         end
     end
 end

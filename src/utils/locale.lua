@@ -504,20 +504,20 @@ locale.t = {
     DAS_DESC = {
         en = "Delay before auto-repeat.",
         ja = "ｼﾞﾄﾞｳ ﾚﾝｿﾞｸﾏﾃﾞﾉ ﾁｴﾝ｡",
-        zh_cn = "自动移动前的延迟｡(DAS)",
-        zh_tw = "自動移動前的延遲｡(DAS)",
+        zh_cn = "自动移动前的延迟｡ (DAS)",
+        zh_tw = "自動移動前的延遲｡ (DAS)",
     },
     ARR_DESC = {
         en = "Auto-repeat rate.",
         ja = "ｼﾞﾄﾞｳ ﾚﾝｿﾞｸ ﾚｰﾄ｡",
-        zh_cn = "自动重复速率｡(ARR)",
-        zh_tw = "自動重複速率｡(ARR)",
+        zh_cn = "自动重复速率｡ (ARR)",
+        zh_tw = "自動重複速率｡ (ARR)",
     },
     DP_ARR_DESC = {
         en = "Soft drop auto-repeat rate.",
         ja = "ｿﾌﾄﾄﾞﾛｯﾌﾟ ﾚﾝｿﾞｸ ﾚｰﾄ｡",
-        zh_cn = "软降自动重复速率｡(ARR)",
-        zh_tw = "軟降自動重複速率｡(ARR)",
+        zh_cn = "软降自动重复速率｡ (ARR)",
+        zh_tw = "軟降自動重複速率｡ (ARR)",
     },
 
     CCW_DESC = {

@@ -10,7 +10,7 @@ cursor.name    = "CURSOR"
 
 local fg_value = biom.fg(2)
 local fg_err   = biom.fg(4)
-local fg_note  = biom.fg(8)
+local fg_note  = biom.fg(15)
 
 function cursor.run(biom, args)
     local arg = args and args[1]

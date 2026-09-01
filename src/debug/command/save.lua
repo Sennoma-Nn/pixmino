@@ -7,11 +7,12 @@ local save_util = require("src.utils.save")
 local save      = {}
 
 save.name       = "SAVE"
+save.danger     = true
 
 local fg_key    = biom.fg(14)
 local fg_value  = biom.fg(2)
 local fg_err    = biom.fg(4)
-local fg_note   = biom.fg(8)
+local fg_note   = biom.fg(15)
 
 local function update_file(path_file, key, value)
     local text = love.filesystem.read(path_file) or ""

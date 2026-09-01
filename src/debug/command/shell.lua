@@ -1,21 +1,23 @@
 -- Copyright (C) 2026 Sennoma-Nn
 -- SPDX-License-Identifier: GPL-3.0-or-later
 
-local biom    = require("src.debug.basic_IO_module")
-local core    = require("src.debug.core")
-local le      = require("src.debug.lib.line_editor")
+local biom            = require("src.debug.basic_IO_module")
+local core            = require("src.debug.core")
+local le              = require("src.debug.lib.line_editor")
 
-local shell   = {}
+local shell           = {}
 
-shell.name    = "SHELL"
+shell.name            = "SHELL"
 
-local fg_out  = biom.fg(2)
-local fg_err  = biom.fg(4)
-local fg_note = biom.fg(7)
+local fg_out          = biom.fg(2)
+local fg_err          = biom.fg(4)
+local fg_note         = biom.fg(15)
+local fg_warn         = biom.fg(6)
 
-local prompt  = "Dbg> "
-local history = {}
-local editor  = le.new(history)
+local prompt_locked   = "Cmd> "
+local prompt_unlocked = "Dbg> "
+local history         = {}
+local editor          = le.new(history)
 
 local function tokenize(line)
     local tokens = {}
@@ -54,6 +56,7 @@ function shell.run(biom, args)
     biom.print_line("", fg_note)
 
     while true do
+        local prompt = Settings.debug.unlock and prompt_unlocked or prompt_locked
         local line = editor:read_line(biom, prompt)
         local argv = tokenize(line)
 
@@ -72,11 +75,15 @@ function shell.run(biom, args)
             elseif name == "PID" then
                 biom.print_line(tostring(core.getpid()), fg_out)
             else
-                local ok = core.run(name, rest)
-                if not ok then
+                local ok, why = core.run(name, rest)
+                if not ok and why == "locked" then
+                    biom.print_line("This is a dangerous command.", fg_warn)
+                    biom.print_line("If you know what you are doing, use `UNLOCK` to unlock", fg_warn)
+                elseif not ok then
                     biom.print_line("Command not found: " .. tostring(name_raw or ""), fg_err)
                 end
             end
+            biom.print_line("", fg_note)
         end
     end
 end

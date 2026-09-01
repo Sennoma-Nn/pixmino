@@ -8,7 +8,7 @@ local ver      = {}
 ver.name       = "VER"
 
 local fg_value = biom.fg(2)
-local fg_note  = biom.fg(8)
+local fg_note  = biom.fg(15)
 
 function ver.run(biom, args)
     local arg = args and args[1]

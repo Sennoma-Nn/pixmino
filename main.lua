@@ -147,6 +147,10 @@ end
 
 function love.update(dt)
     if console.visible then
+        if not core.exists(1) then
+            console_toggle()
+            return
+        end
         console.update(dt)
         sfx.update()
         return
@@ -166,6 +170,8 @@ end
 
 local function is_settings_menu()
     return menu.state == "MENU_SETTINGS"
+        or menu.state == "MENU_SETTINGS_DISPLAY"
+        or menu.state == "MENU_SETTINGS_SOUND"
         or menu.state == "MENU_SETTINGS_CTRL"
         or menu.state == "MENU_KEYS"
 end
@@ -173,6 +179,7 @@ end
 function love.keypressed(key)
     if key == "f4" then
         push:switchFullscreen()
+        Settings.display.fullscreen = love.window.getFullscreen()
         return
     end
 
