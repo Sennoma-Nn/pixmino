@@ -720,7 +720,7 @@ function game.update(dt)
             if game.mode_state.target and not game.cleared then
                 game.cleared = true
                 game.result = game.mode_state.result
-                BGM = "cleared"
+                BGM = "korobeiniki_drums"
                 if game.mode_key and game.mode_state.record_update and game.mode_state.record ~= nil then
                     save.update_record(game.mode_key, game.mode_state.record)
                 end
@@ -749,7 +749,7 @@ function game.update(dt)
             if not is_spawn then
                 game.over = true
                 if game.mode_state and game.mode_state.save_on_over then
-                    BGM = "cleared"
+                    BGM = "korobeiniki_drums"
                 else
                     sfx.set_bgm_volume(0.2)
                 end

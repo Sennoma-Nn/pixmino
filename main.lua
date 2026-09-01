@@ -1,7 +1,7 @@
 -- Copyright (C) 2026 Sennoma-Nn
 -- SPDX-License-Identifier: GPL-3.0-or-later
 
-GAMEVER = "v0.0.17"
+GAMEVER = "v0.0.18"
 
 local push = require("lib.push")
 local vgafont = require("lib.vgafont")
@@ -159,7 +159,7 @@ function love.update(dt)
         end
         game.update(dt)
     else
-        BGM = "menu"
+        BGM = "korobeiniki2"
     end
     sfx.update()
 end
