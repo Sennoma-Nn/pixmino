@@ -9,7 +9,7 @@ local save      = {}
 save.name       = "SAVE"
 save.danger     = true
 
-local fg_key    = biom.fg(14)
+local fg_key    = biom.fg(6)
 local fg_value  = biom.fg(2)
 local fg_err    = biom.fg(4)
 local fg_note   = biom.fg(15)
