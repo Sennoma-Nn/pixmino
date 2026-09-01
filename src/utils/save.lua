@@ -5,6 +5,7 @@ local save = {}
 
 local settings = require("src.menu.settings")
 local locale = require("src.utils.locale")
+local sfx = require("src.utils.sfx")
 
 local settings_file = "settings.txt"
 local record_file = "record.txt"
@@ -77,13 +78,15 @@ function save.flush()
         das = settings.input.das,
         arr = settings.input.arr,
         drop_arr = settings.input.drop_arr,
-        preop = tostring(settings.preop),
-        spawn_indicator = tostring(settings.spawn_indicator),
-        locale = locale.current,
-        fullscreen = tostring(love.window.getFullscreen()),
+        preop = tostring(settings.input.preop),
+        spawn_indicator = tostring(settings.display.spawn_indicator),
+        locale = settings.display.locale,
+        fullscreen = tostring(settings.display.fullscreen),
+        bgm_volume = settings.sound.volume.bgm,
+        sfx_volume = settings.sound.volume.sfx,
     }
     for i, k in ipairs(key_bindings) do
-        t["key_" .. k] = settings.keys[k]
+        t["key_" .. k] = settings.input.keys[k]
     end
     return love.filesystem.write(settings_file, encode_pairs(t))
 end
@@ -99,28 +102,35 @@ function save.load()
         settings.input.arr = tonumber(pairs.arr) or settings.input.arr
         settings.input.drop_arr = tonumber(pairs.drop_arr) or settings.input.drop_arr
 
+        settings.sound.volume.bgm = tonumber(pairs.bgm_volume) or settings.sound.volume.bgm
+        settings.sound.volume.sfx = tonumber(pairs.sfx_volume) or settings.sound.volume.sfx
+        sfx.set_bgm_volume(settings.sound.volume.bgm)
+        sfx.set_sfx_volume(settings.sound.volume.sfx)
+
         if pairs.preop ~= nil then
-            settings.preop = (pairs.preop == "true")
+            settings.input.preop = (pairs.preop == "true")
         end
         if pairs.spawn_indicator ~= nil then
-            settings.spawn_indicator = (pairs.spawn_indicator == "true")
+            settings.display.spawn_indicator = (pairs.spawn_indicator == "true")
         end
 
         for i, k in ipairs(key_bindings) do
             local v = pairs["key_" .. k]
             if v and v ~= "" then
-                settings.keys[k] = v
+                settings.input.keys[k] = v
             end
         end
 
         for i, lang in ipairs(locale.langs) do
             if lang == pairs.locale then
+                settings.display.locale = lang
                 locale.current = lang
                 break
             end
         end
 
-        fullscreen = (pairs.fullscreen == "true")
+        settings.display.fullscreen = (pairs.fullscreen == "true")
+        fullscreen = settings.display.fullscreen
     end
 
     save.flush()

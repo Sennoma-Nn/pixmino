@@ -1,3 +1,5 @@
+local utils = require("src.utils.utils")
+
 local sfx = {}
 
 local sources = {}
@@ -5,6 +7,7 @@ local sources = {}
 local bgm_source = nil
 local bgm_current = nil
 local bgm_volume = 0.4
+local sfx_volume = 1.0
 local bgm_files = {}
 
 local function scan_dir(dir, out)
@@ -23,6 +26,7 @@ function sfx.load()
     for name, path in pairs(sfx_files) do
         local ok, src = pcall(love.audio.newSource, path, "static")
         if ok then
+            src:setVolume(sfx_volume)
             sources[name] = src
         end
     end
@@ -34,15 +38,28 @@ function sfx.play(name)
     local src = sources[name]
     if src then
         src:stop()
+        src:setVolume(sfx_volume)
         src:play()
     end
 end
 
 function sfx.set_bgm_volume(v)
-    bgm_volume = v
+    bgm_volume = utils.clamp(v, 0, 1)
     if bgm_source then
-        bgm_source:setVolume(v)
+        bgm_source:setVolume(bgm_volume)
     end
+end
+
+function sfx.get_bgm_volume()
+    return bgm_volume
+end
+
+function sfx.set_sfx_volume(v)
+    sfx_volume = utils.clamp(v, 0, 1)
+end
+
+function sfx.get_sfx_volume()
+    return sfx_volume
 end
 
 function sfx.update()
@@ -68,6 +85,7 @@ function sfx.update()
         bgm_current = nil
         return
     end
+
     src:setLooping(true)
     src:setVolume(bgm_volume)
     bgm_source = src

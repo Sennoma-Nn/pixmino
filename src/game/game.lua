@@ -68,11 +68,11 @@ function game.load_settings(override)
             arr = Settings.input.arr,
             drop_arr = Settings.input.drop_arr,
         },
-        preop = Settings.preop,
-        spawn_indicator = Settings.spawn_indicator,
+        preop = Settings.input.preop,
+        spawn_indicator = Settings.display.spawn_indicator,
         keys = {},
     }
-    for k, v in pairs(Settings.keys) do
+    for k, v in pairs(Settings.input.keys) do
         game.active_settings.keys[k] = v
     end
 
@@ -116,19 +116,19 @@ function game.stop()
     game.bone = false
     game.notify = { text = "Never Gonna Give You Up", color = nil, time = 0 }
     BGM = nil
-    sfx.set_bgm_volume(0.4)
+    sfx.set_bgm_volume(Settings.sound.volume.bgm)
 end
 
 function game.open_modal()
     if game.cleared then return end
     game.modal_active = true
     game.modal_selection = 1
-    sfx.set_bgm_volume(0.2)
+    sfx.set_bgm_volume(Settings.sound.volume.bgm / 2)
 end
 
 function game.close_modal()
     game.modal_active = false
-    sfx.set_bgm_volume(0.4)
+    sfx.set_bgm_volume(Settings.sound.volume.bgm)
 end
 
 local function modal_items()
@@ -676,7 +676,7 @@ function game.start(playfield, mode, mode_key)
     game.clear_wait = 0
     game.wait = 0
     game.bone = false
-    sfx.set_bgm_volume(0.4)
+    sfx.set_bgm_volume(Settings.sound.volume.bgm)
     game.go_played = false
     BGM = nil
     sfx.play("Ready")
@@ -751,7 +751,7 @@ function game.update(dt)
                 if game.mode_state and game.mode_state.save_on_over then
                     BGM = "korobeiniki_drums"
                 else
-                    sfx.set_bgm_volume(0.2)
+                    sfx.set_bgm_volume(Settings.sound.volume.bgm / 2)
                 end
                 if game.mode_key and game.mode_state
                     and game.mode_state.save_on_over

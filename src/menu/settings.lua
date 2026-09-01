@@ -3,24 +3,35 @@
 
 local locale = require("src.utils.locale")
 local push = require("lib.push")
+local sfx = require("src.utils.sfx")
 
 Settings = {
-    preop = true,
-    spawn_indicator = true,
+    sound = {
+        volume = {
+            bgm = 0.4,
+            sfx = 1.0,
+        }
+    },
     input = {
         das = 9,
         arr = 2,
         drop_arr = 2,
+        preop = true,
+        keys = {
+            ccw = "z",
+            cw = "x",
+            rot180 = "a",
+            hold = "c",
+            hard_drop = "space",
+            soft_drop = "down",
+            left = "left",
+            right = "right",
+        }
     },
-    keys = {
-        ccw = "z",
-        cw = "x",
-        rot180 = "a",
-        hold = "c",
-        hard_drop = "space",
-        soft_drop = "down",
-        left = "left",
-        right = "right",
+    display = {
+        fullscreen = false,
+        locale = "en",
+        spawn_indicator = true,
     }
 }
 
@@ -43,16 +54,31 @@ Settings.menu = {
     MENU_SETTINGS = {
         {
             type = "action",
-            text_key = "JMP_CTRL",
-            desc_key = "JMP_CTRL_DESC",
+            text_key = "DISPLAY",
+            desc_key = "DISPLAY_DESC",
+            jmp = "MENU_SETTINGS_DISPLAY",
+        },
+        {
+            type = "action",
+            text_key = "SOUND",
+            desc_key = "SOUND_DESC",
+            jmp = "MENU_SETTINGS_SOUND",
+        },
+        {
+            type = "action",
+            text_key = "INPUT",
+            desc_key = "INPUT_DESC",
             jmp = "MENU_SETTINGS_CTRL",
         },
+    },
+    MENU_SETTINGS_DISPLAY = {
         {
             type = "toggle",
             text_key = "FULLSCREEN",
             desc_key = "FULLSCREEN_DESC",
-            get = function() return love.window.getFullscreen() end,
-            set = function()
+            get = function() return Settings.display.fullscreen end,
+            set = function(v)
+                Settings.display.fullscreen = v
                 push:switchFullscreen()
             end,
         },
@@ -60,8 +86,8 @@ Settings.menu = {
             type = "toggle",
             text_key = "SPAWN_MARK",
             desc_key = "SPAWN_MARK_DESC",
-            get = function() return Settings.spawn_indicator end,
-            set = function(v) Settings.spawn_indicator = v end,
+            get = function() return Settings.display.spawn_indicator end,
+            set = function(v) Settings.display.spawn_indicator = v end,
         },
         {
             type = "list",
@@ -70,12 +96,41 @@ Settings.menu = {
             items = locale.langs,
             get_index = function()
                 for i, l in ipairs(locale.langs) do
-                    if l == locale.current then return i end
+                    if l == Settings.display.locale then return i end
                 end
                 return 1
             end,
             set_index = function(i)
+                Settings.display.locale = locale.langs[i]
                 locale.current = locale.langs[i]
+            end,
+        },
+    },
+    MENU_SETTINGS_SOUND = {
+        {
+            type = "value",
+            text_key = "MUSIC_VOL",
+            desc_key = "MUSIC_VOL_DESC",
+            min = 0,
+            max = 1,
+            step = 0.1,
+            get = function() return Settings.sound.volume.bgm end,
+            set = function(v)
+                Settings.sound.volume.bgm = v
+                sfx.set_bgm_volume(v)
+            end,
+        },
+        {
+            type = "value",
+            text_key = "SFX_VOL",
+            desc_key = "SFX_VOL_DESC",
+            min = 0,
+            max = 1,
+            step = 0.1,
+            get = function() return Settings.sound.volume.sfx end,
+            set = function(v)
+                Settings.sound.volume.sfx = v
+                sfx.set_sfx_volume(v)
             end,
         },
     },
@@ -117,8 +172,8 @@ Settings.menu = {
             type = "toggle",
             text_key = "PREOP",
             desc_key = "PREOP_DESC",
-            get = function() return Settings.preop end,
-            set = function(v) Settings.preop = v end,
+            get = function() return Settings.input.preop end,
+            set = function(v) Settings.input.preop = v end,
         },
     },
     MENU_KEYS = make_keys_items(),

@@ -90,7 +90,7 @@ local function dump_file(path_file)
         end
         local _, cy = biom.get_cursor()
         biom.write(0, cy - 1, text, fg_key)
-        biom.write(col_w, cy - 1, ": ", fg_value, nil, true)
+        biom.write(col_w, cy - 1, ": ", fg_note, nil, true)
         biom.write(col_w + 2, cy - 1, tostring(e.v), fg_value)
         biom.set_cursor(1, cy + 1)
         if cy + 1 > H then

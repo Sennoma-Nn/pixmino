@@ -18,7 +18,11 @@ end
 
 local function has_same_block(x, y, id, drop_count)
     local row = game.pf_data[y]
-    return row and row[x] and row[x].id == id and row[x].drop_count == drop_count
+    local r = true
+    r = r and row and row[x]
+    r = r and row[x].id == id
+    -- r = r and row[x].drop_count == drop_count -- 本來想做成一個方塊中間被切斷後不會連接在一起，但是效果不好，所以算了（）
+    return r
 end
 
 local function draw_goal_lines(gx, gy, pw, ph, bs)

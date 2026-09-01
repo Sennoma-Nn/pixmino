@@ -20,6 +20,8 @@ menu.parent = {
     MENU_ABOUT = "MENU_MAIN",
     MENU_THANKS = "MENU_ABOUT",
     MENU_SETTINGS = "MENU_MAIN",
+    MENU_SETTINGS_DISPLAY = "MENU_SETTINGS",
+    MENU_SETTINGS_SOUND = "MENU_SETTINGS",
     MENU_SETTINGS_CTRL = "MENU_SETTINGS",
     MENU_KEYS = "MENU_SETTINGS_CTRL",
 }
@@ -166,7 +168,7 @@ local function control_desc(item)
         local val = string.upper(item.items[idx])
         return "< " .. tostring(val) .. " >"
     elseif item.type == "keys" then
-        return "[ " .. (string.upper(Settings.keys[item.key_name])) .. " ]"
+        return "[ " .. (string.upper(Settings.input.keys[item.key_name])) .. " ]"
     end
     return nil
 end
@@ -243,7 +245,7 @@ function menu.keypressed(key)
 
     if menu.waiting_key then
         if key ~= "escape" then
-            Settings.keys[menu.waiting_key] = key
+            Settings.input.keys[menu.waiting_key] = key
         end
         menu.waiting_key = nil
         return true
@@ -261,7 +263,11 @@ function menu.keypressed(key)
         if item and item.type ~= "action" and item.type ~= "toggle" then
             local delta = (key == "right") and 1 or -1
             if item.type == "value" then
-                item.set(utils.clamp(item.get() + delta, item.min, item.max))
+                local step = item.step or 1
+                local v = utils.clamp(item.get() + delta * step, item.min, item.max)
+                v = math.floor(v / step + 0.5) * step
+                v = utils.clamp(v, item.min, item.max)
+                item.set(v)
             elseif item.type == "list" then
                 local idx = utils.clamp(item.get_index() + delta, 1, #item.items)
                 item.set_index(idx)

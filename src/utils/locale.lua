@@ -124,10 +124,10 @@ locale.t = {
         zh_tw = "PUSH",
     },
     SP_PUSH_DESC = {
-        en = "Ulydev: (MIT)\r\n\nLibrary Push for LÖVE.",
-        ja = "Ulydev: (MIT)\r\n\nLÖVE ﾖｳ ﾗｲﾌﾞﾗﾘ Push｡",
-        zh_cn = "Ulydev: (MIT)\r\n\n用于 LÖVE 的 Push 函数库｡",
-        zh_tw = "Ulydev: (MIT)\r\n\n用於 LÖVE 的 Push 函式庫｡",
+        en = "Ulydev:\r\n\nLibrary Push for LÖVE.\r\n(MIT)",
+        ja = "Ulydev:\r\n\nLÖVE ﾖｳ ﾗｲﾌﾞﾗﾘ Push｡\r\n(MIT)",
+        zh_cn = "Ulydev:\r\n\n用于 LÖVE 的 Push 函数库｡ (MIT)",
+        zh_tw = "Ulydev:\r\n\n用於 LÖVE 的 Push 函式庫｡ (MIT)",
     },
 
     SP_IBFULL = {
@@ -151,17 +151,17 @@ locale.t = {
     },
     SP_QUANPIXEL_DESC = {
         en =
-        "Galmuri8, Chill Bitmap,\r\nDiaowinner: (OFL 1.1)\r\n\n\"QuanPixel 8px\" font,\r\nfor displaying Chinese.",
-        ja = "Galmuri8, Chill Bitmap,\r\nDiaowinner: (OFL 1.1)\r\n\nﾁｭｳｺﾞｸｺﾞ ﾖｳ\r\n｢QuanPixel 8px｣ ﾌｫﾝﾄ｡",
-        zh_cn = "Galmuri8, Chill Bitmap,\r\nDiaowinner: (OFL 1.1)\r\n\n｢全小素8PX｣字体,\r\n用于显示中文｡",
-        zh_tw = "Galmuri8, Chill Bitmap,\r\nDiaowinner: (OFL 1.1)\r\n\n｢全小素8PX｣字型,\r\n用於顯示中文｡",
+        "Galmuri8, Chill Bitmap,\r\nDiaowinner:\r\n\n\"QuanPixel 8px\" font,\r\nfor displaying Chinese.\r\n(OFL 1.1)",
+        ja = "Galmuri8, Chill Bitmap,\r\nDiaowinner:\r\n\nﾁｭｳｺﾞｸｺﾞ ﾖｳ ｢QuanPixel 8px｣\r\nﾌｫﾝﾄ｡ (OFL 1.1)",
+        zh_cn = "Galmuri8, Chill Bitmap,\r\nDiaowinner:\r\n\n｢全小素8PX｣字体,用于显示中文｡ \r\n(OFL 1.1)",
+        zh_tw = "Galmuri8, Chill Bitmap,\r\nDiaowinner:\r\n\n｢全小素8PX｣字型,用於顯示中文｡ \r\n(OFL 1.1)",
     },
 
     NAME_MILKYAO = {
         en = "MilkYao",
         ja = "MilkYao",
-        zh_ch = "缪锞尧 - MilkYao",
-        zh_tw = "繆锞堯 - MilkYao" -- 中文字型沒有「錁」只能用「锞」替代了 QwQ
+        zh_cn = "缪锞尧 - MilkYao",
+        zh_tw = "繆锞堯 - MilkYao", -- 中文字型沒有「錁」只能用「锞」替代了（）
     },
 
     SP_BGM = {
@@ -184,10 +184,10 @@ locale.t = {
         zh_tw = "SFX",
     },
     SP_SFX_DESC = {
-        en = 'mOsh: (CC0)\r\n\n8BIT SFX Library.\r\n\n\nMilkYao:\r\n\nMade "Ready", "Go" SFX.',
-        ja = "mOsh: (CC0)\r\n\n8BIT SFX ﾗｲﾌﾞﾗﾘ｡\r\n\n\nMilkYao:\r\n\n｢Ready｣｢Go｣ ｺｳｶｵﾝ ｾｲｻｸ｡",
-        zh_cn = "mOsh: (CC0)\r\n\n8BIT SFX 库｡\r\n\n\n缪锞尧 - MilkYao:\r\n\n制作｢Ready｣｢Go｣音效｡",
-        zh_tw = "mOsh: (CC0)\r\n\n8BIT SFX 庫｡\r\n\n\n繆锞堯 - MilkYao:\r\n\n製作｢Ready｣｢Go｣音效｡",
+        en = 'mOsh:\r\n\n8BIT SFX Library. (CC0)\r\n\n\nMilkYao:\r\n\nMade "Ready", "Go" SFX.',
+        ja = "mOsh:\r\n\n8BIT SFX ﾗｲﾌﾞﾗﾘ｡ (CC0)\r\n\n\nMilkYao:\r\n\n｢Ready｣｢Go｣ ｺｳｶｵﾝ ｾｲｻｸ｡",
+        zh_cn = "mOsh:\r\n\n8BIT SFX 库｡ (CC0)\r\n\n\n缪锞尧 - MilkYao:\r\n\n制作｢Ready｣｢Go｣音效｡",
+        zh_tw = "mOsh:\r\n\n8BIT SFX 庫｡ (CC0)\r\n\n\n繆锞堯 - MilkYao:\r\n\n製作｢Ready｣｢Go｣音效｡",
     },
 
     PAUSE = {
@@ -259,6 +259,45 @@ locale.t = {
         zh_tw = "按鍵",
     },
 
+    DISPLAY = {
+        en = "DISPLAY",
+        ja = "ﾋｮｳｼﾞ",
+        zh_cn = "显示",
+        zh_tw = "顯示",
+    },
+    DISPLAY_DESC = {
+        en = "Adjust display settings.",
+        ja = "ﾋｮｳｼﾞ ｾｯﾃｨﾝｸﾞｦ ﾁｮｳｾｲ｡",
+        zh_cn = "调整显示设置｡",
+        zh_tw = "調整顯示設定｡",
+    },
+
+    SOUND = {
+        en = "SOUND",
+        ja = "ｻｳﾝﾄﾞ",
+        zh_cn = "声音",
+        zh_tw = "聲音",
+    },
+    SOUND_DESC = {
+        en = "Adjust sound settings.",
+        ja = "ｵﾄ ｾｯﾃｨﾝｸﾞｦ ﾁｮｳｾｲ｡",
+        zh_cn = "调整声音设置｡",
+        zh_tw = "調整聲音設定｡",
+    },
+
+    INPUT = {
+        en = "INPUT",
+        ja = "ｲﾝﾌﾟｯﾄ",
+        zh_cn = "输入",
+        zh_tw = "輸入",
+    },
+    INPUT_DESC = {
+        en = "Adjust input settings.",
+        ja = "ｿｳｻ ｾｯﾃｨﾝｸﾞｦ ﾁｮｳｾｲ｡",
+        zh_cn = "调整输入设置｡",
+        zh_tw = "調整輸入設定｡",
+    },
+
     FULLSCREEN = {
         en = "FULL SCR.",
         ja = "ﾌﾙｽｸﾘｰﾝ",
@@ -270,6 +309,32 @@ locale.t = {
         ja = "ｹﾞﾝｺﾞ",
         zh_cn = "语言",
         zh_tw = "語言",
+    },
+
+    MUSIC_VOL = {
+        en = "MUSIC",
+        ja = "ｵﾝｶﾞｸ",
+        zh_cn = "音乐音量",
+        zh_tw = "音樂音量",
+    },
+    MUSIC_VOL_DESC = {
+        en = "Set the music volume.",
+        ja = "ｵﾝｶﾞｸ ﾉ ﾎﾞﾘｭｰﾑｦ ｾｯﾃｲ｡",
+        zh_cn = "设置音乐音量｡",
+        zh_tw = "設定音樂音量｡",
+    },
+
+    SFX_VOL = {
+        en = "SFX",
+        ja = "ｺｳｶｵﾝ",
+        zh_cn = "音效音量",
+        zh_tw = "音效音量",
+    },
+    SFX_VOL_DESC = {
+        en = "Set the sound effect volume.",
+        ja = "ｺｳｶｵﾝ ﾉ ﾎﾞﾘｭｰﾑｦ ｾｯﾃｲ｡",
+        zh_cn = "设置音效音量｡",
+        zh_tw = "設定音效音量｡",
     },
 
     DAS = {
