@@ -80,9 +80,9 @@ Settings.menu = {
             text_key = "FULLSCREEN",
             desc_key = "FULLSCREEN_DESC",
             get = function() return Settings.display.fullscreen end,
-            set = function(v)
-                Settings.display.fullscreen = v
+            set = function()
                 push:switchFullscreen()
+                Settings.display.fullscreen = love.window.getFullscreen()
             end,
         },
         {

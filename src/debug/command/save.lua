@@ -102,7 +102,23 @@ local function dump_file(path_file)
 end
 
 function save.run(biom, args)
+    local has_f = false
+    if args then
+        for i = 1, #args do
+            if args[i]:upper() == "/F" then
+                has_f = true
+            end
+        end
+    end
+    if has_f then
+        save_util.flush()
+        biom.print_line("[flushed] settings.txt", fg_note)
+    end
+
     local kind = args and args[1]
+    if kind and kind:upper() == "/F" then
+        return
+    end
     if kind and kind:upper() == "/?" then
         biom.print_line("SAVE                     : View or update saved data", fg_note)
         biom.print_line("SAVE SETTINGS            : Show settings.txt", fg_note)
@@ -110,6 +126,7 @@ function save.run(biom, args)
         biom.print_line("SAVE <KIND> /U KEY VALUE : Update or create key", fg_note)
         biom.print_line("SAVE <KIND> /D KEY       : Delete key", fg_note)
         biom.print_line("SAVE <KIND> /L           : Reload from disk", fg_note)
+        biom.print_line("SAVE /F                  : Flush settings to disk", fg_note)
         biom.print_line("SAVE /?                  : This help", fg_note)
         return
     end
