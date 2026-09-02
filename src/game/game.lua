@@ -410,7 +410,7 @@ local function lock_piece(is_hard)
     local clear_names = { "SINGLE", "DOUBLE", "TRIPLE", "QUAD" }
     if is_perfect then
         local prefix = is_spin and ("%s SPIN "):format(p.shape) or ""
-        game.set_notify(prefix .. "PERFECT CLEAR", p.color)
+        game.set_notify(prefix .. (prefix ~= "" and "& " or "") .. "PERFECT CLEAR", p.color)
     elseif is_spin then
         local mini = is_mini and "MINI " or ""
         local clear_name = (cleared > 0 and clear_names[cleared]) or "NONE"

@@ -186,7 +186,7 @@ local function draw_spawn_marker(gx, gy, ph, bs)
                 if cy >= 1 and cy <= game.pf.height then
                     local px = gx + (cx - 1) * bs
                     local py = gy + ph - cy * bs
-                    fontprint.print(Fonts.ui_fonts, "X", px, py, 1, Colors.gray)
+                    fontprint.print(Fonts.bold_font, "▒", px, py, 1, Colors.gray)
                 end
             end
         end

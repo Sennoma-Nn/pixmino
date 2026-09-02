@@ -73,7 +73,7 @@ locale.t = {
     },
     ABOUT_GAME_DESC = {
         en = "PIXMINO " .. GAMEVER .. "\r\n\nMade with LÖVE.",
-        ja = "ﾋﾟｸｾﾐﾉ " .. GAMEVER .. "\r\n\nLÖVE ﾃﾞ ｻｸｾｲ｡",
+        ja = "ﾋﾟｸｾﾐﾉ " .. GAMEVER .. "\r\n\nLÖVEﾃﾞ ｻｸｾｲ｡",
         zh_cn = "像素立方 " .. GAMEVER .. "\r\n\n使用 LÖVE 开发｡",
         zh_tw = "圖元立方 " .. GAMEVER .. "\r\n\n使用 LÖVE 開發｡",
     },
@@ -99,7 +99,7 @@ locale.t = {
     },
     SOURCE_DESC = {
         en = "Source Code:\r\n\nGitHub:\r\nSennoma-Nn/pixmino\r\n\nLicensed under GPLv3.\r\n🄯 2026 Sennoma-Nn",
-        ja = "ｿｰｽ ｺｰﾄﾞ:\r\n\nGitHub:\r\nSennoma-Nn/pixmino\r\n\nGPLv3 ﾗｲｾﾝｽ ﾃﾞ ｺｳｶｲ｡\r\n🄯 2026 Sennoma-Nn",
+        ja = "ｿｰｽ ｺｰﾄﾞ:\r\n\nGitHub:\r\nSennoma-Nn/pixmino\r\n\nGPLv3 ﾗｲｾﾝｽﾃﾞ ｺｳｶｲ｡\r\n🄯 2026 Sennoma-Nn",
         zh_cn = "源代码:\r\n\nGitHub:\r\nSennoma-Nn/pixmino\r\n\n以 GPLv3 许可发布｡\r\n🄯 2026 Sennoma-Nn",
         zh_tw = "原始碼:\r\n\nGitHub:\r\nSennoma-Nn/pixmino\r\n\n以 GPLv3 授權釋出｡\r\n🄯 2026 Sennoma-Nn",
     },
@@ -137,9 +137,9 @@ locale.t = {
         zh_tw = "IB-FULL",
     },
     SP_IBFULL_DESC = {
-        en = "Soda 261:\r\n\nMade \"IB-FULL\" font,\r\nfor displaying game stats.",
+        en = 'Soda 261:\r\n\nMade "IB-FULL" font,\r\nfor displaying game stats.',
         ja = "Soda 261:\r\n\nｹﾞｰﾑ ｼﾞｮｳﾎｳ ﾋｮｳｼﾞ ﾖｳ\r\n｢IB-FULL｣ ﾌｫﾝﾄ ｾｲｻｸ｡",
-        zh_cn = "Soda 261:\r\n\n制作｢IB-FULL｣字体,\r\n用于显示游戏信息｡",
+        zh_cn = 'Soda 261:\r\n\n制作"IB-FULL"字体,\r\n用于显示游戏信息｡',
         zh_tw = "Soda 261:\r\n\n製作｢IB-FULL｣字型,\r\n用於顯示遊戲資訊｡",
     },
 
@@ -150,10 +150,9 @@ locale.t = {
         zh_tw = "全小素",
     },
     SP_QUANPIXEL_DESC = {
-        en =
-        "Galmuri8, Chill Bitmap,\r\nDiaowinner:\r\n\n\"QuanPixel 8px\" font,\r\nfor displaying Chinese.\r\n(OFL 1.1)",
+        en = 'Galmuri8, Chill Bitmap,\r\nDiaowinner:\r\n\n"QuanPixel 8px" font,\r\nfor displaying Chinese.\r\n(OFL 1.1)',
         ja = "Galmuri8, Chill Bitmap,\r\nDiaowinner:\r\n\nﾁｭｳｺﾞｸｺﾞ ﾖｳ ｢QuanPixel 8px｣\r\nﾌｫﾝﾄ｡ (OFL 1.1)",
-        zh_cn = "Galmuri8, Chill Bitmap,\r\nDiaowinner:\r\n\n｢全小素8PX｣字体,用于显示中文｡ \r\n(OFL 1.1)",
+        zh_cn = 'Galmuri8, Chill Bitmap,\r\nDiaowinner:\r\n\n"全小素8PX"字体,用于显示中文｡ \r\n(OFL 1.1)',
         zh_tw = "Galmuri8, Chill Bitmap,\r\nDiaowinner:\r\n\n｢全小素8PX｣字型,用於顯示中文｡ \r\n(OFL 1.1)",
     },
 
@@ -172,7 +171,7 @@ locale.t = {
     },
     SP_BGM_DESC = {
         en = "MilkYao:\r\n\nMade all BGM for the game.",
-        ja = "MilkYao:\r\n\nｹﾞｰﾑ ｾﾞﾝﾌﾞﾉ BGM ｦ ｾｲｻｸ｡",
+        ja = "MilkYao:\r\n\nｹﾞｰﾑ ｾﾞﾝﾌﾞﾉ BGMｦ ｾｲｻｸ｡",
         zh_cn = "缪锞尧 - MilkYao:\r\n\n制作游戏全部BGM｡",
         zh_tw = "繆锞堯 - MilkYao:\r\n\n製作遊戲全部BGM｡"
     },
@@ -186,8 +185,8 @@ locale.t = {
     SP_SFX_DESC = {
         en = 'mOsh:\r\n\n8BIT SFX Library. (CC0)\r\n\n\nMilkYao:\r\n\nMade "Ready", "Go" SFX.',
         ja = "mOsh:\r\n\n8BIT SFX ﾗｲﾌﾞﾗﾘ｡ (CC0)\r\n\n\nMilkYao:\r\n\n｢Ready｣｢Go｣ ｺｳｶｵﾝ ｾｲｻｸ｡",
-        zh_cn = "mOsh:\r\n\n8BIT SFX 库｡ (CC0)\r\n\n\n缪锞尧 - MilkYao:\r\n\n制作｢Ready｣｢Go｣音效｡",
-        zh_tw = "mOsh:\r\n\n8BIT SFX 庫｡ (CC0)\r\n\n\n繆锞堯 - MilkYao:\r\n\n製作｢Ready｣｢Go｣音效｡",
+        zh_cn = 'mOsh:\r\n\n8BIT SFX 库｡ (CC0)\r\n\n\n缪锞尧 - MilkYao:\r\n\n制作"Ready"与"Go"音效｡',
+        zh_tw = "mOsh:\r\n\n8BIT SFX 庫｡ (CC0)\r\n\n\n繆锞堯 - MilkYao:\r\n\n製作｢Ready｣與｢Go｣音效｡",
     },
 
     PAUSE = {
@@ -293,7 +292,7 @@ locale.t = {
     },
     INPUT_DESC = {
         en = "Adjust input settings.",
-        ja = "ｿｳｻ ｾｯﾃｨﾝｸﾞｦ ﾁｮｳｾｲ｡",
+        ja = "ｲﾝﾌﾟｯﾄ ｾｯﾃｨﾝｸﾞｦ ﾁｮｳｾｲ｡",
         zh_cn = "调整输入设置｡",
         zh_tw = "調整輸入設定｡",
     },
@@ -312,27 +311,27 @@ locale.t = {
     },
 
     MUSIC_VOL = {
-        en = "MUSIC",
-        ja = "ｵﾝｶﾞｸ",
+        en = "MUSIC VOL",
+        ja = "ｵﾝｶﾞｸ VOL",
         zh_cn = "音乐音量",
         zh_tw = "音樂音量",
     },
     MUSIC_VOL_DESC = {
         en = "Set the music volume.",
-        ja = "ｵﾝｶﾞｸ ﾉ ﾎﾞﾘｭｰﾑｦ ｾｯﾃｲ｡",
+        ja = "ｵﾝｶﾞｸﾉ ﾎﾞﾘｭｰﾑｦ ｾｯﾃｲ｡",
         zh_cn = "设置音乐音量｡",
         zh_tw = "設定音樂音量｡",
     },
 
     SFX_VOL = {
-        en = "SFX",
-        ja = "ｺｳｶｵﾝ",
+        en = "SFX VOL",
+        ja = "ｺｳｶｵﾝ VOL",
         zh_cn = "音效音量",
         zh_tw = "音效音量",
     },
     SFX_VOL_DESC = {
         en = "Set the sound effect volume.",
-        ja = "ｺｳｶｵﾝ ﾉ ﾎﾞﾘｭｰﾑｦ ｾｯﾃｲ｡",
+        ja = "ｺｳｶｵﾝﾉ ﾎﾞﾘｭｰﾑｦ ｾｯﾃｲ｡",
         zh_cn = "设置音效音量｡",
         zh_tw = "設定音效音量｡",
     },
@@ -363,10 +362,10 @@ locale.t = {
         zh_tw = "預輸入",
     },
     PREOP_DESC = {
-        en = "Holding rotate, move, or\r\nhold keys, when a new\r\npiece spawns triggers it.",
-        ja = "ｱﾀﾗｼｲﾋﾟｰｽ ｽﾎﾟｰﾝｼﾞﾆ\r\nｷｰｦ ｵｻｴﾃ ｲﾙ ﾄ\r\nｶｲﾃﾝ･ｲﾄﾞｳ･ﾎｰﾙﾄﾞ｡",
-        zh_cn = "新MINO入场时\r\n提前按住按键立即触发\r\n旋转､移动或暂存｡",
-        zh_tw = "新MINO入場時\r\n提前按住按鍵立即觸發\r\n旋轉､移動或暫存｡",
+        en = "Hold rotate, move,\r\nor hold keys and\r\nthe action triggers\r\nwhen a new piece spawns.",
+        ja = "ｱﾀﾗｼｲﾋﾟｰｽ ｽﾎﾟｰﾝｼﾞﾆ\r\nｷｰｦ ｵｻｴﾃ ｲﾙﾄ\r\nｶｲﾃﾝ･ｲﾄﾞｳ･ﾎｰﾙﾄﾞ｡",
+        zh_cn = "新方块入场时\r\n提前按住按键立即触发\r\n旋转､移动或暂存｡",
+        zh_tw = "新方塊入場時\r\n提前按住按鍵立即觸發\r\n旋轉､移動或暫存｡",
     },
 
     SPAWN_MARK = {
@@ -376,10 +375,10 @@ locale.t = {
         zh_tw = "出生標記",
     },
     SPAWN_MARK_DESC = {
-        en = "Show the next piece's\r\nshape with X marks.",
-        ja = "ﾂｷﾞﾉﾋﾟｰｽ ﾉ ｶﾀﾁ ｦ\r\nX ﾃﾞ ﾋｮｳｼﾞ｡",
-        zh_cn = "用X显示下个MINO\r\n的形状｡",
-        zh_tw = "用X顯示下個MINO\r\n的形狀｡",
+        en = "Mark the next piece's shape\r\nand spawn position on the\r\nfield.",
+        ja = "ﾌｨｰﾙﾄﾞｼﾞｮｳﾆ ﾂｷﾞﾉ ﾋﾟｰｽﾉ\r\nｶﾀﾁﾄ ｽﾎﾟｰﾝ ｲﾁｦ ﾏｰｸ｡",
+        zh_cn = "在场地上标记下个方块的形状与出現位置｡",
+        zh_tw = "在場地上標記下個方塊的形狀與出現位置｡",
     },
 
     CCW = {
@@ -541,8 +540,8 @@ locale.t = {
     HOLD_DESC = {
         en = "Hold current piece.",
         ja = "ﾋﾟｰｽｦ ﾎｰﾙﾄﾞ｡",
-        zh_cn = "当前MINO暂存｡",
-        zh_tw = "目前MINO暫存｡",
+        zh_cn = "当前方块暂存｡",
+        zh_tw = "目前方塊暫存｡",
     },
     HARD_DROP_DESC = {
         en = "Drop instantly.",
@@ -552,21 +551,21 @@ locale.t = {
     },
     SOFT_DROP_DESC = {
         en = "Move piece downward.",
-        ja = "ｼﾀﾍﾞ ﾄﾞﾛｯﾌﾟ｡",
+        ja = "ｼﾀﾍ ﾄﾞﾛｯﾌﾟ｡",
         zh_cn = "软降落｡",
         zh_tw = "軟降落｡",
     },
     LEFT_DESC = {
         en = "Move piece left.",
-        ja = "ﾋﾀﾞﾘﾍﾞ ﾑｰﾌﾞ｡",
-        zh_cn = "MINO向左移动｡",
-        zh_tw = "MINO向左移動｡",
+        ja = "ﾋﾀﾞﾘﾍ ﾑｰﾌﾞ｡",
+        zh_cn = "方块向左移动｡",
+        zh_tw = "方塊向左移動｡",
     },
     RIGHT_DESC = {
         en = "Move piece right.",
-        ja = "ﾐｷﾞﾍﾞ ﾑｰﾌﾞ｡",
-        zh_cn = "MINO向右移动｡",
-        zh_tw = "MINO向右移動｡",
+        ja = "ﾐｷﾞﾍ ﾑｰﾌﾞ｡",
+        zh_cn = "方块向右移动｡",
+        zh_tw = "方塊向右移動｡",
     },
 }
 
