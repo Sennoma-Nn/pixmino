@@ -51,8 +51,15 @@ local function tokenize(line)
 end
 
 function shell.run(biom, args)
+    local arg = args and args[1]
+    if arg and arg:upper() == "/?" then
+        biom.print_line("SHELL    : Start Debug Shell", fg_note)
+        biom.print_line("SHELL /? : This help", fg_note)
+        return
+    end
+
     biom.print_line("PIXMINO Debug Shell - COMMAND-style commands", fg_note)
-    biom.print_line("Type `EXIT` to quit", fg_note)
+    biom.print_line("Type `EXIT` to quit, Type `?` to list commands", fg_note)
     biom.print_line("", fg_note)
 
     while true do
@@ -69,9 +76,22 @@ function shell.run(biom, args)
             end
             if name == "EXIT" then
                 return
-            elseif name == "/?" then
-                biom.print_line("SHELL    : Start Debug Shell", fg_note)
-                biom.print_line("SHELL /? : This help", fg_note)
+            elseif name == "?" then
+                local names = {}
+                for cmd_name in pairs(core.commands) do
+                    names[#names + 1] = cmd_name
+                end
+                table.sort(names)
+                biom.print_line("COMMANDS:", fg_note)
+                for j, cmd_name in ipairs(names) do
+                    local cmd = core.commands[cmd_name]
+                    local lpcked = cmd.danger and not Settings.debug.unlock
+                    if lpcked then
+                        biom.print_line(string.format("%s", cmd_name), fg_warn)
+                    else
+                        biom.print_line(string.format("%s", cmd_name), fg_out)
+                    end
+                end
             elseif name == "PID" then
                 biom.print_line(tostring(core.getpid()), fg_out)
             else
