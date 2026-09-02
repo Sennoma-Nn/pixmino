@@ -9,6 +9,8 @@ local bgm_current = nil
 local bgm_volume = 0.4
 local sfx_volume = 1.0
 local bgm_files = {}
+local volume_scale = {
+}
 
 local function scan_dir(dir, out)
     local items = love.filesystem.getDirectoryItems(dir)
@@ -38,7 +40,7 @@ function sfx.play(name)
     local src = sources[name]
     if src then
         src:stop()
-        src:setVolume(sfx_volume)
+        src:setVolume(sfx_volume * (volume_scale[name] or 1))
         src:play()
     end
 end

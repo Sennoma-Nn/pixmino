@@ -62,37 +62,9 @@ function game.reset()
 end
 
 function game.load_settings(override)
-    game.active_settings = {
-        input = {
-            das = Settings.input.das,
-            arr = Settings.input.arr,
-            drop_arr = Settings.input.drop_arr,
-        },
-        preop = Settings.input.preop,
-        spawn_indicator = Settings.display.spawn_indicator,
-        keys = {},
-    }
-    for k, v in pairs(Settings.input.keys) do
-        game.active_settings.keys[k] = v
-    end
-
+    game.active_settings = utils.deep_clone(Settings)
     if override then
-        if override.input then
-            for k, v in pairs(override.input) do
-                game.active_settings.input[k] = v
-            end
-        end
-        if override.preop ~= nil then
-            game.active_settings.preop = override.preop
-        end
-        if override.spawn_indicator ~= nil then
-            game.active_settings.spawn_indicator = override.spawn_indicator
-        end
-        if override.keys then
-            for k, v in pairs(override.keys) do
-                game.active_settings.keys[k] = v
-            end
-        end
+        utils.deep_merge(game.active_settings, override)
     end
 end
 
@@ -492,7 +464,7 @@ function game.spawn()
         game.piece.id = 0
     end
 
-    if game.input_mod and game.active_settings and game.active_settings.preop then
+    if game.input_mod and game.active_settings and game.active_settings.input.preop then
         game.input_mod.apply_preinput()
     end
 

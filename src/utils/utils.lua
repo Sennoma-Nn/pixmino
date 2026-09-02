@@ -84,6 +84,32 @@ function utils.shuffle(t)
     return t
 end
 
+function utils.deep_clone(t)
+    local out = {}
+    for k, v in pairs(t) do
+        if type(v) == "table" then
+            out[k] = utils.deep_clone(v)
+        else
+            out[k] = v
+        end
+    end
+    return out
+end
+
+function utils.deep_merge(base, override)
+    for k, v in pairs(override) do
+        local base_k = base[k]
+        if type(v) == "table" and type(base_k) == "table" then
+            utils.deep_merge(base_k, v)
+        elseif type(v) == "table" then
+            base[k] = utils.deep_clone(v)
+        else
+            base[k] = v
+        end
+    end
+    return base
+end
+
 function utils.is_empty(t)
     return next(t) == nil
 end

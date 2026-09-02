@@ -169,7 +169,7 @@ end
 local function draw_spawn_marker(gx, gy, ph, bs)
     if not game.started then return end
     if not game.pf then return end
-    if not game.active_settings or not game.active_settings.spawn_indicator then return end
+    if not game.active_settings or not game.active_settings.display.spawn_indicator then return end
     if not game.next[1] then return end
 
     local shape = game.next[1]
@@ -297,8 +297,6 @@ local function draw_game_info(font, gx, gy, pw, ph, bw)
 end
 
 function render.draw(gx, gy, pw, ph, bw, bs)
-    love.graphics.clear(unpack(Colors.background))
-
     love.graphics.setColor(unpack(Colors.playfield_bg))
     love.graphics.rectangle("fill", gx, gy, pw, ph)
 

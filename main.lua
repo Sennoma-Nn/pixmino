@@ -12,6 +12,7 @@ local input = require("src.game.input")
 local modes = require("src.menu.mode")
 local save = require("src.utils.save")
 local sfx = require("src.utils.sfx")
+local bg = require("src.bg.bg")
 local core = require("src.debug.core")
 local biom = require("src.debug.basic_IO_module")
 local console = require("src.debug.console")
@@ -52,6 +53,7 @@ Colors = {
 function love.load()
     love.graphics.setDefaultFilter("nearest", "nearest")
     love.math.setRandomSeed(os.time())
+    BG = "grid"
 
     push:setupScreen(
         320 * 1, 180 * 1,
@@ -129,6 +131,8 @@ function love.draw()
     if console.visible then
         console.draw(0, 0)
     else
+        bg.draw()
+
         local pw = playfield.width * style.block_size
         local ph = playfield.height * style.block_size
         local gy = (push:getHeight() - ph) / 2
@@ -146,8 +150,10 @@ function love.draw()
 end
 
 function love.update(dt)
+    bg.update(dt)
+
     if console.visible then
-        if not core.exists(1) then
+        if not core.exists(1) or core.take_close_request() then
             console_toggle()
             return
         end

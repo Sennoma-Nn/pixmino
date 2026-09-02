@@ -469,6 +469,12 @@ locale.t = {
         zh_cn = "大师",
         zh_tw = "大師",
     },
+    NO_MOVE = {
+        en = "NO MOVE!?",
+        ja = "ｲﾄﾞｳﾌｶﾉ!?",
+        zh_cn = "禁止移动!?",
+        zh_tw = "禁止移動!?",
+    },
     MASTER_DESC = {
         en = "Clear 200 lines,\r\nPieces drop instantly,\r\nless time to act!",
         ja = "200 ﾗｲﾝｦ ｸﾘｱ､\r\nﾌﾞﾛｯｸ ﾁｮｸｾﾂ ﾗｯｶ､\r\nｿｳｻ ｼﾞｶﾝ ﾐｼﾞｶｸ ﾅﾙ!",

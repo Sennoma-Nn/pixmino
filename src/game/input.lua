@@ -45,19 +45,24 @@ local function tap_action(now, old, action)
     end
 end
 
+local function key_down(k)
+    if not k then return false end
+    return love.keyboard.isDown(k)
+end
+
 function input.apply_preinput()
     local s = active_settings()
-    if not s.preop then return end
-    local k           = s.keys
+    if not s.input.preop then return end
+    local k           = s.input.keys
     local old         = input.old
     local rep         = input.rep
 
-    local hold_down   = love.keyboard.isDown(k.hold)
-    local cw_down     = love.keyboard.isDown(k.cw)
-    local ccw_down    = love.keyboard.isDown(k.ccw)
-    local rot180_down = love.keyboard.isDown(k.rot180)
-    local left_down   = love.keyboard.isDown(k.left)
-    local right_down  = love.keyboard.isDown(k.right)
+    local hold_down   = key_down(k.hold)
+    local cw_down     = key_down(k.cw)
+    local ccw_down    = key_down(k.ccw)
+    local rot180_down = key_down(k.rot180)
+    local left_down   = key_down(k.left)
+    local right_down  = key_down(k.right)
 
     if hold_down then
         game.do_hold()
@@ -185,20 +190,20 @@ local function soft_drop_rep(rep, now, old, ms)
 end
 
 function input.update(dt)
-    local k       = active_settings().keys
+    local k       = active_settings().input.keys
     local now     = input.now
     local old     = input.old
     local rep     = input.rep
     local ms      = dt * 1000
 
-    now.left      = love.keyboard.isDown(k.left)
-    now.right     = love.keyboard.isDown(k.right)
-    now.soft_drop = love.keyboard.isDown(k.soft_drop)
-    now.cw        = love.keyboard.isDown(k.cw)
-    now.ccw       = love.keyboard.isDown(k.ccw)
-    now.rot180    = love.keyboard.isDown(k.rot180)
-    now.hold      = love.keyboard.isDown(k.hold)
-    now.hard_drop = love.keyboard.isDown(k.hard_drop)
+    now.left      = key_down(k.left)
+    now.right     = key_down(k.right)
+    now.soft_drop = key_down(k.soft_drop)
+    now.cw        = key_down(k.cw)
+    now.ccw       = key_down(k.ccw)
+    now.rot180    = key_down(k.rot180)
+    now.hold      = key_down(k.hold)
+    now.hard_drop = key_down(k.hard_drop)
 
     if now.left and now.right then
         local left_just_pressed  = now.left and not old.left

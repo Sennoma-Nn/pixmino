@@ -1,16 +1,17 @@
 -- Copyright (C) 2026 Sennoma-Nn
 -- SPDX-License-Identifier: GPL-3.0-or-later
 
-local biom      = require("src.debug.basic_IO_module")
-local settings  = require("src.menu.settings")
+local biom           = require("src.debug.basic_IO_module")
+local settings       = require("src.menu.settings")
 
-local core      = {}
+local core           = {}
 
-core.stack      = {}
-core.commands   = {}
+core.stack           = {}
+core.commands        = {}
+core.close_requested = false
 
-local next_pid  = 1
-local free_pids = {}
+local next_pid       = 1
+local free_pids      = {}
 
 function core.load()
     local dir = "src/debug/command"
@@ -48,6 +49,7 @@ local function allowed(cmd)
 end
 
 function core.boot(name, args)
+    core.close_requested = false
     core.stack = {}
     next_pid = 1
     free_pids = {}
@@ -168,10 +170,21 @@ function core.poll_input()
 end
 
 function core.reset()
+    core.close_requested = false
     core.stack = {}
     next_pid = 1
     free_pids = {}
     biom.flush_keys()
+end
+
+function core.request_close()
+    core.close_requested = true
+end
+
+function core.take_close_request()
+    local r = core.close_requested
+    core.close_requested = false
+    return r
 end
 
 return core
