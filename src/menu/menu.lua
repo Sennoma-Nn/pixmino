@@ -37,6 +37,31 @@ function menu.reset()
     menu.waiting_key = nil
 end
 
+local function item_display(item)
+    if item.display == nil then
+        return true
+    elseif type(item.display) == "function" then
+        return item.display()
+    end
+    return item.display
+end
+
+function menu.get_visible_items(state)
+    local data = menu.data[state]
+    if not data then return nil end
+    local items = {}
+    for _, item in ipairs(data) do
+        if item_display(item) then
+            items[#items + 1] = item
+        end
+    end
+    if #items == 0 then return nil end
+    if menu.selection > #items then
+        menu.selection = #items
+    end
+    return items
+end
+
 menu.data = {
     MENU_MAIN = {
         {
@@ -191,7 +216,7 @@ local function mode_record_text(item)
 end
 
 function menu.draw(gx, gy, pw, ph, bw)
-    local data = menu.data[menu.state]
+    local data = menu.get_visible_items(menu.state)
     if not data then return end
 
     local num_items = #data
@@ -249,7 +274,7 @@ function menu.draw(gx, gy, pw, ph, bw)
 end
 
 function menu.keypressed(key)
-    local data = menu.data[menu.state]
+    local data = menu.get_visible_items(menu.state)
     if not data then return false end
 
     if menu.waiting_key then

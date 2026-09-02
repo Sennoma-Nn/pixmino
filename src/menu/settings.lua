@@ -73,6 +73,17 @@ Settings.menu = {
             desc_key = "INPUT_DESC",
             jmp = "MENU_SETTINGS_CTRL",
         },
+        {
+            type = "action",
+            text_key = "CONSOLE",
+            desc_key = "CONSOLE_DESC",
+            action = function()
+                require("src.debug.launcher").toggle()
+            end,
+            display = function()
+                return Settings.debug.unlock
+            end
+        },
     },
     MENU_SETTINGS_DISPLAY = {
         {

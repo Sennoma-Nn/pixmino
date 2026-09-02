@@ -183,10 +183,10 @@ locale.t = {
         zh_tw = "SFX",
     },
     SP_SFX_DESC = {
-        en = 'mOsh:\r\n\n8BIT SFX Library. (CC0)\r\n\n\nMilkYao:\r\n\nMade "Ready", "Go" SFX.',
-        ja = "mOsh:\r\n\n8BIT SFX ﾗｲﾌﾞﾗﾘ｡ (CC0)\r\n\n\nMilkYao:\r\n\n｢Ready｣｢Go｣ ｺｳｶｵﾝ ｾｲｻｸ｡",
-        zh_cn = 'mOsh:\r\n\n8BIT SFX 库｡ (CC0)\r\n\n\n缪锞尧 - MilkYao:\r\n\n制作"Ready"与"Go"音效｡',
-        zh_tw = "mOsh:\r\n\n8BIT SFX 庫｡ (CC0)\r\n\n\n繆锞堯 - MilkYao:\r\n\n製作｢Ready｣與｢Go｣音效｡",
+        en = 'mOsh:\r\n\n8BIT SFX Library. (CC0)',
+        ja = "mOsh:\r\n\n8BIT SFX ﾗｲﾌﾞﾗﾘ｡ (CC0)",
+        zh_cn = 'mOsh:\r\n\n8BIT SFX 库｡ (CC0)',
+        zh_tw = "mOsh:\r\n\n8BIT SFX 庫｡ (CC0)",
     },
 
     PAUSE = {
@@ -295,6 +295,19 @@ locale.t = {
         ja = "ｲﾝﾌﾟｯﾄ ｾｯﾃｨﾝｸﾞｦ ﾁｮｳｾｲ｡",
         zh_cn = "调整输入设置｡",
         zh_tw = "調整輸入設定｡",
+    },
+
+    CONSOLE = {
+        en = "CONSOLE",
+        ja = "ｺﾝｿｰﾙ",
+        zh_cn = "调试控制台",
+        zh_tw = "除錯主控臺",
+    },
+    CONSOLE_DESC = {
+        en = "Open the Debug console.",
+        ja = "ﾃﾞﾊﾞｯｸﾞ ｺﾝｿｰﾙｦ ﾋﾗｸ｡",
+        zh_cn = "打开调试控制台｡",
+        zh_tw = "開啟除錯主控臺｡",
     },
 
     FULLSCREEN = {

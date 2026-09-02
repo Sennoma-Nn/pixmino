@@ -16,6 +16,7 @@ local bg = require("src.bg.bg")
 local core = require("src.debug.core")
 local biom = require("src.debug.basic_IO_module")
 local console = require("src.debug.console")
+local launcher = require("src.debug.launcher")
 
 require("src.menu.settings")
 require("custom_cp")
@@ -85,46 +86,6 @@ function love.load()
     end
 end
 
-local function apply_console_resolution(on)
-    if on then
-        push:setupScreen(
-            320 * 2, 180 * 2,
-            320 * 4, 180 * 4,
-            {
-                pixelperfect = true,
-                resizable = true,
-                canvas = true
-            }
-        )
-    else
-        push:setupScreen(
-            320 * 1, 180 * 1,
-            320 * 4, 180 * 4,
-            {
-                pixelperfect = true,
-                resizable = true,
-                canvas = true
-            }
-        )
-    end
-end
-
-local function console_toggle()
-    if console.visible then
-        console.visible = false
-        love.keyboard.setKeyRepeat(false)
-        core.reset()
-        apply_console_resolution(false)
-    else
-        console.visible = true
-        love.keyboard.setKeyRepeat(true)
-        biom.clear()
-        core.boot("SHELL")
-        BGM = nil
-        apply_console_resolution(true)
-    end
-end
-
 function love.draw()
     push:apply("start")
 
@@ -154,7 +115,7 @@ function love.update(dt)
 
     if console.visible then
         if not core.exists(1) or core.take_close_request() then
-            console_toggle()
+            launcher.toggle()
             return
         end
         console.update(dt)
@@ -191,7 +152,7 @@ function love.keypressed(key)
 
     if console.visible then
         if key == "escape" or (key == "t" and (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl"))) then
-            console_toggle()
+            launcher.toggle()
             return
         end
         biom.push_key(key)
@@ -202,7 +163,7 @@ function love.keypressed(key)
     if is_settings_menu()
         and key == "t"
         and (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) then
-        console_toggle()
+        launcher.toggle()
         return
     end
 
