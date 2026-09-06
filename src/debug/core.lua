@@ -1,7 +1,7 @@
 -- Copyright (C) 2026 Sennoma-Nn
 -- SPDX-License-Identifier: GPL-3.0-or-later
 
-local biom           = require("src.debug.basic_IO_module")
+local cio            = require("src.debug.console_io")
 local settings       = require("src.menu.settings")
 
 local core           = {}
@@ -53,13 +53,13 @@ function core.boot(name, args)
     core.stack = {}
     next_pid = 1
     free_pids = {}
-    biom.flush_keys()
+    cio.flush_keys()
     local c = core.commands[string.upper(name or "SHELL")]
     if not c then return false end
     core.stack[#core.stack + 1] = {
         pid = alloc_pid(),
         co  = coroutine.create(function()
-            c.run(biom, args or {})
+            c.run(cio, args or {})
         end),
     }
     core.pump()
@@ -122,7 +122,7 @@ local function spawn_named(name, args)
     core.stack[#core.stack + 1] = {
         pid = alloc_pid(),
         co  = coroutine.create(function()
-            c.run(biom, args or {})
+            c.run(cio, args or {})
         end),
     }
     return true
@@ -133,7 +133,7 @@ local function pump_from(ok, sig, a, b)
         if sig == "idle" then
             return
         elseif sig == "getchar" then
-            local key, char = biom.read_key()
+            local key, char = cio.read_key()
             if key == nil and char == nil then
                 return
             end
@@ -157,14 +157,12 @@ local function pump_from(ok, sig, a, b)
 end
 
 function core.pump()
-    if core.busy() then
-        pump_from(step())
-    end
+    local _ = core.busy() and pump_from(step())
 end
 
 function core.poll_input()
     if not core.busy() then return end
-    local key, char = biom.read_key()
+    local key, char = cio.read_key()
     if key == nil and char == nil then return end
     pump_from(step(key, char))
 end
@@ -174,7 +172,7 @@ function core.reset()
     core.stack = {}
     next_pid = 1
     free_pids = {}
-    biom.flush_keys()
+    cio.flush_keys()
 end
 
 function core.request_close()

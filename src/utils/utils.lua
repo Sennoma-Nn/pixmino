@@ -7,19 +7,20 @@ function utils.frame_ms(frames)
     return frames * (1000 / 60)
 end
 
-function utils.clamp(v, lo, hi)
-    if v < lo then return lo end
-    if v > hi then return hi end
+function utils.clamp(v, l, h)
+    if v < l then return l end
+    if v > h then return h end
     return v
 end
 
 function utils.color_blend(c1, c2, ratio)
     ratio = math.max(0, math.min(ratio or 0, 1))
+    c1[4] = c1[4] or 1; c2[4] = c2[4] or 1
     return {
         c1[1] * (1 - ratio) + c2[1] * ratio,
         c1[2] * (1 - ratio) + c2[2] * ratio,
         c1[3] * (1 - ratio) + c2[3] * ratio,
-        c1[4] or 1,
+        c1[4] * (1 - ratio) + c2[4] * ratio,
     }
 end
 
@@ -27,24 +28,24 @@ function utils.strip_a(color)
     return { color[1], color[2], color[3] }
 end
 
-function utils.utf8_char_len(byte)
-    if byte < 128 then return 1 end
-    if byte < 192 then return 0 end
-    if byte < 224 then return 2 end
-    if byte < 240 then return 3 end
+function utils.utf8_char_len(b)
+    if b < 128 then return 1 end
+    if b < 192 then return 0 end
+    if b < 224 then return 2 end
+    if b < 240 then return 3 end
     return 4
 end
 
 function utils.utf8_len(text)
-    local count = 0
+    local c = 0
     local i = 1
     while i <= #text do
         local len = utils.utf8_char_len(string.byte(text, i))
         if len == 0 then len = 1 end
-        count = count + 1
+        c = c + 1
         i = i + len
     end
-    return count
+    return c
 end
 
 function utils.format_time(seconds)

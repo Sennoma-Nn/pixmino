@@ -3,7 +3,7 @@
 
 local push     = require("lib.push")
 local core     = require("src.debug.core")
-local biom     = require("src.debug.basic_IO_module")
+local cio      = require("src.debug.console_io")
 local console  = require("src.debug.console")
 
 local launcher = {}
@@ -41,7 +41,7 @@ function launcher.toggle()
     else
         console.visible = true
         love.keyboard.setKeyRepeat(true)
-        biom.clear()
+        cio.clear()
         core.boot("SHELL")
         BGM = nil
         apply_console_resolution(true)

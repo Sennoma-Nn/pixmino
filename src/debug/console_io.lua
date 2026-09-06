@@ -1,17 +1,17 @@
 -- Copyright (C) 2026 Sennoma-Nn
 -- SPDX-License-Identifier: GPL-3.0-or-later
 
-local console   = require("src.debug.console")
+local console  = require("src.debug.console")
 
-local biom      = {}
+local cio      = {}
 
-biom._key_queue = {}
+cio._key_queue = {}
 
 local function v(c)
     return c / 255
 end
 
-biom.palette = {
+cio.palette = {
     [00] = { v(000), v(000), v(000) },
     [01] = { v(000), v(000), v(170) },
     [02] = { v(000), v(170), v(000) },
@@ -30,31 +30,31 @@ biom.palette = {
     [15] = { v(255), v(255), v(255) },
 }
 
-function biom.fg(index)
-    local p = biom.palette[index]
+function cio.fg(index)
+    local p = cio.palette[index]
     return { p[1], p[2], p[3], 1 }
 end
 
-function biom.bg(index)
-    local p = biom.palette[index]
+function cio.bg(index)
+    local p = cio.palette[index]
     return { p[1], p[2], p[3], 1 }
 end
 
-function biom.push_key(key, char)
-    biom._key_queue[#biom._key_queue + 1] = { key = key, char = char }
+function cio.push_key(key, char)
+    cio._key_queue[#cio._key_queue + 1] = { key = key, char = char }
 end
 
-function biom.read_key()
-    local entry = table.remove(biom._key_queue, 1)
+function cio.read_key()
+    local entry = table.remove(cio._key_queue, 1)
     if not entry then return nil end
     return entry.key, entry.char
 end
 
-function biom.flush_keys()
-    biom._key_queue = {}
+function cio.flush_keys()
+    cio._key_queue = {}
 end
 
-function biom.put(x, y, char, fg, bg, blink)
+function cio.put(x, y, char, fg, bg, blink)
     x = x + 1
     y = y + 1
     if y < 1 or y > console.H then return end
@@ -67,7 +67,7 @@ function biom.put(x, y, char, fg, bg, blink)
     if blink ~= nil then cell.blink = blink end
 end
 
-function biom.write(x, y, str, fg, bg, blink)
+function cio.write(x, y, str, fg, bg, blink)
     x = x + 1
     y = y + 1
     if y < 1 or y > console.H then return end
@@ -88,7 +88,7 @@ function biom.write(x, y, str, fg, bg, blink)
         end
         local ch = str:sub(i, i + len - 1)
 
-        biom.put(x - 1, y - 1, ch, fg, bg, blink)
+        cio.put(x - 1, y - 1, ch, fg, bg, blink)
 
         x = x + 1
         i = i + len
@@ -99,9 +99,9 @@ local function blank_cell()
     return { char = " ", fg = { 1, 1, 1, 1 }, bg = { 0, 0, 0, 0 }, blink = false }
 end
 
-function biom.scroll(n)
+function cio.scroll(n)
     n = n or 1
-    for _ = 1, n do
+    for i = 1, n do
         for y = 1, console.H - 1 do
             console.grid[y] = console.grid[y + 1]
         end
@@ -112,16 +112,16 @@ function biom.scroll(n)
     end
 end
 
-function biom.print_line(str, fg)
-    biom.write(0, console.cursor_y - 1, str, fg)
+function cio.print_line(str, fg)
+    cio.write(0, console.cursor_y - 1, str, fg)
     console.cursor_y = console.cursor_y + 1
     if console.cursor_y > console.H then
-        biom.scroll()
+        cio.scroll()
         console.cursor_y = console.H
     end
 end
 
-function biom.clear()
+function cio.clear()
     for y = 1, console.H do
         for x = 1, console.W do
             console.grid[y][x] = blank_cell()
@@ -131,29 +131,29 @@ function biom.clear()
     console.cursor_y = 1
 end
 
-function biom.clear_line(y)
+function cio.clear_line(y)
     if y < 1 or y > console.H then return end
     for x = 1, console.W do
         console.grid[y][x] = blank_cell()
     end
 end
 
-function biom.set_cursor(x, y)
+function cio.set_cursor(x, y)
     console.cursor_x = math.max(1, math.min(x, console.W))
     console.cursor_y = math.max(1, math.min(y, console.H))
 end
 
-function biom.get_cursor()
+function cio.get_cursor()
     return console.cursor_x, console.cursor_y
 end
 
-function biom.get_console_size()
+function cio.get_console_size()
     return console.W, console.H
 end
 
-function biom.getchar()
+function cio.getchar()
     local key, char = coroutine.yield("getchar")
     return key, char
 end
 
-return biom
+return cio

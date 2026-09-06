@@ -2,12 +2,12 @@
 -- SPDX-License-Identifier: GPL-3.0-or-later
 
 local locale = {}
-local game_debug = require("src.game.debug")
+local dbg = require("src.game.debug")
 
 locale.langs = { "en", "ja", "zh_cn", "zh_tw" }
 locale.current = "en"
 
-local features = game_debug.detect_features()
+local features = dbg.detect_features()
 
 local env_info = "LÖVE   " .. love._version .. "\r\n" ..
     string.gsub(_VERSION:upper(), " ", "    ") ..

@@ -167,8 +167,8 @@ end
 
 local function spin_mask_cells(piece)
     local m, n = spin_matrix(piece.shape, piece.dir)
-    local _, ns = get_matrix(piece.shape, piece.dir)
-    local cr = (n - ns) / 2 + 2
+    local mm, nn = get_matrix(piece.shape, piece.dir)
+    local cr = (n - nn) / 2 + 2
 
     local cells = {}
     for r = 1, n do
@@ -189,8 +189,8 @@ end
 local function check_spin(piece)
     local spin_def = minos[piece.shape].spin
     local m, n = spin_matrix(piece.shape, piece.dir)
-    local _, ns = get_matrix(piece.shape, piece.dir)
-    local cr = (n - ns) / 2 + 2
+    local mm, nn = get_matrix(piece.shape, piece.dir)
+    local cr = (n - nn) / 2 + 2
 
     local mask = {}
     for r = 1, n do

@@ -13,8 +13,8 @@ local volume_scale = {
 }
 
 local function scan_dir(dir, out)
-    local items = love.filesystem.getDirectoryItems(dir)
-    for _, filename in ipairs(items) do
+    local it = love.filesystem.getDirectoryItems(dir)
+    for _, filename in ipairs(it) do
         local base = filename:match("^(.*)%.[^.]+$") or filename
         if not out[base] then
             out[base] = dir .. "/" .. filename

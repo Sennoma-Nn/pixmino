@@ -2,11 +2,11 @@
 -- SPDX-License-Identifier: GPL-3.0-or-later
 
 local console = require("src.debug.console")
-local biom = require("src.debug.basic_IO_module")
+local cio = require("src.debug.console_io")
 
 local line_editor = {}
 
-local fg_prompt = biom.fg(14)
+local fg_prompt = cio.fg(14)
 
 local UTF8_CHAR = "[%z\1-\127\194-\244][\128-\191]*"
 
@@ -28,8 +28,8 @@ function line_editor.new(history)
     return self
 end
 
-function line_editor:read_line(biom, prompt_text)
-    local _, cy = biom.get_cursor()
+function line_editor:read_line(cio, prompt_text)
+    local cx, cy = cio.get_cursor()
     local buf_chars = {}
     local cursor = 1
     local hist_idx
@@ -40,14 +40,14 @@ function line_editor:read_line(biom, prompt_text)
     end
 
     local function render()
-        biom.clear_line(cy)
-        biom.write(0, cy - 1, prompt_text, fg_prompt)
-        biom.write(#prompt_text, cy - 1, join_buf())
+        cio.clear_line(cy)
+        cio.write(0, cy - 1, prompt_text, fg_prompt)
+        cio.write(#prompt_text, cy - 1, join_buf())
     end
 
     local function set_cursor()
         local col = math.min(#prompt_text + cursor, console.W)
-        biom.set_cursor(col, cy)
+        cio.set_cursor(col, cy)
     end
 
     local function render_and_cursor()
@@ -65,7 +65,7 @@ function line_editor:read_line(biom, prompt_text)
     set_cursor()
 
     while true do
-        local key, ch = biom.getchar()
+        local key, ch = cio.getchar()
 
         if key == "return" then
             break
@@ -122,10 +122,10 @@ function line_editor:read_line(biom, prompt_text)
     local line = join_buf()
 
     if cy + 1 > console.H then
-        biom.scroll()
-        biom.set_cursor(1, console.H)
+        cio.scroll()
+        cio.set_cursor(1, console.H)
     else
-        biom.set_cursor(1, cy + 1)
+        cio.set_cursor(1, cy + 1)
     end
 
     if line ~= "" and self.history[#self.history] ~= line then

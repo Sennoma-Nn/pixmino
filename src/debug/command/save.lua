@@ -1,7 +1,7 @@
 -- Copyright (C) 2026 Sennoma-Nn
 -- SPDX-License-Identifier: GPL-3.0-or-later
 
-local biom      = require("src.debug.basic_IO_module")
+local cio       = require("src.debug.console_io")
 local save_util = require("src.utils.save")
 
 local save      = {}
@@ -9,10 +9,10 @@ local save      = {}
 save.name       = "SAVE"
 save.danger     = true
 
-local fg_key    = biom.fg(6)
-local fg_value  = biom.fg(2)
-local fg_err    = biom.fg(4)
-local fg_note   = biom.fg(15)
+local fg_key    = cio.fg(6)
+local fg_value  = cio.fg(2)
+local fg_err    = cio.fg(4)
+local fg_note   = cio.fg(15)
 
 local function update_file(path_file, key, value)
     local text = love.filesystem.read(path_file) or ""
@@ -31,13 +31,13 @@ local function update_file(path_file, key, value)
         out_lines[#out_lines + 1] = key .. "=" .. tostring(value)
     end
     love.filesystem.write(path_file, table.concat(out_lines, "\n") .. "\n")
-    biom.print_line(key .. " = " .. tostring(value) .. (found and " (updated)" or " (created)"), fg_value)
+    cio.print_line(key .. " = " .. tostring(value) .. (found and " (updated)" or " (created)"), fg_value)
 end
 
 local function delete_file(path_file, key)
     local text = love.filesystem.read(path_file)
     if not text then
-        biom.print_line("(no file: " .. path_file .. ")", fg_note)
+        cio.print_line("(no file: " .. path_file .. ")", fg_note)
         return
     end
     local out_lines = {}
@@ -51,7 +51,7 @@ local function delete_file(path_file, key)
         end
     end
     if not found then
-        biom.print_line("not found: " .. tostring(key), fg_err)
+        cio.print_line("not found: " .. tostring(key), fg_err)
         return
     end
     if #out_lines == 0 then
@@ -59,13 +59,13 @@ local function delete_file(path_file, key)
     else
         love.filesystem.write(path_file, table.concat(out_lines, "\n") .. "\n")
     end
-    biom.print_line(key .. " (deleted)", fg_value)
+    cio.print_line(key .. " (deleted)", fg_value)
 end
 
 local function dump_file(path_file)
     local text = love.filesystem.read(path_file)
     if not text then
-        biom.print_line("(no file: " .. path_file .. ")", fg_note)
+        cio.print_line("(no file: " .. path_file .. ")", fg_note)
         return
     end
 
@@ -83,25 +83,25 @@ local function dump_file(path_file)
     end
     local col_w = max_w + 1
 
-    local W, H = biom.get_console_size()
+    local W, H = cio.get_console_size()
     for _, e in ipairs(entries) do
         local text = e.k
         if #e.k < col_w then
             text = e.k .. string.rep(" ", col_w - #e.k)
         end
-        local _, cy = biom.get_cursor()
-        biom.write(0, cy - 1, text, fg_key)
-        biom.write(col_w, cy - 1, ": ", fg_note, nil, true)
-        biom.write(col_w + 2, cy - 1, tostring(e.v), fg_value)
-        biom.set_cursor(1, cy + 1)
+        local cx, cy = cio.get_cursor()
+        cio.write(0, cy - 1, text, fg_key)
+        cio.write(col_w, cy - 1, ": ", fg_note, nil, true)
+        cio.write(col_w + 2, cy - 1, tostring(e.v), fg_value)
+        cio.set_cursor(1, cy + 1)
         if cy + 1 > H then
-            biom.scroll()
-            biom.set_cursor(1, H)
+            cio.scroll()
+            cio.set_cursor(1, H)
         end
     end
 end
 
-function save.run(biom, args)
+function save.run(cio, args)
     local has_f = false
     if args then
         for i = 1, #args do
@@ -112,7 +112,7 @@ function save.run(biom, args)
     end
     if has_f then
         save_util.flush()
-        biom.print_line("[flushed] settings.txt", fg_note)
+        cio.print_line("[flushed] settings.txt", fg_note)
     end
 
     local kind = args and args[1]
@@ -120,18 +120,18 @@ function save.run(biom, args)
         return
     end
     if kind and kind:upper() == "/?" then
-        biom.print_line("SAVE                     : View or update saved data", fg_note)
-        biom.print_line("SAVE SETTINGS            : Show settings.txt", fg_note)
-        biom.print_line("SAVE RECORD              : Show record.txt", fg_note)
-        biom.print_line("SAVE <KIND> /U KEY VALUE : Update or create key", fg_note)
-        biom.print_line("SAVE <KIND> /D KEY       : Delete key", fg_note)
-        biom.print_line("SAVE <KIND> /L           : Reload from disk", fg_note)
-        biom.print_line("SAVE /F                  : Flush settings to disk", fg_note)
-        biom.print_line("SAVE /?                  : This help", fg_note)
+        cio.print_line("SAVE                     : View or update saved data", fg_note)
+        cio.print_line("SAVE SETTINGS            : Show settings.txt", fg_note)
+        cio.print_line("SAVE RECORD              : Show record.txt", fg_note)
+        cio.print_line("SAVE <KIND> /U KEY VALUE : Update or create key", fg_note)
+        cio.print_line("SAVE <KIND> /D KEY       : Delete key", fg_note)
+        cio.print_line("SAVE <KIND> /L           : Reload from disk", fg_note)
+        cio.print_line("SAVE /F                  : Flush settings to disk", fg_note)
+        cio.print_line("SAVE /?                  : This help", fg_note)
         return
     end
     if not kind then
-        biom.print_line("SAVE /? to get help", fg_err)
+        cio.print_line("SAVE /? to get help", fg_err)
         return
     end
     local is_settings
@@ -143,7 +143,7 @@ function save.run(biom, args)
         is_settings = false
         path_file = "record.txt"
     else
-        biom.print_line("Unknown: " .. tostring(kind), fg_err)
+        cio.print_line("Unknown: " .. tostring(kind), fg_err)
         return
     end
 
@@ -168,7 +168,7 @@ function save.run(biom, args)
 
     if has_u then
         if not ukey or uval == nil then
-            biom.print_line("usage: save " .. kind .. " /U <key> <value>", fg_err)
+            cio.print_line("usage: save " .. kind .. " /U <key> <value>", fg_err)
             return
         end
         update_file(path_file, ukey, uval)
@@ -176,7 +176,7 @@ function save.run(biom, args)
 
     if has_d then
         if not dkey then
-            biom.print_line("usage: save " .. kind .. " /D <key>", fg_err)
+            cio.print_line("usage: save " .. kind .. " /D <key>", fg_err)
             return
         end
         delete_file(path_file, dkey)
@@ -188,10 +188,10 @@ function save.run(biom, args)
         else
             save_util.load_record()
         end
-        biom.print_line("[reloaded] " .. path_file, fg_note)
+        cio.print_line("[reloaded] " .. path_file, fg_note)
     end
 
-    biom.print_line("[" .. path_file .. "]", fg_note)
+    cio.print_line("[" .. path_file .. "]", fg_note)
     dump_file(path_file)
 end
 

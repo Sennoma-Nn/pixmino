@@ -42,7 +42,7 @@ Settings.key_actions = { "left", "right", "ccw", "cw", "rot180", "soft_drop", "h
 
 local function make_keys_items()
     local items = {}
-    for _, k in ipairs(Settings.key_actions) do
+    for i, k in ipairs(Settings.key_actions) do
         items[#items + 1] = {
             type = "keys",
             text_key = k:upper(),

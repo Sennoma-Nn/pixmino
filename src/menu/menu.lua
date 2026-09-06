@@ -37,29 +37,29 @@ function menu.reset()
     menu.waiting_key = nil
 end
 
-local function item_display(item)
-    if item.display == nil then
+local function item_display(it)
+    if it.display == nil then
         return true
-    elseif type(item.display) == "function" then
-        return item.display()
+    elseif type(it.display) == "function" then
+        return it.display()
     end
-    return item.display
+    return it.display
 end
 
 function menu.get_visible_items(state)
     local data = menu.data[state]
     if not data then return nil end
-    local items = {}
-    for _, item in ipairs(data) do
-        if item_display(item) then
-            items[#items + 1] = item
+    local its = {}
+    for _, it in ipairs(data) do
+        if item_display(it) then
+            its[#its + 1] = it
         end
     end
-    if #items == 0 then return nil end
-    if menu.selection > #items then
-        menu.selection = #items
+    if #its == 0 then return nil end
+    if menu.selection > #its then
+        menu.selection = #its
     end
-    return items
+    return its
 end
 
 menu.data = {
@@ -183,34 +183,34 @@ for state, items in pairs(settings.menu) do
     menu.data[state] = items
 end
 
-local function control_desc(item)
-    if item.type == "toggle" then
-        return item.get() and "ON" or "OFF"
-    elseif item.type == "value" then
-        local v = item.get()
-        local l = (v > item.min) and "◄" or " "
-        local r = (v < item.max) and "►" or " "
+local function control_desc(it)
+    if it.type == "toggle" then
+        return it.get() and "ON" or "OFF"
+    elseif it.type == "value" then
+        local v = it.get()
+        local l = (v > it.min) and "◄" or " "
+        local r = (v < it.max) and "►" or " "
         return l .. " " .. tostring(v) .. " " .. r
-    elseif item.type == "list" then
-        local idx = item.get_index()
-        local val = string.upper(item.items[idx])
+    elseif it.type == "list" then
+        local idx = it.get_index()
+        local val = string.upper(it.items[idx])
         local l = (idx > 1) and "◄" or " "
-        local r = (idx < #item.items) and "►" or " "
+        local r = (idx < #it.items) and "►" or " "
         return l .. " " .. tostring(val) .. " " .. r
-    elseif item.type == "keys" then
-        return "[ " .. (string.upper(Settings.input.keys[item.key_name])) .. " ]"
+    elseif it.type == "keys" then
+        return "[ " .. (string.upper(Settings.input.keys[it.key_name])) .. " ]"
     end
     return nil
 end
 
-local function mode_record_text(item)
+local function mode_record_text(it)
     local label = locale.get("BEST")
-    local record = save.get_record(item.mode)
+    local record = save.get_record(it.mode)
     if record == nil then
         return string.format("%s: /", label)
     end
-    if type(item.bast_format) == "function" then
-        return string.format("%s: %s", label, tostring(item.bast_format(record)))
+    if type(it.bast_format) == "function" then
+        return string.format("%s: %s", label, tostring(it.bast_format(record)))
     end
     return string.format("%s: %.2f", label, record)
 end
@@ -225,27 +225,27 @@ function menu.draw(gx, gy, pw, ph, bw)
     local desc_x = gx + pw + bw + 8
     local desc_y = gy - 1
 
-    for i, item in ipairs(data) do
-        local label = locale.get(item.text_key or "")
+    for i, it in ipairs(data) do
+        local label = locale.get(it.text_key or "")
 
         local item_y = start_y + (i - 1) * 10
         local item_x = gx + (pw - utils.utf8_len(label) * 8) / 2
 
-        local disabled = (item.action == false)
+        local disabled = (it.action == false)
         local color = disabled and Colors.gray or Colors.white
 
         if i == menu.selection then
             local highlight = disabled and Colors.light_yellow or Colors.yellow
             fontprint.print(Fonts.ui_fonts, label, item_x, item_y, 1, highlight)
 
-            if item.type == "keys" and menu.waiting_key == item.key_name then
+            if it.type == "keys" and menu.waiting_key == it.key_name then
                 local tip = locale.get("PRESS_KEY_TIP")
                 fontprint.print_outlined(Fonts.ui_fonts, tip, desc_x, desc_y, 1, Colors.yellow, Colors.out_line)
             else
-                local current = control_desc(item)
-                local desc = item.desc_key and locale.get(item.desc_key)
-                local desc_valid = desc and desc ~= item.desc_key
-                local record_txt = item.mode and mode_record_text(item)
+                local current = control_desc(it)
+                local desc = it.desc_key and locale.get(it.desc_key)
+                local desc_valid = desc and desc ~= it.desc_key
+                local record_txt = it.mode and mode_record_text(it)
 
                 local line_h = fontprint.get_height(Fonts.ui_fonts)
                 local y = desc_y
@@ -285,7 +285,7 @@ function menu.keypressed(key)
         return true
     end
 
-    local item = data[menu.selection]
+    local it = data[menu.selection]
 
     if key == "up" then
         menu.selection = utils.wrap_index(menu.selection - 1, #data)
@@ -294,34 +294,34 @@ function menu.keypressed(key)
         menu.selection = utils.wrap_index(menu.selection + 1, #data)
         return true
     elseif key == "left" or key == "right" then
-        if item and item.type ~= "action" and item.type ~= "toggle" then
+        if it and it.type ~= "action" and it.type ~= "toggle" then
             local delta = (key == "right") and 1 or -1
-            if item.type == "value" then
-                local step = item.step or 1
-                local v = utils.clamp(item.get() + delta * step, item.min, item.max)
+            if it.type == "value" then
+                local step = it.step or 1
+                local v = utils.clamp(it.get() + delta * step, it.min, it.max)
                 v = math.floor(v / step + 0.5) * step
-                v = utils.clamp(v, item.min, item.max)
-                item.set(v)
-            elseif item.type == "list" then
-                local idx = utils.clamp(item.get_index() + delta, 1, #item.items)
-                item.set_index(idx)
+                v = utils.clamp(v, it.min, it.max)
+                it.set(v)
+            elseif it.type == "list" then
+                local idx = utils.clamp(it.get_index() + delta, 1, #it.items)
+                it.set_index(idx)
             end
             return true
         end
     elseif key == "return" or key == "space" then
-        if item.type == "toggle" then
-            item.set(not item.get())
+        if it.type == "toggle" then
+            it.set(not it.get())
             return true
         end
-        if item.type == "keys" then
-            menu.waiting_key = item.key_name
+        if it.type == "keys" then
+            menu.waiting_key = it.key_name
             return true
         end
-        if item.jmp then
-            menu.go_to(item.jmp)
+        if it.jmp then
+            menu.go_to(it.jmp)
             return true
         end
-        local action = item.action
+        local action = it.action
         if type(action) == "function" then
             action()
         end

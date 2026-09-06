@@ -23,7 +23,6 @@ local phase           = 0
 
 local fg_def          = { 1, 1, 1, 1 }
 local bg_cell         = { 0, 0, 0, 0 }
-local bg_screen       = { 0, 0, 0, 0.92 }
 
 local function blank()
     return {
@@ -63,7 +62,7 @@ function console.draw(x0, y0)
     if not console.visible then return end
     if not font or not quads or not image then return end
 
-    love.graphics.setColor(unpack(bg_screen))
+    love.graphics.setColor(unpack(bg_cell))
     love.graphics.rectangle("fill", x0, y0, console.W * 8, console.H * 8)
 
     local blink_on = (math.floor(phase * 2) % 2 == 0)

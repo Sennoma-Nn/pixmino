@@ -327,8 +327,8 @@ function render.draw(gx, gy, pw, ph, bw, bs)
         fontprint.print_outlined(Fonts.bold_font, label, gx + (pw - lw) / 2, cy, 1, Colors.white, Colors.out_line)
 
         local y = gy + ph / 2
-        for _, item in ipairs(game.result) do
-            local text = tostring(item)
+        for _, it in ipairs(game.result) do
+            local text = tostring(it)
             local w = utils.utf8_len(text) * 8
             fontprint.print_outlined(Fonts.bold_font, text, gx + (pw - w) / 2, y, 1, Colors.white, Colors.out_line)
             y = y + 8

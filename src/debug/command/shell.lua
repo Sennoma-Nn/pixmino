@@ -1,7 +1,7 @@
 -- Copyright (C) 2026 Sennoma-Nn
 -- SPDX-License-Identifier: GPL-3.0-or-later
 
-local biom            = require("src.debug.basic_IO_module")
+local cio             = require("src.debug.console_io")
 local core            = require("src.debug.core")
 local le              = require("src.debug.lib.line_editor")
 
@@ -9,10 +9,10 @@ local shell           = {}
 
 shell.name            = "SHELL"
 
-local fg_out          = biom.fg(2)
-local fg_err          = biom.fg(4)
-local fg_note         = biom.fg(15)
-local fg_warn         = biom.fg(6)
+local fg_out          = cio.fg(2)
+local fg_err          = cio.fg(4)
+local fg_note         = cio.fg(15)
+local fg_warn         = cio.fg(6)
 
 local prompt_locked   = "Cmd> "
 local prompt_unlocked = "Dbg> "
@@ -50,21 +50,21 @@ local function tokenize(line)
     return tokens
 end
 
-function shell.run(biom, args)
+function shell.run(cio, args)
     local arg = args and args[1]
     if arg and arg:upper() == "/?" then
-        biom.print_line("SHELL    : Start Debug Shell", fg_note)
-        biom.print_line("SHELL /? : This help", fg_note)
+        cio.print_line("SHELL    : Start Debug Shell", fg_note)
+        cio.print_line("SHELL /? : This help", fg_note)
         return
     end
 
-    biom.print_line("PIXMINO Debug Shell - COMMAND-style commands", fg_note)
-    biom.print_line("Type `EXIT` to quit, Type `?` to list commands", fg_note)
-    biom.print_line("", fg_note)
+    cio.print_line("PIXMINO Debug Shell - COMMAND-style commands", fg_note)
+    cio.print_line("Type `EXIT` to quit, Type `?` to list commands", fg_note)
+    cio.print_line("", fg_note)
 
     while true do
         local prompt = Settings.debug.unlock and prompt_unlocked or prompt_locked
-        local line = editor:read_line(biom, prompt)
+        local line = editor:read_line(cio, prompt)
         local argv = tokenize(line)
 
         if #argv > 0 then
@@ -82,28 +82,28 @@ function shell.run(biom, args)
                     names[#names + 1] = cmd_name
                 end
                 table.sort(names)
-                biom.print_line("COMMANDS:", fg_note)
+                cio.print_line("COMMANDS:", fg_note)
                 for j, cmd_name in ipairs(names) do
                     local cmd = core.commands[cmd_name]
                     local lpcked = cmd.danger and not Settings.debug.unlock
                     if lpcked then
-                        biom.print_line(string.format("%s", cmd_name), fg_warn)
+                        cio.print_line(string.format("%s", cmd_name), fg_warn)
                     else
-                        biom.print_line(string.format("%s", cmd_name), fg_out)
+                        cio.print_line(string.format("%s", cmd_name), fg_out)
                     end
                 end
             elseif name == "PID" then
-                biom.print_line(tostring(core.getpid()), fg_out)
+                cio.print_line(tostring(core.getpid()), fg_out)
             else
-                local ok, why = core.run(name, rest)
-                if not ok and why == "locked" then
-                    biom.print_line("This is a dangerous command.", fg_warn)
-                    biom.print_line("If you know what you are doing, use `UNLOCK` to unlock", fg_warn)
+                local ok, y = core.run(name, rest)
+                if not ok and y == "locked" then
+                    cio.print_line("This is a dangerous command.", fg_warn)
+                    cio.print_line("If you know what you are doing, use `UNLOCK` to unlock", fg_warn)
                 elseif not ok then
-                    biom.print_line("Command not found: " .. tostring(name_raw or ""), fg_err)
+                    cio.print_line("Command not found: " .. tostring(name_raw or ""), fg_err)
                 end
             end
-            biom.print_line("", fg_note)
+            cio.print_line("", fg_note)
         end
     end
 end

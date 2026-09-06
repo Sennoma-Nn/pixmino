@@ -14,7 +14,7 @@ local save = require("src.utils.save")
 local sfx = require("src.utils.sfx")
 local bg = require("src.bg.bg")
 local core = require("src.debug.core")
-local biom = require("src.debug.basic_IO_module")
+local cio = require("src.debug.console_io")
 local console = require("src.debug.console")
 local launcher = require("src.debug.launcher")
 
@@ -81,9 +81,7 @@ function love.load()
     core.load()
 
     local fullscreen = save.load()
-    if fullscreen then
-        push:switchFullscreen()
-    end
+    local _ = fullscreen and push:switchFullscreen()
 end
 
 function love.draw()
@@ -102,9 +100,7 @@ function love.draw()
 
         render.draw(gx, gy, pw, ph, bw, style.block_size)
 
-        if menu.state ~= "GAME" then
-            menu.draw(gx, gy, pw, ph, bw)
-        end
+        local _ = menu.state ~= "GAME" and menu.draw(gx, gy, pw, ph, bw)
     end
 
     push:apply("end")
@@ -155,14 +151,12 @@ function love.keypressed(key)
             launcher.toggle()
             return
         end
-        biom.push_key(key)
+        cio.push_key(key)
         core.poll_input()
         return
     end
 
-    if is_settings_menu()
-        and key == "t"
-        and (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) then
+    if is_settings_menu() and key == "t" and (love.keyboard.isDown("lctrl") or love.keyboard.isDown("rctrl")) then
         launcher.toggle()
         return
     end
@@ -224,7 +218,7 @@ end
 
 function love.textinput(text)
     if console.visible then
-        biom.push_key(nil, text)
+        cio.push_key(nil, text)
         core.poll_input()
     end
 end
