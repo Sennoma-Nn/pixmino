@@ -6,6 +6,7 @@ local game = require("src.game.game")
 local utils = require("src.utils.utils")
 local menu = require("src.menu.menu")
 local locale = require("src.utils.locale")
+local input = require("src.game.input")
 
 local render = {}
 
@@ -296,6 +297,21 @@ local function draw_game_info(font, gx, gy, pw, ph, bw)
     fontprint.print_outlined(font, string.rep("♦", left), ix, iy - 8 * 0, 1, Colors.white, Colors.out_line)
 end
 
+local function draw_key_info(font)
+    ix = 320 - 8 * 12
+    iy = 1
+
+    fontprint.print_outlined(font, "◄███████████", ix, iy, 1, Colors.white)
+    fontprint.print(font, "🠸", ix + 10 * 1, iy, 1, input.now.left and Colors.key or Colors.black)
+    fontprint.print(font, "🠺", ix + 10 * 2, iy, 1, input.now.right and Colors.key or Colors.black)
+    fontprint.print(font, "🠻", ix + 10 * 3, iy, 1, input.now.soft_drop and Colors.key or Colors.black)
+    fontprint.print(font, "🡇", ix + 10 * 4, iy, 1, input.now.hard_drop and Colors.key or Colors.black)
+    fontprint.print(font, "⮀", ix + 10 * 5, iy, 1, input.now.hold and Colors.key or Colors.black)
+    fontprint.print(font, "↺", ix + 10 * 6, iy, 1, input.now.ccw and Colors.key or Colors.black)
+    fontprint.print(font, "↻", ix + 10 * 7, iy, 1, input.now.cw and Colors.key or Colors.black)
+    fontprint.print(font, "🗘", ix + 10 * 8, iy, 1, input.now.rot180 and Colors.key or Colors.black)
+end
+
 function render.draw(gx, gy, pw, ph, bw, bs)
     love.graphics.setColor(unpack(Colors.playfield_bg))
     love.graphics.rectangle("fill", gx, gy, pw, ph)
@@ -314,6 +330,8 @@ function render.draw(gx, gy, pw, ph, bw, bs)
     draw_spin_mask(gx, gy, ph, bs)
     draw_next_hold(Fonts.bold_font, gx, gy, pw, ph, bw, bs)
     draw_game_info(Fonts.bold_font, gx, gy, pw, ph, bw)
+
+    local _ = menu.state == "GAME" and draw_key_info(Fonts.ui_fonts)
 
     if game.cleared then
         love.graphics.setColor(0, 0, 0, 0.6)

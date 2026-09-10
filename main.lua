@@ -49,6 +49,7 @@ Colors = {
     ghost_border = { 1, 1, 1, 0.2 },
     playfield_bg = { 0, 0, 0, 0.6 },
     background   = { 0.1, 0.1, 0.15 },
+    key          = { 0.8, 0.5, 0, 1 },
 }
 
 function love.load()
