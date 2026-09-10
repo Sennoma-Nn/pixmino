@@ -12,6 +12,10 @@ vgafont.register_codepage("symbol", {
     [149] = "↺",
     [150] = "↻",
     [151] = "🗘", -- 180
+    [160] = "",
+    [161] = "",
+    [162] = "",
+    [163] = "",
 })
 
 vgafont.register_codepage("pinyin", {
