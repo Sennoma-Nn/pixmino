@@ -299,10 +299,9 @@ end
 
 local function draw_key_info(font)
     if game.active_settings.display.key_info then
+        local ix = 320 - 8 * 11 - 2
+        local iy = 0
         local game_modal = game.modal_active or game.over or game.cleared
-
-        ix = 320 - 8 * 11 - 2
-        iy = 0
 
         fontprint.print_outlined(font, "███████████", ix, iy, 1, Colors.white)
         fontprint.print(font, "🠸", ix + 10 * 1, iy, 1, (input.now.left and (not game_modal)) and Colors.key or Colors.black)
