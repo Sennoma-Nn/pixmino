@@ -61,7 +61,6 @@ function love.load()
         320 * 1, 180 * 1,
         320 * 4, 180 * 4,
         {
-            pixelperfect = true,
             resizable = true,
             canvas = true
         }

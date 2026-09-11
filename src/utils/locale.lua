@@ -394,6 +394,19 @@ locale.t = {
         zh_tw = "在場地上標記下個方塊的形狀與出現位置｡",
     },
 
+    KEY_INFO = {
+        en = "KEY INFO",
+        ja = "ｷｰﾋｮｳｼﾞ",
+        zh_cn = "按键显示",
+        zh_tw = "按鍵顯示",
+    },
+    KEY_INFO_DESC = {
+        en = "Show the pressed keys\r\nwhile playing.",
+        ja = "ﾌﾟﾚｲﾁｭｳ ﾚｼﾞｮｳﾆ\r\nｵｼﾀ ｷｰｦ ﾋｮｳｼﾞ｡",
+        zh_cn = "游戏中在画面上方显示当前按下的按键｡",
+        zh_tw = "遊戲中在畫面上方顯示目前按下的按鍵｡",
+    },
+
     CCW = {
         en = "CCW",
         ja = "ﾋﾀﾞﾘｶｲﾃﾝ",

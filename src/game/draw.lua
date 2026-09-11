@@ -298,20 +298,22 @@ local function draw_game_info(font, gx, gy, pw, ph, bw)
 end
 
 local function draw_key_info(font)
-    ix = 320 - 8 * 11 - 2
-    iy = 0
+    if game.active_settings.display.key_info then
+        local game_modal = game.modal_active or game.over or game.cleared
 
-    local game_modal = game.modal_active or game.over or game.cleared
+        ix = 320 - 8 * 11 - 2
+        iy = 0
 
-    fontprint.print_outlined(font, "███████████", ix, iy, 1, Colors.white)
-    fontprint.print(font, "🠸", ix + 10 * 1, iy, 1, (input.now.left and (not game_modal)) and Colors.key or Colors.black)
-    fontprint.print(font, "🠺", ix + 10 * 2, iy, 1, (input.now.right and (not game_modal)) and Colors.key or Colors.black)
-    fontprint.print(font, "🠻", ix + 10 * 3, iy, 1, (input.now.soft_drop and (not game_modal)) and Colors.key or Colors.black)
-    fontprint.print(font, "🡇", ix + 10 * 4, iy, 1, (input.now.hard_drop and (not game_modal)) and Colors.key or Colors.black)
-    fontprint.print(font, "⮀", ix + 10 * 5, iy, 1, (input.now.hold and (not game_modal)) and Colors.key or Colors.black)
-    fontprint.print(font, "↺", ix + 10 * 6, iy, 1, (input.now.ccw and (not game_modal)) and Colors.key or Colors.black)
-    fontprint.print(font, "↻", ix + 10 * 7, iy, 1, (input.now.cw and (not game_modal)) and Colors.key or Colors.black)
-    fontprint.print(font, "🗘", ix + 10 * 8, iy, 1, (input.now.rot180 and (not game_modal)) and Colors.key or Colors.black)
+        fontprint.print_outlined(font, "███████████", ix, iy, 1, Colors.white)
+        fontprint.print(font, "🠸", ix + 10 * 1, iy, 1, (input.now.left and (not game_modal)) and Colors.key or Colors.black)
+        fontprint.print(font, "🠺", ix + 10 * 2, iy, 1, (input.now.right and (not game_modal)) and Colors.key or Colors.black)
+        fontprint.print(font, "🠻", ix + 10 * 3, iy, 1, (input.now.soft_drop and (not game_modal)) and Colors.key or Colors.black)
+        fontprint.print(font, "🡇", ix + 10 * 4, iy, 1, (input.now.hard_drop and (not game_modal)) and Colors.key or Colors.black)
+        fontprint.print(font, "⮀", ix + 10 * 5, iy, 1, (input.now.hold and (not game_modal)) and Colors.key or Colors.black)
+        fontprint.print(font, "↺", ix + 10 * 6, iy, 1, (input.now.ccw and (not game_modal)) and Colors.key or Colors.black)
+        fontprint.print(font, "↻", ix + 10 * 7, iy, 1, (input.now.cw and (not game_modal)) and Colors.key or Colors.black)
+        fontprint.print(font, "🗘", ix + 10 * 8, iy, 1, (input.now.rot180 and (not game_modal)) and Colors.key or Colors.black)
+    end
 end
 
 function render.draw(gx, gy, pw, ph, bw, bs)

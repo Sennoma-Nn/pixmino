@@ -32,6 +32,7 @@ Settings = {
         fullscreen = false,
         locale = "en",
         spawn_indicator = true,
+        key_info = true,
     },
     debug = {
         unlock = false
@@ -102,6 +103,13 @@ Settings.menu = {
             desc_key = "SPAWN_MARK_DESC",
             get = function() return Settings.display.spawn_indicator end,
             set = function(v) Settings.display.spawn_indicator = v end,
+        },
+        {
+            type = "toggle",
+            text_key = "KEY_INFO",
+            desc_key = "KEY_INFO_DESC",
+            get = function() return Settings.display.key_info end,
+            set = function(v) Settings.display.key_info = v end,
         },
         {
             type = "list",

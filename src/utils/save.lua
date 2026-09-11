@@ -83,6 +83,7 @@ function save.flush()
         drop_arr = settings.input.drop_arr,
         preop = tostring(settings.input.preop),
         spawn_indicator = tostring(settings.display.spawn_indicator),
+        key_info = tostring(settings.display.key_info),
         locale = settings.display.locale,
         fullscreen = tostring(settings.display.fullscreen),
         bgm_volume = settings.sound.volume.bgm,
@@ -116,6 +117,9 @@ function save.load()
         end
         if pairs.spawn_indicator ~= nil then
             settings.display.spawn_indicator = (pairs.spawn_indicator == "true")
+        end
+        if pairs.key_info ~= nil then
+            settings.display.key_info = (pairs.key_info == "true")
         end
 
         for i, k in ipairs(key_bindings) do
