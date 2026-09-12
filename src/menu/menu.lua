@@ -13,23 +13,35 @@ local menu = {}
 menu.state = "MENU_MAIN"
 menu.selection = 1
 menu.selections = {}
+menu.history = {}
 menu.selected_mode = ""
 menu.waiting_key = nil
-menu.parent = {
-    MENU_START = "MENU_MAIN",
-    MENU_ABOUT = "MENU_MAIN",
-    MENU_THANKS = "MENU_ABOUT",
-    MENU_SETTINGS = "MENU_MAIN",
-    MENU_SETTINGS_DISPLAY = "MENU_SETTINGS",
-    MENU_SETTINGS_SOUND = "MENU_SETTINGS",
-    MENU_SETTINGS_CTRL = "MENU_SETTINGS",
-    MENU_KEYS = "MENU_SETTINGS_CTRL",
-}
 
-function menu.go_to(new_state)
-    menu.selections[menu.state] = menu.selection
+local function switch_to(new_state)
     menu.state = new_state
     menu.selection = menu.selections[new_state] or 1
+end
+
+function menu.go_to(new_state)
+    if new_state == menu.state then return end
+    menu.selections[menu.state] = menu.selection
+    menu.history[#menu.history + 1] = menu.state
+    switch_to(new_state)
+end
+
+function menu.back()
+    local prev = table.remove(menu.history) or "MENU_MAIN"
+    if prev == menu.state then return false end
+    menu.selections[menu.state] = menu.selection
+    switch_to(prev)
+    return true
+end
+
+function menu.start_game(mode)
+    menu.selected_mode = mode
+    menu.history[#menu.history + 1] = menu.state
+    switch_to("GAME")
+    menu.reset()
 end
 
 function menu.reset()
@@ -99,33 +111,21 @@ menu.data = {
             text_key = "MARATHON",
             desc_key = "MARATHON_DESC",
             bast_format = function(i) return i end,
-            action = function()
-                menu.selected_mode = "marathon"
-                menu.state = "GAME"
-                menu.reset()
-            end
+            action = function() menu.start_game("marathon") end
         },
         {
             mode = "sprint",
             text_key = "SPRINT",
             desc_key = "SPRINT_DESC",
             bast_format = function(i) return utils.format_time(i) end,
-            action = function()
-                menu.selected_mode = "sprint"
-                menu.state = "GAME"
-                menu.reset()
-            end
+            action = function() menu.start_game("sprint") end
         },
         {
             mode = "master",
             text_key = "MASTER",
             desc_key = "MASTER_DESC",
             bast_format = function(i) return i end,
-            action = function()
-                menu.selected_mode = "master"
-                menu.state = "GAME"
-                menu.reset()
-            end
+            action = function() menu.start_game("master") end
         },
     },
     MENU_ABOUT = {
@@ -344,11 +344,7 @@ function menu.keypressed(key)
         end
         return true
     elseif key == "escape" then
-        local parent = menu.parent[menu.state]
-        if parent then
-            menu.go_to(parent)
-            return true
-        end
+        return menu.back()
     end
 
     return false

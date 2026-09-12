@@ -44,9 +44,7 @@ function enter.run(cio, args)
         return
     end
 
-    menu.selected_mode = mode_key
-    menu.state = "GAME"
-    menu.reset()
+    menu.start_game(mode_key)
     game.stop()
 
     core.request_close()

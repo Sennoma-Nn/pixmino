@@ -165,7 +165,7 @@ function love.keypressed(key)
         if game.cleared then
             if key == "escape" then
                 game.stop()
-                menu.go_to("MENU_MAIN")
+                menu.back()
             end
             return
         end
@@ -179,11 +179,11 @@ function love.keypressed(key)
                     game.stop()
                 else
                     game.stop()
-                    menu.go_to("MENU_MAIN")
+                    menu.back()
                 end
             elseif key == "escape" then
                 game.stop()
-                menu.go_to("MENU_MAIN")
+                menu.back()
             end
             return
         end
@@ -198,7 +198,7 @@ function love.keypressed(key)
                 local choice = game.modal_choose()
                 if choice == "quit" then
                     game.stop()
-                    menu.go_to("MENU_MAIN")
+                    menu.back()
                 elseif choice == "restart" then
                     game.stop()
                 else
