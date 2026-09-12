@@ -158,6 +158,41 @@ local mode = {
             },
         }
     end,
+
+    bone_test = function(time, clears, scores, level, ren, b2b, gravity, old_record)
+        local time_str = utils.format_time(time)
+
+        local update
+        if old_record == nil then
+            update = true
+        else
+            update = time < old_record
+        end
+
+        return {
+            level = 1,
+            gravity = 1 / 64,
+            target = clears >= 40,
+            record = time,
+            result = { "TIME", time_str },
+            record_update = update,
+            save_on_over = false,
+            bgm = "katyusha",
+            lock_delay = 30,
+            lock_wait = 0,
+            clear_wait = 0,
+            goal_lines = {
+                { line = 20, color = { 1, 1, 1, 0.5 } },
+                { line = 40, color = { 1, 0, 0, 1 } },
+            },
+            settings = {
+                input = {
+                    preop = false,
+                },
+            },
+            bone = true
+        }
+    end,
 }
 
 return mode

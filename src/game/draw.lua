@@ -12,8 +12,10 @@ local render = {}
 
 local next_count = 3
 
-local function draw_block(px, py, bs, color)
-    love.graphics.setColor(unpack(color))
+local function draw_block(px, py, bs, color, ni)
+    local c = color
+    if ni then c = utils.color_blend(c, {0, 0, 0, 0}, 0.5) end
+    love.graphics.setColor(unpack(c))
     love.graphics.rectangle("fill", px, py, bs, bs)
 end
 
@@ -194,7 +196,7 @@ local function draw_spawn_marker(gx, gy, ph, bs)
     end
 end
 
-local function draw_preview(shape, px, py, bs)
+local function draw_preview(shape, px, py, bs, ni)
     local mino = game.shapes[shape]
     local m = mino.shapes
     local color = game.bone and game.bone_color or mino.color
@@ -205,7 +207,7 @@ local function draw_preview(shape, px, py, bs)
     for r = 1, n do
         for c = 1, n do
             if m[r][c] ~= 0 then
-                draw_block(ox + (c - 1) * bs, oy + (r - 1) * bs, bs, color)
+                draw_block(ox + (c - 1) * bs, oy + (r - 1) * bs, bs, color, ni)
             end
         end
     end
@@ -230,7 +232,7 @@ local function draw_next_hold(font, gx, gy, pw, ph, bw, bs)
     local hold_y = py + 4 * bs
     fontprint.print_outlined(font, "HOLD", ix, hold_y, 1, Colors.white, Colors.out_line)
     if game.hold then
-        draw_preview(game.hold, ix, hold_y + 12, bs)
+        draw_preview(game.hold, ix, hold_y + 12, bs, not game.can_hold)
     end
 end
 
@@ -298,6 +300,7 @@ local function draw_game_info(font, gx, gy, pw, ph, bw)
 end
 
 local function draw_key_info(font)
+    if not game.active_settings then return end
     if game.active_settings.display.key_info then
         local ix = 320 - 8 * 11 - 2
         local iy = 0
