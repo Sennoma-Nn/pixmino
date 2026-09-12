@@ -254,7 +254,7 @@ function menu.draw(gx, gy, pw, ph, bw)
 
         if i == menu.selection then
             local highlight = disabled and Colors.light_yellow or Colors.yellow
-            fontprint.print(Fonts.ui_fonts, label, item_x, item_y, 1, highlight)
+            fontprint.print_outlined(Fonts.ui_fonts, label, item_x, item_y, 1, highlight, Colors.out_line)
 
             if it.type == "keys" and menu.waiting_key == it.key_name then
                 local tip = locale.get("PRESS_KEY_TIP")
@@ -281,12 +281,12 @@ function menu.draw(gx, gy, pw, ph, bw)
                 end
             end
         else
-            fontprint.print(Fonts.ui_fonts, label, item_x, item_y, 1, color)
+            fontprint.print_outlined(Fonts.ui_fonts, label, item_x, item_y, 1, color, Colors.out_line)
         end
     end
 
     if not menu.waiting_key then
-        local _ = menu.state == "MENU_MAIN" or fontprint.print(Fonts.ui_fonts, locale.get("BACK_TIP"), gx + 4, gy + 4, 1, Colors.gray)
+        local _ = menu.state == "MENU_MAIN" or fontprint.print_outlined(Fonts.ui_fonts, locale.get("BACK_TIP"), gx + 4, gy + 4, 1, Colors.gray, Colors.out_line)
     end
 end
 

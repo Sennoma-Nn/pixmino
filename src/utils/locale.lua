@@ -239,10 +239,10 @@ locale.t = {
         zh_tw = "設定",
     },
     SETTINGS_DESC = {
-        en = "Adjust game settings.\r\n🠸 X 🠺 ←/→ to change option\r\n- X - ↩ to toggle\r\n[ X ] ↩ then press a key",
-        ja = "ｹﾞｰﾑ ｾｯﾃｲｦ ﾁｮｳｾｲ｡\r\n🠸 X 🠺 ←/→ ﾃﾞ ｺｳﾓｸｦ ﾍﾝｺｳ\r\n- X - ↩ ﾃﾞ ｷﾘｶｴ\r\n[ X ] ↩ ﾉｱﾄ ｷｰｦ ﾆｭｳﾘｮｸ",
-        zh_cn = "调整游戏设置｡\r\n🠸 X 🠺 按下 ←/→ 键改变\r\n- X - 按下 ↩ 键切换\r\n[ X ] 按下 ↩ 键后输入一个按键",
-        zh_tw = "調整遊戲設定｡\r\n🠸 X 🠺 按下 ←/→ 鍵改變\r\n- X - 按下 ↩ 鍵切換\r\n[ X ] 按下 ↩ 鍵後輸入一個按鍵",
+        en = "Adjust game settings.\r\n\n🠸 X 🠺 ←/→ to change option\r\n- X - ↩ to toggle\r\n[ X ] ↩ then press a key",
+        ja = "ｹﾞｰﾑ ｾｯﾃｲｦ ﾁｮｳｾｲ｡\r\n\n🠸 X 🠺 ←/→ ﾃﾞ ｺｳﾓｸｦ ﾍﾝｺｳ\r\n- X - ↩ ﾃﾞ ｷﾘｶｴ\r\n[ X ] ↩ ﾉｱﾄ ｷｰｦ ﾆｭｳﾘｮｸ",
+        zh_cn = "调整游戏设置｡\r\n\n🠸 X 🠺 按下 ←/→ 键改变\r\n- X - 按下 ↩ 键切换\r\n[ X ] 按下 ↩ 键后输入一个按键",
+        zh_tw = "調整遊戲設定｡\r\n\n🠸 X 🠺 按下 ←/→ 鍵改變\r\n- X - 按下 ↩ 鍵切換\r\n[ X ] 按下 ↩ 鍵後輸入一個按鍵",
     },
 
     JMP_CTRL = {
