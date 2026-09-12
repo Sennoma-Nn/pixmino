@@ -502,10 +502,10 @@ locale.t = {
         zh_tw = "禁止移動!?",
     },
     MASTER_DESC = {
-        en = "Clear 200 lines,\r\nPieces drop instantly,\r\nless time to act!",
-        ja = "200 ﾗｲﾝｦ ｸﾘｱ､\r\nﾌﾞﾛｯｸ ﾁｮｸｾﾂ ﾗｯｶ､\r\nｿｳｻ ｼﾞｶﾝ ﾐｼﾞｶｸ ﾅﾙ!",
-        zh_cn = "清除200行,\r\n方块直接落地,\r\n操作时间越来越短!",
-        zh_tw = "消除200列,\r\n方塊直接落地,\r\n操作時間越來越短!",
+        en = "Clear 300 lines,\r\nPieces drop instantly,\r\nless time to act!",
+        ja = "300 ﾗｲﾝｦ ｸﾘｱ､\r\nﾌﾞﾛｯｸ ﾁｮｸｾﾂ ﾗｯｶ､\r\nｿｳｻ ｼﾞｶﾝ ﾐｼﾞｶｸ ﾅﾙ!",
+        zh_cn = "清除300行,\r\n方块直接落地,\r\n操作时间越来越短!",
+        zh_tw = "消除300列,\r\n方塊直接落地,\r\n操作時間越來越短!",
     },
 
     JMP_CTRL_DESC = {
