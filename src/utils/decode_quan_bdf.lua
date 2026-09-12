@@ -163,7 +163,7 @@ local function parse(data)
                         local px = base_x + b
                         if px < e.w and bits[b + 1] == 1 then
                             local sx = ox + px
-                            local sy = oy + ry
+                            local sy = ry
                             if sx >= 0 and sx < SLOT_W and sy >= 0 and sy < SLOT_H then
                                 image_data:setPixel(slot_x + sx, slot_y + sy, 1, 1, 1, 1)
                             end

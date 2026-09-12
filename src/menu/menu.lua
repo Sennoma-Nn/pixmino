@@ -183,9 +183,27 @@ for state, items in pairs(settings.menu) do
     menu.data[state] = items
 end
 
+local function k2symbol(k)
+    if k == "RETURN" then return "↩" end
+    if k:match("SHIFT$") then return "⇧" end
+    if k == "CAPSLOCK" then return "⇪" end
+    if k == "BACKSPACE" then return "⌫" end
+    if k == "DELETE" then return "⌦" end
+    if k:match("ALT$") then return "⎇" end
+    if k == "SPACE" then return "␣" end
+    if k == "TAB" then return "⭲" end
+    if k:match("CTRL$") then return "^" end
+    if k:match("GUI$") then return "♦" end
+    if k == "LEFT" then return "←" end
+    if k == "RIGHT" then return "→" end
+    if k == "UP" then return "↑" end
+    if k == "DOWN" then return "↓" end
+    return k
+end
+
 local function control_desc(it)
     if it.type == "toggle" then
-        return it.get() and "ON" or "OFF"
+        return it.get() and "- ON -" or "- OFF -"
     elseif it.type == "value" then
         local v = it.get()
         local l = (v > it.min) and "◄" or " "
@@ -198,7 +216,7 @@ local function control_desc(it)
         local r = (idx < #it.items) and "►" or " "
         return l .. " " .. tostring(val) .. " " .. r
     elseif it.type == "keys" then
-        return "[ " .. (string.upper(Settings.input.keys[it.key_name])) .. " ]"
+        return "[ " .. k2symbol(string.upper(Settings.input.keys[it.key_name])) .. " ]"
     end
     return nil
 end
@@ -246,18 +264,17 @@ function menu.draw(gx, gy, pw, ph, bw)
                 local desc = it.desc_key and locale.get(it.desc_key)
                 local desc_valid = desc and desc ~= it.desc_key
                 local record_txt = it.mode and mode_record_text(it)
-
-                local line_h = fontprint.get_height(Fonts.ui_fonts)
                 local y = desc_y
 
                 if desc_valid then
                     fontprint.print_outlined(Fonts.ui_fonts, desc, desc_x, y, 1, Colors.white, Colors.out_line)
                     local lines = select(2, desc:gsub("\n", "")) + 1
-                    y = y + (lines + 1) * line_h
+                    y = y + (lines + 1) * 8
                 end
                 if current then
-                    fontprint.print_outlined(Fonts.bold_font, current, desc_x, y, 1, Colors.white)
-                    y = y + 2 * line_h
+                    local descfont = it.type == "keys" and Fonts.ui_fonts or Fonts.bold_font
+                    fontprint.print_outlined(descfont, current, desc_x, y, 1, Colors.white)
+                    y = y + 2 * 8
                 end
                 if record_txt then
                     fontprint.print_outlined(Fonts.ui_fonts, record_txt, desc_x, y, 1, Colors.white, Colors.out_line)
@@ -269,7 +286,7 @@ function menu.draw(gx, gy, pw, ph, bw)
     end
 
     if not menu.waiting_key then
-        fontprint.print(Fonts.ui_fonts, locale.get("BACK_TIP"), gx + 4, gy + 4, 1, Colors.gray)
+        local _ = menu.state == "MENU_MAIN" or fontprint.print(Fonts.ui_fonts, locale.get("BACK_TIP"), gx + 4, gy + 4, 1, Colors.gray)
     end
 end
 
