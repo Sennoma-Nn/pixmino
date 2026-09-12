@@ -1,4 +1,4 @@
-<img src="assets/doc/title.svg" style="width: auto; height: calc(8px * 4)">
+<img src="assets/doc/title.svg" height="32">
 
 ---
 
