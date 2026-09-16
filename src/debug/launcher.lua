@@ -14,7 +14,6 @@ local function apply_console_resolution(on)
             320 * 2, 180 * 2,
             320 * 4, 180 * 4,
             {
-                pixelperfect = true,
                 resizable = true,
                 canvas = true
             }
@@ -24,7 +23,6 @@ local function apply_console_resolution(on)
             320 * 1, 180 * 1,
             320 * 4, 180 * 4,
             {
-                pixelperfect = true,
                 resizable = true,
                 canvas = true
             }
