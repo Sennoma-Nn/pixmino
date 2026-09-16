@@ -239,10 +239,12 @@ end
 
 local function drop_y(piece)
     local y = piece.y
+    local d = 0
     while not collides(piece, piece.x, y - 1, piece.dir) do
         y = y - 1
+        d = d + 1
     end
-    return y
+    return y, d
 end
 
 local function reset_lock(piece)
@@ -602,7 +604,9 @@ end
 function game.hard_drop()
     local p = game.piece
     if not p then return end
-    p.y = drop_y(p)
+    local d = 0
+    p.y, d = drop_y(p)
+    local _ = d > 0 and reset_piece_spin(p)
     lock_piece(true)
 end
 

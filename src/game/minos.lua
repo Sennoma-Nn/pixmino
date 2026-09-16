@@ -213,14 +213,19 @@ local minos     = {
         spin = {
             mask = {
                 { 0, 0, 0, 0, 0 },
-                { 3, 0, 2, 1, 0 },
-                { 3, 0, 0, 0, 0 },
+                { 5, 0, 4, 3, 0 },
+                { 5, 0, 0, 0, 0 },
                 { 0, 2, 2, 1, 0 },
                 { 0, 0, 0, 0, 0 }
             },
             result = function(mask)
-                local is_spin = mask[1] >= 1 and mask[2] >= 1
-                local is_mini = mask[3] < 1
+                local g1 = mask[1] + mask[3]
+                local g2 = mask[2] + mask[4]
+                local up = mask[3] + mask[4]
+                local dn = mask[1] + mask[2]
+
+                local is_spin = g1 >= 1 and g2 >= 1 and up ~= 0 and dn ~= 0
+                local is_mini = mask[5] < 1
 
                 return { spin = is_spin, mini = is_mini }
             end,
@@ -241,14 +246,19 @@ local minos     = {
         spin = {
             mask = {
                 { 0, 0, 0, 0, 0 },
-                { 0, 1, 2, 0, 3 },
-                { 0, 0, 0, 0, 3 },
+                { 0, 3, 4, 0, 5 },
+                { 0, 0, 0, 0, 5 },
                 { 0, 1, 2, 2, 0 },
                 { 0, 0, 0, 0, 0 }
             },
             result = function(mask)
-                local is_spin = mask[1] >= 1 and mask[2] >= 1
-                local is_mini = mask[3] < 1
+                local g1 = mask[1] + mask[3]
+                local g2 = mask[2] + mask[4]
+                local up = mask[3] + mask[4]
+                local dn = mask[1] + mask[2]
+
+                local is_spin = g1 >= 1 and g2 >= 1 and up ~= 0 and dn ~= 0
+                local is_mini = mask[5] < 1
 
                 return { spin = is_spin, mini = is_mini }
             end,
