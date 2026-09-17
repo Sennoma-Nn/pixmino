@@ -31,6 +31,13 @@ local playfield = {
     height = 20
 }
 
+local win = {
+    resizeInterval = 0.5,
+    resizeTimer    = 0,
+    W              = 0,
+    H              = 0,
+}
+
 Fonts = {
     ui_fonts = {},
     bold_font = nil,
@@ -65,6 +72,8 @@ function love.load()
             canvas = true
         }
     )
+
+    win.W, win.H = love.window.getMode()
 
     Fonts.bold_font = vgafont.load("assets/font/IB-FULL.F08", "cp437")
     Fonts.ui_fonts = {
@@ -107,6 +116,16 @@ function love.draw()
 end
 
 function love.update(dt)
+    win.resizeTimer = win.resizeTimer + dt
+    if win.resizeTimer >= win.resizeInterval then
+        win.resizeTimer = win.resizeTimer - win.resizeInterval
+        local currentW, currentH = love.window.getMode()
+        if currentW ~= win.W or currentH ~= win.H then
+            win.W, win.H = currentW, currentH
+            love.resize(currentW, currentH)
+        end
+    end
+
     bg.update(dt)
 
     if console.visible then
@@ -224,6 +243,7 @@ function love.textinput(text)
 end
 
 function love.resize(w, h)
+    win.W, win.H = w, h
     push:resize(w, h)
 end
 
