@@ -351,13 +351,17 @@ local function lock_piece(is_hard)
     local is_spin = p.spin.activation
     local is_mini = is_spin and p.spin.mini
 
+    if cleared > 0 then
+        if not (cleared >= 4 or is_spin) then
+            game.b2b = 0
+        end
+    end
+
     local b2b_eligible = game.b2b > 0
 
     if cleared > 0 then
         if cleared >= 4 or is_spin then
             game.b2b = game.b2b + 1
-        else
-            game.b2b = 0
         end
     end
 
@@ -383,14 +387,15 @@ local function lock_piece(is_hard)
 
     local clear_names = { "SINGLE", "DOUBLE", "TRIPLE", "QUAD" }
     if is_perfect then
-        local prefix = is_spin and ("%s SPIN "):format(p.shape) or ""
-        game.set_notify(prefix .. (prefix ~= "" and "& " or "") .. "PERFECT CLEAR", p.color)
+        local b2b_str = b2b_eligible and "B2B & " or ""
+        local prefix = is_spin and ("%s SPIN & "):format(p.shape) or ""
+        game.set_notify(b2b_str .. prefix .. "PERFECT CLEAR", p.color)
     elseif is_spin then
         local mini = is_mini and "MINI " or ""
         local clear_name = (cleared > 0 and clear_names[cleared]) or "NONE"
-        game.set_notify(string.format("%s%s SPIN %s", mini, p.shape, clear_name), p.color)
+        game.set_notify(string.format("%s%s%s SPIN %s", (b2b_eligible and "B2B & " or ""), mini, p.shape, clear_name), p.color)
     elseif cleared > 0 then
-        game.set_notify(clear_names[cleared], p.color)
+        game.set_notify((b2b_eligible and "B2B & " or "") .. clear_names[cleared], p.color)
     end
 
     if is_mini then

@@ -24,7 +24,7 @@ game_debug.flags = {
     wallkick = false,
     reset = false,
     spin = false,
-    score = false,
+    score = true,
 }
 
 function game_debug.piece(action, p)
