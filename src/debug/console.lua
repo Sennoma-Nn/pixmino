@@ -60,7 +60,6 @@ end
 
 function console.draw(x0, y0)
     if not console.visible then return end
-    if not font or not quads or not image then return end
 
     love.graphics.setColor(unpack(bg_cell))
     love.graphics.rectangle("fill", x0, y0, console.W * 8, console.H * 8)
