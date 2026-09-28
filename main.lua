@@ -44,19 +44,20 @@ Fonts = {
 }
 
 Colors = {
-    yellow       = { 1, 0.8, 0, 1 },
-    light_yellow = { 1, 0.9, 0.4, 1 },
-    white        = { 1, 1, 1, 1 },
-    light_gray   = { 0.75, 0.75, 0.75, 1 },
-    gray         = { 0.5, 0.5, 0.5, 1 },
-    black        = { 0, 0, 0, 1 },
-    out_line     = { 0, 0, 0, 1 },
-    mino_border  = { 0, 0, 0, 0.2 },
-    piece_border = { 0, 0, 0, 0.6 },
-    ghost_border = { 1, 1, 1, 0.2 },
-    playfield_bg = { 0, 0, 0, 0.6 },
-    background   = { 0.1, 0.1, 0.15 },
-    key          = { 0.8, 0.5, 0, 1 },
+    yellow             = { 1, 0.8, 0, 1 },
+    light_yellow       = { 1, 0.9, 0.4, 1 },
+    white              = { 1, 1, 1, 1 },
+    light_gray         = { 0.75, 0.75, 0.75, 1 },
+    gray               = { 0.5, 0.5, 0.5, 1 },
+    goal_lines_comment = { 0.2, 0.2, 0.2, 1 },
+    black              = { 0, 0, 0, 1 },
+    out_line           = { 0, 0, 0, 1 },
+    mino_border        = { 0, 0, 0, 0.2 },
+    piece_border       = { 0, 0, 0, 0.6 },
+    ghost_border       = { 1, 1, 1, 0.2 },
+    playfield_bg       = { 0, 0, 0, 0.6 },
+    background         = { 0.1, 0.1, 0.15 },
+    key                = { 0.8, 0.5, 0, 1 },
 }
 
 function love.load()
@@ -76,6 +77,7 @@ function love.load()
     win.W, win.H = love.window.getMode()
 
     Fonts.bold_font = vgafont.load("assets/font/IB-FULL.F08", "cp437")
+    Fonts.comment = vgafont.load("assets/font/PUFFBUB.F08", "cp437")
     Fonts.ui_fonts = {
         vgafont.load("assets/font/QUADBM/CP897.F08", "jisx0201"),
         vgafont.load("assets/font/QUADBM/CP437.F08", "cp437"),

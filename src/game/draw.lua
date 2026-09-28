@@ -12,9 +12,9 @@ local render = {}
 
 local next_count = 3
 
-local function draw_block(px, py, bs, color, ni)
+local function draw_block(px, py, bs, color, transparent)
     local c = color
-    if ni then c = utils.color_blend(c, {0, 0, 0, 0}, 0.5) end
+    if transparent then c = utils.color_blend(c, {0, 0, 0, 0}, 0.5) end
     love.graphics.setColor(unpack(c))
     love.graphics.rectangle("fill", px, py, bs, bs)
 end
@@ -37,8 +37,10 @@ local function draw_goal_lines(gx, gy, pw, ph, bs)
         local remaining = m.line - game.clears
         if remaining >= 1 and remaining <= game.pf.height then
             local py = gy + ph - remaining * bs
+            m.text = m.text or ""
             love.graphics.setColor(unpack(m.color))
             love.graphics.rectangle("fill", gx, py, pw, 1)
+            fontprint.print(Fonts.comment, m.text, gx, py + 1, 1, Colors.goal_lines_comment)
         end
     end
 end
@@ -196,7 +198,7 @@ local function draw_spawn_marker(gx, gy, ph, bs)
     end
 end
 
-local function draw_preview(shape, px, py, bs, ni)
+local function draw_preview(shape, px, py, bs, transparent)
     local mino = game.shapes[shape]
     local m = mino.shapes
     local color = game.bone and game.bone_color or mino.color
@@ -207,7 +209,7 @@ local function draw_preview(shape, px, py, bs, ni)
     for r = 1, n do
         for c = 1, n do
             if m[r][c] ~= 0 then
-                draw_block(ox + (c - 1) * bs, oy + (r - 1) * bs, bs, color, ni)
+                draw_block(ox + (c - 1) * bs, oy + (r - 1) * bs, bs, color, transparent)
             end
         end
     end

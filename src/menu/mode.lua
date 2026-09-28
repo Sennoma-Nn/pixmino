@@ -26,9 +26,9 @@ local mode = {
             lock_wait = 6,
             clear_wait = 15,
             goal_lines = {
-                { line = 50,  color = { 1, 1, 1, 0.25 } },
-                { line = 100, color = { 1, 1, 1, 0.5 } },
-                { line = 150, color = { 1, 0, 0, 1 } },
+                { text = "50L", line = 50,  color = { 1, 1, 1, 0.25 } },
+                { text = "100L", line = 100, color = { 1, 1, 1, 0.5 } },
+                { text = "END", line = 150, color = { 1, 0, 0, 1 } },
             },
             settings = {
                 input = {
@@ -63,8 +63,8 @@ local mode = {
             lock_wait = 0,
             clear_wait = 0,
             goal_lines = {
-                { line = 20, color = { 1, 1, 1, 0.5 } },
-                { line = 40, color = { 1, 0, 0, 1 } },
+                { text = "1/2", line = 20, color = { 1, 1, 1, 0.5 } },
+                { text = "END", line = 40, color = { 1, 0, 0, 1 } },
             },
             settings = {
                 input = {
@@ -105,11 +105,11 @@ local mode = {
             lock_resets = 20,
             bone = bone,
             goal_lines = {
-                { line = 75,  color = { 1, 1, 1, 0.25 } },
-                { line = 150, color = { 1, 1, 1, 0.5 } },
-                { line = 225, color = { 1, 1, 1, 0.25 } },
-                { line = 250, color = { 1.0, 0.69, 0.0, 0.5 } },
-                { line = 300, color = { 1, 0, 0, 1 } },
+                { text = "1/4", line = 75,  color = { 1, 1, 1, 0.25 } },
+                { text = "1/2", line = 150, color = { 1, 1, 1, 0.5 } },
+                { text = "3/4", line = 225, color = { 1, 1, 1, 0.25 } },
+                { text = "???", line = 250, color = { 1.0, 0.69, 0.0, 0.5 } },
+                { text = "END", line = 300, color = { 1, 0, 0, 1 } },
             },
             settings = {
                 input = {
@@ -144,8 +144,8 @@ local mode = {
             lock_wait = 0,
             clear_wait = 0,
             goal_lines = {
-                { line = 20, color = { 1, 1, 1, 0.5 } },
-                { line = 40, color = { 1, 0, 0, 1 } },
+                { text = "½",   line = 20, color = { 1, 1, 1, 0.5 } },
+                { text = "END", line = 40, color = { 1, 0, 0, 1 } },
             },
             settings = {
                 input = {
@@ -182,8 +182,8 @@ local mode = {
             lock_wait = 0,
             clear_wait = 0,
             goal_lines = {
-                { line = 20, color = { 1, 1, 1, 0.5 } },
-                { line = 40, color = { 1, 0, 0, 1 } },
+                { text = "½",   line = 20, color = { 1, 1, 1, 0.5 } },
+                { text = "END", line = 40, color = { 1, 0, 0, 1 } },
             },
             settings = {
                 input = {
