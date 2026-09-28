@@ -6,6 +6,7 @@ local save = {}
 local settings = require("src.menu.settings")
 local locale = require("src.utils.locale")
 local sfx = require("src.utils.sfx")
+local skin = require("src.game.skin")
 
 local settings_file = "settings.txt"
 local record_file = "record.txt"
@@ -88,6 +89,7 @@ function save.flush()
         spawn_indicator = tostring(settings.display.spawn_indicator),
         key_info = tostring(settings.display.key_info),
         locale = settings.display.locale,
+        skin = settings.display.skin,
         fullscreen = tostring(settings.display.fullscreen),
         bgm_volume = settings.sound.volume.bgm,
         sfx_volume = settings.sound.volume.sfx,
@@ -136,6 +138,13 @@ function save.load()
             if lang == pairs.locale then
                 settings.display.locale = lang
                 locale.current = lang
+                break
+            end
+        end
+
+        for i, name in ipairs(skin.get_list()) do
+            if name == pairs.skin then
+                settings.display.skin = name
                 break
             end
         end

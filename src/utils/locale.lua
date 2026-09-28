@@ -406,6 +406,18 @@ locale.t = {
         zh_cn = "游戏中在画面上方显示当前按下的按键｡",
         zh_tw = "遊戲中在畫面上方顯示目前按下的按鍵｡",
     },
+    SKIN = {
+        en = "SKIN",
+        ja = "ｽｷﾝ",
+        zh_cn = "皮肤",
+        zh_tw = "皮膚",
+    },
+    SKIN_DESC = {
+        en = "Select the block skin.",
+        ja = "ﾌﾞﾛｯｸﾉ ｽｷﾝｦ ｾﾝﾀｸ｡",
+        zh_cn = "选择方块皮肤｡",
+        zh_tw = "選擇方塊皮膚｡",
+    },
 
     CCW = {
         en = "CCW",

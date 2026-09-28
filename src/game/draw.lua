@@ -80,6 +80,10 @@ local function draw_mino_borders(gx, gy, ph, bs)
                         has_same_block(x, y - 1, id, drop_count),
                         has_same_block(x - 1, y, id, drop_count),
                         has_same_block(x + 1, y, id, drop_count),
+                        has_same_block(x - 1, y + 1, id, drop_count),
+                        has_same_block(x + 1, y + 1, id, drop_count),
+                        has_same_block(x - 1, y - 1, id, drop_count),
+                        has_same_block(x + 1, y - 1, id, drop_count),
                     }
                     skin.borders(px, py, bs, link, border_color)
                 end
@@ -102,6 +106,10 @@ local function draw_matrix_borders(m, origin_px, origin_py, bs, color, base_colo
                     r + 1 <= n and m[r + 1][c] ~= 0,
                     c - 1 >= 1 and m[r][c - 1] ~= 0,
                     c + 1 <= n and m[r][c + 1] ~= 0,
+                    c - 1 >= 1 and r - 1 >= 1 and m[r - 1][c - 1] ~= 0,
+                    c + 1 <= n and r - 1 >= 1 and m[r - 1][c + 1] ~= 0,
+                    c - 1 >= 1 and r + 1 <= n and m[r + 1][c - 1] ~= 0,
+                    c + 1 <= n and r + 1 <= n and m[r + 1][c + 1] ~= 0,
                 }
                 skin.borders(px, py, bs, link, border_color)
             end

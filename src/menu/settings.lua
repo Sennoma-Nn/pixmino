@@ -4,6 +4,7 @@
 local locale = require("src.utils.locale")
 local push = require("lib.push")
 local sfx = require("src.utils.sfx")
+local skin = require("src.game.skin")
 
 Settings = {
     sound = {
@@ -31,6 +32,7 @@ Settings = {
     display = {
         fullscreen = false,
         locale = "en",
+        skin = "simple",
         spawn_indicator = true,
         key_info = true,
     },
@@ -53,6 +55,8 @@ local function make_keys_items()
     end
     return items
 end
+
+local skin_names = skin.get_list()
 
 Settings.menu = {
     MENU_SETTINGS = {
@@ -95,6 +99,22 @@ Settings.menu = {
             set = function()
                 push:switchFullscreen()
                 Settings.display.fullscreen = love.window.getFullscreen()
+            end,
+        },
+        {
+            type = "list",
+            text_key = "SKIN",
+            desc_key = "SKIN_DESC",
+            items = skin_names,
+            get_index = function()
+                for i, name in ipairs(skin_names) do
+                    if name == Settings.display.skin then return i end
+                end
+                return 1
+            end,
+            set_index = function(i)
+                Settings.display.skin = skin_names[i]
+                skin.load(Settings.display.skin)
             end,
         },
         {

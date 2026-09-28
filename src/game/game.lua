@@ -67,7 +67,7 @@ function game.load_settings(override)
     if override then
         utils.deep_merge(game.active_settings, override)
     end
-    skin.load("simple")
+    skin.load(game.active_settings.display.skin)
 end
 
 function game.stop()
