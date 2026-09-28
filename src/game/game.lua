@@ -6,6 +6,7 @@ local utils            = require("src.utils.utils")
 local save             = require("src.utils.save")
 local game_debug       = require("src.game.debug")
 local sfx              = require("src.utils.sfx")
+local skin             = require("src.game.skin")
 
 local next_count       = 3
 local bone_color       = { 1.0, 0.69, 0.0, 0.4 }
@@ -66,6 +67,7 @@ function game.load_settings(override)
     if override then
         utils.deep_merge(game.active_settings, override)
     end
+    skin.load("simple")
 end
 
 function game.stop()

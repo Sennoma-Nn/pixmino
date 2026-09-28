@@ -7,6 +7,7 @@ local utils = require("src.utils.utils")
 local menu = require("src.menu.menu")
 local locale = require("src.utils.locale")
 local input = require("src.game.input")
+local skin = require("src.game.skin")
 
 local render = {}
 
@@ -15,8 +16,7 @@ local next_count = 3
 local function draw_block(px, py, bs, color, transparent)
     local c = color
     if transparent then c = utils.color_blend(c, {0, 0, 0, 0}, 0.5) end
-    love.graphics.setColor(unpack(c))
-    love.graphics.rectangle("fill", px, py, bs, bs)
+    skin.base(px, py, bs, c)
 end
 
 local function has_same_block(x, y, id, drop_count)
@@ -25,7 +25,7 @@ local function has_same_block(x, y, id, drop_count)
     r = r and row and row[x]
     r = r and row[x].id == id
     -- r = r and row[x].drop_count == drop_count -- 本來想做成一個方塊中間被切斷後不會連接在一起，但是效果不好，所以算了（）
-    return r
+    return not not r
 end
 
 local function draw_goal_lines(gx, gy, pw, ph, bs)
@@ -74,25 +74,14 @@ local function draw_mino_borders(gx, gy, ph, bs)
                     local drop_count = cell.drop_count
                     local border_color = utils.color_blend(utils.strip_a(cell.color), utils.strip_a(Colors.mino_border),
                         Colors.mino_border[4])
-                    love.graphics.setColor(unpack(border_color))
 
-                    if not has_same_block(x, y + 1, id, drop_count) then
-                        love.graphics.rectangle("fill", px + 1, py, bs - 2, 1)
-                    end
-                    if not has_same_block(x, y - 1, id, drop_count) then
-                        love.graphics.rectangle("fill", px + 1, py + bs - 1, bs - 2, 1)
-                    end
-                    if not has_same_block(x - 1, y, id, drop_count) then
-                        love.graphics.rectangle("fill", px, py + 1, 1, bs - 2)
-                    end
-                    if not has_same_block(x + 1, y, id, drop_count) then
-                        love.graphics.rectangle("fill", px + bs - 1, py + 1, 1, bs - 2)
-                    end
-
-                    love.graphics.rectangle("fill", px, py, 1, 1)
-                    love.graphics.rectangle("fill", px + bs - 1, py, 1, 1)
-                    love.graphics.rectangle("fill", px, py + bs - 1, 1, 1)
-                    love.graphics.rectangle("fill", px + bs - 1, py + bs - 1, 1, 1)
+                    local link = {
+                        has_same_block(x, y + 1, id, drop_count),
+                        has_same_block(x, y - 1, id, drop_count),
+                        has_same_block(x - 1, y, id, drop_count),
+                        has_same_block(x + 1, y, id, drop_count),
+                    }
+                    skin.borders(px, py, bs, link, border_color)
                 end
             end
         end
@@ -107,25 +96,14 @@ local function draw_matrix_borders(m, origin_px, origin_py, bs, color, base_colo
                 local px = origin_px + (c - 1) * bs
                 local py = origin_py + (r - 1) * bs
                 local border_color = utils.color_blend(utils.strip_a(color), utils.strip_a(base_color), base_color[4])
-                love.graphics.setColor(unpack(border_color))
 
-                if r - 1 < 1 or m[r - 1][c] == 0 then
-                    love.graphics.rectangle("fill", px + 1, py, bs - 2, 1)
-                end
-                if r + 1 > n or m[r + 1][c] == 0 then
-                    love.graphics.rectangle("fill", px + 1, py + bs - 1, bs - 2, 1)
-                end
-                if c - 1 < 1 or m[r][c - 1] == 0 then
-                    love.graphics.rectangle("fill", px, py + 1, 1, bs - 2)
-                end
-                if c + 1 > n or m[r][c + 1] == 0 then
-                    love.graphics.rectangle("fill", px + bs - 1, py + 1, 1, bs - 2)
-                end
-
-                love.graphics.rectangle("fill", px, py, 1, 1)
-                love.graphics.rectangle("fill", px + bs - 1, py, 1, 1)
-                love.graphics.rectangle("fill", px, py + bs - 1, 1, 1)
-                love.graphics.rectangle("fill", px + bs - 1, py + bs - 1, 1, 1)
+                local link = {
+                    r - 1 >= 1 and m[r - 1][c] ~= 0,
+                    r + 1 <= n and m[r + 1][c] ~= 0,
+                    c - 1 >= 1 and m[r][c - 1] ~= 0,
+                    c + 1 <= n and m[r][c + 1] ~= 0,
+                }
+                skin.borders(px, py, bs, link, border_color)
             end
         end
     end

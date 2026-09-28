@@ -1,11 +1,17 @@
+-- Copyright (C) 2026 Sennoma-Nn
+-- SPDX-License-Identifier: GPL-3.0-or-later
+
 local skin = {}
 
-function skin.base(px, py, bs)
+function skin.base(px, py, bs, color)
+    love.graphics.setColor(color)
     love.graphics.rectangle("fill", px, py, bs, bs)
 end
 
-function skin.borders(px, py, bs, link)
+function skin.borders(px, py, bs, link, color)
     local up, down, left, right = unpack(link)
+
+    love.graphics.setColor(color)
 
     if not up then
         love.graphics.rectangle("fill", px + 1, py, bs - 2, 1)
