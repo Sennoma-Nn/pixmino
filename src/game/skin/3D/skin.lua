@@ -4,54 +4,31 @@
 local skin = {}
 
 function skin.base(px, py, bs, link, color)
-    local up, down, left, right, up_left, up_right, down_left, down_right = unpack(link)
+    local down, right, down_right = link[2], link[4], link[8]
 
     love.graphics.setColor(color)
 
-    if not (right and down and not down_right) then
-        local right_not_link = right and 0 or 2
-        local down_not_link = down and 0 or 2
-        love.graphics.rectangle("fill", px, py, bs - right_not_link, bs - down_not_link)
-    else
+    if right and down and not down_right then
         love.graphics.rectangle("fill", px, py, bs - 2, bs)
         love.graphics.rectangle("fill", px + bs - 2, py, 2, bs - 2)
+    else
+        love.graphics.rectangle(
+            "fill",
+            px,
+            py,
+            right and bs or bs - 2,
+            down and bs or bs - 2
+        )
     end
 end
 
 function skin.borders(px, py, bs, link, color)
-    local up, down, left, right, up_left, up_right, down_left, down_right = unpack(link)
-    local left_space = 0
-    local up_space = 0
-    local w = 0
-    local h = 0
-    
-    if left and right then
-        left_space = -1
-        w = bs + 1
-    elseif (not left) and (not right) then
-        left_space = 1
-        w = bs - 3
-    elseif left and (not right) then
-        left_space = -2
-        w = bs
-    elseif (not left) and right then
-        left_space = 1
-        w = bs - 1
-    end
+    local up, down, left, right, down_right = link[1], link[2], link[3], link[4], link[8]
 
-    if up and down then
-        up_space = -1
-        h = bs + 1
-    elseif (not up) and (not down) then
-        up_space = 1
-        h = bs - 3
-    elseif up and (not down) then
-        up_space = -2
-        h = bs
-    elseif (not up) and down then
-        up_space = 1
-        h = bs - 1
-    end
+    local left_space = left and (right and -1 or -2) or 1
+    local w = left and (right and bs + 1 or bs) or (right and bs - 1 or bs - 3)
+    local up_space = up and (down and -1 or -2) or 1
+    local h = up and (down and bs + 1 or bs) or (down and bs - 1 or bs - 3)
 
     love.graphics.setColor(color)
 
