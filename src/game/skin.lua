@@ -3,13 +3,15 @@
 
 local skin = {}
 
+local impl
+
 function skin.load(name)
     impl = require(string.format("src.game.skin.%s.skin", name))
     return impl
 end
 
-function skin.base(px, py, bs, color)
-    return impl.base(px, py, bs, color)
+function skin.base(px, py, bs, link, color)
+    return impl.base(px, py, bs, link, color)
 end
 
 function skin.borders(px, py, bs, link, color)

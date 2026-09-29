@@ -83,28 +83,30 @@ function input.apply_preinput()
     if rot180_down then old.rot180 = true end
     if ccw_down then old.ccw = true end
 
-    if left_down then
-        old.left = true
-        if not rep.left.active then
-            rep.left.active = true
-            rep.left.das_t = 0
-            rep.left.arr_t = 0
-            rep.left.das_done = false
+    if not (left_down and right_down) then
+        if left_down then
+            old.left = true
+            if not rep.left.active then
+                rep.left.active = true
+                rep.left.das_t = 0
+                rep.left.arr_t = 0
+                rep.left.das_done = false
+            end
         end
-    end
-    if right_down then
-        old.right = true
-        if not rep.right.active then
-            rep.right.active = true
-            rep.right.das_t = 0
-            rep.right.arr_t = 0
-            rep.right.das_done = false
+        if right_down then
+            old.right = true
+            if not rep.right.active then
+                rep.right.active = true
+                rep.right.das_t = 0
+                rep.right.arr_t = 0
+                rep.right.das_done = false
+            end
         end
-    end
-    if left_down then
-        game.move_left()
-    elseif right_down then
-        game.move_right()
+        if left_down then
+            game.move_left()
+        elseif right_down then
+            game.move_right()
+        end
     end
 end
 

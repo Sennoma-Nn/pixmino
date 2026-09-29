@@ -44,12 +44,6 @@ function skin.borders(px, py, bs, link, color)
     if down and right and (not down_right) then
         love.graphics.rectangle("fill", px + bs - 1, py + bs - 1, 1, 1)
     end
-
-
-    if (not up) and (not left) then
-        love.graphics.rectangle("fill", px + 1, py + 1, 2, 1)
-        love.graphics.rectangle("fill", px + 1, py + 2, 1, 1)
-    end
 end
 
 return skin

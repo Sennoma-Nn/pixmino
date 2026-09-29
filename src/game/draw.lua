@@ -13,10 +13,31 @@ local render = {}
 
 local next_count = 3
 
-local function draw_block(px, py, bs, color, transparent)
+local empty_link = { false, false, false, false, false, false, false, false }
+
+local function get_link_ls(is_solid)
+    return {
+        is_solid(0, 1), is_solid(0, -1), is_solid(-1, 0), is_solid(1, 0),
+        is_solid(-1, 1), is_solid(1, 1), is_solid(-1, -1), is_solid(1, -1),
+    }
+end
+
+local function solid(m, n, r, c)
+    return r >= 1 and r <= n and c >= 1 and c <= n and m[r][c] ~= 0
+end
+
+local function matrix_link(m, r, c)
+    local n = #m
+    return {
+        solid(m, n, r - 1, c), solid(m, n, r + 1, c), solid(m, n, r, c - 1), solid(m, n, r, c + 1),
+        solid(m, n, r - 1, c - 1), solid(m, n, r - 1, c + 1), solid(m, n, r + 1, c - 1), solid(m, n, r + 1, c + 1),
+    }
+end
+
+local function draw_block(px, py, bs, color, transparent, link)
     local c = color
     if transparent then c = utils.color_blend(c, {0, 0, 0, 0}, 0.5) end
-    skin.base(px, py, bs, c)
+    skin.base(px, py, bs, link or empty_link, c)
 end
 
 local function has_same_block(x, y, id, drop_count)
@@ -26,6 +47,11 @@ local function has_same_block(x, y, id, drop_count)
     r = r and row[x].id == id
     -- r = r and row[x].drop_count == drop_count -- 本來想做成一個方塊中間被切斷後不會連接在一起，但是效果不好，所以算了（）
     return not not r
+end
+
+local function pf_cell_link(x, y, id)
+    local func = function(dx, dy) return has_same_block(x + dx, y + dy, id) end
+    return get_link_ls(func)
 end
 
 local function draw_goal_lines(gx, gy, pw, ph, bs)
@@ -52,8 +78,9 @@ local function draw_playfield_cells(gx, gy, ph, bs)
         if row then
             local py = gy + ph - y * bs
             for x = 1, game.pf.width do
-                if row[x] then
-                    draw_block(gx + (x - 1) * bs, py, bs, row[x].color)
+                local cell = row[x]
+                if cell then
+                    draw_block(gx + (x - 1) * bs, py, bs, cell.color, false, pf_cell_link(x, y, cell.id))
                 end
             end
         end
@@ -70,22 +97,10 @@ local function draw_mino_borders(gx, gy, ph, bs)
                 local cell = row[x]
                 if cell then
                     local px = gx + (x - 1) * bs
-                    local id = cell.id
-                    local drop_count = cell.drop_count
                     local border_color = utils.color_blend(utils.strip_a(cell.color), utils.strip_a(Colors.mino_border),
                         Colors.mino_border[4])
 
-                    local link = {
-                        has_same_block(x, y + 1, id, drop_count),
-                        has_same_block(x, y - 1, id, drop_count),
-                        has_same_block(x - 1, y, id, drop_count),
-                        has_same_block(x + 1, y, id, drop_count),
-                        has_same_block(x - 1, y + 1, id, drop_count),
-                        has_same_block(x + 1, y + 1, id, drop_count),
-                        has_same_block(x - 1, y - 1, id, drop_count),
-                        has_same_block(x + 1, y - 1, id, drop_count),
-                    }
-                    skin.borders(px, py, bs, link, border_color)
+                    skin.borders(px, py, bs, pf_cell_link(x, y, cell.id), border_color)
                 end
             end
         end
@@ -101,17 +116,7 @@ local function draw_matrix_borders(m, origin_px, origin_py, bs, color, base_colo
                 local py = origin_py + (r - 1) * bs
                 local border_color = utils.color_blend(utils.strip_a(color), utils.strip_a(base_color), base_color[4])
 
-                local link = {
-                    r - 1 >= 1 and m[r - 1][c] ~= 0,
-                    r + 1 <= n and m[r + 1][c] ~= 0,
-                    c - 1 >= 1 and m[r][c - 1] ~= 0,
-                    c + 1 <= n and m[r][c + 1] ~= 0,
-                    c - 1 >= 1 and r - 1 >= 1 and m[r - 1][c - 1] ~= 0,
-                    c + 1 <= n and r - 1 >= 1 and m[r - 1][c + 1] ~= 0,
-                    c - 1 >= 1 and r + 1 <= n and m[r + 1][c - 1] ~= 0,
-                    c + 1 <= n and r + 1 <= n and m[r + 1][c + 1] ~= 0,
-                }
-                skin.borders(px, py, bs, link, border_color)
+                skin.borders(px, py, bs, matrix_link(m, r, c), border_color)
             end
         end
     end
@@ -124,21 +129,35 @@ local function draw_piece(gx, gy, ph, bs)
     local dy = game.drop_y(p) - p.y
     local color = game.bone and game.bone_color or p.color
 
+    local cells = game.piece_cells(p)
+    local cell_set = {}
+    for _, cell in ipairs(cells) do
+        cell_set[cell.x] = cell_set[cell.x] or {}
+        cell_set[cell.x][cell.y] = true
+    end
+    local cell_links = {}
+    for i, cell in ipairs(cells) do
+        cell_links[i] = get_link_ls(function(dx, dyy)
+            local col = cell_set[cell.x + dx]
+            return (col and col[cell.y + dyy]) or false
+        end)
+    end
+
     local ghost_ox, ghost_oy = gx + (p.x - 2) * bs, gy + ph - (p.y + dy + 1) * bs
-    for _, cell in ipairs(game.piece_cells(p)) do
+    for i, cell in ipairs(cells) do
         local gy2 = cell.y + dy
         if gy2 >= 1 and gy2 <= game.pf.height then
             local ghost_color = utils.strip_a(color)
             ghost_color[4] = 0.25
-            draw_block(gx + (cell.x - 1) * bs, gy + ph - gy2 * bs, bs, ghost_color)
+            draw_block(gx + (cell.x - 1) * bs, gy + ph - gy2 * bs, bs, ghost_color, false, cell_links[i])
         end
     end
     draw_matrix_borders(m, ghost_ox, ghost_oy, bs, color, Colors.ghost_border)
 
     local ox, oy = gx + (p.x - 2) * bs, gy + ph - (p.y + 1) * bs
-    for _, cell in ipairs(game.piece_cells(p)) do
+    for i, cell in ipairs(cells) do
         if cell.y >= 1 and cell.y <= game.pf.height then
-            draw_block(gx + (cell.x - 1) * bs, gy + ph - cell.y * bs, bs, color)
+            draw_block(gx + (cell.x - 1) * bs, gy + ph - cell.y * bs, bs, color, false, cell_links[i])
         end
     end
     draw_matrix_borders(m, ox, oy, bs, color, Colors.piece_border)
@@ -195,7 +214,7 @@ local function draw_preview(shape, px, py, bs, transparent)
     for r = 1, n do
         for c = 1, n do
             if m[r][c] ~= 0 then
-                draw_block(ox + (c - 1) * bs, oy + (r - 1) * bs, bs, color, transparent)
+                draw_block(ox + (c - 1) * bs, oy + (r - 1) * bs, bs, color, transparent, matrix_link(m, r, c))
             end
         end
     end

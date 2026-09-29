@@ -32,7 +32,7 @@ Settings = {
     display = {
         fullscreen = false,
         locale = "en",
-        skin = "simple",
+        skin = "block",
         spawn_indicator = true,
         key_info = true,
     },

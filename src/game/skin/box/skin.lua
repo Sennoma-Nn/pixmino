@@ -3,7 +3,7 @@
 
 local skin = {}
 
-function skin.base(px, py, bs, color)
+function skin.base(px, py, bs, link, color)
     love.graphics.setColor(color)
     love.graphics.rectangle("fill", px, py, bs, bs)
 end
@@ -16,12 +16,15 @@ function skin.borders(px, py, bs, link, color)
     if not up then
         love.graphics.rectangle("fill", px + 1, py, bs - 2, 1)
     end
+
     if not down then
         love.graphics.rectangle("fill", px + 1, py + bs - 1, bs - 2, 1)
     end
+
     if not left then
         love.graphics.rectangle("fill", px, py + 1, 1, bs - 2)
     end
+
     if not right then
         love.graphics.rectangle("fill", px + bs - 1, py + 1, 1, bs - 2)
     end
