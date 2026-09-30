@@ -215,9 +215,6 @@ function input.update(dt)
     tap_action(now.ccw, old.ccw, game.rotate_ccw)
     tap_action(now.hold, old.hold, game.do_hold)
 
-    axis_move(rep.left, now.left, old.left, ms, game.move_left)
-    axis_move(rep.right, now.right, old.right, ms, game.move_right)
-
     if now.left and now.right then
         local left_just_pressed  = now.left and not old.left
         local right_just_pressed = now.right and not old.right
@@ -234,6 +231,9 @@ function input.update(dt)
             rep.right.das_done = false
         end
     end
+
+    axis_move(rep.left, now.left, old.left, ms, game.move_left)
+    axis_move(rep.right, now.right, old.right, ms, game.move_right)
 
     for key in pairs(now) do
         old[key] = now[key]
