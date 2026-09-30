@@ -9,13 +9,13 @@ function skin.base(px, py, bs, link, color)
     love.graphics.setColor(color)
 
     if right and down and not down_right then
-        love.graphics.rectangle("fill", px, py, bs - 2, bs)
-        love.graphics.rectangle("fill", px + bs - 2, py, 2, bs - 2)
+        love.graphics.rectangle("fill", px + 1, py + 1, bs - 2, bs)
+        love.graphics.rectangle("fill", px + 1 + bs - 2, py + 1, 2, bs - 2)
     else
         love.graphics.rectangle(
             "fill",
-            px,
-            py,
+            px + 1,
+            py + 1,
             right and bs or bs - 2,
             down and bs or bs - 2
         )
@@ -33,15 +33,15 @@ function skin.borders(px, py, bs, link, color)
     love.graphics.setColor(color)
 
     if not down then
-        love.graphics.rectangle("fill", px + left_space, py + bs - 2, w, 1)
+        love.graphics.rectangle("fill", px + 1 + left_space, py + 1 + bs - 2, w, 1)
     end
 
     if not right then
-        love.graphics.rectangle("fill", px + bs - 2, py + up_space, 1, h)
+        love.graphics.rectangle("fill", px + 1 + bs - 2, py + 1 + up_space, 1, h)
     end
 
     if not down_right then
-        love.graphics.rectangle("fill", px + bs - 2, py + bs - 2, 1, 1)
+        love.graphics.rectangle("fill", px + 1 + bs - 2, py + 1 + bs - 2, 1, 1)
     end
 end
 

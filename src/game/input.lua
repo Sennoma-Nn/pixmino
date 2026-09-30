@@ -207,6 +207,17 @@ function input.update(dt)
     now.hold      = key_down(k.hold)
     now.hard_drop = key_down(k.hard_drop)
 
+    soft_drop_rep(rep.soft_drop, now.soft_drop, old.soft_drop, ms)
+    tap_action(now.hard_drop, old.hard_drop, game.hard_drop)
+
+    tap_action(now.rot180, old.rot180, game.rotate_180)
+    tap_action(now.cw, old.cw, game.rotate_cw)
+    tap_action(now.ccw, old.ccw, game.rotate_ccw)
+    tap_action(now.hold, old.hold, game.do_hold)
+
+    axis_move(rep.left, now.left, old.left, ms, game.move_left)
+    axis_move(rep.right, now.right, old.right, ms, game.move_right)
+
     if now.left and now.right then
         local left_just_pressed  = now.left and not old.left
         local right_just_pressed = now.right and not old.right
@@ -223,16 +234,6 @@ function input.update(dt)
             rep.right.das_done = false
         end
     end
-
-    tap_action(now.rot180, old.rot180, game.rotate_180)
-    tap_action(now.cw, old.cw, game.rotate_cw)
-    tap_action(now.ccw, old.ccw, game.rotate_ccw)
-    tap_action(now.hold, old.hold, game.do_hold)
-    tap_action(now.hard_drop, old.hard_drop, game.hard_drop)
-
-    axis_move(rep.left, now.left, old.left, ms, game.move_left)
-    axis_move(rep.right, now.right, old.right, ms, game.move_right)
-    soft_drop_rep(rep.soft_drop, now.soft_drop, old.soft_drop, ms)
 
     for key in pairs(now) do
         old[key] = now[key]
