@@ -482,10 +482,10 @@ locale.t = {
         zh_tw = "馬拉松",
     },
     MARATHON_DESC = {
-        en = "Clear 150 lines,\r\nScore as high as possible!",
-        ja = "150 ﾗｲﾝｦ ｸﾘｱ､\r\nｽｺｱｦ ﾈﾗｴ!",
-        zh_cn = "清除150行,\r\n分数越高越好!",
-        zh_tw = "消除150列,\r\n分數越高越好!",
+        en = "Clear 150 lines,\r\nAim for score,\r\nchase the top!",
+        ja = "150 ﾗｲﾝｦ ｸﾘｱ､\r\nｽｺｱｦ ﾈﾗｴ､ ﾓｯﾄ ﾀｶｸ!",
+        zh_cn = "清除150行,\r\n以分数为目标,向更高分冲刺!",
+        zh_tw = "消除150列,\r\n以分數為目標,向更高分衝刺!",
     },
 
     SPRINT = {
@@ -495,10 +495,10 @@ locale.t = {
         zh_tw = "40列",
     },
     SPRINT_DESC = {
-        en = "Clear 40 lines,\r\nFinish as fast as possible!",
-        ja = "40 ﾗｲﾝｦ ｸﾘｱ､\r\nﾊﾔｻｦ ｷｿｴ!",
-        zh_cn = "清除40行,\r\n越快越好!",
-        zh_tw = "消除40列,\r\n越快越好!",
+        en = "Clear 40 lines,\r\nAim for speed,\r\nfaster is better!",
+        ja = "40 ﾗｲﾝｦ ｸﾘｱ､\r\nﾊﾔｻｦ ｷｿｴ､ ﾊﾔｻ ﾍﾞｽﾄ!",
+        zh_cn = "清除40行,\r\n以速度为目标,时间越短越好!",
+        zh_tw = "消除40列,\r\n以速度為目標,時間越短越好!",
     },
 
     MASTER = {
