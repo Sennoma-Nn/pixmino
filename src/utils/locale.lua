@@ -9,7 +9,7 @@ locale.current = "en"
 
 local features = dbg.detect_features()
 
-local env_info = "LÖVE   " .. love._version .. "\r\n" ..
+local env_info = love._version .. "\r\n" ..
     string.gsub(_VERSION:upper(), " ", "    ") ..
     "\r\n" .. jit.version:upper() ..
     "\r\nOS     " .. love._os .. "\n" ..
@@ -73,7 +73,7 @@ locale.t = {
     },
     ABOUT_GAME_DESC = {
         en = "PIXMINO " .. GAMEVER .. "\r\n\nMade with LÖVE.",
-        ja = "ﾋﾟｸｾﾐﾉ " .. GAMEVER .. "\r\n\nLÖVEﾃﾞ ｻｸｾｲ｡",
+        ja = "ﾋﾟｸｾﾐﾉ " .. GAMEVER .. "\r\n\nLOVEﾃﾞ ｻｸｾｲ｡",
         zh_cn = "像素立方 " .. GAMEVER .. "\r\n\n使用 LÖVE 开发｡",
         zh_tw = "圖元立方 " .. GAMEVER .. "\r\n\n使用 LÖVE 開發｡",
     },
@@ -85,10 +85,10 @@ locale.t = {
         zh_tw = "執行環境",
     },
     ENVIRONMENT_DESC = {
-        en = "Runtime environment:\r\n\n" .. env_info,
-        ja = "ｶﾝｷｮｳ:\r\n\n" .. env_info,
-        zh_cn = "运行环境:\r\n\n" .. env_info,
-        zh_tw = "執行環境:\r\n\n" .. env_info,
+        en = "Runtime environment:\r\n\nLÖVE   " .. env_info,
+        ja = "ｶﾝｷｮｳ:\r\n\nLOVE   " .. env_info,
+        zh_cn = "运行环境:\r\n\nLÖVE   " .. env_info,
+        zh_tw = "執行環境:\r\n\nLÖVE   " .. env_info,
     },
 
     SOURCE = {
@@ -125,7 +125,7 @@ locale.t = {
     },
     SP_PUSH_DESC = {
         en = "Ulydev:\r\n\nLibrary Push for LÖVE.\r\n(MIT)",
-        ja = "Ulydev:\r\n\nLÖVE ﾖｳ ﾗｲﾌﾞﾗﾘ Push｡\r\n(MIT)",
+        ja = "Ulydev:\r\n\nLOVE ﾖｳ ﾗｲﾌﾞﾗﾘ Push｡\r\n(MIT)",
         zh_cn = "Ulydev:\r\n\n用于 LÖVE 的 Push 函数库｡ (MIT)",
         zh_tw = "Ulydev:\r\n\n用於 LÖVE 的 Push 函式庫｡ (MIT)",
     },
@@ -349,36 +349,83 @@ locale.t = {
         zh_tw = "設定音效音量｡",
     },
 
+    -- 來自俄羅斯方塊中文維基的建議
+    -- http://tetriswiki.cn/p/延迟自动移动
+
+    -- 目前，这三个概念通用的中英文命名是：
+    -- {| class="wikitable"
+    -- ! 概念 !! 缩写 !! 英文 !! 中文 !! 问题
+    -- |-
+    -- | 游戏机制 || '''DAS''' || Delayed Auto Shift || '''自动移动延迟''' || 中文习惯译名改变了语序
+    -- |-
+    -- | 延迟时间 || '''DAS''' || Delayed Auto Shift || '''自动移动延迟''' || 短语主体是「Shift」而非「Delay」<br>而且与机制命名相同容易混淆
+    -- |-
+    -- | 移动间隔 || '''ARR''' || Auto Repeat Rate || '''自动重复速率''' || 「速率」的量纲应为时间的倒数<br>但现在多习惯使用时间作为单位
+    -- |}
+    -- 有批评观点认为，这套命名方式存在诸多问题：不仅混淆了机制与参数的名字，而且参数名字的主体、量纲都存在问题，并且两个参数的命名方式完全不对称。
+
+    -- 对此，以 MrZ 为首的中文开发者提出了新的一套中英文命名方式：
+    -- {| class="wikitable"
+    -- ! 概念 !! 缩写 !! 英文 !! 中文 !! 备注
+    -- |-
+    -- | 游戏机制 || '''DAS''' || Delayed Auto Shift || '''延迟自动移动''' || 中文名恢复原本语序
+    -- |-
+    -- | 延迟时间 || '''ASD''' || Auto Shift Delay || '''自动移动延迟''' || 解决主体问题<br>并与其他延迟的命名保持一致
+    -- |-
+    -- | 移动间隔 || '''ASP''' || Auto Shift Period || '''自动移动周期''' || 解决量纲问题<br>并使两个参数的命名保持对称
+    -- |}
+    -- 不过，这套新的命名暂时还没有得到广泛使用。在本条目中，{{SITENAME}}将试用「相对更正确」的新命名。
+
     DAS = {
-        en = "DAS",
-        ja = "DAS",
+        en = "ASD",
+        ja = "ASD",
         zh_cn = "自动移动延迟",
-        zh_tw = "自動移動延遲",
+        zh_tw = "自動延遲移動",
     },
+    DAS_DESC = {
+        en = "~~ Auto Shift Delay ~~\r\n\nThe delay from pressing\r\na move key, until the\r\npiece starts auto-shifting\r\nat a fixed speed.",
+        ja = "‾‾ Auto Shift Delay ‾‾\r\n\nｲﾄﾞｳｷｰｦ ｵｼﾃｶﾗ､ ﾋﾟｰｽｶﾞ\r\nｲｯﾃｲ ｿｸﾄﾞﾃﾞ ｼﾞﾄﾞｳ ﾚﾝｿﾞｸ\r\nｲﾄﾞｳｦ ｶｲｼｽﾙﾏﾃﾞﾉ ｼﾞｶﾝ｡",
+        zh_cn = "~~ 自动移动延迟 (ASD) ~~\r\n\n按下移动键,\r\n到方块开始以固定速度\r\n自动连续移动的间隔时间｡",
+        zh_tw = "~~ 自動延遲移動 (ASD) ~~\r\n\n按下移動鍵,\r\n到方塊開始以固定速度\r\n自動連續移動的間隔時間｡",
+    },
+
     ARR = {
-        en = "ARR",
-        ja = "ARR",
-        zh_cn = "自动重复速率",
-        zh_tw = "自動重複速率",
+        en = "ASP",
+        ja = "ASP",
+        zh_cn = "自动移动周期",
+        zh_tw = "自動移動週期",
     },
+    ARR_DESC = {
+        en = "~~ Auto Shift Period ~~\r\n\nThe interval between moves\r\nwhile a piece auto-shifts\r\nat a fixed speed.",
+        ja = "‾‾ Auto Shift Period ‾‾\r\n\nﾋﾟｰｽｶﾞ ｲｯﾃｲ ｿｸﾄﾞﾃﾞ\r\nｼﾞﾄﾞｳ ﾚﾝｿﾞｸｲﾄﾞｳｽﾙｱｲﾀﾞﾉ\r\nｲﾄﾞｳ ｶﾝｶｸ｡",
+        zh_cn = "~~ 自动移动周期 (ASP) ~~\r\n\n在方块以固定速度自动连续移动时,\r\n两次移动之间的间隔时间｡",
+        zh_tw = "~~ 自動移動週期 (ASP) ~~\r\n\n在方塊以固定速度自動連續移動時,\r\n兩次移動之間的間隔時間｡",
+    },
+
     DP_ARR = {
-        en = "DP.ARR",
-        ja = "DP.ARR",
-        zh_cn = "软降自动重复速率",
-        zh_tw = "軟降自動重複速率",
+        en = "DP.ASP",
+        ja = "DP.ASP",
+        zh_cn = "软降自动移动周期",
+        zh_tw = "軟降自動移動週期",
+    },
+    DP_ARR_DESC = {
+        en = "~~ Drop Auto Shift Period ~\r\n\nThe interval between drops\r\nwhile a piece drops\r\ncontinuously.",
+        ja = "‾‾ Drop Auto Shift Period ‾\r\n\nｿﾌﾄﾄﾞﾛｯﾌﾟｦ ｵｼﾃ ｶｲｼｽﾙ\r\nﾚﾝｿﾞｸ ｶｺｳﾉ､ﾌﾀﾂﾉ ｶｺｳﾉ\r\nｱｲﾀﾞﾉ ｼﾞｶﾝ｡",
+        zh_cn = "~~ 软降自动移动周期 (DP.ASP) ~~\r\n\n按下软降键后开始的连续下降,\r\n两次降落之间的间隔时间｡",
+        zh_tw = "~~ 軟降自動移動週期 (DP.ASP) ~~\r\n\n按下軟降鍵後開始的連續下降,\r\n兩次降落之間的間隔時間｡",
     },
 
     PREOP = {
         en = "I*S",
-        ja = "ｾﾝｺｳﾆｭｳﾘｮｸ",
+        ja = "ｾﾝｺｳ",
         zh_cn = "预输入",
         zh_tw = "預輸入",
     },
     PREOP_DESC = {
-        en = "Hold rotate, move,\r\nor hold keys and\r\nthe action triggers\r\nwhen a new piece spawns.",
-        ja = "ｱﾀﾗｼｲﾋﾟｰｽ ｽﾎﾟｰﾝｼﾞﾆ\r\nｷｰｦ ｵｻｴﾃ ｲﾙﾄ\r\nｶｲﾃﾝ･ｲﾄﾞｳ･ﾎｰﾙﾄﾞ｡",
-        zh_cn = "新方块入场时\r\n提前按住按键立即触发\r\n旋转､移动或暂存｡",
-        zh_tw = "新方塊入場時\r\n提前按住按鍵立即觸發\r\n旋轉､移動或暫存｡",
+        en = "~~ Initial ** System ~~\r\n\nHold rotate, move,\r\nor hold keys and\r\nthe action triggers\r\nwhen a new piece spawns.",
+        ja = "‾‾ ｾﾝｺｳﾆｭｳﾘｮｸ ‾‾\r\n\nｱﾀﾗｼｲﾋﾟｰｽ ｽﾎﾟｰﾝｼﾞﾆ\r\nｷｰｦ ｵｻｴﾃ ｲﾙﾄ\r\nｶｲﾃﾝ･ｲﾄﾞｳ･ﾎｰﾙﾄﾞ｡",
+        zh_cn = "~~ 预输入 ~~\r\n\n新方块入场时\r\n提前按住按键立即触发\r\n旋转､移动或暂存｡",
+        zh_tw = "~~ 預輸入 ~~\r\n\n新方塊入場時\r\n提前按住按鍵立即觸發\r\n旋轉､移動或暫存｡",
     },
 
     SPAWN_MARK = {
@@ -543,24 +590,6 @@ locale.t = {
         ja = "ﾋｮｳｼﾞ ｹﾞﾝｺﾞｦ ｾﾝﾀｸ｡",
         zh_cn = "选择显示语言｡",
         zh_tw = "選擇顯示語言｡",
-    },
-    DAS_DESC = {
-        en = "Delay before auto-repeat.",
-        ja = "ｼﾞﾄﾞｳ ﾚﾝｿﾞｸﾏﾃﾞﾉ ﾁｴﾝ｡",
-        zh_cn = "自动移动前的延迟｡ (DAS)",
-        zh_tw = "自動移動前的延遲｡ (DAS)",
-    },
-    ARR_DESC = {
-        en = "Auto-repeat rate.",
-        ja = "ｼﾞﾄﾞｳ ﾚﾝｿﾞｸ ﾚｰﾄ｡",
-        zh_cn = "自动重复速率｡ (ARR)",
-        zh_tw = "自動重複速率｡ (ARR)",
-    },
-    DP_ARR_DESC = {
-        en = "Soft drop auto-repeat rate.",
-        ja = "ｿﾌﾄﾄﾞﾛｯﾌﾟ ﾚﾝｿﾞｸ ﾚｰﾄ｡",
-        zh_cn = "软降自动重复速率｡ (ARR)",
-        zh_tw = "軟降自動重複速率｡ (ARR)",
     },
 
     CCW_DESC = {
