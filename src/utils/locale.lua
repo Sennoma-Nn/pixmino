@@ -379,14 +379,14 @@ locale.t = {
     DAS = {
         en = "ASD",
         ja = "ASD",
-        zh_cn = "自动移动延迟",
-        zh_tw = "自動延遲移動",
+        zh_cn = "自动延迟移动",
+        zh_tw = "自動移動延遲",
     },
     DAS_DESC = {
         en = "~~ Auto Shift Delay ~~\r\n\nThe delay from pressing\r\na move key, until the\r\npiece starts auto-shifting\r\nat a fixed speed.",
         ja = "‾‾ Auto Shift Delay ‾‾\r\n\nｲﾄﾞｳｷｰｦ ｵｼﾃｶﾗ､ ﾋﾟｰｽｶﾞ\r\nｲｯﾃｲ ｿｸﾄﾞﾃﾞ ｼﾞﾄﾞｳ ﾚﾝｿﾞｸ\r\nｲﾄﾞｳｦ ｶｲｼｽﾙﾏﾃﾞﾉ ｼﾞｶﾝ｡",
-        zh_cn = "~~ 自动移动延迟 (ASD) ~~\r\n\n按下移动键,\r\n到方块开始以固定速度\r\n自动连续移动的间隔时间｡",
-        zh_tw = "~~ 自動延遲移動 (ASD) ~~\r\n\n按下移動鍵,\r\n到方塊開始以固定速度\r\n自動連續移動的間隔時間｡",
+        zh_cn = "~~ 自动延迟移动 (ASD) ~~\r\n\n按下移动键,\r\n到方块开始以固定速度\r\n自动连续移动的间隔时间｡",
+        zh_tw = "~~ 自動移動延遲 (ASD) ~~\r\n\n按下移動鍵,\r\n到方塊開始以固定速度\r\n自動連續移動的間隔時間｡",
     },
 
     ARR = {
