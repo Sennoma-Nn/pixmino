@@ -9,14 +9,27 @@ locale.current = "en"
 
 local features = dbg.detect_features()
 
-local env_info = love._version .. "\r\n" ..
-    string.gsub(_VERSION:upper(), " ", "    ") ..
-    "\r\n" .. jit.version:upper() ..
-    "\r\nOS     " .. love._os .. "\n" ..
-    "\r\nGOTO FORWARD  " .. (features.goto_forward and "YES" or "NO") ..
-    "\r\nGOTO BACKWARD " .. (features.goto_backward and "YES" or "NO") ..
-    "\r\nBIT OPERATOR  " .. (features.bit_operator and "YES" or "NO") ..
-    "\r\nIDIV OPERATOR " .. (features.idiv_operator and "YES" or "NO")
+local env_info_template =
+"%s\r\n\n%s%s\r\n%s\r\n%s\r\nOS     %s\r\n\nGOTO FORWARD   %s\r\nGOTO BACKWARD  %s\r\nBIT OPERATOR   %s\r\nIDIV OPERATOR  %s"
+
+local function get_ava_str(b, maru)
+    if b then
+        if maru then
+            return "◯"
+        else
+            return "✓"
+        end
+    else
+        return "✕"
+    end
+end
+
+local env_table = {
+    love = love._version,
+    lua = string.gsub(_VERSION:upper(), " ", "    "),
+    jit = jit.version:upper(),
+    os = love._os:upper(),
+}
 
 locale.t = {
     BACK_TIP = {
@@ -85,10 +98,18 @@ locale.t = {
         zh_tw = "執行環境",
     },
     ENVIRONMENT_DESC = {
-        en = "Runtime environment:\r\n\nLÖVE   " .. env_info,
-        ja = "ｶﾝｷｮｳ:\r\n\nLOVE   " .. env_info,
-        zh_cn = "运行环境:\r\n\nLÖVE   " .. env_info,
-        zh_tw = "執行環境:\r\n\nLÖVE   " .. env_info,
+        en = string.format(env_info_template, "Runtime environment:", "LÖVE   ", env_table.love, env_table.lua,
+            env_table.jit, env_table.os, get_ava_str(features.goto_forward), get_ava_str(features.goto_backward),
+            get_ava_str(features.bit_operator), get_ava_str(features.idiv_operator)),
+        ja = string.format(env_info_template, "ｶﾝｷｮｳ:", "LOVE   ", env_table.love, env_table.lua, env_table.jit,
+            env_table.os, get_ava_str(features.goto_forward, true), get_ava_str(features.goto_backward, true),
+            get_ava_str(features.bit_operator, true), get_ava_str(features.idiv_operator, true)),
+        zh_cn = string.format(env_info_template, "运行环境:", "LÖVE   ", env_table.love, env_table.lua, env_table.jit,
+            env_table.os, get_ava_str(features.goto_forward), get_ava_str(features.goto_backward),
+            get_ava_str(features.bit_operator), get_ava_str(features.idiv_operator)),
+        zh_tw = string.format(env_info_template, "執行環境:", "LÖVE   ", env_table.love, env_table.lua, env_table.jit,
+            env_table.os, get_ava_str(features.goto_forward), get_ava_str(features.goto_backward),
+            get_ava_str(features.bit_operator), get_ava_str(features.idiv_operator)),
     },
 
     SOURCE = {
@@ -383,7 +404,8 @@ locale.t = {
         zh_tw = "自動移動延遲",
     },
     DAS_DESC = {
-        en = "~~ Auto Shift Delay ~~\r\n\nThe delay from pressing\r\na move key, until the\r\npiece starts auto-shifting\r\nat a fixed speed.",
+        en =
+        "~~ Auto Shift Delay ~~\r\n\nThe delay from pressing\r\na move key, until the\r\npiece starts auto-shifting\r\nat a fixed speed.",
         ja = "‾‾ Auto Shift Delay ‾‾\r\n\nｲﾄﾞｳｷｰｦ ｵｼﾃｶﾗ､ ﾋﾟｰｽｶﾞ\r\nｲｯﾃｲ ｿｸﾄﾞﾃﾞ ｼﾞﾄﾞｳ ﾚﾝｿﾞｸ\r\nｲﾄﾞｳｦ ｶｲｼｽﾙﾏﾃﾞﾉ ｼﾞｶﾝ｡",
         zh_cn = "~~ 自动延迟移动 (ASD) ~~\r\n\n按下移动键,\r\n到方块开始以固定速度\r\n自动连续移动的间隔时间｡",
         zh_tw = "~~ 自動移動延遲 (ASD) ~~\r\n\n按下移動鍵,\r\n到方塊開始以固定速度\r\n自動連續移動的間隔時間｡",
@@ -422,7 +444,8 @@ locale.t = {
         zh_tw = "預輸入",
     },
     PREOP_DESC = {
-        en = "~~ Initial ** System ~~\r\n\nHold rotate, move,\r\nor hold keys and\r\nthe action triggers\r\nwhen a new piece spawns.",
+        en =
+        "~~ Initial ** System ~~\r\n\nHold rotate, move,\r\nor hold keys and\r\nthe action triggers\r\nwhen a new piece spawns.",
         ja = "‾‾ ｾﾝｺｳﾆｭｳﾘｮｸ ‾‾\r\n\nｱﾀﾗｼｲﾋﾟｰｽ ｽﾎﾟｰﾝｼﾞﾆ\r\nｷｰｦ ｵｻｴﾃ ｲﾙﾄ\r\nｶｲﾃﾝ･ｲﾄﾞｳ･ﾎｰﾙﾄﾞ｡",
         zh_cn = "~~ 预输入 ~~\r\n\n新方块入场时\r\n提前按住按键立即触发\r\n旋转､移动或暂存｡",
         zh_tw = "~~ 預輸入 ~~\r\n\n新方塊入場時\r\n提前按住按鍵立即觸發\r\n旋轉､移動或暫存｡",
