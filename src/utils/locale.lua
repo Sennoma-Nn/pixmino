@@ -75,7 +75,7 @@ locale.t = {
         en = "About PIXMINO.",
         ja = "ﾋﾟｸｾﾐﾉﾆ ﾂｲﾃ｡",
         zh_cn = "关于像素立方｡",
-        zh_tw = "關於圖元立方｡",
+        zh_tw = "關於像素立方｡",
     },
 
     ABOUT_GAME = {
@@ -88,7 +88,7 @@ locale.t = {
         en = "PIXMINO " .. GAMEVER .. "\r\n\nMade with LÖVE.",
         ja = "ﾋﾟｸｾﾐﾉ " .. GAMEVER .. "\r\n\nLOVEﾃﾞ ｻｸｾｲ｡",
         zh_cn = "像素立方 " .. GAMEVER .. "\r\n\n使用 LÖVE 开发｡",
-        zh_tw = "圖元立方 " .. GAMEVER .. "\r\n\n使用 LÖVE 開發｡",
+        zh_tw = "像素立方 " .. GAMEVER .. "\r\n\n使用 LÖVE 開發｡",
     },
 
     ENVIRONMENT = {
