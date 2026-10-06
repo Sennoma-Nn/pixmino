@@ -102,6 +102,7 @@ end
 
 function game.close_modal()
     game.modal_active = false
+    game.modal_selection = 1
     sfx.set_bgm_volume(Settings.sound.volume.bgm)
 end
 
