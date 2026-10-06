@@ -32,6 +32,7 @@ Settings = {
     display = {
         fullscreen = false,
         locale = "en",
+        read_assist = true,
         skin = "block",
         spawn_indicator = true,
         key_info = true,
@@ -130,6 +131,13 @@ Settings.menu = {
             desc_key = "KEY_INFO_DESC",
             get = function() return Settings.display.key_info end,
             set = function(v) Settings.display.key_info = v end,
+        },
+        {
+            type = "toggle",
+            text_key = "EZ_READ",
+            desc_key = "EZ_READ_DESC",
+            get = function() return Settings.display.read_assist end,
+            set = function(v) Settings.display.read_assist = v end,
         },
         {
             type = "list",

@@ -477,6 +477,19 @@ locale.t = {
         zh_tw = "遊戲中在畫面上方顯示目前按下的按鍵｡",
     },
 
+    EZ_READ = {
+        en = "EZ READ",
+        ja = "ﾖﾐﾔｽｸ",
+        zh_cn = "阅读辅助",
+        zh_tw = "閱讀輔助",
+    },
+    EZ_READ_DESC = {
+        en = "Color punctuation,\r\ndakuten / handakuten,\r\nand key symbol\r\nfor easier reading.",
+        ja = "ｸﾄｳﾃﾝ､ ﾀﾞｸｵﾝ ﾊﾝﾀﾞｸｵﾝ､\r\nｷｰ ｷｺﾞｳﾆ ｲﾛｦ ﾂｹﾃ ﾖﾐﾔｽｸ｡",
+        zh_cn = "给标点符号､日文浊音/半浊音､按键符号\r\n添加颜色以方便阅读｡",
+        zh_tw = "給標點符號､日文濁音/半濁音､按鍵符號\r\n添加顏色以方便閱讀｡",
+    },
+
     SKIN = {
         en = "SKIN",
         ja = "ｽｷﾝ",

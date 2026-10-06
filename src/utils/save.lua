@@ -88,6 +88,7 @@ function save.flush()
         preop = tostring(settings.input.preop),
         spawn_indicator = tostring(settings.display.spawn_indicator),
         key_info = tostring(settings.display.key_info),
+        ez_read = tostring(settings.display.read_assist),
         locale = settings.display.locale,
         skin = settings.display.skin,
         fullscreen = tostring(settings.display.fullscreen),
@@ -125,6 +126,9 @@ function save.load()
         end
         if pairs.key_info ~= nil then
             settings.display.key_info = (pairs.key_info == "true")
+        end
+        if pairs.ez_read ~= nil then
+            settings.display.read_assist = (pairs.ez_read == "true")
         end
 
         for i, k in ipairs(key_bindings) do
