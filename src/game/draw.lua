@@ -36,7 +36,7 @@ end
 
 local function draw_block(px, py, bs, color, transparent, link)
     local c = color
-    if transparent then c = utils.color_blend(c, {0, 0, 0, 0}, 0.5) end
+    if transparent then c = utils.color_blend(c, { 0, 0, 0, 0 }, 0.5) end
     skin.base(px, py, bs, link or empty_link, c)
 end
 
@@ -314,14 +314,22 @@ local function draw_key_info(font)
         local game_modal = game.modal_active or game.over or game.cleared
 
         fontprint.print_outlined(font, "███████████", ix, iy, 1, Colors.white)
-        fontprint.print(font, "🠸", ix + 10 * 1, iy, 1, (input.now.left and (not game_modal)) and Colors.key or Colors.black)
-        fontprint.print(font, "🠺", ix + 10 * 2, iy, 1, (input.now.right and (not game_modal)) and Colors.key or Colors.black)
-        fontprint.print(font, "🠻", ix + 10 * 3, iy, 1, (input.now.soft_drop and (not game_modal)) and Colors.key or Colors.black)
-        fontprint.print(font, "🡇", ix + 10 * 4, iy, 1, (input.now.hard_drop and (not game_modal)) and Colors.key or Colors.black)
-        fontprint.print(font, "⮀", ix + 10 * 5, iy, 1, (input.now.hold and (not game_modal)) and Colors.key or Colors.black)
-        fontprint.print(font, "↺", ix + 10 * 6, iy, 1, (input.now.ccw and (not game_modal)) and Colors.key or Colors.black)
-        fontprint.print(font, "↻", ix + 10 * 7, iy, 1, (input.now.cw and (not game_modal)) and Colors.key or Colors.black)
-        fontprint.print(font, "🗘", ix + 10 * 8, iy, 1, (input.now.rot180 and (not game_modal)) and Colors.key or Colors.black)
+        fontprint.print(font, "🠸", ix + 10 * 1, iy, 1,
+            (input.now.left and (not game_modal)) and Colors.key or Colors.black)
+        fontprint.print(font, "🠺", ix + 10 * 2, iy, 1,
+            (input.now.right and (not game_modal)) and Colors.key or Colors.black)
+        fontprint.print(font, "🠻", ix + 10 * 3, iy, 1,
+            (input.now.soft_drop and (not game_modal)) and Colors.key or Colors.black)
+        fontprint.print(font, "🡇", ix + 10 * 4, iy, 1,
+            (input.now.hard_drop and (not game_modal)) and Colors.key or Colors.black)
+        fontprint.print(font, "⮀", ix + 10 * 5, iy, 1,
+            (input.now.hold and (not game_modal)) and Colors.key or Colors.black)
+        fontprint.print(font, "↺", ix + 10 * 6, iy, 1,
+            (input.now.ccw and (not game_modal)) and Colors.key or Colors.black)
+        fontprint.print(font, "↻", ix + 10 * 7, iy, 1, (input.now.cw and (not game_modal)) and Colors.key or Colors
+        .black)
+        fontprint.print(font, "🗘", ix + 10 * 8, iy, 1,
+            (input.now.rot180 and (not game_modal)) and Colors.key or Colors.black)
     end
 end
 
@@ -350,7 +358,11 @@ function render.draw(gx, gy, pw, ph, bw, bs)
         love.graphics.setColor(0, 0, 0, 0.6)
         love.graphics.rectangle("fill", gx, gy, pw, ph)
 
-        fontprint.print_outlined(Fonts.ui_fonts, locale.get("BACK_TIP"), gx + 4, gy + 4, 1, Colors.gray, Colors.out_line)
+        local tip = locale.get("BACK_TIP")
+        fontprint.print_outlined(Fonts.ui_fonts, tip, gx + 4, gy + 4, 1, Colors.gray, Colors.out_line)
+        fontprint.print(Fonts.ui_fonts, menu.get_sp_punctuation(tip), gx + 4, gy + 4, 1, Colors.light_gray)
+        fontprint.print(Fonts.ui_fonts, menu.get_sp_dakuten(tip), gx + 4, gy + 4, 1, Colors.light_gray)
+        fontprint.print(Fonts.ui_fonts, menu.get_sp_key_icon(tip), gx + 4, gy + 4, 1, Colors.light_gray)
 
         local label = "CLEAR"
         local lw = utils.utf8_len(label) * 8

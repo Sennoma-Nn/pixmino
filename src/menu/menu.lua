@@ -249,7 +249,7 @@ local function get_sp_symbols(keep, s)
     return table.concat(out)
 end
 
-local function get_sp_punctuation(s)
+function menu.get_sp_punctuation(s)
     local keep = {
         [","] = true,
         ["､"] = true,
@@ -276,7 +276,7 @@ local function get_sp_punctuation(s)
     return get_sp_symbols(keep, s)
 end
 
-local function get_sp_dakuten(s)
+function menu.get_sp_dakuten(s)
     local keep = {
         ["ﾞ"] = true,
         ["ﾟ"] = true,
@@ -287,7 +287,7 @@ local function get_sp_dakuten(s)
     return get_sp_symbols(keep, s)
 end
 
-local function get_sp_key_icon(s)
+function menu.get_sp_key_icon(s)
     local keep = {
         ["⎋"] = true,
         ["↩"] = true,
@@ -346,9 +346,9 @@ function menu.draw(gx, gy, pw, ph, bw)
 
                 if desc_valid then
                     fontprint.print_outlined(Fonts.ui_fonts, desc, desc_x, y, 1, Colors.white, Colors.out_line)
-                    fontprint.print(Fonts.ui_fonts, get_sp_punctuation(desc), desc_x, y, 1, Colors.gray)
-                    fontprint.print(Fonts.ui_fonts, get_sp_dakuten(desc), desc_x, y, 1, Colors.light_gray)
-                    fontprint.print(Fonts.ui_fonts, get_sp_key_icon(desc), desc_x, y, 1, Colors.light_yellow)
+                    fontprint.print(Fonts.ui_fonts, menu.get_sp_punctuation(desc), desc_x, y, 1, Colors.gray)
+                    fontprint.print(Fonts.ui_fonts, menu.get_sp_dakuten(desc), desc_x, y, 1, Colors.light_gray)
+                    fontprint.print(Fonts.ui_fonts, menu.get_sp_key_icon(desc), desc_x, y, 1, Colors.light_yellow)
                     local lines = select(2, desc:gsub("\n", "")) + 1
                     y = y + (lines + 1) * 8
                 end
@@ -359,9 +359,9 @@ function menu.draw(gx, gy, pw, ph, bw)
                 end
                 if record_txt then
                     fontprint.print_outlined(Fonts.ui_fonts, record_txt, desc_x, y, 1, Colors.white, Colors.out_line)
-                    fontprint.print(Fonts.ui_fonts, get_sp_punctuation(record_txt), desc_x, y, 1, Colors.gray)
-                    fontprint.print(Fonts.ui_fonts, get_sp_dakuten(record_txt), desc_x, y, 1, Colors.light_gray)
-                    fontprint.print(Fonts.ui_fonts, get_sp_key_icon(record_txt), desc_x, y, 1, Colors.light_yellow)
+                    fontprint.print(Fonts.ui_fonts, menu.get_sp_punctuation(record_txt), desc_x, y, 1, Colors.gray)
+                    fontprint.print(Fonts.ui_fonts, menu.get_sp_dakuten(record_txt), desc_x, y, 1, Colors.light_gray)
+                    fontprint.print(Fonts.ui_fonts, menu.get_sp_key_icon(record_txt), desc_x, y, 1, Colors.light_yellow)
                 end
             end
         else
@@ -373,9 +373,9 @@ function menu.draw(gx, gy, pw, ph, bw)
         if not (menu.state == "MENU_MAIN") then
             local tip = locale.get("BACK_TIP")
             fontprint.print_outlined(Fonts.ui_fonts, tip, gx + 4, gy + 4, 1, Colors.gray, Colors.out_line)
-            fontprint.print(Fonts.ui_fonts, get_sp_punctuation(tip), gx + 4, gy + 4, 1, Colors.light_gray)
-            fontprint.print(Fonts.ui_fonts, get_sp_dakuten(tip), gx + 4, gy + 4, 1, Colors.light_gray)
-            fontprint.print(Fonts.ui_fonts, get_sp_key_icon(tip), gx + 4, gy + 4, 1, Colors.light_gray)
+            fontprint.print(Fonts.ui_fonts, menu.get_sp_punctuation(tip), gx + 4, gy + 4, 1, Colors.light_gray)
+            fontprint.print(Fonts.ui_fonts, menu.get_sp_dakuten(tip), gx + 4, gy + 4, 1, Colors.light_gray)
+            fontprint.print(Fonts.ui_fonts, menu.get_sp_key_icon(tip), gx + 4, gy + 4, 1, Colors.light_gray)
         end
     end
 end
