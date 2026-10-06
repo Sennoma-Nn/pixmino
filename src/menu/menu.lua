@@ -263,6 +263,8 @@ local function get_sp_punctuation(s)
         ["'"] = true,
         ["｢"] = true,
         ["｣"] = true,
+        ["«"] = true,
+        ["»"] = true,
         ["("] = true,
         [")"] = true,
         ["/"] = true,
@@ -278,6 +280,30 @@ local function get_sp_dakuten(s)
     local keep = {
         ["ﾞ"] = true,
         ["ﾟ"] = true,
+        ["\r"] = true,
+        ["\n"] = true,
+    }
+
+    return get_sp_symbols(keep, s)
+end
+
+local function get_sp_key_icon(s)
+    local keep = {
+        ["⎋"] = true,
+        ["↩"] = true,
+        ["⇧"] = true,
+        ["⇪"] = true,
+        ["⌫"] = true,
+        ["⌦"] = true,
+        ["⎇"] = true,
+        ["␣"] = true,
+        ['⭲'] = true,
+        ["♦"] = true,
+        ["↑"] = true,
+        ["↓"] = true,
+        ["←"] = true,
+        ["→"] = true,
+        ["\\"] = true,
         ["\r"] = true,
         ["\n"] = true,
     }
@@ -322,6 +348,7 @@ function menu.draw(gx, gy, pw, ph, bw)
                     fontprint.print_outlined(Fonts.ui_fonts, desc, desc_x, y, 1, Colors.white, Colors.out_line)
                     fontprint.print(Fonts.ui_fonts, get_sp_punctuation(desc), desc_x, y, 1, Colors.gray)
                     fontprint.print(Fonts.ui_fonts, get_sp_dakuten(desc), desc_x, y, 1, Colors.light_gray)
+                    fontprint.print(Fonts.ui_fonts, get_sp_key_icon(desc), desc_x, y, 1, Colors.light_yellow)
                     local lines = select(2, desc:gsub("\n", "")) + 1
                     y = y + (lines + 1) * 8
                 end
@@ -340,9 +367,11 @@ function menu.draw(gx, gy, pw, ph, bw)
     end
 
     if not menu.waiting_key then
-        local _ = menu.state == "MENU_MAIN" or
-            fontprint.print_outlined(Fonts.ui_fonts, locale.get("BACK_TIP"), gx + 4, gy + 4, 1, Colors.gray,
-            Colors.out_line)
+        if not (menu.state == "MENU_MAIN") then
+            local tip = locale.get("BACK_TIP")
+            fontprint.print_outlined(Fonts.ui_fonts, tip, gx + 4, gy + 4, 1, Colors.gray, Colors.out_line)
+            fontprint.print(Fonts.ui_fonts, get_sp_key_icon(tip), gx + 4, gy + 4, 1, Colors.light_gray)
+        end
     end
 end
 
