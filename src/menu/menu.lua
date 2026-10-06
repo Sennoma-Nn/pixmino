@@ -233,6 +233,58 @@ local function mode_record_text(it)
     return string.format("%s: %.2f", label, record)
 end
 
+local function get_sp_symbols(keep, s)
+    local out = {}
+
+    local i = 1
+    local n = #s
+    while i <= n do
+        local len = utils.utf8_char_len(string.byte(s, i))
+        if len == 0 then len = 1 end
+        local ch = s:sub(i, i + len - 1)
+        out[#out + 1] = keep[ch] and ch or " "
+        i = i + len
+    end
+
+    return table.concat(out)
+end
+
+local function get_sp_punctuation(s)
+    local keep = {
+        [","] = true,
+        ["､"] = true,
+        ["."] = true,
+        ["｡"] = true,
+        [":"] = true,
+        ["?"] = true,
+        ["!"] = true,
+        ["･"] = true,
+        ['"'] = true,
+        ["'"] = true,
+        ["｢"] = true,
+        ["｣"] = true,
+        ["("] = true,
+        [")"] = true,
+        ["/"] = true,
+        ["\\"] = true,
+        ["\r"] = true,
+        ["\n"] = true,
+    }
+
+    return get_sp_symbols(keep, s)
+end
+
+local function get_sp_dakuten(s)
+    local keep = {
+        ["ﾞ"] = true,
+        ["ﾟ"] = true,
+        ["\r"] = true,
+        ["\n"] = true,
+    }
+
+    return get_sp_symbols(keep, s)
+end
+
 function menu.draw(gx, gy, pw, ph, bw)
     local data = menu.get_visible_items(menu.state)
     if not data then return end
@@ -268,6 +320,8 @@ function menu.draw(gx, gy, pw, ph, bw)
 
                 if desc_valid then
                     fontprint.print_outlined(Fonts.ui_fonts, desc, desc_x, y, 1, Colors.white, Colors.out_line)
+                    fontprint.print(Fonts.ui_fonts, get_sp_punctuation(desc), desc_x, y, 1, Colors.gray)
+                    fontprint.print(Fonts.ui_fonts, get_sp_dakuten(desc), desc_x, y, 1, Colors.light_gray)
                     local lines = select(2, desc:gsub("\n", "")) + 1
                     y = y + (lines + 1) * 8
                 end
@@ -286,7 +340,9 @@ function menu.draw(gx, gy, pw, ph, bw)
     end
 
     if not menu.waiting_key then
-        local _ = menu.state == "MENU_MAIN" or fontprint.print_outlined(Fonts.ui_fonts, locale.get("BACK_TIP"), gx + 4, gy + 4, 1, Colors.gray, Colors.out_line)
+        local _ = menu.state == "MENU_MAIN" or
+            fontprint.print_outlined(Fonts.ui_fonts, locale.get("BACK_TIP"), gx + 4, gy + 4, 1, Colors.gray,
+            Colors.out_line)
     end
 end
 
