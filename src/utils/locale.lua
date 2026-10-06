@@ -60,7 +60,7 @@ locale.t = {
     },
     START_DESC = {
         en = "Start Game!",
-        ja = "ｹﾞｰﾑｦ ｽﾀｰﾄ!",
+        ja = "ｹﾞｰﾑ ｽﾀｰﾄ!",
         zh_cn = "开始游戏!",
         zh_tw = "開始遊戲!",
     },
@@ -230,7 +230,7 @@ locale.t = {
     },
     CONTINUE = {
         en = "CONTINUE",
-        ja = "ﾂﾂﾞｹ",
+        ja = "ｺﾝﾃｨﾆｭｰ",
         zh_cn = "继续",
         zh_tw = "繼續",
     },
@@ -248,7 +248,7 @@ locale.t = {
     },
     QUIT_DESC = {
         en = "Exit the game.",
-        ja = "ｹﾞｰﾑｦ ｼｭｳﾘｮｳ｡",
+        ja = "ｼｭｳﾘｮｳ｡",
         zh_cn = "退出游戏｡",
         zh_tw = "結束遊戲｡",
     },
@@ -405,10 +405,10 @@ locale.t = {
     },
     DAS_DESC = {
         en =
-        "~~ Auto Shift Delay ~~\r\n\nThe delay from pressing\r\na move key, until the\r\npiece starts auto-shifting\r\nat a fixed speed.",
-        ja = "‾‾ Auto Shift Delay ‾‾\r\n\nｲﾄﾞｳｷｰｦ ｵｼﾃｶﾗ､ ﾋﾟｰｽｶﾞ\r\nｲｯﾃｲ ｿｸﾄﾞﾃﾞ ｼﾞﾄﾞｳ ﾚﾝｿﾞｸ\r\nｲﾄﾞｳｦ ｶｲｼｽﾙﾏﾃﾞﾉ ｼﾞｶﾝ｡",
-        zh_cn = "~~ 自动延迟移动 (ASD) ~~\r\n\n按下移动键,\r\n到方块开始以固定速度\r\n自动连续移动的间隔时间｡",
-        zh_tw = "~~ 自動移動延遲 (ASD) ~~\r\n\n按下移動鍵,\r\n到方塊開始以固定速度\r\n自動連續移動的間隔時間｡",
+        "~~ Auto Shift Delay ~~\r\n\nThe delay from pressing\r\na move key, until the\r\nmino starts auto-shifting\r\nat a fixed speed.",
+        ja = "‾‾ Auto Shift Delay ‾‾\r\n\nｲﾄﾞｳｷｰｦ ｵｼﾃｶﾗ､ ﾐﾉｶﾞ\r\nｲｯﾃｲ ｿｸﾄﾞﾃﾞ ｼﾞﾄﾞｳ ﾚﾝｿﾞｸ\r\nｲﾄﾞｳｦ ｶｲｼｽﾙﾏﾃﾞﾉ ｼﾞｶﾝ｡",
+        zh_cn = "~~ 自动延迟移动 (ASD) ~~\r\n\n按下移动键,\r\n到形状开始以固定速度\r\n自动连续移动的间隔时间｡",
+        zh_tw = "~~ 自動移動延遲 (ASD) ~~\r\n\n按下移動鍵,\r\n到形狀開始以固定速度\r\n自動連續移動的間隔時間｡",
     },
 
     ARR = {
@@ -418,10 +418,10 @@ locale.t = {
         zh_tw = "自動移動週期",
     },
     ARR_DESC = {
-        en = "~~ Auto Shift Period ~~\r\n\nThe interval between moves\r\nwhile a piece auto-shifts\r\nat a fixed speed.",
-        ja = "‾‾ Auto Shift Period ‾‾\r\n\nﾋﾟｰｽｶﾞ ｲｯﾃｲ ｿｸﾄﾞﾃﾞ\r\nｼﾞﾄﾞｳ ﾚﾝｿﾞｸｲﾄﾞｳｽﾙｱｲﾀﾞﾉ\r\nｲﾄﾞｳ ｶﾝｶｸ｡",
-        zh_cn = "~~ 自动移动周期 (ASP) ~~\r\n\n在方块以固定速度自动连续移动时,\r\n两次移动之间的间隔时间｡",
-        zh_tw = "~~ 自動移動週期 (ASP) ~~\r\n\n在方塊以固定速度自動連續移動時,\r\n兩次移動之間的間隔時間｡",
+        en = "~~ Auto Shift Period ~~\r\n\nThe interval between moves\r\nwhile a mino auto-shifts\r\nat a fixed speed.",
+        ja = "‾‾ Auto Shift Period ‾‾\r\n\nﾐﾉｶﾞ ｲｯﾃｲ ｿｸﾄﾞﾃﾞ\r\nｼﾞﾄﾞｳ ﾚﾝｿﾞｸｲﾄﾞｳｽﾙｱｲﾀﾞﾉ\r\nｲﾄﾞｳ ｶﾝｶｸ｡",
+        zh_cn = "~~ 自动移动周期 (ASP) ~~\r\n\n在形状以固定速度自动连续移动时,\r\n两次移动之间的间隔时间｡",
+        zh_tw = "~~ 自動移動週期 (ASP) ~~\r\n\n在形狀以固定速度自動連續移動時,\r\n兩次移動之間的間隔時間｡",
     },
 
     DP_ARR = {
@@ -431,7 +431,7 @@ locale.t = {
         zh_tw = "軟降自動移動週期",
     },
     DP_ARR_DESC = {
-        en = "~~ Drop Auto Shift Period ~\r\n\nThe interval between drops\r\nwhile a piece drops\r\ncontinuously.",
+        en = "~~ Drop Auto Shift Period ~\r\n\nThe interval between drops\r\nwhile a mino drops\r\ncontinuously.",
         ja = "‾‾ Drop Auto Shift Period ‾\r\n\nｿﾌﾄﾄﾞﾛｯﾌﾟｦ ｵｼﾃ ｶｲｼｽﾙ\r\nﾚﾝｿﾞｸ ｶｺｳﾉ､ﾌﾀﾂﾉ ｶｺｳﾉ\r\nｱｲﾀﾞﾉ ｼﾞｶﾝ｡",
         zh_cn = "~~ 软降自动移动周期 (DP.ASP) ~~\r\n\n按下软降键后开始的连续下降,\r\n两次降落之间的间隔时间｡",
         zh_tw = "~~ 軟降自動移動週期 (DP.ASP) ~~\r\n\n按下軟降鍵後開始的連續下降,\r\n兩次降落之間的間隔時間｡",
@@ -445,10 +445,10 @@ locale.t = {
     },
     PREOP_DESC = {
         en =
-        "~~ Initial ** System ~~\r\n\nHold rotate, move,\r\nor hold keys and\r\nthe action triggers\r\nwhen a new piece spawns.",
-        ja = "‾‾ ｾﾝｺｳﾆｭｳﾘｮｸ ‾‾\r\n\nｱﾀﾗｼｲﾋﾟｰｽ ｽﾎﾟｰﾝｼﾞﾆ\r\nｷｰｦ ｵｻｴﾃ ｲﾙﾄ\r\nｶｲﾃﾝ･ｲﾄﾞｳ･ﾎｰﾙﾄﾞ｡",
-        zh_cn = "~~ 预输入 ~~\r\n\n新方块入场时\r\n提前按住按键立即触发\r\n旋转､移动或暂存｡",
-        zh_tw = "~~ 預輸入 ~~\r\n\n新方塊入場時\r\n提前按住按鍵立即觸發\r\n旋轉､移動或暫存｡",
+        "~~ Initial ** System ~~\r\n\nHold rotate, move,\r\nor hold keys and\r\nthe action triggers\r\nwhen a new mino spawns.",
+        ja = "‾‾ ｾﾝｺｳﾆｭｳﾘｮｸ ‾‾\r\n\nｱﾀﾗｼｲﾐﾉ ｽﾎﾟｰﾝｼﾞﾆ\r\nｷｰｦ ｵｻｴﾃ ｲﾙﾄ\r\nｶｲﾃﾝ･ｲﾄﾞｳ･ﾎｰﾙﾄﾞ｡",
+        zh_cn = "~~ 预输入 ~~\r\n\n新的形状入场时\r\n提前按住按键立即触发\r\n旋转､移动或暂存｡",
+        zh_tw = "~~ 預輸入 ~~\r\n\n新的形狀入場時\r\n提前按住按鍵立即觸發\r\n旋轉､移動或暫存｡",
     },
 
     SPAWN_MARK = {
@@ -458,10 +458,10 @@ locale.t = {
         zh_tw = "出生標記",
     },
     SPAWN_MARK_DESC = {
-        en = "Mark the next piece's shape\r\nand spawn position on the\r\nfield.",
-        ja = "ﾌｨｰﾙﾄﾞｼﾞｮｳﾆ ﾂｷﾞﾉ ﾋﾟｰｽﾉ\r\nｶﾀﾁﾄ ｽﾎﾟｰﾝ ｲﾁｦ ﾏｰｸ｡",
-        zh_cn = "在场地上标记下个方块的形状与出現位置｡",
-        zh_tw = "在場地上標記下個方塊的形狀與出現位置｡",
+        en = "Mark the next mino's shape\r\nand spawn position on the\r\nfield.",
+        ja = "ﾌｨｰﾙﾄﾞｼﾞｮｳﾆ ﾂｷﾞﾉ ﾐﾉｶﾞ\r\nﾃﾞﾙ ｲﾁﾄ ｶﾀﾁｦ ﾏｰｸ｡",
+        zh_cn = "在场地上标记下个形状的出現位置｡",
+        zh_tw = "在場地上標記下個形狀的出現位置｡",
     },
 
     KEY_INFO = {
@@ -472,10 +472,11 @@ locale.t = {
     },
     KEY_INFO_DESC = {
         en = "Show the pressed keys\r\nwhile playing.",
-        ja = "ﾌﾟﾚｲﾁｭｳ ﾚｼﾞｮｳﾆ\r\nｵｼﾀ ｷｰｦ ﾋｮｳｼﾞ｡",
+        ja = "ﾌﾟﾚｲﾁｭｳ ｶﾞﾒﾝ ｼﾞｮｳﾌﾞﾆ\r\nｵｼﾀ ｷｰｦ ﾋｮｳｼﾞ｡",
         zh_cn = "游戏中在画面上方显示当前按下的按键｡",
         zh_tw = "遊戲中在畫面上方顯示目前按下的按鍵｡",
     },
+
     SKIN = {
         en = "SKIN",
         ja = "ｽｷﾝ",
@@ -584,7 +585,7 @@ locale.t = {
         zh_tw = "禁止移動!?",
     },
     MASTER_DESC = {
-        en = "Clear 300 lines,\r\nPieces drop instantly,\r\nless time to act!",
+        en = "Clear 300 lines,\r\nMinos drop instantly,\r\nless time to act!",
         ja = "300 ﾗｲﾝｦ ｸﾘｱ､\r\nﾌﾞﾛｯｸ ﾁｮｸｾﾂ ﾗｯｶ､\r\nｿｳｻ ｼﾞｶﾝ ﾐｼﾞｶｸ ﾅﾙ!",
         zh_cn = "清除300行,\r\n方块直接落地,\r\n操作时间越来越短!",
         zh_tw = "消除300列,\r\n方塊直接落地,\r\n操作時間越來越短!",
@@ -634,8 +635,8 @@ locale.t = {
         zh_tw = "180度旋轉｡",
     },
     HOLD_DESC = {
-        en = "Hold current piece.",
-        ja = "ﾋﾟｰｽｦ ﾎｰﾙﾄﾞ｡",
+        en = "Hold current mino.",
+        ja = "ﾐﾉｦ ﾎｰﾙﾄﾞ｡",
         zh_cn = "当前方块暂存｡",
         zh_tw = "目前方塊暫存｡",
     },
@@ -646,19 +647,19 @@ locale.t = {
         zh_tw = "硬降落｡",
     },
     SOFT_DROP_DESC = {
-        en = "Move piece downward.",
+        en = "Move mino downward.",
         ja = "ｼﾀﾍ ﾄﾞﾛｯﾌﾟ｡",
         zh_cn = "软降落｡",
         zh_tw = "軟降落｡",
     },
     LEFT_DESC = {
-        en = "Move piece left.",
+        en = "Move mino left.",
         ja = "ﾋﾀﾞﾘﾍ ﾑｰﾌﾞ｡",
         zh_cn = "方块向左移动｡",
         zh_tw = "方塊向左移動｡",
     },
     RIGHT_DESC = {
-        en = "Move piece right.",
+        en = "Move mino right.",
         ja = "ﾐｷﾞﾍ ﾑｰﾌﾞ｡",
         zh_cn = "方块向右移动｡",
         zh_tw = "方塊向右移動｡",
