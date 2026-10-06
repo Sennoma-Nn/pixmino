@@ -224,7 +224,7 @@ locale.t = {
     },
     BEST = {
         en = "BEST",
-        ja = "ｻｲｺｳｷﾛｸ",
+        ja = "ﾍﾞｽﾄ",
         zh_cn = "最佳",
         zh_tw = "最佳",
     },

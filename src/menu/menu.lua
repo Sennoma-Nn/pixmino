@@ -359,6 +359,9 @@ function menu.draw(gx, gy, pw, ph, bw)
                 end
                 if record_txt then
                     fontprint.print_outlined(Fonts.ui_fonts, record_txt, desc_x, y, 1, Colors.white, Colors.out_line)
+                    fontprint.print(Fonts.ui_fonts, get_sp_punctuation(record_txt), desc_x, y, 1, Colors.gray)
+                    fontprint.print(Fonts.ui_fonts, get_sp_dakuten(record_txt), desc_x, y, 1, Colors.light_gray)
+                    fontprint.print(Fonts.ui_fonts, get_sp_key_icon(record_txt), desc_x, y, 1, Colors.light_yellow)
                 end
             end
         else
@@ -370,6 +373,8 @@ function menu.draw(gx, gy, pw, ph, bw)
         if not (menu.state == "MENU_MAIN") then
             local tip = locale.get("BACK_TIP")
             fontprint.print_outlined(Fonts.ui_fonts, tip, gx + 4, gy + 4, 1, Colors.gray, Colors.out_line)
+            fontprint.print(Fonts.ui_fonts, get_sp_punctuation(tip), gx + 4, gy + 4, 1, Colors.light_gray)
+            fontprint.print(Fonts.ui_fonts, get_sp_dakuten(tip), gx + 4, gy + 4, 1, Colors.light_gray)
             fontprint.print(Fonts.ui_fonts, get_sp_key_icon(tip), gx + 4, gy + 4, 1, Colors.light_gray)
         end
     end
