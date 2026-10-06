@@ -84,6 +84,7 @@ function love.load()
         vgafont.load("assets/font/QUADBM/ext/BPMF.F08", "bpmf"),
         vgafont.load("assets/font/QUADBM/ext/PINYIN.F08", "pinyin"),
         vgafont.load("assets/font/QUADBM/ext/SYMBOL.F08", "symbol"),
+        vgafont.load("assets/font/MIN_QUAN.F08", "mincn"), -- 這麼做是為了在不載入 quan 字型的情況下能夠顯示語言選擇菜單，否則第一次啟動時非中文用戶必須加載整個字型到記憶體，慢
     }
 
     game.input_mod = input
@@ -91,8 +92,12 @@ function love.load()
     console.load()
     core.load()
 
-    local fullscreen = save.load()
+    local fullscreen, has_locale = save.load()
     local _ = fullscreen and push:switchFullscreen()
+
+    if not has_locale then
+        menu.switch_to_lang()
+    end
 end
 
 function love.draw()

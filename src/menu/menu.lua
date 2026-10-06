@@ -49,6 +49,21 @@ function menu.reset()
     menu.waiting_key = nil
 end
 
+function menu.switch_to_lang()
+    menu.history = {}
+    menu.selections = {}
+    switch_to("MENU_LANG")
+end
+
+function menu.set_language(lang)
+    Settings.display.locale = lang
+    locale.current = lang
+    menu.history = {}
+    menu.selections = {}
+    switch_to("MENU_MAIN")
+    save.flush()
+end
+
 local function item_display(it)
     if it.display == nil then
         return true
@@ -75,6 +90,28 @@ function menu.get_visible_items(state)
 end
 
 menu.data = {
+    MENU_LANG = {
+        {
+            text_key = "LANG_EN",
+            desc_key = "LANG_TITLE",
+            action = function() menu.set_language("en") end
+        },
+        {
+            text_key = "LANG_JA",
+            desc_key = "LANG_TITLE",
+            action = function() menu.set_language("ja") end
+        },
+        {
+            text_key = "LANG_ZH_CN",
+            desc_key = "LANG_TITLE",
+            action = function() menu.set_language("zh_cn") end
+        },
+        {
+            text_key = "LANG_ZH_TW",
+            desc_key = "LANG_TITLE",
+            action = function() menu.set_language("zh_tw") end
+        },
+    },
     MENU_MAIN = {
         {
             text_key = "START",
@@ -400,7 +437,7 @@ function menu.draw(gx, gy, pw, ph, bw)
     end
 
     if not menu.waiting_key then
-        if not (menu.state == "MENU_MAIN") then
+        if not (menu.state == "MENU_MAIN") and not (menu.state == "MENU_LANG") then
             local tip = locale.get("BACK_TIP")
             menu.print_with_dim(tip, gx + 4, gy + 4, 1, Colors.gray, Colors.out_line, menu.get_dim_config("gray"))
         end
@@ -461,6 +498,9 @@ function menu.keypressed(key)
         end
         return true
     elseif key == "escape" then
+        if menu.state == "MENU_LANG" then
+            return true
+        end
         return menu.back()
     end
 

@@ -181,7 +181,7 @@ locale.t = {
         en = "MilkYao",
         ja = "MilkYao",
         zh_cn = "缪锞尧 - MilkYao",
-        zh_tw = "繆锞堯 - MilkYao", -- 中文字型沒有「錁」只能用「锞」替代了（）
+        zh_tw = "繆錁堯 - MilkYao",
     },
 
     SP_BGM = {
@@ -194,7 +194,7 @@ locale.t = {
         en = "MilkYao:\r\n\nMade all BGM for the game.",
         ja = "MilkYao:\r\n\nｹﾞｰﾑ ｾﾞﾝﾌﾞﾉ BGMｦ ｾｲｻｸ｡",
         zh_cn = "缪锞尧 - MilkYao:\r\n\n制作游戏全部BGM｡",
-        zh_tw = "繆锞堯 - MilkYao:\r\n\n製作遊戲全部BGM｡"
+        zh_tw = "繆錁堯 - MilkYao:\r\n\n製作遊戲全部BGM｡"
     },
 
     SP_SFX = {
@@ -342,6 +342,38 @@ locale.t = {
         ja = "ｹﾞﾝｺﾞ",
         zh_cn = "语言",
         zh_tw = "語言",
+    },
+
+    LANG_TITLE = {
+        en = "SELECT LANGUAGE\r\nｹﾞﾝｺﾞ ｾﾝﾀｸ\r\n选择语言\r\n選擇語言",
+        ja = "SELECT LANGUAGE\r\nｹﾞﾝｺﾞ ｾﾝﾀｸ\r\n选择语言\r\n選擇語言",
+        zh_cn = "SELECT LANGUAGE\r\nｹﾞﾝｺﾞ ｾﾝﾀｸ\r\n选择语言\r\n選擇語言",
+        zh_tw = "SELECT LANGUAGE\r\nｹﾞﾝｺﾞ ｾﾝﾀｸ\r\n选择语言\r\n選擇語言",
+    },
+
+    LANG_EN = {
+        en = "ENGLISH",
+        ja = "ENGLISH",
+        zh_cn = "ENGLISH",
+        zh_tw = "ENGLISH",
+    },
+    LANG_JA = {
+        en = "ﾆﾎﾝｺﾞ",
+        ja = "ﾆﾎﾝｺﾞ",
+        zh_cn = "ﾆﾎﾝｺﾞ",
+        zh_tw = "ﾆﾎﾝｺﾞ",
+    },
+    LANG_ZH_CN = {
+        en = "简体中文",
+        ja = "简体中文",
+        zh_cn = "简体中文",
+        zh_tw = "简体中文",
+    },
+    LANG_ZH_TW = {
+        en = "繁體中文",
+        ja = "繁體中文",
+        zh_cn = "繁體中文",
+        zh_tw = "繁體中文",
     },
 
     MUSIC_VOL = {

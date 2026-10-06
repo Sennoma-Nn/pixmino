@@ -104,6 +104,7 @@ end
 
 function save.load()
     local fullscreen = false
+    local has_locale = false
 
     local text = love.filesystem.read(settings_file)
     if text then
@@ -142,6 +143,7 @@ function save.load()
             if lang == pairs.locale then
                 settings.display.locale = lang
                 locale.current = lang
+                has_locale = true
                 break
             end
         end
@@ -164,7 +166,7 @@ function save.load()
     save.flush()
     save.load_record()
 
-    return fullscreen
+    return fullscreen, has_locale
 end
 
 return save
