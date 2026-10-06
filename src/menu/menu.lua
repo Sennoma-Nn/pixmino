@@ -311,6 +311,27 @@ function menu.get_sp_key_icon(s)
     return get_sp_symbols(keep, s)
 end
 
+function menu.print_with_dim(text, x, y, scale, base_color, outline_color, punc_color, dakuten_color, icon_color)
+    fontprint.print_outlined(Fonts.ui_fonts, text, x, y, scale, base_color, outline_color)
+    fontprint.print(Fonts.ui_fonts, menu.get_sp_punctuation(text), x, y, scale, punc_color)
+    fontprint.print(Fonts.ui_fonts, menu.get_sp_dakuten(text), x, y, scale, dakuten_color)
+    fontprint.print(Fonts.ui_fonts, menu.get_sp_key_icon(text), x, y, scale, icon_color)
+end
+
+function menu.get_dim_config(type)
+    if type == "white" then
+        return Colors.gray, Colors.light_gray, Colors.light_yellow
+    elseif type == "gray" then
+        return Colors.light_gray, Colors.light_gray, Colors.light_gray
+    elseif type == "yellow" then
+        return Colors.light_yellow, Colors.light_yellow, Colors.light_yellow
+    elseif type == "light_yellow" then
+        return Colors.yellow, Colors.yellow, Colors.yellow
+    end
+
+    return Colors.gray, Colors.gray, Colors.gray
+end
+
 function menu.draw(gx, gy, pw, ph, bw)
     local data = menu.get_visible_items(menu.state)
     if not data then return end
@@ -328,15 +349,19 @@ function menu.draw(gx, gy, pw, ph, bw)
         local item_x = gx + (pw - utils.utf8_len(label) * 8) / 2
 
         local disabled = (it.action == false)
-        local color = disabled and Colors.gray or Colors.white
 
         if i == menu.selection then
-            local highlight = disabled and Colors.light_yellow or Colors.yellow
-            fontprint.print_outlined(Fonts.ui_fonts, label, item_x, item_y, 1, highlight, Colors.out_line)
+            if disabled then
+                menu.print_with_dim(label, item_x, item_y, 1, Colors.light_yellow, Colors.out_line,
+                    menu.get_dim_config("light_yellow"))
+            else
+                menu.print_with_dim(label, item_x, item_y, 1, Colors.yellow, Colors.out_line,
+                    menu.get_dim_config("yellow"))
+            end
 
             if it.type == "keys" and menu.waiting_key == it.key_name then
                 local tip = locale.get("PRESS_KEY_TIP")
-                fontprint.print_outlined(Fonts.ui_fonts, tip, desc_x, desc_y, 1, Colors.yellow, Colors.out_line)
+                menu.print_with_dim(tip, desc_x, desc_y, 1, Colors.yellow, Colors.out_line, menu.get_dim_config("yellow"))
             else
                 local current = control_desc(it)
                 local desc = it.desc_key and locale.get(it.desc_key)
@@ -345,37 +370,37 @@ function menu.draw(gx, gy, pw, ph, bw)
                 local y = desc_y
 
                 if desc_valid then
-                    fontprint.print_outlined(Fonts.ui_fonts, desc, desc_x, y, 1, Colors.white, Colors.out_line)
-                    fontprint.print(Fonts.ui_fonts, menu.get_sp_punctuation(desc), desc_x, y, 1, Colors.gray)
-                    fontprint.print(Fonts.ui_fonts, menu.get_sp_dakuten(desc), desc_x, y, 1, Colors.light_gray)
-                    fontprint.print(Fonts.ui_fonts, menu.get_sp_key_icon(desc), desc_x, y, 1, Colors.light_yellow)
+                    menu.print_with_dim(desc, desc_x, y, 1, Colors.white, Colors.out_line, menu.get_dim_config("white"))
                     local lines = select(2, desc:gsub("\n", "")) + 1
                     y = y + (lines + 1) * 8
                 end
                 if current then
-                    local descfont = it.type == "keys" and Fonts.ui_fonts or Fonts.bold_font
-                    fontprint.print_outlined(descfont, current, desc_x, y, 1, Colors.white)
+                    if it.type == "keys" then
+                        menu.print_with_dim(current, desc_x, y, 1, Colors.white, Colors.out_line,
+                            menu.get_dim_config("white"))
+                    else
+                        fontprint.print_outlined(Fonts.bold_font, current, desc_x, y, 1, Colors.white)
+                    end
                     y = y + 2 * 8
                 end
                 if record_txt then
-                    fontprint.print_outlined(Fonts.ui_fonts, record_txt, desc_x, y, 1, Colors.white, Colors.out_line)
-                    fontprint.print(Fonts.ui_fonts, menu.get_sp_punctuation(record_txt), desc_x, y, 1, Colors.gray)
-                    fontprint.print(Fonts.ui_fonts, menu.get_sp_dakuten(record_txt), desc_x, y, 1, Colors.light_gray)
-                    fontprint.print(Fonts.ui_fonts, menu.get_sp_key_icon(record_txt), desc_x, y, 1, Colors.light_yellow)
+                    menu.print_with_dim(record_txt, desc_x, y, 1, Colors.white, Colors.out_line,
+                        menu.get_dim_config("white"))
                 end
             end
         else
-            fontprint.print_outlined(Fonts.ui_fonts, label, item_x, item_y, 1, color, Colors.out_line)
+            if disabled then
+                menu.print_with_dim(label, item_x, item_y, 1, Colors.gray, Colors.out_line, menu.get_dim_config("gray"))
+            else
+                menu.print_with_dim(label, item_x, item_y, 1, Colors.white, Colors.out_line, menu.get_dim_config("white"))
+            end
         end
     end
 
     if not menu.waiting_key then
         if not (menu.state == "MENU_MAIN") then
             local tip = locale.get("BACK_TIP")
-            fontprint.print_outlined(Fonts.ui_fonts, tip, gx + 4, gy + 4, 1, Colors.gray, Colors.out_line)
-            fontprint.print(Fonts.ui_fonts, menu.get_sp_punctuation(tip), gx + 4, gy + 4, 1, Colors.light_gray)
-            fontprint.print(Fonts.ui_fonts, menu.get_sp_dakuten(tip), gx + 4, gy + 4, 1, Colors.light_gray)
-            fontprint.print(Fonts.ui_fonts, menu.get_sp_key_icon(tip), gx + 4, gy + 4, 1, Colors.light_gray)
+            menu.print_with_dim(tip, gx + 4, gy + 4, 1, Colors.gray, Colors.out_line, menu.get_dim_config("gray"))
         end
     end
 end

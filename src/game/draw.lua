@@ -248,7 +248,7 @@ local function draw_modal(font, gx, gy, pw, ph, title_key)
     love.graphics.rectangle("fill", gx, gy, pw, ph)
 
     local mode_name = locale.get(game.mode_key:upper())
-    fontprint.print_outlined(Fonts.ui_fonts, mode_name, gx + 4, gy + 4, 1, Colors.gray, Colors.out_line)
+    menu.print_with_dim(mode_name, gx + 4, gy + 4, 1, Colors.gray, Colors.out_line, menu.get_dim_config("gray"))
 
     local items = game.get_modal_items()
     local n = #items
@@ -257,14 +257,16 @@ local function draw_modal(font, gx, gy, pw, ph, title_key)
 
     local label = locale.get(title_key or "PAUSE")
     local lw = utils.utf8_len(label) * 8
-    fontprint.print_outlined(Fonts.ui_fonts, label, gx + (pw - lw) / 2, gy + top, 1, Colors.white, Colors.out_line)
+    menu.print_with_dim(label, gx + (pw - lw) / 2, gy + top, 1, Colors.white, Colors.out_line, menu.get_dim_config("white"))
 
     for i, key in ipairs(items) do
         local text = locale.get(key)
         local w = utils.utf8_len(text) * 8
-        local color = (i == game.modal_selection) and Colors.yellow or Colors.white
-        fontprint.print_outlined(Fonts.ui_fonts, text, gx + (pw - w) / 2, gy + top + 8 + 10 + (i - 1) * 10, 1, color,
-            Colors.out_line)
+        if i == game.modal_selection then
+            menu.print_with_dim(text, gx + (pw - w) / 2, gy + top + 8 + 10 + (i - 1) * 10, 1, Colors.yellow, Colors.out_line, menu.get_dim_config("yellow"))
+        else
+            menu.print_with_dim(text, gx + (pw - w) / 2, gy + top + 8 + 10 + (i - 1) * 10, 1, Colors.white, Colors.out_line, menu.get_dim_config("white"))
+        end
     end
 end
 
@@ -359,10 +361,7 @@ function render.draw(gx, gy, pw, ph, bw, bs)
         love.graphics.rectangle("fill", gx, gy, pw, ph)
 
         local tip = locale.get("BACK_TIP")
-        fontprint.print_outlined(Fonts.ui_fonts, tip, gx + 4, gy + 4, 1, Colors.gray, Colors.out_line)
-        fontprint.print(Fonts.ui_fonts, menu.get_sp_punctuation(tip), gx + 4, gy + 4, 1, Colors.light_gray)
-        fontprint.print(Fonts.ui_fonts, menu.get_sp_dakuten(tip), gx + 4, gy + 4, 1, Colors.light_gray)
-        fontprint.print(Fonts.ui_fonts, menu.get_sp_key_icon(tip), gx + 4, gy + 4, 1, Colors.light_gray)
+        menu.print_with_dim(tip, gx + 4, gy + 4, 1, Colors.gray, Colors.out_line, menu.get_dim_config("gray"))
 
         local label = "CLEAR"
         local lw = utils.utf8_len(label) * 8
@@ -390,7 +389,7 @@ function render.draw(gx, gy, pw, ph, bw, bs)
             label = locale.get("GO")
         end
         local lw = utils.utf8_len(label) * 8
-        fontprint.print(Fonts.ui_fonts, label, gx + (pw - lw) / 2, gy + (ph - 8) / 2, 1, Colors.white)
+        menu.print_with_dim(label, gx + (pw - lw) / 2, gy + (ph - 8) / 2, 1, Colors.white, Colors.out_line, menu.get_dim_config("white"))
     end
 end
 
