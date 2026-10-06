@@ -41,11 +41,15 @@ local function draw_block(px, py, bs, color, transparent, link)
 end
 
 local function has_same_block(x, y, id, drop_count)
+    if y > game.pf.height then
+        return false
+    end
+
     local row = game.pf_data[y]
     local r = true
     r = r and row and row[x]
     r = r and row[x].id == id
-    -- r = r and row[x].drop_count == drop_count -- 本來想做成一個方塊中間被切斷後不會連接在一起，但是效果不好，所以算了（）
+    -- r = r and row[x].drop_count == drop_count -- 本來想做成一個米諾中間被切斷後不會連接在一起，但是效果不好，所以算了（）
     return not not r
 end
 
