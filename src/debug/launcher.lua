@@ -36,6 +36,9 @@ function launcher.toggle()
         love.keyboard.setKeyRepeat(false)
         core.reset()
         apply_console_resolution(false)
+        if Settings.display.fullscreen and not love.window.getFullscreen() then
+            push:switchFullscreen()
+        end
     else
         console.visible = true
         love.keyboard.setKeyRepeat(true)

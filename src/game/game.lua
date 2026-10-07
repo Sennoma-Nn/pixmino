@@ -320,7 +320,8 @@ local function calc_score(cleared, is_spin, is_mini, is_perfect, b2b_eligible)
         base = ns[cleared] or 0
     end
 
-    local total = base * game.level
+    local magni = type(game.level) == "number" and game.level or 0
+    local total = base * magni
     if not is_perfect and b2b_eligible then
         total = total * 1.5
     end
@@ -698,7 +699,7 @@ function game.update(dt)
             game.clear_wait = game.mode_state.clear_wait or game.clear_wait
             game.bone = game.mode_state.bone or false
             local new_level = game.mode_state.level or game.level
-            if new_level > game.level then
+            if type(game.mode_state.level) == "number" and new_level > game.level then
                 sfx.play("level_up")
             end
             game.level = new_level

@@ -26,9 +26,9 @@ local mode = {
             lock_wait = 6,
             clear_wait = 15,
             goal_lines = {
-                { text = "50L", line = 50,  color = { 1, 1, 1, 0.25 } },
+                { text = "50L",  line = 50,  color = { 1, 1, 1, 0.25 } },
                 { text = "100L", line = 100, color = { 1, 1, 1, 0.5 } },
-                { text = "END", line = 150, color = { 1, 0, 0, 1 } },
+                { text = "END",  line = 150, color = { 1, 0, 0, 1 } },
             },
             settings = {
                 input = {
@@ -140,11 +140,11 @@ local mode = {
             save_on_over = false,
             bgm = "katyusha",
             lock_delay = math.huge,
-            lock_resets = 0,
+            lock_resets = math.huge,
             lock_wait = 0,
             clear_wait = 0,
             goal_lines = {
-                { text = "1/2",   line = 20, color = { 1, 1, 1, 0.5 } },
+                { text = "1/2", line = 20, color = { 1, 1, 1, 0.5 } },
                 { text = "END", line = 40, color = { 1, 0, 0, 1 } },
             },
             settings = {
@@ -182,7 +182,7 @@ local mode = {
             lock_wait = 0,
             clear_wait = 0,
             goal_lines = {
-                { text = "1/2",   line = 20, color = { 1, 1, 1, 0.5 } },
+                { text = "1/2", line = 20, color = { 1, 1, 1, 0.5 } },
                 { text = "END", line = 40, color = { 1, 0, 0, 1 } },
             },
             settings = {
@@ -191,6 +191,23 @@ local mode = {
                 },
             },
             bone = true
+        }
+    end,
+
+    debug = function(time, clears, scores, level, ren, b2b, gravity, old_record)
+        return {
+            level = "/",
+            gravity = 0,
+            target = false,
+            record = nil,
+            result = nil,
+            record_update = false,
+            save_on_over = false,
+            bgm = nil,
+            lock_delay = math.huge,
+            lock_resets = math.huge,
+            lock_wait = 0,
+            clear_wait = 0,
         }
     end,
 }

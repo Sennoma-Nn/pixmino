@@ -261,15 +261,18 @@ local function draw_modal(font, gx, gy, pw, ph, title_key)
 
     local label = locale.get(title_key or "PAUSE")
     local lw = utils.utf8_len(label) * 8
-    menu.print_with_dim(label, gx + (pw - lw) / 2, gy + top, 1, Colors.white, Colors.out_line, menu.get_dim_config("white"))
+    menu.print_with_dim(label, gx + (pw - lw) / 2, gy + top, 1, Colors.white, Colors.out_line,
+        menu.get_dim_config("white"))
 
     for i, key in ipairs(items) do
         local text = locale.get(key)
         local w = utils.utf8_len(text) * 8
         if i == game.modal_selection then
-            menu.print_with_dim(text, gx + (pw - w) / 2, gy + top + 8 + 10 + (i - 1) * 10, 1, Colors.yellow, Colors.out_line, menu.get_dim_config("yellow"))
+            menu.print_with_dim(text, gx + (pw - w) / 2, gy + top + 8 + 10 + (i - 1) * 10, 1, Colors.yellow,
+                Colors.out_line, menu.get_dim_config("yellow"))
         else
-            menu.print_with_dim(text, gx + (pw - w) / 2, gy + top + 8 + 10 + (i - 1) * 10, 1, Colors.white, Colors.out_line, menu.get_dim_config("white"))
+            menu.print_with_dim(text, gx + (pw - w) / 2, gy + top + 8 + 10 + (i - 1) * 10, 1, Colors.white,
+                Colors.out_line, menu.get_dim_config("white"))
         end
     end
 end
@@ -284,7 +287,7 @@ local function draw_game_info(font, gx, gy, pw, ph, bw)
     local info = {
         scores = string.format("SCORES %d", game.scores),
         clears = string.format("CLEARS %d", game.clears),
-        level  = string.format("LEVEL  %d", game.level),
+        level  = string.format("LEVEL  %s", game.level),
         ren    = (game.ren >= 0) and string.format("REN    %d", game.ren) or string.format("REN   %d", game.ren),
         b2b    = string.format("B2B    %d", game.b2b),
 
@@ -308,8 +311,13 @@ local function draw_game_info(font, gx, gy, pw, ph, bw)
     fontprint.print_outlined(font, info.ren, ix, iy - 8 * 4, 1, ren_color, Colors.out_line)
     fontprint.print_outlined(font, info.b2b, ix, iy - 8 * 3, 1, b2b_color, Colors.out_line)
     fontprint.print_outlined(font, info.time, ix, iy - 8 * 1, 1, Colors.white, Colors.out_line)
-    fontprint.print_outlined(font, string.rep("♦", total), ix, iy - 8 * 0, 1, Colors.gray, Colors.out_line)
-    fontprint.print_outlined(font, string.rep("♦", left), ix, iy - 8 * 0, 1, Colors.white, Colors.out_line)
+
+    if game.lock_resets_total ~= math.huge then
+        fontprint.print_outlined(font, string.rep("♦", total), ix, iy - 8 * 0, 1, Colors.gray, Colors.out_line)
+        fontprint.print_outlined(font, string.rep("♦", left), ix, iy - 8 * 0, 1, Colors.white, Colors.out_line)
+    else
+        fontprint.print_outlined(font, "∞", ix, iy - 8 * 0, 1, Colors.white, Colors.out_line)
+    end
 end
 
 local function draw_key_info(font)
@@ -333,7 +341,7 @@ local function draw_key_info(font)
         fontprint.print(font, "↺", ix + 10 * 6, iy, 1,
             (input.now.ccw and (not game_modal)) and Colors.key or Colors.black)
         fontprint.print(font, "↻", ix + 10 * 7, iy, 1, (input.now.cw and (not game_modal)) and Colors.key or Colors
-        .black)
+            .black)
         fontprint.print(font, "🗘", ix + 10 * 8, iy, 1,
             (input.now.rot180 and (not game_modal)) and Colors.key or Colors.black)
     end
@@ -393,7 +401,8 @@ function render.draw(gx, gy, pw, ph, bw, bs)
             label = locale.get("GO")
         end
         local lw = utils.utf8_len(label) * 8
-        menu.print_with_dim(label, gx + (pw - lw) / 2, gy + (ph - 8) / 2, 1, Colors.white, Colors.out_line, menu.get_dim_config("white"))
+        menu.print_with_dim(label, gx + (pw - lw) / 2, gy + (ph - 8) / 2, 1, Colors.white, Colors.out_line,
+            menu.get_dim_config("white"))
     end
 end
 
