@@ -33,8 +33,8 @@ local env_table = {
 
 locale.t = {
     BACK_TIP = {
-        en = "⎋ TO BACK",
-        ja = "⎋ ﾃﾞ ﾓﾄﾞﾙ",
+        en = "⎋ BACK",
+        ja = "⎋ ﾓﾄﾞﾙ",
         zh_cn = "⎋ 返回",
         zh_tw = "⎋ 返回",
     },
@@ -146,7 +146,7 @@ locale.t = {
     },
     SP_PUSH_DESC = {
         en = "Ulydev:\r\n\nLibrary Push for LÖVE.\r\n(MIT)",
-        ja = "Ulydev:\r\n\nLOVE ﾖｳ ﾗｲﾌﾞﾗﾘ Push｡\r\n(MIT)",
+        ja = "Ulydev:\r\n\nLOVE ﾖｳﾉ ﾗｲﾌﾞﾗﾘ Push｡\r\n(MIT)",
         zh_cn = "Ulydev:\r\n\n用于 LÖVE 的 Push 函数库｡ (MIT)",
         zh_tw = "Ulydev:\r\n\n用於 LÖVE 的 Push 函式庫｡ (MIT)",
     },
@@ -159,7 +159,7 @@ locale.t = {
     },
     SP_IBFULL_DESC = {
         en = 'Soda 261:\r\n\nMade "IB-FULL" font,\r\nfor displaying game stats.',
-        ja = "Soda 261:\r\n\nｹﾞｰﾑ ｼﾞｮｳﾎｳ ﾋｮｳｼﾞ ﾖｳ\r\n｢IB-FULL｣ ﾌｫﾝﾄ ｾｲｻｸ｡",
+        ja = "Soda 261:\r\n\nｹﾞｰﾑ ｼﾞｮｳﾎｳ ﾋｮｳｼﾞ ﾖｳﾉ\r\n｢IB-FULL｣ ﾌｫﾝﾄ ｾｲｻｸ｡",
         zh_cn = 'Soda 261:\r\n\n制作"IB-FULL"字体,\r\n用于显示游戏信息｡',
         zh_tw = "Soda 261:\r\n\n製作｢IB-FULL｣字型,\r\n用於顯示遊戲資訊｡",
     },
@@ -172,7 +172,7 @@ locale.t = {
     },
     SP_QUANPIXEL_DESC = {
         en = 'Galmuri8, Chill Bitmap,\r\nDiaowinner:\r\n\n"QuanPixel 8px" font,\r\nfor displaying Chinese.\r\n(OFL 1.1)',
-        ja = "Galmuri8, Chill Bitmap,\r\nDiaowinner:\r\n\nﾁｭｳｺﾞｸｺﾞ ﾖｳ ｢QuanPixel 8px｣\r\nﾌｫﾝﾄ｡ (OFL 1.1)",
+        ja = "Galmuri8, Chill Bitmap,\r\nDiaowinner:\r\n\nﾁｭｳｺﾞｸｺﾞ ﾖｳﾉ ｢QuanPixel 8px｣\r\nﾌｫﾝﾄ｡ (OFL 1.1)",
         zh_cn = 'Galmuri8, Chill Bitmap,\r\nDiaowinner:\r\n\n"全小素8PX"字体,用于显示中文｡ \r\n(OFL 1.1)',
         zh_tw = "Galmuri8, Chill Bitmap,\r\nDiaowinner:\r\n\n｢全小素8PX｣字型,用於顯示中文｡ \r\n(OFL 1.1)",
     },
@@ -261,7 +261,7 @@ locale.t = {
     },
     SETTINGS_DESC = {
         en = "Adjust game settings.\r\n\n🠸 X 🠺 ←/→ to change option\r\n- X - ↩ to toggle\r\n[ X ] ↩ then press a key",
-        ja = "ｹﾞｰﾑ ｾｯﾃｲｦ ﾁｮｳｾｲ｡\r\n\n🠸 X 🠺 ←/→ ﾃﾞ ｺｳﾓｸｦ ﾍﾝｺｳ\r\n- X - ↩ ﾃﾞ ｷﾘｶｴ\r\n[ X ] ↩ ﾉ ｱﾄ ｷｰｦ ﾆｭｳﾘｮｸ",
+        ja = "ｹﾞｰﾑ ｾｯﾃｲｦ ﾁｮｳｾｲ｡\r\n\n🠸 X 🠺 ←/→ ﾃﾞ ｺｳﾓｸｦ ﾍﾝｺｳ\r\n- X - ↩ ﾃﾞ ｷﾘｶｴ\r\n[ X ] ↩ ﾉ ｱﾄﾆ ｷｰｦ ﾆｭｳﾘｮｸ",
         zh_cn = "调整游戏设置｡\r\n\n🠸 X 🠺 按下 ←/→ 键改变\r\n- X - 按下 ↩ 键切换\r\n[ X ] 按下 ↩ 键后输入一个按键",
         zh_tw = "調整遊戲設定｡\r\n\n🠸 X 🠺 按下 ←/→ 鍵改變\r\n- X - 按下 ↩ 鍵切換\r\n[ X ] 按下 ↩ 鍵後輸入一個按鍵",
     },
@@ -478,7 +478,7 @@ locale.t = {
     PREOP_DESC = {
         en =
         "~~ Initial ** System ~~\r\n\nHold rotate, move,\r\nor hold keys and\r\nthe action triggers\r\nwhen a new mino spawns.",
-        ja = "‾‾ ｾﾝｺｳﾆｭｳﾘｮｸ ‾‾\r\n\nｱﾀﾗｼｲﾐﾉ ｽﾎﾟｰﾝｼﾞﾆ\r\nｷｰｦ ｵｻｴﾃ ｲﾙﾄ\r\nｶｲﾃﾝ･ｲﾄﾞｳ･ﾎｰﾙﾄﾞ｡",
+        ja = "‾‾ ｾﾝｺｳﾆｭｳﾘｮｸ ‾‾\r\n\nｱﾀﾗｼｲﾐﾉ ｽﾎﾟｰﾝｼﾞﾆ\r\nｷｰｦ ｵｻｴﾃ ｲﾙﾄ\r\nｶｲﾃﾝ･ｲﾄﾞｳ･ﾎｰﾙﾄﾞｶﾞ\r\nﾊﾂﾄﾞｳ｡",
         zh_cn = "~~ 预输入 ~~\r\n\n新的形状入场时\r\n提前按住按键立即触发\r\n旋转､移动或暂存｡",
         zh_tw = "~~ 預輸入 ~~\r\n\n新的形狀入場時\r\n提前按住按鍵立即觸發\r\n旋轉､移動或暫存｡",
     },
@@ -612,7 +612,7 @@ locale.t = {
     },
     SPRINT_DESC = {
         en = "Clear 40 lines,\r\nAim for speed,\r\nfaster is better!",
-        ja = "40 ﾗｲﾝｦ ｸﾘｱ､\r\nﾊﾔｻｦ ｷｿｴ､ ﾊﾔｻ ﾍﾞｽﾄ!",
+        ja = "40 ﾗｲﾝｦ ｸﾘｱ､\r\nﾊﾔｻｦ ｷｿｴ､ ﾊﾔｲﾎﾄﾞ ｲｲ!",
         zh_cn = "清除40行,\r\n以速度为目标,时间越短越好!",
         zh_tw = "消除40列,\r\n以速度為目標,時間越短越好!",
     },
@@ -631,7 +631,7 @@ locale.t = {
     },
     MASTER_DESC = {
         en = "Clear 300 lines,\r\nMinos drop instantly,\r\nless time to act!",
-        ja = "300 ﾗｲﾝｦ ｸﾘｱ､\r\nﾌﾞﾛｯｸ ﾁｮｸｾﾂ ﾗｯｶ､\r\nｿｳｻ ｼﾞｶﾝｶﾞ ﾐｼﾞｶｸ ﾅﾙ!",
+        ja = "300 ﾗｲﾝｦ ｸﾘｱ､\r\nﾌﾞﾛｯｸｶﾞ ﾁｮｸｾﾂ ﾗｯｶ､\r\nｿｳｻ ｼﾞｶﾝｶﾞ ﾐｼﾞｶｸ ﾅﾙ!",
         zh_cn = "清除300行,\r\n方块直接落地,\r\n操作时间越来越短!",
         zh_tw = "消除300列,\r\n方塊直接落地,\r\n操作時間越來越短!",
     },
