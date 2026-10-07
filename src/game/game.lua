@@ -448,7 +448,7 @@ local function new_piece(shape, x, y)
         dir = "0",
         x = x,
         y = y,
-        color = minos[shape].color,
+        color = utils.get_value_if_func_call(minos[shape].color),
         lock_delay = game.lock_delay_frames / 60,
         lock_resets = game.lock_resets_total,
         drop_sum = 0,

@@ -28,6 +28,13 @@ function utils.strip_a(color)
     return { color[1], color[2], color[3] }
 end
 
+function utils.get_value_if_func_call(arg)
+    if type(arg) == "function" then
+        return arg()
+    end
+    return arg
+end
+
 function utils.utf8_char_len(b)
     if b < 128 then return 1 end
     if b < 192 then return 0 end

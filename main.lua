@@ -158,11 +158,7 @@ function love.update(dt)
 end
 
 local function is_settings_menu()
-    return menu.state == "MENU_SETTINGS"
-        or menu.state == "MENU_SETTINGS_DISPLAY"
-        or menu.state == "MENU_SETTINGS_SOUND"
-        or menu.state == "MENU_SETTINGS_CTRL"
-        or menu.state == "MENU_KEYS"
+    return menu.state:match("^MENU_SETTINGS")
 end
 
 function love.keypressed(key)

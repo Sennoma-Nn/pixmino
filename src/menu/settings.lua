@@ -31,11 +31,20 @@ Settings = {
     },
     display = {
         fullscreen = false,
-        locale = "en",
-        ez_read = true,
         skin = "block",
         spawn_indicator = true,
         key_info = true,
+        locale = "en",
+        ez_read = true,
+        block_color = {
+            I4 = { 0.2, 0.8, 1.0 },
+            O4 = { 1.0, 0.9, 0.4 },
+            T4 = { 0.7, 0.4, 1.0 },
+            S4 = { 0.2, 0.9, 0.5 },
+            Z4 = { 1.0, 0.4, 0.4 },
+            J4 = { 0.3, 0.5, 1.0 },
+            L4 = { 1.0, 0.6, 0.3 }
+        }
     },
     debug = {
         unlock = false
@@ -43,6 +52,7 @@ Settings = {
 }
 
 Settings.key_actions = { "left", "right", "ccw", "cw", "rot180", "soft_drop", "hard_drop", "hold" }
+Settings.mino_color_keys = { "I4", "O4", "T4", "S4", "Z4", "J4", "L4" }
 
 local function make_keys_items()
     local items = {}
@@ -55,6 +65,74 @@ local function make_keys_items()
         }
     end
     return items
+end
+
+local color_channels = {
+    { key = "R", index = 1 },
+    { key = "G", index = 2 },
+    { key = "B", index = 3 },
+}
+
+local function get_block_color(mino_key)
+    local c = Settings.display.block_color[mino_key]
+    return { c[1], c[2], c[3], 1 }
+end
+
+local function make_color_value_items(mino_key)
+    local items = {}
+    for i, j in ipairs(color_channels) do
+        local ii = j.index
+        items[#items + 1] = {
+            type = "value",
+            text = j.key,
+            min = 0,
+            max = 1,
+            step = 0.1,
+            outline_color = function()
+                return get_block_color(mino_key)
+            end,
+            get = function()
+                return Settings.display.block_color[mino_key][ii]
+            end,
+            set = function(v)
+                Settings.display.block_color[mino_key][ii] = v
+            end,
+        }
+    end
+    return items
+end
+
+local function to_block_symbol(ab)
+    local t = {
+        ["I"] = "𝗜",
+        ["J"] = "𝗝",
+        ["L"] = "𝗟",
+        ["T"] = "𝗧",
+        ["Z"] = "𝗭",
+        ["S"] = "𝗦",
+        ["O"] = "𝗢"
+    }
+
+    return t[ab]
+end
+
+local function make_color_menu()
+    local m = {}
+    local entries = {}
+    for i, k in ipairs(Settings.mino_color_keys) do
+        local key = k
+        entries[#entries + 1] = {
+            type = "action",
+            text = to_block_symbol(key:gsub("4", "")),
+            jmp = "MENU_SETTINGS_COLOR_" .. key,
+            outline_color = function()
+                return get_block_color(key)
+            end
+        }
+        m["MENU_SETTINGS_COLOR_" .. key] = make_color_value_items(key)
+    end
+    m.MENU_SETTINGS_COLOR = entries
+    return m
 end
 
 local skin_names = skin.get_list()
@@ -117,6 +195,12 @@ Settings.menu = {
                 Settings.display.skin = skin_names[i]
                 skin.load(Settings.display.skin)
             end,
+        },
+        {
+            type = "action",
+            text_key = "BLOCK_COLOR",
+            desc_key = "BLOCK_COLOR_DESC",
+            jmp = "MENU_SETTINGS_COLOR",
         },
         {
             type = "toggle",
@@ -189,7 +273,7 @@ Settings.menu = {
             type = "action",
             text_key = "JMP_KEYS",
             desc_key = "JMP_KEYS_DESC",
-            jmp = "MENU_KEYS",
+            jmp = "MENU_SETTINGS_KEYS",
         },
         {
             type = "value",
@@ -226,7 +310,11 @@ Settings.menu = {
             set = function(v) Settings.input.preop = v end,
         },
     },
-    MENU_KEYS = make_keys_items(),
+    MENU_SETTINGS_KEYS = make_keys_items(),
 }
+
+for state, items in pairs(make_color_menu()) do
+    Settings.menu[state] = items
+end
 
 return Settings

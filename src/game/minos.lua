@@ -53,7 +53,9 @@ local minos     = {
             { 0, 0, 0, 0 },
             { 0, 0, 0, 0 }
         },
-        color = { 0.2, 0.8, 1.0, 1 },
+        color = function()
+            return Settings.display.block_color.I4
+        end,
         preview = {
             width = 4,
             offset = { 0, 0 }
@@ -84,7 +86,9 @@ local minos     = {
             { 0, 1, 1, 0 },
             { 0, 0, 0, 0 }
         },
-        color = { 1.0, 0.9, 0.4, 1 },
+        color = function()
+            return Settings.display.block_color.O4
+        end,
         preview = {
             width = 2,
             offset = { -1, 1 }
@@ -121,7 +125,9 @@ local minos     = {
             { 1, 1, 1 },
             { 0, 0, 0 }
         },
-        color = { 0.7, 0.4, 1.0, 1 },
+        color = function()
+            return Settings.display.block_color.T4
+        end,
         preview = {
             width = 3,
             offset = { 0, 0 }
@@ -148,7 +154,9 @@ local minos     = {
             { 1, 1, 0 },
             { 0, 0, 0 }
         },
-        color = { 0.2, 0.9, 0.5, 1 },
+        color = function()
+            return Settings.display.block_color.S4
+        end,
         preview = {
             width = 3,
             offset = { 0, 0 }
@@ -176,7 +184,9 @@ local minos     = {
             { 0, 1, 1 },
             { 0, 0, 0 }
         },
-        color = { 1.0, 0.4, 0.4, 1 },
+        color = function()
+            return Settings.display.block_color.Z4
+        end,
         preview = {
             width = 3,
             offset = { 0, 0 }
@@ -204,7 +214,9 @@ local minos     = {
             { 1, 1, 1 },
             { 0, 0, 0 }
         },
-        color = { 0.3, 0.5, 1.0, 1 },
+        color = function()
+            return Settings.display.block_color.J4
+        end,
         preview = {
             width = 3,
             offset = { 0, 0 }
@@ -237,7 +249,9 @@ local minos     = {
             { 1, 1, 1 },
             { 0, 0, 0 }
         },
-        color = { 1.0, 0.6, 0.3, 1 },
+        color = function()
+            return Settings.display.block_color.L4
+        end,
         preview = {
             width = 3,
             offset = { 0, 0 }

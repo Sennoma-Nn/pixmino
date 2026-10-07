@@ -99,6 +99,9 @@ function save.flush()
     for i, k in ipairs(key_bindings) do
         t["key_" .. k] = settings.input.keys[k]
     end
+    for i, k in ipairs(settings.mino_color_keys) do
+        t["block_color_" .. string.lower(k)] = table.concat(settings.display.block_color[k], ",")
+    end
     return love.filesystem.write(settings_file, encode_pairs(t))
 end
 
@@ -152,6 +155,19 @@ function save.load()
             if name == pairs.skin then
                 settings.display.skin = name
                 break
+            end
+        end
+
+        for i, k in ipairs(settings.mino_color_keys) do
+            local t = pairs["block_color_" .. string.lower(k)]
+            if t then
+                local vals = {}
+                for v in t:gmatch("[^,]+") do
+                    vals[#vals + 1] = tonumber(v)
+                end
+                if #vals == 3 and vals[1] and vals[2] and vals[3] then
+                    settings.display.block_color[k] = vals
+                end
             end
         end
 

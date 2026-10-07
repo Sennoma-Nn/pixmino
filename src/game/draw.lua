@@ -210,7 +210,7 @@ end
 local function draw_preview(shape, px, py, bs, transparent)
     local mino = game.shapes[shape]
     local m = mino.shapes
-    local color = game.bone and game.bone_color or mino.color
+    local color = game.bone and game.bone_color or utils.get_value_if_func_call(mino.color)
     local pv = mino.preview
     local ox = px + pv.offset[1] * bs
     local oy = py - pv.offset[2] * bs

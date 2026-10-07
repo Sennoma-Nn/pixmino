@@ -535,6 +535,19 @@ locale.t = {
         zh_tw = "選擇方塊皮膚｡",
     },
 
+    BLOCK_COLOR = {
+        en = "MINO COLOR",
+        ja = "ﾐﾉ ｲﾛ",
+        zh_cn = "形状颜色",
+        zh_tw = "形狀顏色",
+    },
+    BLOCK_COLOR_DESC = {
+        en = "Adjust each mino color.",
+        ja = "ｶｸ ﾐﾉﾉ ｲﾛｦ ﾁｮｳｾｲ｡",
+        zh_cn = "调整各形状的颜色｡",
+        zh_tw = "調整各形狀的顏色｡",
+    },
+
     CCW = {
         en = "CCW",
         ja = "ﾋﾀﾞﾘｶｲﾃﾝ",
@@ -632,8 +645,8 @@ locale.t = {
     MASTER_DESC = {
         en = "Clear 300 lines,\r\nMinos drop instantly,\r\nless time to act!",
         ja = "300 ﾗｲﾝｦ ｸﾘｱ､\r\nﾌﾞﾛｯｸｶﾞ ﾁｮｸｾﾂ ﾗｯｶ､\r\nｿｳｻ ｼﾞｶﾝｶﾞ ﾐｼﾞｶｸ ﾅﾙ!",
-        zh_cn = "清除300行,\r\n方块直接落地,\r\n操作时间越来越短!",
-        zh_tw = "消除300列,\r\n方塊直接落地,\r\n操作時間越來越短!",
+        zh_cn = "清除300行,\r\n形状直接落地,\r\n操作时间越来越短!",
+        zh_tw = "消除300列,\r\n形狀直接落地,\r\n操作時間越來越短!",
     },
 
     JMP_CTRL_DESC = {
@@ -682,8 +695,8 @@ locale.t = {
     HOLD_DESC = {
         en = "Hold current mino.",
         ja = "ﾐﾉｦ ﾎｰﾙﾄﾞ｡",
-        zh_cn = "当前方块暂存｡",
-        zh_tw = "目前方塊暫存｡",
+        zh_cn = "当前形状暂存｡",
+        zh_tw = "目前形狀暫存｡",
     },
     HARD_DROP_DESC = {
         en = "Drop instantly.",
@@ -700,14 +713,14 @@ locale.t = {
     LEFT_DESC = {
         en = "Move mino left.",
         ja = "ﾋﾀﾞﾘﾍ ﾑｰﾌﾞ｡",
-        zh_cn = "方块向左移动｡",
-        zh_tw = "方塊向左移動｡",
+        zh_cn = "形状向左移动｡",
+        zh_tw = "形狀向左移動｡",
     },
     RIGHT_DESC = {
         en = "Move mino right.",
         ja = "ﾐｷﾞﾍ ﾑｰﾌﾞ｡",
-        zh_cn = "方块向右移动｡",
-        zh_tw = "方塊向右移動｡",
+        zh_cn = "形状向右移动｡",
+        zh_tw = "形狀向右移動｡",
     },
 }
 

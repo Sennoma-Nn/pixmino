@@ -67,10 +67,8 @@ end
 local function item_display(it)
     if it.display == nil then
         return true
-    elseif type(it.display) == "function" then
-        return it.display()
     end
-    return it.display
+    return utils.get_value_if_func_call(it.display)
 end
 
 function menu.get_visible_items(state)
@@ -382,7 +380,9 @@ function menu.draw(gx, gy, pw, ph, bw)
     local desc_y = gy - 1
 
     for i, it in ipairs(data) do
-        local label = locale.get(it.text_key or "")
+        local label = it.text or locale.get(it.text_key or "")
+        local item_color = utils.get_value_if_func_call(it.text_color)
+        local item_outline = utils.get_value_if_func_call(it.outline_color) or Colors.out_line
 
         local item_y = start_y + (i - 1) * 10
         local item_x = gx + (pw - utils.utf8_len(label) * 8) / 2
@@ -391,10 +391,10 @@ function menu.draw(gx, gy, pw, ph, bw)
 
         if i == menu.selection then
             if disabled then
-                menu.print_with_dim(label, item_x, item_y, 1, Colors.light_yellow, Colors.out_line,
+                menu.print_with_dim(label, item_x, item_y, 1, Colors.light_yellow, item_outline,
                     menu.get_dim_config("light_yellow"))
             else
-                menu.print_with_dim(label, item_x, item_y, 1, Colors.yellow, Colors.out_line,
+                menu.print_with_dim(label, item_x, item_y, 1, Colors.yellow, item_outline,
                     menu.get_dim_config("yellow"))
             end
 
@@ -429,9 +429,10 @@ function menu.draw(gx, gy, pw, ph, bw)
             end
         else
             if disabled then
-                menu.print_with_dim(label, item_x, item_y, 1, Colors.gray, Colors.out_line, menu.get_dim_config("gray"))
+                menu.print_with_dim(label, item_x, item_y, 1, Colors.gray, item_outline, menu.get_dim_config("gray"))
             else
-                menu.print_with_dim(label, item_x, item_y, 1, Colors.white, Colors.out_line, menu.get_dim_config("white"))
+                menu.print_with_dim(label, item_x, item_y, 1, item_color or Colors.white, item_outline,
+                    menu.get_dim_config("white"))
             end
         end
     end
