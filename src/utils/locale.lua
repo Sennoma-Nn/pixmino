@@ -120,7 +120,7 @@ locale.t = {
     },
     SOURCE_DESC = {
         en = "Source Code:\r\n\nGitHub:\r\nSennoma-Nn/pixmino\r\n\nLicensed under GPLv3.\r\n🄯 2026 Sennoma-Nn",
-        ja = "ｿｰｽ ｺｰﾄﾞ:\r\n\nGitHub:\r\nSennoma-Nn/pixmino\r\n\nGPLv3 ﾗｲｾﾝｽﾃﾞ ｺｳｶｲ｡\r\n🄯 2026 Sennoma-Nn",
+        ja = "ｿｰｽ ｺｰﾄﾞ:\r\n\nGitHub:\r\nSennoma-Nn/pixmino\r\n\nGPLv3 ﾗｲｾﾝｽﾃﾞ ﾊｲﾌ｡\r\n🄯 2026 Sennoma-Nn",
         zh_cn = "源代码:\r\n\nGitHub:\r\nSennoma-Nn/pixmino\r\n\n以 GPLv3 许可发布｡\r\n🄯 2026 Sennoma-Nn",
         zh_tw = "原始碼:\r\n\nGitHub:\r\nSennoma-Nn/pixmino\r\n\n以 GPLv3 授權釋出｡\r\n🄯 2026 Sennoma-Nn",
     },
@@ -261,7 +261,7 @@ locale.t = {
     },
     SETTINGS_DESC = {
         en = "Adjust game settings.\r\n\n🠸 X 🠺 ←/→ to change option\r\n- X - ↩ to toggle\r\n[ X ] ↩ then press a key",
-        ja = "ｹﾞｰﾑ ｾｯﾃｲｦ ﾁｮｳｾｲ｡\r\n\n🠸 X 🠺 ←/→ ﾃﾞ ｺｳﾓｸｦ ﾍﾝｺｳ\r\n- X - ↩ ﾃﾞ ｷﾘｶｴ\r\n[ X ] ↩ ﾉｱﾄ ｷｰｦ ﾆｭｳﾘｮｸ",
+        ja = "ｹﾞｰﾑ ｾｯﾃｲｦ ﾁｮｳｾｲ｡\r\n\n🠸 X 🠺 ←/→ ﾃﾞ ｺｳﾓｸｦ ﾍﾝｺｳ\r\n- X - ↩ ﾃﾞ ｷﾘｶｴ\r\n[ X ] ↩ ﾉ ｱﾄ ｷｰｦ ﾆｭｳﾘｮｸ",
         zh_cn = "调整游戏设置｡\r\n\n🠸 X 🠺 按下 ←/→ 键改变\r\n- X - 按下 ↩ 键切换\r\n[ X ] 按下 ↩ 键后输入一个按键",
         zh_tw = "調整遊戲設定｡\r\n\n🠸 X 🠺 按下 ←/→ 鍵改變\r\n- X - 按下 ↩ 鍵切換\r\n[ X ] 按下 ↩ 鍵後輸入一個按鍵",
     },
@@ -625,13 +625,13 @@ locale.t = {
     },
     NO_MOVE = {
         en = "NO MOVE!?",
-        ja = "ｲﾄﾞｳﾌｶﾉ!?",
+        ja = "ｲﾄﾞｳﾌﾉｳ!?",
         zh_cn = "禁止移动!?",
         zh_tw = "禁止移動!?",
     },
     MASTER_DESC = {
         en = "Clear 300 lines,\r\nMinos drop instantly,\r\nless time to act!",
-        ja = "300 ﾗｲﾝｦ ｸﾘｱ､\r\nﾌﾞﾛｯｸ ﾁｮｸｾﾂ ﾗｯｶ､\r\nｿｳｻ ｼﾞｶﾝ ﾐｼﾞｶｸ ﾅﾙ!",
+        ja = "300 ﾗｲﾝｦ ｸﾘｱ､\r\nﾌﾞﾛｯｸ ﾁｮｸｾﾂ ﾗｯｶ､\r\nｿｳｻ ｼﾞｶﾝｶﾞ ﾐｼﾞｶｸ ﾅﾙ!",
         zh_cn = "清除300行,\r\n方块直接落地,\r\n操作时间越来越短!",
         zh_tw = "消除300列,\r\n方塊直接落地,\r\n操作時間越來越短!",
     },
