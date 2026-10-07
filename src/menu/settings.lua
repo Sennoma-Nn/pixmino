@@ -32,7 +32,7 @@ Settings = {
     display = {
         fullscreen = false,
         locale = "en",
-        read_assist = true,
+        ez_read = true,
         skin = "block",
         spawn_indicator = true,
         key_info = true,
@@ -136,8 +136,8 @@ Settings.menu = {
             type = "toggle",
             text_key = "EZ_READ",
             desc_key = "EZ_READ_DESC",
-            get = function() return Settings.display.read_assist end,
-            set = function(v) Settings.display.read_assist = v end,
+            get = function() return Settings.display.ez_read end,
+            set = function(v) Settings.display.ez_read = v end,
         },
         {
             type = "list",

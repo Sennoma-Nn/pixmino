@@ -350,7 +350,7 @@ end
 
 function menu.print_with_dim(text, x, y, scale, base_color, outline_color, punc_color, dakuten_color, icon_color)
     fontprint.print_outlined(Fonts.ui_fonts, text, x, y, scale, base_color, outline_color)
-    if Settings.display.read_assist then
+    if Settings.display.ez_read then
         fontprint.print(Fonts.ui_fonts, menu.get_sp_punctuation(text), x, y, scale, punc_color)
         fontprint.print(Fonts.ui_fonts, menu.get_sp_dakuten(text), x, y, scale, dakuten_color)
         fontprint.print(Fonts.ui_fonts, menu.get_sp_key_icon(text), x, y, scale, icon_color)
