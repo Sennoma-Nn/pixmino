@@ -126,4 +126,18 @@ function utils.wrap_index(i, n)
     return ((i - 1) % n) + 1
 end
 
+function utils.to_block_symbol(ab)
+    local t = {
+        ["I"] = "𝗜",
+        ["J"] = "𝗝",
+        ["L"] = "𝗟",
+        ["T"] = "𝗧",
+        ["Z"] = "𝗭",
+        ["S"] = "𝗦",
+        ["O"] = "𝗢"
+    }
+
+    return t[ab]
+end
+
 return utils

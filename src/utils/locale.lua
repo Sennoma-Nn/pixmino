@@ -536,7 +536,7 @@ locale.t = {
     },
 
     MINO_COLOR = {
-        en = "MINO COLOR",
+        en = "COLOR",
         ja = "ﾐﾉ ｲﾛ",
         zh_cn = "形状颜色",
         zh_tw = "形狀顏色",
@@ -549,10 +549,49 @@ locale.t = {
     },
 
     MINO_COLOR_SETTING_DESC = {
-        en = "Adjust %s mino color.",
+        en = "Adjust the red color of\r\nthe %s mino.",
         ja = "%s ﾐﾉﾉ ｲﾛｦ ﾁｮｳｾｲ｡",
-        zh_cn = "调整各 %s 的颜色｡",
-        zh_tw = "調整各 %s 的顏色｡",
+        zh_cn = "调整形状 %s 的颜色｡",
+        zh_tw = "調整形狀 %s 的顏色｡",
+    },
+
+    COLOR_R = {
+        en = "RED",
+        ja = "ｱｶ",
+        zh_cn = "红",
+        zh_tw = "紅"
+    },
+    COLOR_R_DESC = {
+        en = "Adjust the amount of red\r\nin the %s mino.",
+        ja = "%s ﾐﾉﾉ ｱｶﾉ ﾘｮｳｦ ﾁｮｳｾｲ｡",
+        zh_cn = "整形状 %s 的红色量｡",
+        zh_tw = "調整形狀 %s 的紅色量｡"
+    },
+
+    COLOR_G = {
+        en = "GREEN",
+        ja = "ﾐﾄﾞﾘ",
+        zh_cn = "绿",
+        zh_tw = "綠"
+    },
+    COLOR_G_DESC = {
+        en = "Adjust the amount of green\r\nin the %s mino.",
+        ja = "%s ﾐﾉﾉ ﾐﾄﾞﾘﾉ ﾘｮｳｦ ﾁｮｳｾｲ｡",
+        zh_cn = "整形状 %s 的绿色量｡",
+        zh_tw = "調整形狀 %s 的綠色量｡"
+    },
+
+    COLOR_B = {
+        en = "BLUE",
+        ja = "ｱｵ",
+        zh_cn = "蓝",
+        zh_tw = "藍"
+    },
+    COLOR_B_DESC = {
+        en = "Adjust the amount of blue\r\nin the %s mino.",
+        ja = "%s ﾐﾉﾉ ｱｵﾉ ﾘｮｳｦ ﾁｮｳｾｲ｡",
+        zh_cn = "整形状 %s 的蓝色量｡",
+        zh_tw = "調整形狀 %s 的藍色量｡"
     },
 
     CCW = {

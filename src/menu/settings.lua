@@ -5,6 +5,7 @@ local locale = require("src.utils.locale")
 local push = require("lib.push")
 local sfx = require("src.utils.sfx")
 local skin = require("src.game.skin")
+local utils = require("src.utils.utils")
 
 Settings = {
     sound = {
@@ -84,7 +85,11 @@ local function make_color_value_items(mino_key)
         local ii = j.index
         items[#items + 1] = {
             type = "value",
-            text = j.key,
+            text_key = "COLOR_" .. j.key,
+            desc_key = "COLOR_" .. j.key .. "_DESC",
+            desc_format = function(desc)
+                return string.format(desc, utils.to_block_symbol(mino_key:gsub("4", "")))
+            end,
             min = 0,
             max = 1,
             step = 0.1,
@@ -108,20 +113,6 @@ local function make_color_value_items(mino_key)
     return items
 end
 
-local function to_block_symbol(ab)
-    local t = {
-        ["I"] = "𝗜",
-        ["J"] = "𝗝",
-        ["L"] = "𝗟",
-        ["T"] = "𝗧",
-        ["Z"] = "𝗭",
-        ["S"] = "𝗦",
-        ["O"] = "𝗢"
-    }
-
-    return t[ab]
-end
-
 local function make_color_menu()
     local m = {}
     local entries = {}
@@ -129,8 +120,13 @@ local function make_color_menu()
         local key = k
         entries[#entries + 1] = {
             type = "action",
-            text = to_block_symbol(key:gsub("4", "")),
+            text = function()
+                return utils.to_block_symbol(key:gsub("4", ""))
+            end,
             desc_key = "MINO_COLOR_SETTING_DESC",
+            desc_format = function(desc)
+                return string.format(desc, utils.to_block_symbol(key:gsub("4", "")))
+            end,
             jmp = "MENU_SETTINGS_COLOR_" .. key,
             text_color = function()
                 return get_block_color(key)
