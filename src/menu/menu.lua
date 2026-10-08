@@ -87,26 +87,28 @@ function menu.get_visible_items(state)
     return its
 end
 
+local lang_menu_desc = "SELECT LANGUAGE\r\nｹﾞﾝｺﾞ ｾﾝﾀｸ\r\n选择语言\r\n選擇語言"
+
 menu.data = {
     MENU_LANG = {
         {
-            text_key = "LANG_EN",
-            desc_key = "LANG_TITLE",
+            text = "ENGLISH",
+            desc = lang_menu_desc,
             action = function() menu.set_language("en") end
         },
         {
-            text_key = "LANG_JA",
-            desc_key = "LANG_TITLE",
+            text = "ﾆﾎﾝｺﾞ",
+            desc = lang_menu_desc,
             action = function() menu.set_language("ja") end
         },
         {
-            text_key = "LANG_ZH_CN",
-            desc_key = "LANG_TITLE",
+            text = "简体中文",
+            desc = lang_menu_desc,
             action = function() menu.set_language("zh_cn") end
         },
         {
-            text_key = "LANG_ZH_TW",
-            desc_key = "LANG_TITLE",
+            text = "繁體中文",
+            desc = lang_menu_desc,
             action = function() menu.set_language("zh_tw") end
         },
     },
@@ -410,7 +412,7 @@ function menu.draw(gx, gy, pw, ph, bw)
                 menu.print_with_dim(tip, desc_x, desc_y, 1, Colors.yellow, Colors.out_line, menu.get_dim_config("yellow"))
             else
                 local current = control_desc(it)
-                local desc = it.desc_key and locale.get(it.desc_key)
+                local desc = utils.get_value_if_func_call(it.desc) or (it.desc_key and locale.get(it.desc_key))
                 local desc_valid = desc and desc ~= it.desc_key
                 local record_txt = it.mode and mode_record_text(it)
                 local y = desc_y
