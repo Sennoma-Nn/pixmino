@@ -36,7 +36,7 @@ end
 
 local function draw_block(px, py, bs, color, transparent, link)
     local c = color
-    if transparent then c = utils.color_blend(c, { 0, 0, 0, 0 }, 0.5) end
+    if transparent then c = utils.color_blend(utils.strip_a(color), { 0, 0, 0, 0 }, 0.5) end
     skin.base(px, py, bs, link or empty_link, c)
 end
 

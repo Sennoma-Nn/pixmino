@@ -15,12 +15,13 @@ end
 
 function utils.color_blend(c1, c2, ratio)
     ratio = math.max(0, math.min(ratio or 0, 1))
-    c1[4] = c1[4] or 1; c2[4] = c2[4] or 1
+    local a1 = c1[4] or 1
+    local a2 = c2[4] or 1
     return {
         c1[1] * (1 - ratio) + c2[1] * ratio,
         c1[2] * (1 - ratio) + c2[2] * ratio,
         c1[3] * (1 - ratio) + c2[3] * ratio,
-        c1[4] * (1 - ratio) + c2[4] * ratio,
+        a1 * (1 - ratio) + a2 * ratio,
     }
 end
 
