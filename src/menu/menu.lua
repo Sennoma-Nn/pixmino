@@ -380,22 +380,22 @@ function menu.draw(gx, gy, pw, ph, bw)
     local desc_y = gy - 1
 
     for i, it in ipairs(data) do
+        local disabled = (it.action == false)
+
         local label = it.text or locale.get(it.text_key or "")
         local item_color = utils.get_value_if_func_call(it.text_color)
         local item_outline = utils.get_value_if_func_call(it.outline_color) or Colors.out_line
+        local item_selection_color = utils.get_value_if_func_call(it.selection_color) or (disabled and Colors.light_yellow or Colors.yellow)
+        local item_selection_outline = utils.get_value_if_func_call(it.selection_outline_color) or Colors.out_line
 
         local item_y = start_y + (i - 1) * 10
         local item_x = gx + (pw - utils.utf8_len(label) * 8) / 2
 
-        local disabled = (it.action == false)
-
         if i == menu.selection then
             if disabled then
-                menu.print_with_dim(label, item_x, item_y, 1, Colors.light_yellow, item_outline,
-                    menu.get_dim_config("light_yellow"))
+                menu.print_with_dim(label, item_x, item_y, 1, item_selection_color, item_selection_outline, menu.get_dim_config("light_yellow"))
             else
-                menu.print_with_dim(label, item_x, item_y, 1, Colors.yellow, item_outline,
-                    menu.get_dim_config("yellow"))
+                menu.print_with_dim(label, item_x, item_y, 1, item_selection_color, item_selection_outline, menu.get_dim_config("yellow"))
             end
 
             if it.type == "keys" and menu.waiting_key == it.key_name then

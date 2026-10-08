@@ -535,17 +535,24 @@ locale.t = {
         zh_tw = "選擇方塊皮膚｡",
     },
 
-    BLOCK_COLOR = {
+    MINO_COLOR = {
         en = "MINO COLOR",
         ja = "ﾐﾉ ｲﾛ",
         zh_cn = "形状颜色",
         zh_tw = "形狀顏色",
     },
-    BLOCK_COLOR_DESC = {
+    MINO_COLOR_DESC = {
         en = "Adjust each mino color.",
         ja = "ｶｸ ﾐﾉﾉ ｲﾛｦ ﾁｮｳｾｲ｡",
         zh_cn = "调整各形状的颜色｡",
         zh_tw = "調整各形狀的顏色｡",
+    },
+
+    MINO_COLOR_SETTING_DESC = {
+        en = "Adjust %s mino color.",
+        ja = "%s ﾐﾉﾉ ｲﾛｦ ﾁｮｳｾｲ｡",
+        zh_cn = "调整各 %s 的颜色｡",
+        zh_tw = "調整各 %s 的顏色｡",
     },
 
     CCW = {

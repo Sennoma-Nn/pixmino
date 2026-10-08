@@ -88,7 +88,13 @@ local function make_color_value_items(mino_key)
             min = 0,
             max = 1,
             step = 0.1,
-            outline_color = function()
+            text_color = function()
+                return get_block_color(mino_key)
+            end,
+            selection_color = function()
+                return Colors.out_line
+            end,
+            selection_outline_color = function()
                 return get_block_color(mino_key)
             end,
             get = function()
@@ -124,8 +130,15 @@ local function make_color_menu()
         entries[#entries + 1] = {
             type = "action",
             text = to_block_symbol(key:gsub("4", "")),
+            desc_key = "MINO_COLOR_SETTING_DESC",
             jmp = "MENU_SETTINGS_COLOR_" .. key,
-            outline_color = function()
+            text_color = function()
+                return get_block_color(key)
+            end,
+            selection_color = function()
+                return Colors.out_line
+            end,
+            selection_outline_color = function()
                 return get_block_color(key)
             end
         }
@@ -198,8 +211,8 @@ Settings.menu = {
         },
         {
             type = "action",
-            text_key = "BLOCK_COLOR",
-            desc_key = "BLOCK_COLOR_DESC",
+            text_key = "MINO_COLOR",
+            desc_key = "MINO_COLOR_DESC",
             jmp = "MENU_SETTINGS_COLOR",
         },
         {
