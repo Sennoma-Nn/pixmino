@@ -1,11 +1,13 @@
-<div>
-    <span>
-        <img src="assets/icon/icon.svg" height="48" style="vertical-align: middle;">
-    </span>
-    <span>
-        <img src="assets/doc/title.svg" height="32" style="vertical-align: middle;">
-    </span>
-</div>
+<table>
+    <tr>
+        <td valign="middle">
+        <img src="assets/icon/icon.svg" height="48">
+        </td>
+        <td valign="middle">
+        <img src="assets/doc/title.svg" height="32">
+        </td>
+    </tr>
+</table>
 
 ---
 
