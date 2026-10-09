@@ -1,4 +1,4 @@
-<table border="0" cellspacing="0" cellpadding="0">
+<table>
     <tr>
         <td valign="middle">
             <img src="assets/icon/icon.svg" height="48">
