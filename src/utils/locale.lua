@@ -530,7 +530,7 @@ locale.t = {
     },
 
     MINO_COLOR_SETTING_DESC = {
-        en = "Adjust the red color of\r\nthe %s mino.",
+        en = "Adjust the color of\r\nthe %s mino.",
         ja = "%s ﾐﾉﾉ ｲﾛｦ ﾁｮｳｾｲ｡",
         zh_cn = "调整形状 %s 的颜色｡",
         zh_tw = "調整形狀 %s 的顏色｡",
