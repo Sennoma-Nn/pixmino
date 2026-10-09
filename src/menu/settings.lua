@@ -33,6 +33,7 @@ Settings = {
     display = {
         fullscreen = false,
         skin = "block",
+        split_minos = true,
         spawn_indicator = true,
         key_info = true,
         locale = "en",
@@ -210,6 +211,13 @@ Settings.menu = {
             text_key = "MINO_COLOR",
             desc_key = "MINO_COLOR_DESC",
             jmp = "MENU_SETTINGS_COLOR",
+        },
+        {
+            type = "toggle",
+            text_key = "SPLIT_MINOS",
+            desc_key = "SPLIT_MINOS_DESC",
+            get = function() return Settings.display.split_minos end,
+            set = function(v) Settings.display.split_minos = v end,
         },
         {
             type = "toggle",

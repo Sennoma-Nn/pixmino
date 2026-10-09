@@ -503,6 +503,19 @@ locale.t = {
         zh_tw = "選擇方塊皮膚｡",
     },
 
+    SPLIT_MINOS = {
+        en = "SPL. MINO",
+        ja = "ｶﾀﾁ ｾﾂﾀﾞﾝ",
+        zh_cn = "切断形状",
+        zh_tw = "切斷形狀",
+    },
+    SPLIT_MINOS_DESC = {
+        en = "If the middle of a mino\r\nis cleared, the top and\r\nbottom halves will not\r\nconnect together.",
+        ja = "ｶﾀﾁﾉ ﾏﾝﾅｶｶﾞ ｹｻﾚﾀﾗ､\r\nｳｴﾄ ｼﾀﾊ ﾂﾅｶﾞﾘﾏｾﾝ｡",
+        zh_cn = "如果把一个形状的中间部分消除,\r\n那么形状的上下两端将不会连接在一起｡",
+        zh_tw = "如果把一個形狀的中間部分消除,\r\n那麼形狀的上下兩端將不會連接在一起｡",
+    },
+
     MINO_COLOR = {
         en = "COLOR",
         ja = "ﾐﾉ ｲﾛ",

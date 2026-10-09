@@ -91,6 +91,7 @@ function save.flush()
         ez_read = tostring(settings.display.ez_read),
         locale = settings.display.locale,
         skin = settings.display.skin,
+        split_minos = settings.display.split_minos,
         fullscreen = tostring(settings.display.fullscreen),
         bgm_volume = settings.sound.volume.bgm,
         sfx_volume = settings.sound.volume.sfx,
@@ -125,6 +126,9 @@ function save.load()
 
         if pairs.preop ~= nil then
             settings.input.preop = (pairs.preop == "true")
+        end
+        if pairs.split_minos ~= nil then
+            settings.display.split_minos = (pairs.split_minos == "true")
         end
         if pairs.spawn_indicator ~= nil then
             settings.display.spawn_indicator = (pairs.spawn_indicator == "true")

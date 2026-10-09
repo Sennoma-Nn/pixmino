@@ -49,12 +49,17 @@ local function has_same_block(x, y, id, drop_count)
     local r = true
     r = r and row and row[x]
     r = r and row[x].id == id
-    -- r = r and row[x].drop_count == drop_count -- 本來想做成一個米諾中間被切斷後不會連接在一起，但是效果不好，所以算了（）
+
+    if id > 0 and game.active_settings.display.split_minos then
+        r = r and row[x].drop_count == drop_count
+    end
+
     return not not r
 end
 
 local function pf_cell_link(x, y, id)
-    local func = function(dx, dy) return has_same_block(x + dx, y + dy, id) end
+    local drop_count = game.pf_data[y][x].drop_count
+    local func = function(dx, dy) return has_same_block(x + dx, y + dy, id, drop_count) end
     return get_link_ls(func)
 end
 
