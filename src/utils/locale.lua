@@ -478,7 +478,7 @@ locale.t = {
     },
 
     EZ_READ = {
-        en = "EZ READ",
+        en = "EZ.READ",
         ja = "ﾖﾐﾔｽｸ",
         zh_cn = "阅读辅助",
         zh_tw = "閱讀輔助",
@@ -504,7 +504,7 @@ locale.t = {
     },
 
     SPLIT_MINOS = {
-        en = "SPL. MINO",
+        en = "SPL.MINO",
         ja = "ｶﾀﾁ ｾﾂﾀﾞﾝ",
         zh_cn = "切断形状",
         zh_tw = "切斷形狀",
@@ -545,7 +545,7 @@ locale.t = {
     COLOR_R_DESC = {
         en = "Adjust the amount of red\r\nin the %s mino.",
         ja = "%s ﾐﾉﾉ ｱｶﾉ ﾘｮｳｦ ﾁｮｳｾｲ｡",
-        zh_cn = "整形状 %s 的红色量｡",
+        zh_cn = "调整形状 %s 的红色量｡",
         zh_tw = "調整形狀 %s 的紅色量｡"
     },
 
