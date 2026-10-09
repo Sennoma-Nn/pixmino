@@ -446,7 +446,7 @@ locale.t = {
     PREOP_DESC = {
         en =
         "~~ Initial ** System ~~\r\n\nHold rotate, move,\r\nor hold keys and\r\nthe action triggers\r\nwhen a new mino spawns.",
-        ja = "‾‾ ｾﾝｺｳﾆｭｳﾘｮｸ ‾‾\r\n\nｱﾀﾗｼｲﾐﾉ ｽﾎﾟｰﾝｼﾞﾆ\r\nｷｰｦ ｵｻｴﾃ ｲﾙﾄ\r\nｶｲﾃﾝ･ｲﾄﾞｳ･ﾎｰﾙﾄﾞｶﾞ\r\nﾊﾂﾄﾞｳ｡",
+        ja = "‾‾ ｾﾝｺｳﾆｭｳﾘｮｸ ‾‾\r\n\nｱﾀﾗｼｲﾐﾉ ｽﾎﾟｰﾝｼﾞﾆ ｷｰｦ\r\nｵｻｴﾃ ｲﾙﾄ ｶｲﾃﾝ･ｲﾄﾞｳ･ﾎｰﾙﾄﾞｶﾞ\r\nﾊﾂﾄﾞｳ｡",
         zh_cn = "~~ 预输入 ~~\r\n\n新的形状入场时\r\n提前按住按键立即触发\r\n旋转､移动或暂存｡",
         zh_tw = "~~ 預輸入 ~~\r\n\n新的形狀入場時\r\n提前按住按鍵立即觸發\r\n旋轉､移動或暫存｡",
     },

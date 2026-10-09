@@ -290,8 +290,8 @@ local function draw_game_info(font, gx, gy, pw, ph, bw)
     local sign = game.time < 0 and "-" or " "
 
     local info = {
-        scores = string.format("SCORES %d", game.scores),
-        clears = string.format("CLEARS %d", game.clears),
+        scores = string.format("SCORE  %d", game.scores),
+        clears = string.format("CLEAR  %d", game.clears),
         level  = string.format("LEVEL  %s", game.level),
         ren    = (game.ren >= 0) and string.format("REN    %d", game.ren) or string.format("REN   %d", game.ren),
         b2b    = string.format("B2B    %d", game.b2b),
