@@ -558,7 +558,7 @@ locale.t = {
     COLOR_G_DESC = {
         en = "Adjust the amount of green\r\nin the %s mino.",
         ja = "%s ﾐﾉﾉ ﾐﾄﾞﾘﾉ ﾘｮｳｦ ﾁｮｳｾｲ｡",
-        zh_cn = "整形状 %s 的绿色量｡",
+        zh_cn = "调整形状 %s 的绿色量｡",
         zh_tw = "調整形狀 %s 的綠色量｡"
     },
 
@@ -571,7 +571,7 @@ locale.t = {
     COLOR_B_DESC = {
         en = "Adjust the amount of blue\r\nin the %s mino.",
         ja = "%s ﾐﾉﾉ ｱｵﾉ ﾘｮｳｦ ﾁｮｳｾｲ｡",
-        zh_cn = "整形状 %s 的蓝色量｡",
+        zh_cn = "调整形状 %s 的蓝色量｡",
         zh_tw = "調整形狀 %s 的藍色量｡"
     },
 
