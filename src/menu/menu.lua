@@ -96,31 +96,26 @@ function menu.get_visible_items(state)
     return its
 end
 
-local lang_menu_desc = "SELECT LANGUAGE\r\nｹﾞﾝｺﾞ ｾﾝﾀｸ\r\n选择语言\r\n選擇語言"
+local function build_lang_menu()
+    local items = {}
+    local desc_parts = {}
+    for i, id in ipairs(locale.langs) do
+        local lang = id
+        desc_parts[#desc_parts + 1] = locale.get("SELECT_LANGUAGE", lang)
+        items[#items + 1] = {
+            text = locale.names[lang],
+            action = function() menu.set_language(lang) end
+        }
+    end
+    local lang_menu_desc = table.concat(desc_parts, "\r\n")
+    for i = 1, #items do
+        items[i].desc = lang_menu_desc
+    end
+    return items
+end
 
 menu.data = {
-    MENU_LANG = {
-        {
-            text = "ENGLISH",
-            desc = lang_menu_desc,
-            action = function() menu.set_language("en") end
-        },
-        {
-            text = "ﾆﾎﾝｺﾞ",
-            desc = lang_menu_desc,
-            action = function() menu.set_language("ja") end
-        },
-        {
-            text = "简体中文",
-            desc = lang_menu_desc,
-            action = function() menu.set_language("zh_cn") end
-        },
-        {
-            text = "繁體中文",
-            desc = lang_menu_desc,
-            action = function() menu.set_language("zh_tw") end
-        },
-    },
+    MENU_LANG = build_lang_menu(),
     MENU_MAIN = {
         {
             text_key = "START",
