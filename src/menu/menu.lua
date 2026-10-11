@@ -7,6 +7,7 @@ local utils = require("src.utils.utils")
 local push = require("lib.push")
 local settings = require("src.menu.settings")
 local save = require("src.utils.save")
+local dbg = require("src.game.debug")
 
 local menu = {}
 
@@ -16,6 +17,14 @@ menu.selections = {}
 menu.history = {}
 menu.selected_mode = ""
 menu.waiting_key = nil
+
+local features = dbg.detect_features()
+local env_table = {
+    love = love._version,
+    lua = string.gsub(_VERSION:upper(), " ", "    "),
+    jit = jit.version:upper(),
+    os = love._os:upper(),
+}
 
 local function switch_to(new_state)
     menu.state = new_state
@@ -169,12 +178,23 @@ menu.data = {
         {
             text_key = "ABOUT_GAME",
             desc_key = "ABOUT_GAME_DESC",
-            action = false
+            action = false,
+            desc_format = function(desc_str)
+                return string.format(desc_str, GAMEVER)
+            end
         },
         {
             text_key = "ENVIRONMENT",
             desc_key = "ENVIRONMENT_DESC",
-            action = false
+            action = false,
+            desc_format = function(desc_str)
+                local get_ava_str = function(b)
+                    return b and locale.get("YES_SYMBOL") or locale.get("YES_SYMBOL")
+                end
+                return string.format(desc_str, env_table.love, env_table.lua, env_table.jit,
+                    env_table.os, get_ava_str(features.goto_forward), get_ava_str(features.goto_backward),
+                    get_ava_str(features.bit_operator), get_ava_str(features.idiv_operator))
+            end
         },
         {
             text_key = "SOURCE",

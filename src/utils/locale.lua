@@ -2,34 +2,9 @@
 -- SPDX-License-Identifier: GPL-3.0-or-later
 
 local locale = {}
-local dbg = require("src.game.debug")
 
 locale.langs = { "en", "ja", "zh_cn", "zh_tw" }
 locale.current = "en"
-
-local features = dbg.detect_features()
-
-local env_info_template =
-"%s\r\n\n%s%s\r\n%s\r\n%s\r\nOS     %s\r\n\nGOTO FORWARD   %s\r\nGOTO BACKWARD  %s\r\nBIT OPERATOR   %s\r\nIDIV OPERATOR  %s"
-
-local function get_ava_str(b, maru)
-    if b then
-        if maru then
-            return "◯"
-        else
-            return "✓"
-        end
-    else
-        return "✕"
-    end
-end
-
-local env_table = {
-    love = love._version,
-    lua = string.gsub(_VERSION:upper(), " ", "    "),
-    jit = jit.version:upper(),
-    os = love._os:upper(),
-}
 
 locale.t = {
     BACK_TIP = {
@@ -37,6 +12,19 @@ locale.t = {
         ja = "⎋ ﾓﾄﾞﾙ",
         zh_cn = "⎋ 返回",
         zh_tw = "⎋ 返回",
+    },
+
+    YES_SYMBOL = {
+        en = "✓",
+        ja = "◯",
+        zh_cn = "✓",
+        zh_tw = "✓",
+    },
+    NO_SYMBOL = {
+        en = "✕",
+        ja = "✕",
+        zh_cn = "✕",
+        zh_tw = "✕",
     },
 
     READY = {
@@ -85,10 +73,10 @@ locale.t = {
         zh_tw = "遊戲",
     },
     ABOUT_GAME_DESC = {
-        en = "PIXMINO " .. GAMEVER .. "\r\n\nMade with LÖVE.",
-        ja = "ﾋﾟｸｾﾐﾉ " .. GAMEVER .. "\r\n\nLOVEﾃﾞ ｻｸｾｲ｡",
-        zh_cn = "像素立方 " .. GAMEVER .. "\r\n\n使用 LÖVE 开发｡",
-        zh_tw = "像素立方 " .. GAMEVER .. "\r\n\n使用 LÖVE 開發｡",
+        en = "PIXMINO %s\r\n\nMade with LÖVE.",
+        ja = "ﾋﾟｸｾﾐﾉ %s\r\n\nLOVEﾃﾞ ｻｸｾｲ｡",
+        zh_cn = "像素立方 %s\r\n\n使用 LÖVE 开发｡",
+        zh_tw = "像素立方 %s\r\n\n使用 LÖVE 開發｡",
     },
 
     ENVIRONMENT = {
@@ -98,18 +86,10 @@ locale.t = {
         zh_tw = "執行環境",
     },
     ENVIRONMENT_DESC = {
-        en = string.format(env_info_template, "Runtime environment:", "LÖVE   ", env_table.love, env_table.lua,
-            env_table.jit, env_table.os, get_ava_str(features.goto_forward), get_ava_str(features.goto_backward),
-            get_ava_str(features.bit_operator), get_ava_str(features.idiv_operator)),
-        ja = string.format(env_info_template, "ｶﾝｷｮｳ:", "LOVE   ", env_table.love, env_table.lua, env_table.jit,
-            env_table.os, get_ava_str(features.goto_forward, true), get_ava_str(features.goto_backward, true),
-            get_ava_str(features.bit_operator, true), get_ava_str(features.idiv_operator, true)),
-        zh_cn = string.format(env_info_template, "运行环境:", "LÖVE   ", env_table.love, env_table.lua, env_table.jit,
-            env_table.os, get_ava_str(features.goto_forward), get_ava_str(features.goto_backward),
-            get_ava_str(features.bit_operator), get_ava_str(features.idiv_operator)),
-        zh_tw = string.format(env_info_template, "執行環境:", "LÖVE   ", env_table.love, env_table.lua, env_table.jit,
-            env_table.os, get_ava_str(features.goto_forward), get_ava_str(features.goto_backward),
-            get_ava_str(features.bit_operator), get_ava_str(features.idiv_operator)),
+        en = "Runtime environment:\r\n\nLÖVE   %s\r\n%s\r\n%s\r\nOS     %s\r\n\nGOTO FORWARD   %s\r\nGOTO BACKWARD  %s\r\nBIT OPERATOR   %s\r\nIDIV OPERATOR  %s",
+        ja = "ｶﾝｷｮｳ:\r\n\nLOVE   %s\r\n%s\r\n%s\r\nOS     %s\r\n\nGOTO FORWARD   %s\r\nGOTO BACKWARD  %s\r\nBIT OPERATOR   %s\r\nIDIV OPERATOR  %s",
+        zh_cn = "运行环境:\r\n\nLÖVE   %s\r\n%s\r\n%s\r\nOS     %s\r\n\nGOTO FORWARD   %s\r\nGOTO BACKWARD  %s\r\nBIT OPERATOR   %s\r\nIDIV OPERATOR  %s",
+        zh_tw = "執行環境:\r\n\nLÖVE   %s\r\n%s\r\n%s\r\nOS     %s\r\n\nGOTO FORWARD   %s\r\nGOTO BACKWARD  %s\r\nBIT OPERATOR   %s\r\nIDIV OPERATOR  %s",
     },
 
     SOURCE = {
@@ -370,33 +350,6 @@ locale.t = {
         zh_tw = "設定音效音量｡",
     },
 
-    -- 來自俄羅斯方塊中文維基的建議
-    -- http://tetriswiki.cn/p/延迟自动移动
-
-    -- 目前，这三个概念通用的中英文命名是：
-    -- {| class="wikitable"
-    -- ! 概念 !! 缩写 !! 英文 !! 中文 !! 问题
-    -- |-
-    -- | 游戏机制 || '''DAS''' || Delayed Auto Shift || '''自动移动延迟''' || 中文习惯译名改变了语序
-    -- |-
-    -- | 延迟时间 || '''DAS''' || Delayed Auto Shift || '''自动移动延迟''' || 短语主体是「Shift」而非「Delay」<br>而且与机制命名相同容易混淆
-    -- |-
-    -- | 移动间隔 || '''ARR''' || Auto Repeat Rate || '''自动重复速率''' || 「速率」的量纲应为时间的倒数<br>但现在多习惯使用时间作为单位
-    -- |}
-    -- 有批评观点认为，这套命名方式存在诸多问题：不仅混淆了机制与参数的名字，而且参数名字的主体、量纲都存在问题，并且两个参数的命名方式完全不对称。
-
-    -- 对此，以 MrZ 为首的中文开发者提出了新的一套中英文命名方式：
-    -- {| class="wikitable"
-    -- ! 概念 !! 缩写 !! 英文 !! 中文 !! 备注
-    -- |-
-    -- | 游戏机制 || '''DAS''' || Delayed Auto Shift || '''延迟自动移动''' || 中文名恢复原本语序
-    -- |-
-    -- | 延迟时间 || '''ASD''' || Auto Shift Delay || '''自动移动延迟''' || 解决主体问题<br>并与其他延迟的命名保持一致
-    -- |-
-    -- | 移动间隔 || '''ASP''' || Auto Shift Period || '''自动移动周期''' || 解决量纲问题<br>并使两个参数的命名保持对称
-    -- |}
-    -- 不过，这套新的命名暂时还没有得到广泛使用。在本条目中，{{SITENAME}}将试用「相对更正确」的新命名。
-
     DAS = {
         en = "ASD",
         ja = "ASD",
@@ -404,8 +357,7 @@ locale.t = {
         zh_tw = "自動移動延遲",
     },
     DAS_DESC = {
-        en =
-        "~~ Auto Shift Delay ~~\r\n\nThe delay from pressing\r\na move key, until the\r\nmino starts auto-shifting\r\nat a fixed speed.",
+        en = "~~ Auto Shift Delay ~~\r\n\nThe delay from pressing\r\na move key, until the\r\nmino starts auto-shifting\r\nat a fixed speed.",
         ja = "‾‾ Auto Shift Delay ‾‾\r\n\nｲﾄﾞｳｷｰｦ ｵｼﾃｶﾗ､ ﾐﾉｶﾞ\r\nｲｯﾃｲ ｿｸﾄﾞﾃﾞ ｼﾞﾄﾞｳ ﾚﾝｿﾞｸ\r\nｲﾄﾞｳｦ ｶｲｼｽﾙﾏﾃﾞﾉ ｼﾞｶﾝ｡",
         zh_cn = "~~ 自动延迟移动 (ASD) ~~\r\n\n按下移动键,\r\n到形状开始以固定速度\r\n自动连续移动的间隔时间｡",
         zh_tw = "~~ 自動移動延遲 (ASD) ~~\r\n\n按下移動鍵,\r\n到形狀開始以固定速度\r\n自動連續移動的間隔時間｡",
@@ -444,8 +396,7 @@ locale.t = {
         zh_tw = "預輸入",
     },
     PREOP_DESC = {
-        en =
-        "~~ Initial ** System ~~\r\n\nHold rotate, move,\r\nor hold keys and\r\nthe action triggers\r\nwhen a new mino spawns.",
+        en = "~~ Initial ** System ~~\r\n\nHold rotate, move,\r\nor hold keys and\r\nthe action triggers\r\nwhen a new mino spawns.",
         ja = "‾‾ ｾﾝｺｳﾆｭｳﾘｮｸ ‾‾\r\n\nｱﾀﾗｼｲﾐﾉｶﾞ ｽﾎﾟｰﾝｽﾙﾄｷﾆ ｷｰｦ\r\nｵｻｴﾃ ｲﾙﾄ ｶｲﾃﾝ･ｲﾄﾞｳ･ﾎｰﾙﾄﾞｶﾞ\r\nﾊﾂﾄﾞｳ｡",
         zh_cn = "~~ 预输入 ~~\r\n\n新的形状入场时\r\n提前按住按键立即触发\r\n旋转､移动或暂存｡",
         zh_tw = "~~ 預輸入 ~~\r\n\n新的形狀入場時\r\n提前按住按鍵立即觸發\r\n旋轉､移動或暫存｡",
