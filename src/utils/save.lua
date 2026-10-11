@@ -7,11 +7,22 @@ local settings = require("src.menu.settings")
 local locale = require("src.utils.locale")
 local sfx = require("src.utils.sfx")
 local skin = require("src.game.skin")
+local json = require("lib.json")
+local compatibility = require("src.utils.compatibility")
 
-local settings_file = "settings.txt"
+local settings_file = "settings.json"
 local record_file = "record.txt"
 
-local key_bindings = settings.key_actions
+local settings_roots = { "sound", "input", "display", "debug" }
+
+local function is_arr(t)
+    for k in pairs(t) do
+        if type(k) ~= "number" then
+            return false
+        end
+    end
+    return true
+end
 
 local function encode_pairs(t)
     local lines = {}
@@ -80,111 +91,86 @@ function save.update_record(mode_key, value)
     save.flush_record()
 end
 
+local function merge(dst, src)
+    for k, v in pairs(src) do
+        if type(v) == "table" and type(dst[k]) == "table" then
+            if is_arr(v) then
+                dst[k] = v
+            else
+                merge(dst[k], v)
+            end
+        else
+            dst[k] = v
+        end
+    end
+end
+
 function save.flush()
-    local t = {
-        das = settings.input.das,
-        arr = settings.input.arr,
-        drop_arr = settings.input.drop_arr,
-        preop = tostring(settings.input.preop),
-        spawn_indicator = tostring(settings.display.spawn_indicator),
-        key_info = tostring(settings.display.key_info),
-        ez_read = tostring(settings.display.ez_read),
-        locale = settings.display.locale,
-        skin = settings.display.skin,
-        split_minos = settings.display.split_minos,
-        fullscreen = tostring(settings.display.fullscreen),
-        bgm_volume = settings.sound.volume.bgm,
-        sfx_volume = settings.sound.volume.sfx,
-        debug_unlock = tostring(settings.debug.unlock),
-    }
-    for i, k in ipairs(key_bindings) do
-        t["key_" .. k] = settings.input.keys[k]
+    local t = {}
+    local text = love.filesystem.read(settings_file)
+    if text then
+        local ok, decoded = pcall(json.decode, text)
+        if ok and type(decoded) == "table" then
+            t = decoded
+        end
     end
-    for i, k in ipairs(settings.mino_color_keys) do
-        local c = settings.display.block_color[k]
-        t["block_color_" .. string.lower(k)] = table.concat({ c[1], c[2], c[3] }, ",")
+
+    for i, root in ipairs(settings_roots) do
+        t[root] = t[root] or {}
+        merge(t[root], settings[root])
     end
-    return love.filesystem.write(settings_file, encode_pairs(t))
+
+    love.filesystem.write(settings_file, json.encode(t))
 end
 
 function save.load()
-    local fullscreen = false
+    compatibility.ini_setting_2_json()
+
     local has_locale = false
 
     local text = love.filesystem.read(settings_file)
     if text then
-        local pairs = decode_pairs(text)
-
-        settings.input.das = tonumber(pairs.das) or settings.input.das
-        settings.input.arr = tonumber(pairs.arr) or settings.input.arr
-        settings.input.drop_arr = tonumber(pairs.drop_arr) or settings.input.drop_arr
-
-        settings.sound.volume.bgm = tonumber(pairs.bgm_volume) or settings.sound.volume.bgm
-        settings.sound.volume.sfx = tonumber(pairs.sfx_volume) or settings.sound.volume.sfx
-        sfx.set_bgm_volume(settings.sound.volume.bgm)
-        sfx.set_sfx_volume(settings.sound.volume.sfx)
-
-        if pairs.preop ~= nil then
-            settings.input.preop = (pairs.preop == "true")
-        end
-        if pairs.split_minos ~= nil then
-            settings.display.split_minos = (pairs.split_minos == "true")
-        end
-        if pairs.spawn_indicator ~= nil then
-            settings.display.spawn_indicator = (pairs.spawn_indicator == "true")
-        end
-        if pairs.key_info ~= nil then
-            settings.display.key_info = (pairs.key_info == "true")
-        end
-        if pairs.ez_read ~= nil then
-            settings.display.ez_read = (pairs.ez_read == "true")
-        end
-
-        for i, k in ipairs(key_bindings) do
-            local v = pairs["key_" .. k]
-            if v and v ~= "" then
-                settings.input.keys[k] = v
-            end
-        end
-
-        for i, lang in ipairs(locale.langs) do
-            if lang == pairs.locale then
-                settings.display.locale = lang
-                locale.current = lang
-                has_locale = true
-                break
-            end
-        end
-
-        for i, name in ipairs(skin.get_list()) do
-            if name == pairs.skin then
-                settings.display.skin = name
-                break
-            end
-        end
-
-        for i, k in ipairs(settings.mino_color_keys) do
-            local t = pairs["block_color_" .. string.lower(k)]
-            if t then
-                local vals = {}
-                for v in t:gmatch("[^,]+") do
-                    vals[#vals + 1] = tonumber(v)
-                end
-                if vals[1] and vals[2] and vals[3] then
-                    settings.display.block_color[k] = { vals[1], vals[2], vals[3] }
+        local ok, decoded = pcall(json.decode, text)
+        if ok and type(decoded) == "table" then
+            for i, root in ipairs(settings_roots) do
+                if type(decoded[root]) == "table" then
+                    merge(settings[root], decoded[root])
                 end
             end
-        end
-
-        settings.display.fullscreen = (pairs.fullscreen == "true")
-        fullscreen = settings.display.fullscreen
-
-        if pairs.debug_unlock ~= nil then
-            settings.debug.unlock = (pairs.debug_unlock == "true")
+            if type(decoded.display) == "table" and decoded.display.locale ~= nil then
+                for i, lang in ipairs(locale.langs) do
+                    if lang == decoded.display.locale then
+                        settings.display.locale = lang
+                        locale.current = lang
+                        has_locale = true
+                        break
+                    end
+                end
+            end
         end
     end
 
-    save.flush()
+    if not has_locale then
+        settings.display.locale = "en"
+        locale.current = "en"
+    end
+
+    sfx.set_bgm_volume(settings.sound.volume.bgm)
+    sfx.set_sfx_volume(settings.sound.volume.sfx)
+
+    local valid_skin = false
+    for _, name in ipairs(skin.get_list()) do
+        if name == settings.display.skin then
+            valid_skin = true
+            break
+        end
+    end
+    if not valid_skin then
+        settings.display.skin = "block"
+    end
+
+    local fullscreen = settings.display.fullscreen
+
     save.load_record()
 
     return fullscreen, has_locale

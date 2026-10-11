@@ -70,7 +70,6 @@ function menu.set_language(lang)
     menu.history = {}
     menu.selections = {}
     switch_to("MENU_MAIN")
-    save.flush()
 end
 
 local function item_display(it)
