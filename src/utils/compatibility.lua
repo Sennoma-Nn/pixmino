@@ -9,6 +9,13 @@ local json = require("lib.json")
 local json_path = "settings.json"
 local ini_path = "settings.txt"
 
+local record_json_path = "record.json"
+local record_ini_path = "record.txt"
+
+local record_key_rename = {
+    sprint = "sprint_40",
+}
+
 local function tobool(s)
     return s == "true"
 end
@@ -96,6 +103,31 @@ function compatibility.ini_setting_2_json()
 
     local pairs = decode_ini(text)
     love.filesystem.write(json_path, json.encode(build_settings_from_ini(pairs)))
+    return true
+end
+
+function compatibility.ini_record_2_json()
+    if love.filesystem.getInfo(record_json_path) then
+        return false
+    end
+    if not love.filesystem.getInfo(record_ini_path) then
+        return false
+    end
+
+    local text = love.filesystem.read(record_ini_path)
+    if not text then
+        return false
+    end
+
+    local vals = decode_ini(text)
+    local out = {}
+    for k, v in pairs(vals) do
+        local num = tonumber(v)
+        if num ~= nil then
+            out[record_key_rename[k] or k] = num
+        end
+    end
+    love.filesystem.write(record_json_path, json.encode(out))
     return true
 end
 

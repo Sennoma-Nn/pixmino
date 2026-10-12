@@ -148,6 +148,7 @@ menu.data = {
     MENU_START = {
         {
             mode = "marathon",
+            record_key = "marathon",
             text_key = "MARATHON",
             desc_key = "MARATHON_DESC",
             bast_format = function(i) return i end,
@@ -155,6 +156,7 @@ menu.data = {
         },
         {
             mode = "sprint",
+            record_key = "sprint_40",
             text_key = "SPRINT",
             desc_key = "SPRINT_DESC",
             bast_format = function(i) return utils.format_time(i) end,
@@ -162,6 +164,7 @@ menu.data = {
         },
         {
             mode = "master",
+            record_key = "master",
             text_key = "MASTER",
             desc_key = "MASTER_DESC",
             bast_format = function(i) return i end,
@@ -273,8 +276,11 @@ local function control_desc(it)
 end
 
 local function mode_record_text(it)
+    if not it.record_key then
+        return nil
+    end
     local label = locale.get("BEST")
-    local record = save.get_record(it.mode)
+    local record = save.get_record(it.record_key)
     if record == nil then
         return string.format("%s: /", label)
     end

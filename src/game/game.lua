@@ -648,6 +648,7 @@ function game.start(playfield, mode, mode_key)
     game.cleared = false
     game.result = nil
     game.mode = mode
+    game.mode_state = {}
     game.mode_key = mode_key
     game.pf = playfield
     game.pf_data = {}
@@ -683,9 +684,8 @@ function game.update(dt)
     end
 
     if type(game.mode) == "function" then
-        local old_record = save.get_record(game.mode_key)
-        game.mode_state = game.mode(game.time, game.clears, game.scores, game.level, game.ren, game.b2b, game.gravity,
-            old_record)
+        local old_record = save.get_record(game.mode_state.record_key)
+        game.mode_state = game.mode(game.time, game.clears, game.scores, game.level, game.ren, game.b2b, game.gravity, old_record)
         if game.mode_state then
             if game.mode_state.bgm ~= nil and game.time >= 0 then
                 BGM = game.mode_state.bgm
@@ -708,8 +708,9 @@ function game.update(dt)
                 game.cleared = true
                 game.result = game.mode_state.result
                 BGM = "korobeiniki_drums"
-                if game.mode_key and game.mode_state.record_update and game.mode_state.record ~= nil then
-                    save.update_record(game.mode_key, game.mode_state.record)
+                if game.mode_state.record_key and game.mode_state.record_update
+                    and game.mode_state.record ~= nil then
+                    save.update_record(game.mode_state.record_key, game.mode_state.record)
                 end
                 return
             end
@@ -740,11 +741,11 @@ function game.update(dt)
                 else
                     sfx.set_bgm_volume(Settings.sound.volume.bgm / 2)
                 end
-                if game.mode_key and game.mode_state
+                if game.mode_state.record_key
                     and game.mode_state.save_on_over
                     and game.mode_state.record_update
                     and game.mode_state.record ~= nil then
-                    save.update_record(game.mode_key, game.mode_state.record)
+                    save.update_record(game.mode_state.record_key, game.mode_state.record)
                 end
                 return
             end

@@ -11,7 +11,7 @@ local json = require("lib.json")
 local compatibility = require("src.utils.compatibility")
 
 local settings_file = "settings.json"
-local record_file = "record.txt"
+local record_file = "record.json"
 
 local settings_roots = { "sound", "input", "display", "debug" }
 
@@ -24,70 +24,37 @@ local function is_arr(t)
     return true
 end
 
-local function encode_pairs(t)
-    local lines = {}
-    for k, v in pairs(t) do
-        lines[#lines + 1] = k .. "=" .. tostring(v)
-    end
-    table.sort(lines)
-    return table.concat(lines, "\n") .. "\n"
-end
-
-local function decode_pairs(text)
-    local out = {}
-    if not text then return out end
-    for line in text:gmatch("[^\r\n]+") do
-        local k, v = line:match("^([^=]+)=(.*)$")
-        if k then
-            out[k] = v
-        end
-    end
-    return out
-end
-
-save.record = {
-    marathon = nil,
-    sprint = nil,
-    master = nil,
-    no_move = nil,
-    bone_test = nil,
-}
+Record = {}
 
 function save.flush_record()
     local t = {}
-    for k, v in pairs(save.record) do
+    for k, v in pairs(Record) do
         if v ~= nil then
             t[k] = v
         end
     end
-    love.filesystem.write(record_file, encode_pairs(t))
+    love.filesystem.write(record_file, json.encode(t))
 end
 
 function save.load_record()
-    save.record = {
-        marathon = nil,
-        sprint = nil,
-        master = nil,
-        no_move = nil,
-        bone_test = nil,
-    }
+    Record = {}
     local text = love.filesystem.read(record_file)
     if text then
-        local pairs = decode_pairs(text)
-        save.record.marathon = tonumber(pairs.marathon)
-        save.record.sprint = tonumber(pairs.sprint)
-        save.record.master = tonumber(pairs.master)
-        save.record.no_move = tonumber(pairs.no_move)
-        save.record.bone_test = tonumber(pairs.bone_test)
+        local ok, decoded = pcall(json.decode, text)
+        if ok and type(decoded) == "table" then
+            for k, v in pairs(decoded) do
+                Record[k] = tonumber(v) or v
+            end
+        end
     end
 end
 
 function save.get_record(mode_key)
-    return save.record[mode_key]
+    return Record[mode_key]
 end
 
 function save.update_record(mode_key, value)
-    save.record[mode_key] = value
+    Record[mode_key] = value
     save.flush_record()
 end
 
@@ -125,6 +92,7 @@ end
 
 function save.load()
     compatibility.ini_setting_2_json()
+    compatibility.ini_record_2_json()
 
     local has_locale = false
 
