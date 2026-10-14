@@ -13,6 +13,9 @@ local bone_color       = { 1.0, 0.69, 0.0, 0.4 }
 
 local game             = {}
 
+game.utils             = utils
+game.save              = save
+
 game.pf_data           = {}
 game.bag               = {}
 game.next              = {}
@@ -261,6 +264,15 @@ local function reset_lock(piece)
     game_debug.reset("new", piece)
 end
 
+local function call_hook(name)
+    local mode = game.mode
+    local hooks = mode and mode.hooks
+    local h = hooks and hooks[name]
+    if type(h) == "function" then
+        h(game)
+    end
+end
+
 local function clear_lines()
     local max_y = 0
     for y in pairs(game.pf_data) do
@@ -295,6 +307,7 @@ local function clear_lines()
 
     if cleared > 0 then
         game.clears = game.clears + cleared
+        call_hook("on_line_clear")
     end
 
     return cleared
@@ -409,6 +422,7 @@ local function lock_piece(is_hard)
     end
 
     game.piece = nil
+    call_hook("on_piece_lock")
 end
 
 local function refill_bag()
@@ -643,6 +657,18 @@ local function apply_gravity(dt)
     end
 end
 
+function game.finish(result)
+    game.cleared = true
+    game.result = result
+    BGM = "korobeiniki_drums"
+end
+
+function game.save_record(key, value)
+    if key ~= nil and value ~= nil then
+        save.update_record(key, value)
+    end
+end
+
 function game.start(playfield, mode, mode_key)
     game.reset()
     game.cleared = false
@@ -669,6 +695,7 @@ function game.start(playfield, mode, mode_key)
     BGM = nil
     sfx.play("Ready")
     game.load_settings()
+    call_hook("on_start")
 end
 
 function game.update(dt)
@@ -683,37 +710,48 @@ function game.update(dt)
         sfx.play("Go")
     end
 
-    if type(game.mode) == "function" then
-        local old_record = save.get_record(game.mode_state.record_key)
-        game.mode_state = game.mode(game.time, game.clears, game.scores, game.level, game.ren, game.b2b, game.gravity, old_record)
-        if game.mode_state then
-            if game.mode_state.bgm ~= nil and game.time >= 0 then
-                BGM = game.mode_state.bgm
+    local mode = game.mode
+    if type(mode) == "table" then
+        local info = mode.get_info
+        if info then
+            call_hook("update_start")
+
+            local bgm = utils.get_value_if_func_call(info.bgm, game)
+            if bgm ~= nil and game.time >= 0 then
+                BGM = bgm
             end
-            if game.mode_state.settings then
-                game.load_settings(game.mode_state.settings)
+            local raw_settings = utils.get_value_if_func_call(info.settings, game)
+            local settings = raw_settings and utils.resolve_deep(raw_settings, game)
+            if settings then
+                game.load_settings(settings)
             end
-            game.lock_delay_frames = game.mode_state.lock_delay or game.lock_delay_frames
-            game.lock_resets_total = game.mode_state.lock_resets or game.lock_resets_total
-            game.lock_wait = game.mode_state.lock_wait or game.lock_wait
-            game.clear_wait = game.mode_state.clear_wait or game.clear_wait
-            game.bone = game.mode_state.bone or false
-            local new_level = game.mode_state.level or game.level
-            if type(game.mode_state.level) == "number" and new_level > game.level then
+
+            game.lock_delay_frames = utils.get_value_if_func_call(info.lock_delay, game) or game.lock_delay_frames
+            game.lock_resets_total = utils.get_value_if_func_call(info.lock_resets, game) or game.lock_resets_total
+            game.lock_wait = utils.get_value_if_func_call(info.lock_wait, game) or game.lock_wait
+            game.clear_wait = utils.get_value_if_func_call(info.clear_wait, game) or game.clear_wait
+            game.bone = utils.get_value_if_func_call(info.bone, game) or false
+
+            local new_level = utils.get_value_if_func_call(info.level, game) or game.level
+            if type(new_level) == "number" and new_level > game.level then
                 sfx.play("level_up")
             end
+
             game.level = new_level
-            game.gravity = game.mode_state.gravity or game.gravity
-            if game.mode_state.target and not game.cleared then
-                game.cleared = true
-                game.result = game.mode_state.result
-                BGM = "korobeiniki_drums"
-                if game.mode_state.record_key and game.mode_state.record_update
-                    and game.mode_state.record ~= nil then
-                    save.update_record(game.mode_state.record_key, game.mode_state.record)
-                end
-                return
-            end
+            game.gravity = utils.get_value_if_func_call(info.gravity, game) or game.gravity
+            game.mode_state.bgm = bgm
+            game.mode_state.settings = settings
+            game.mode_state.lock_delay = game.lock_delay_frames
+            game.mode_state.lock_resets = game.lock_resets_total
+            game.mode_state.lock_wait = game.lock_wait
+            game.mode_state.clear_wait = game.clear_wait
+            game.mode_state.bone = game.bone
+            game.mode_state.level = game.level
+            game.mode_state.gravity = game.gravity
+            game.mode_state.goal_lines = utils.get_value_if_func_call(info.goal_lines, game)
+
+            call_hook("update_end")
+            if game.cleared then return end
         end
     end
 
@@ -736,17 +774,15 @@ function game.update(dt)
             local is_spawn = game.spawn()
             if not is_spawn then
                 game.over = true
-                if game.mode_state and game.mode_state.save_on_over then
+                local mode = game.mode
+                local info = mode and mode.get_info
+                local save_on_over = info and utils.get_value_if_func_call(info.save_on_over, game)
+                if save_on_over then
                     BGM = "korobeiniki_drums"
                 else
                     sfx.set_bgm_volume(Settings.sound.volume.bgm / 2)
                 end
-                if game.mode_state.record_key
-                    and game.mode_state.save_on_over
-                    and game.mode_state.record_update
-                    and game.mode_state.record ~= nil then
-                    save.update_record(game.mode_state.record_key, game.mode_state.record)
-                end
+                call_hook("on_game_over")
                 return
             end
         end

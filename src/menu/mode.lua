@@ -1,220 +1,223 @@
-local utils = require("src.utils.utils")
-
 local mode = {
-    marathon = function(time, clears, scores, level, ren, b2b, gravity, old_record)
-        local lv = math.floor(clears / 10) + 1
-        local i = level - 1
-        local time_per_cell = (0.8 - (i * 0.007)) ^ i
-
-        local update
-        if old_record == nil then
-            update = true
-        else
-            update = scores > old_record
-        end
-
-        return {
-            level = lv,
-            gravity = 1.0 / (60.0 * time_per_cell),
-            target = clears >= 150,
-            record = scores,
-            record_key = "marathon",
-            result = { "SCORES", scores },
-            record_update = update,
+    marathon = {
+        get_info = {
+            bgm          = "korobeiniki1",
+            level        = function(game) return math.floor(game.clears / 10) + 1 end,
+            gravity      = function(game)
+                local i = game.level - 1
+                local time_per_cell = (0.8 - (i * 0.007)) ^ i
+                return 1.0 / (60.0 * time_per_cell)
+            end,
+            lock_delay   = function(game)
+                local lv = math.floor(game.clears / 10) + 1
+                return math.max(2 ^ (-(lv - 1) / 14 * 8) * 60, 30)
+            end,
+            lock_wait    = 6,
+            clear_wait   = 15,
             save_on_over = true,
-            bgm = "korobeiniki1",
-            lock_delay = math.max(2 ^ (-(lv - 1) / 14 * 8) * 60, 30),
-            lock_wait = 6,
-            clear_wait = 15,
-            goal_lines = {
+            goal_lines   = {
                 { text = "50L",  line = 50,  color = { 1, 1, 1, 0.25 } },
                 { text = "100L", line = 100, color = { 1, 1, 1, 0.5 } },
                 { text = "END",  line = 150, color = { 1, 0, 0, 1 } },
             },
-            settings = {
+            settings     = {
                 input = {
                     das = 9,
                     arr = 2,
                     drop_arr = 2,
                 },
             },
-        }
-    end,
+        },
+        hooks = {
+            update_end = function(game)
+                if not game.cleared and game.clears >= 150 then
+                    local old = game.save.get_record("marathon")
+                    game.finish({ "SCORES", game.scores })
+                    if old == nil or game.scores > old then
+                        game.save_record("marathon", game.scores)
+                    end
+                end
+            end,
+            on_game_over = function(game)
+                local old = game.save.get_record("marathon")
+                if old == nil or game.scores > old then
+                    game.save_record("marathon", game.scores)
+                end
+            end,
+        },
+    },
 
-    sprint = function(time, clears, scores, level, ren, b2b, gravity, old_record)
-        local time_str = utils.format_time(time)
-
-        local update
-        if old_record == nil then
-            update = true
-        else
-            update = time < old_record
-        end
-
-        return {
-            level = 1,
-            gravity = 1 / 64,
-            target = clears >= 40,
-            record = time,
-            record_key = "sprint_40",
-            result = { "TIME", time_str },
-            record_update = update,
+    sprint = {
+        get_info = {
+            bgm          = "katyusha",
+            level        = 1,
+            gravity      = 1 / 64,
+            lock_delay   = 30,
+            lock_wait    = 0,
+            clear_wait   = 0,
             save_on_over = false,
-            bgm = "katyusha",
-            lock_delay = 30,
-            lock_wait = 0,
-            clear_wait = 0,
-            goal_lines = {
+            goal_lines   = {
                 { text = "1/2", line = 20, color = { 1, 1, 1, 0.5 } },
                 { text = "END", line = 40, color = { 1, 0, 0, 1 } },
             },
-            settings = {
+            settings     = {
                 input = {
                     preop = false,
                 },
             },
-        }
-    end,
+        },
+        hooks = {
+            update_end = function(game)
+                if not game.cleared and game.clears >= 40 then
+                    local old = game.save.get_record("sprint_40")
+                    game.finish({ "TIME", game.utils.format_time(game.time) })
+                    if old == nil or game.time < old then
+                        game.save_record("sprint_40", game.time)
+                    end
+                end
+            end,
+        },
+    },
 
-    master = function(time, clears, scores, level, ren, b2b, gravity, old_record)
-        local lv = math.floor(clears / 10) + 1
-
-        local update
-        if old_record == nil then
-            update = true
-        else
-            update = clears > old_record
-        end
-
-        local lock_delay = 30 - 0.75 * (lv - 1)
-        local das = 10 - 0.2 * (lv - 1)
-        local arr = lv > 15 and 2 or 1
-        local clear_wait = 15 - 0.4 * (lv - 1)
-        local bone = lv > 25
-
-        return {
-            level = lv,
-            gravity = 1200,
-            target = clears >= 300,
-            record = clears,
-            record_key = "master",
-            result = { "LINES", clears },
-            record_update = update,
+    master = {
+        get_info = {
+            bgm          = "katyusha",
+            level        = function(game) return math.floor(game.clears / 10) + 1 end,
+            gravity      = 1200,
+            lock_delay   = function(game)
+                local lv = math.floor(game.clears / 10) + 1
+                return 30 - 0.75 * (lv - 1)
+            end,
+            lock_resets  = 20,
+            lock_wait    = 6,
+            clear_wait   = function(game)
+                local lv = math.floor(game.clears / 10) + 1
+                return 15 - 0.4 * (lv - 1)
+            end,
+            bone         = function(game)
+                local lv = math.floor(game.clears / 10) + 1
+                return lv > 25
+            end,
             save_on_over = true,
-            bgm = "katyusha",
-            lock_delay = lock_delay,
-            lock_wait = 6,
-            clear_wait = clear_wait,
-            lock_resets = 20,
-            bone = bone,
-            goal_lines = {
+            goal_lines   = {
                 { text = "1/4", line = 75,  color = { 1, 1, 1, 0.25 } },
                 { text = "1/2", line = 150, color = { 1, 1, 1, 0.5 } },
                 { text = "3/4", line = 225, color = { 1, 1, 1, 0.25 } },
                 { text = "???", line = 250, color = { 1.0, 0.69, 0.0, 0.5 } },
                 { text = "END", line = 300, color = { 1, 0, 0, 1 } },
             },
-            settings = {
+            settings     = {
                 input = {
-                    das = das,
-                    arr = arr,
+                    das = function(game)
+                        local lv = math.floor(game.clears / 10) + 1
+                        return 10 - 0.2 * (lv - 1)
+                    end,
+                    arr = function(game)
+                        local lv = math.floor(game.clears / 10) + 1
+                        return lv > 15 and 2 or 1
+                    end,
                 },
             },
-        }
-    end,
+        },
+        hooks = {
+            update_end = function(game)
+                if not game.cleared and game.clears >= 300 then
+                    local old = game.save.get_record("master")
+                    game.finish({ "LINES", game.clears })
+                    if old == nil or game.clears > old then
+                        game.save_record("master", game.clears)
+                    end
+                end
+            end,
+            on_game_over = function(game)
+                local old = game.save.get_record("master")
+                if old == nil or game.clears > old then
+                    game.save_record("master", game.clears)
+                end
+            end,
+        },
+    },
 
-    no_move = function(time, clears, scores, level, ren, b2b, gravity, old_record)
-        local time_str = utils.format_time(time)
-
-        local update
-        if old_record == nil then
-            update = true
-        else
-            update = time < old_record
-        end
-
-        return {
-            level = 1,
-            gravity = 1 / 64,
-            target = clears >= 40,
-            record = time,
-            record_key = "no_move",
-            result = { "TIME", time_str },
-            record_update = update,
+    no_move = {
+        get_info = {
+            bgm          = "katyusha",
+            level        = 1,
+            gravity      = 1 / 64,
+            lock_delay   = math.huge,
+            lock_resets  = math.huge,
+            lock_wait    = 0,
+            clear_wait   = 0,
             save_on_over = false,
-            bgm = "katyusha",
-            lock_delay = math.huge,
-            lock_resets = math.huge,
-            lock_wait = 0,
-            clear_wait = 0,
-            goal_lines = {
+            goal_lines   = {
                 { text = "1/2", line = 20, color = { 1, 1, 1, 0.5 } },
                 { text = "END", line = 40, color = { 1, 0, 0, 1 } },
             },
-            settings = {
+            settings     = {
                 input = {
                     preop = false,
                     keys = {
                         left = false,
-                        right = false
-                    }
+                        right = false,
+                    },
                 },
             },
-        }
-    end,
+        },
+        hooks = {
+            update_end = function(game)
+                if not game.cleared and game.clears >= 40 then
+                    local old = game.save.get_record("no_move")
+                    game.finish({ "TIME", game.utils.format_time(game.time) })
+                    if old == nil or game.time < old then
+                        game.save_record("no_move", game.time)
+                    end
+                end
+            end,
+        },
+    },
 
-    bone_test = function(time, clears, scores, level, ren, b2b, gravity, old_record)
-        local time_str = utils.format_time(time)
-
-        local update
-        if old_record == nil then
-            update = true
-        else
-            update = time < old_record
-        end
-
-        return {
-            level = 1,
-            gravity = 1 / 64,
-            target = clears >= 40,
-            record = time,
-            record_key = "bone_test",
-            result = { "TIME", time_str },
-            record_update = update,
+    bone_test = {
+        get_info = {
+            bgm          = "katyusha",
+            level        = 1,
+            gravity      = 1 / 64,
+            lock_delay   = 30,
+            lock_wait    = 0,
+            clear_wait   = 0,
             save_on_over = false,
-            bgm = "katyusha",
-            lock_delay = 30,
-            lock_wait = 0,
-            clear_wait = 0,
-            goal_lines = {
+            bone         = true,
+            goal_lines   = {
                 { text = "1/2", line = 20, color = { 1, 1, 1, 0.5 } },
                 { text = "END", line = 40, color = { 1, 0, 0, 1 } },
             },
-            settings = {
+            settings     = {
                 input = {
                     preop = false,
                 },
             },
-            bone = true
-        }
-    end,
+        },
+        hooks = {
+            update_end = function(game)
+                if not game.cleared and game.clears >= 40 then
+                    local old = game.save.get_record("bone_test")
+                    game.finish({ "TIME", game.utils.format_time(game.time) })
+                    if old == nil or game.time < old then
+                        game.save_record("bone_test", game.time)
+                    end
+                end
+            end,
+        },
+    },
 
-    debug = function(time, clears, scores, level, ren, b2b, gravity, old_record)
-        return {
-            level = "/",
-            gravity = 0,
-            target = false,
-            record = nil,
-            result = nil,
-            record_update = false,
-            save_on_over = false,
-            bgm = nil,
-            lock_delay = math.huge,
+    debug = {
+        get_info = {
+            level       = "/",
+            gravity     = 0,
+            lock_delay  = math.huge,
             lock_resets = math.huge,
-            lock_wait = 0,
-            clear_wait = 0,
-        }
-    end,
+            lock_wait   = 0,
+            clear_wait  = 0,
+        },
+    },
 }
 
 return mode

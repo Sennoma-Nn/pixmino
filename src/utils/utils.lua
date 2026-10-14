@@ -29,11 +29,25 @@ function utils.strip_a(color)
     return { color[1], color[2], color[3] }
 end
 
-function utils.get_value_if_func_call(arg)
+function utils.get_value_if_func_call(arg, ...)
     if type(arg) == "function" then
-        return arg()
+        return arg(...)
     end
     return arg
+end
+
+function utils.resolve_deep(arg, ...)
+    if type(arg) == "function" then
+        return arg(...)
+    end
+    if type(arg) ~= "table" then
+        return arg
+    end
+    local out = {}
+    for k, v in pairs(arg) do
+        out[k] = utils.resolve_deep(v, ...)
+    end
+    return out
 end
 
 function utils.utf8_char_len(b)
