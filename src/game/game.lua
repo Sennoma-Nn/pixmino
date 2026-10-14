@@ -9,7 +9,7 @@ local sfx              = require("src.utils.sfx")
 local skin             = require("src.game.skin")
 
 local next_count       = 3
-local bone_color       = { 1.0, 0.69, 0.0, 0.4 }
+local bone_color       = { 1.0, 0.7, 0.0, 0.4 }
 
 local game             = {}
 
