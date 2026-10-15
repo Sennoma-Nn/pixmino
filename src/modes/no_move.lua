@@ -28,11 +28,13 @@ return {
     hooks = {
         update_end = function(game)
             if not game.cleared and game.clears >= 40 then
-                local old = game.save.get_record("no_move")
                 game.finish({ "TIME", game.utils.format_time(game.time) })
-                if old == nil or game.time < old then
-                    game.save_record("no_move", game.time)
-                end
+            end
+        end,
+        on_game_cleared = function(game)
+            local old = game.save.get_record("no_move")
+            if old == nil or game.time < old then
+                game.save_record("no_move", game.time)
             end
         end,
     },

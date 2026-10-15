@@ -44,11 +44,13 @@ return {
         end,
         update_end = function(game)
             if not game.cleared and game.clears >= 300 then
-                local old = game.save.get_record("master")
                 game.finish({ "LINES", game.clears })
-                if old == nil or game.clears > old then
-                    game.save_record("master", game.clears)
-                end
+            end
+        end,
+        on_game_cleared = function(game)
+            local old = game.save.get_record("master")
+            if old == nil or game.clears > old then
+                game.save_record("master", game.clears)
             end
         end,
         on_game_over = function(game)

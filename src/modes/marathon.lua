@@ -37,11 +37,13 @@ return {
         end,
         update_end = function(game)
             if not game.cleared and game.clears >= 150 then
-                local old = game.save.get_record("marathon")
                 game.finish({ "SCORES", game.scores })
-                if old == nil or game.scores > old then
-                    game.save_record("marathon", game.scores)
-                end
+            end
+        end,
+        on_game_cleared = function(game)
+            local old = game.save.get_record("marathon")
+            if old == nil or game.scores > old then
+                game.save_record("marathon", game.scores)
             end
         end,
         on_game_over = function(game)

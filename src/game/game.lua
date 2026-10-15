@@ -661,6 +661,7 @@ function game.finish(result)
     game.cleared = true
     game.result = result
     BGM = "korobeiniki_drums"
+    call_hook("on_game_cleared")
 end
 
 function game.save_record(key, value)
