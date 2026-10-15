@@ -22,8 +22,9 @@ return {
     },
     hooks = {
         update_end = function(game)
-            if not game.cleared and game.clears >= 40 then
-                game.finish({ "TIME", game.utils.format_time(game.time) })
+            game.set_result({ "TIME", game.utils.format_time(game.time) })
+            if game.clears >= 40 then
+                game.set_cleared()
             end
         end,
         on_game_cleared = function(game)

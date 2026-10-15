@@ -36,8 +36,9 @@ return {
             lv = math.floor(game.clears / 10) + 1
         end,
         update_end = function(game)
-            if not game.cleared and game.clears >= 150 then
-                game.finish({ "SCORES", game.scores })
+            game.set_result({ "SCORES", game.scores })
+            if game.clears >= 150 then
+                game.set_cleared()
             end
         end,
         on_game_cleared = function(game)

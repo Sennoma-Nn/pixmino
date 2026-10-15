@@ -53,6 +53,7 @@ i18n.text = {
 
     PAUSE = "PAUSED",
     GAME_OVER = "GAME OVER",
+    CLEAR = "CLEAR",
     BEST = "BEST",
     CONTINUE = "CONTINUE",
     RESTART = "RESTART",

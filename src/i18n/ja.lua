@@ -53,6 +53,7 @@ i18n.text = {
 
     PAUSE = "ﾎﾟｰｽﾞ",
     GAME_OVER = "ｹﾞｰﾑｵｰﾊﾞｰ",
+    CLEAR = "ｸﾘｱ",
     BEST = "ﾍﾞｽﾄ",
     CONTINUE = "ｺﾝﾃｨﾆｭｰ",
     RESTART = "ﾘｽﾀｰﾄ",

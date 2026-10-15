@@ -53,6 +53,7 @@ i18n.text = {
 
     PAUSE = "暫停",
     GAME_OVER = "遊戲結束",
+    CLEAR = "通關",
     BEST = "最佳",
     CONTINUE = "繼續",
     RESTART = "重開",

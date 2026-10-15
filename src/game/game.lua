@@ -657,9 +657,12 @@ local function apply_gravity(dt)
     end
 end
 
-function game.finish(result)
-    game.cleared = true
+function game.set_result(result)
     game.result = result
+end
+
+function game.set_cleared()
+    game.cleared = true
     BGM = "korobeiniki_drums"
     call_hook("on_game_cleared")
 end

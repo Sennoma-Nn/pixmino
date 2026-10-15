@@ -282,6 +282,26 @@ local function draw_modal(font, gx, gy, pw, ph, title_key)
     end
 end
 
+local function draw_result_screen(gx, gy, pw, ph, label)
+    love.graphics.setColor(0, 0, 0, 0.6)
+    love.graphics.rectangle("fill", gx, gy, pw, ph)
+
+    local tip = locale.get("BACK_TIP")
+    menu.print_with_dim(tip, gx + 4, gy + 4, 1, Colors.gray, Colors.out_line, menu.get_dim_config("gray"))
+
+    local lw = utils.utf8_len(label) * 8
+    local cy = gy + ph / 2 - 16
+    fontprint.print_outlined(Fonts.ui_fonts, label, gx + (pw - lw) / 2, cy, 1, Colors.white, Colors.out_line)
+
+    local y = gy + ph / 2
+    for _, it in ipairs(game.result or {}) do
+        local text = tostring(it)
+        local w = utils.utf8_len(text) * 8
+        fontprint.print_outlined(Fonts.bold_font, text, gx + (pw - w) / 2, y, 1, Colors.white, Colors.out_line)
+        y = y + 8
+    end
+end
+
 local function draw_game_info(font, gx, gy, pw, ph, bw)
     local ix = gx + pw + bw + 8
     local iy = gy + ph + bw - 8
@@ -374,26 +394,15 @@ function render.draw(gx, gy, pw, ph, bw, bs)
     local _ = menu.state == "GAME" and draw_key_info(Fonts.ui_fonts)
 
     if game.cleared then
-        love.graphics.setColor(0, 0, 0, 0.6)
-        love.graphics.rectangle("fill", gx, gy, pw, ph)
-
-        local tip = locale.get("BACK_TIP")
-        menu.print_with_dim(tip, gx + 4, gy + 4, 1, Colors.gray, Colors.out_line, menu.get_dim_config("gray"))
-
-        local label = "CLEAR"
-        local lw = utils.utf8_len(label) * 8
-        local cy = gy + ph / 2 - 16
-        fontprint.print_outlined(Fonts.bold_font, label, gx + (pw - lw) / 2, cy, 1, Colors.white, Colors.out_line)
-
-        local y = gy + ph / 2
-        for _, it in ipairs(game.result) do
-            local text = tostring(it)
-            local w = utils.utf8_len(text) * 8
-            fontprint.print_outlined(Fonts.bold_font, text, gx + (pw - w) / 2, y, 1, Colors.white, Colors.out_line)
-            y = y + 8
-        end
+        draw_result_screen(gx, gy, pw, ph, locale.get("CLEAR"))
     elseif game.over then
-        draw_modal(Fonts.bold_font, gx, gy, pw, ph, "GAME_OVER")
+        local info = game.mode and game.mode.get_info
+        local save_on_over = info and utils.get_value_if_func_call(info.save_on_over, game)
+        if save_on_over then
+            draw_result_screen(gx, gy, pw, ph, locale.get("GAME_OVER"))
+        else
+            draw_modal(Fonts.bold_font, gx, gy, pw, ph, "GAME_OVER")
+        end
     elseif game.modal_active then
         draw_modal(Fonts.bold_font, gx, gy, pw, ph, "PAUSE")
     end
