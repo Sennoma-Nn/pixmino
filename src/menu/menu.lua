@@ -186,7 +186,7 @@ menu.data = {
             action = false,
             desc_format = function(desc_str)
                 local get_ava_str = function(b)
-                    return b and locale.get("YES_SYMBOL") or locale.get("YES_SYMBOL")
+                    return b and locale.get("YES_SYMBOL") or locale.get("NO_SYMBOL")
                 end
                 return string.format(desc_str, env_table.love, env_table.lua, env_table.jit,
                     env_table.os, get_ava_str(features.goto_forward), get_ava_str(features.goto_backward),
