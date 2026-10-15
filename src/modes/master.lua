@@ -43,10 +43,12 @@ return {
             lv = math.floor(game.clears / 10) + 1
         end,
         update_end = function(game)
-            game.set_result({ "LINES", game.clears })
             if game.clears >= 300 then
                 game.set_cleared()
             end
+        end,
+        on_game_end = function(game)
+            game.set_result({ "LINES", game.clears })
         end,
         on_game_cleared = function(game)
             local old = game.save.get_record("master")

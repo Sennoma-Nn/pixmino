@@ -27,10 +27,12 @@ return {
     },
     hooks = {
         update_end = function(game)
-            game.set_result({ "TIME", game.utils.format_time(game.time) })
             if game.clears >= 40 then
                 game.set_cleared()
             end
+        end,
+        on_game_end = function(game)
+            game.set_result({ "TIME", game.utils.format_time(game.time) })
         end,
         on_game_cleared = function(game)
             local old = game.save.get_record("no_move")

@@ -664,6 +664,7 @@ end
 function game.set_cleared()
     game.cleared = true
     BGM = "korobeiniki_drums"
+    call_hook("on_game_end")
     call_hook("on_game_cleared")
 end
 
@@ -786,6 +787,7 @@ function game.update(dt)
                 else
                     sfx.set_bgm_volume(Settings.sound.volume.bgm / 2)
                 end
+                call_hook("on_game_end")
                 call_hook("on_game_over")
                 return
             end
