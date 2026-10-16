@@ -78,8 +78,14 @@ i18n.text = {
     CONSOLE = "CONSOLE",
     CONSOLE_DESC = "Open the Debug console.",
 
+    FIXED_STEP = "FIX STEP",
+    FIXED_STEP_DESC = "~~ Fixed Step ~~\r\n\nIf you need precise\r\nactions, those may become\r\nunstable due to uncertain\r\nfluctuations.\r\nTurn on to lock logic at a\r\nfixed 60Hz, independent of\r\nscreen refresh rate.",
+
     FULLSCREEN = "FULL SCR.",
+    FULLSCREEN_DESC = "Toggle fullscreen display.",
+
     LANGUAGE = "LANGUAGE",
+    LANGUAGE_DESC = "Select display language.",
 
     MUSIC_VOL = "MUSIC VOL",
     MUSIC_VOL_DESC = "Set the music volume.",
@@ -151,8 +157,6 @@ i18n.text = {
 
     JMP_CTRL_DESC = "Adjust game controls.",
     JMP_KEYS_DESC = "Assign keys to each action.",
-    FULLSCREEN_DESC = "Toggle fullscreen display.",
-    LANGUAGE_DESC = "Select display language.",
 
     CCW_DESC = "Rotate counter-clockwise.",
     CW_DESC = "Rotate clockwise.",

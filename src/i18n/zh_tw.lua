@@ -78,8 +78,14 @@ i18n.text = {
     CONSOLE = "除錯主控臺",
     CONSOLE_DESC = "開啟除錯主控臺｡",
 
+    FIXED_STEP = "固定步長",
+    FIXED_STEP_DESC = "~~ 固定步長 ~~\r\n\n如果你需要進行一些高精度操作,這些操作\r\n可能因為一些不確定的波動影響帶來\r\n不確定性,開啓後會鎖定60Hz執行邏輯\r\n不受螢幕更新率影響｡",
+
     FULLSCREEN = "全螢幕",
+    FULLSCREEN_DESC = "切換全螢幕｡",
+
     LANGUAGE = "語言",
+    LANGUAGE_DESC = "選擇顯示語言｡",
 
     MUSIC_VOL = "音樂音量",
     MUSIC_VOL_DESC = "設定音樂音量｡",
@@ -151,8 +157,6 @@ i18n.text = {
 
     JMP_CTRL_DESC = "調整遊戲操作｡",
     JMP_KEYS_DESC = "為每個動作指派按鍵｡",
-    FULLSCREEN_DESC = "切換全螢幕｡",
-    LANGUAGE_DESC = "選擇顯示語言｡",
 
     CCW_DESC = "左旋轉｡",
     CW_DESC = "右旋轉｡",

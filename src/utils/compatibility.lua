@@ -87,6 +87,7 @@ local function build_settings_from_ini(p)
             key_info = pick_bool(p.key_info, settings.display.key_info),
             locale = p.locale or settings.display.locale,
             ez_read = pick_bool(p.ez_read, settings.display.ez_read),
+            fixed_step = pick_bool(p.fixed_step, settings.display.fixed_step),
             block_color = block_color,
         },
         debug = {

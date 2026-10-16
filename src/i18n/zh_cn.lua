@@ -78,8 +78,14 @@ i18n.text = {
     CONSOLE = "调试控制台",
     CONSOLE_DESC = "打开调试控制台｡",
 
+    FIXED_STEP = "固定步长",
+    FIXED_STEP_DESC = "~~ 固定步长 ~~\r\n\n如果你需要进行一些高精度操作,这些操作\r\n可能因为一些不确定的波动影响带来\r\n不确定性,开启后会锁定60Hz执行逻辑\r\n不受屏幕刷新率影响｡",
+
     FULLSCREEN = "全屏",
+    FULLSCREEN_DESC = "切换全屏｡",
+
     LANGUAGE = "语言",
+    LANGUAGE_DESC = "选择显示语言｡",
 
     MUSIC_VOL = "音乐音量",
     MUSIC_VOL_DESC = "设置音乐音量｡",
@@ -151,8 +157,6 @@ i18n.text = {
 
     JMP_CTRL_DESC = "调整游戏操作｡",
     JMP_KEYS_DESC = "为每个动作分配按键｡",
-    FULLSCREEN_DESC = "切换全屏｡",
-    LANGUAGE_DESC = "选择显示语言｡",
 
     CCW_DESC = "左旋转｡",
     CW_DESC = "右旋转｡",

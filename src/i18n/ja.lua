@@ -78,8 +78,14 @@ i18n.text = {
     CONSOLE = "ｺﾝｿｰﾙ",
     CONSOLE_DESC = "ﾃﾞﾊﾞｯｸﾞ ｺﾝｿｰﾙｦ ﾋﾗｸ｡",
 
+    FIXED_STEP = "ｺﾃｲｽﾃｯﾌﾟ",
+    FIXED_STEP_DESC = "‾‾ ｺﾃｲｽﾃｯﾌﾟ ‾‾\r\n\nｺｳｾｲﾄﾞﾉ ｿｳｻｶﾞ ﾋﾂﾖｳﾅ ﾊﾞｱｲ､\r\nﾌｶｸﾃｲﾅ ﾕﾗｷﾞ ﾆﾖﾘ ﾔﾔ\r\nﾌｱﾝﾃｲﾆ ﾅﾙｺﾄｶﾞ ｱﾙ｡ ｵﾝﾆｽﾙﾄ\r\nﾛｼﾞｯｸｦ 60Hzﾆ ｺﾃｲｼﾃ ｼﾞｯｺｳ｡\r\nﾘﾌﾚｯｼｭ ﾚｰﾄﾆ ｴｲｷｮｳ ｻﾚﾅｲ｡",
+
     FULLSCREEN = "ﾌﾙｽｸﾘｰﾝ",
+    FULLSCREEN_DESC = "ﾌﾙｽｸﾘｰﾝ ﾋｮｳｼﾞｦ ｷﾘｶｴ｡",
+
     LANGUAGE = "ｹﾞﾝｺﾞ",
+    LANGUAGE_DESC = "ﾋｮｳｼﾞ ｹﾞﾝｺﾞｦ ｾﾝﾀｸ｡",
 
     MUSIC_VOL = "ｵﾝｶﾞｸ VOL",
     MUSIC_VOL_DESC = "ｵﾝｶﾞｸﾉ ﾎﾞﾘｭｰﾑｦ ｾｯﾃｲ｡",
@@ -151,8 +157,6 @@ i18n.text = {
 
     JMP_CTRL_DESC = "ｿｳｻｦ ﾁｮｳｾｲ｡",
     JMP_KEYS_DESC = "ｶｸ ｱｸｼｮﾝﾆ ｷｰｦ ﾌﾘｱﾃﾙ｡",
-    FULLSCREEN_DESC = "ﾌﾙｽｸﾘｰﾝ ﾋｮｳｼﾞｦ ｷﾘｶｴ｡",
-    LANGUAGE_DESC = "ﾋｮｳｼﾞ ｹﾞﾝｺﾞｦ ｾﾝﾀｸ｡",
 
     CCW_DESC = "ﾋﾀﾞﾘ ｶｲﾃﾝ｡",
     CW_DESC = "ﾐｷﾞ ｶｲﾃﾝ｡",

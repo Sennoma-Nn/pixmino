@@ -38,6 +38,7 @@ Settings = {
         key_info = true,
         locale = "en",
         ez_read = true,
+        fixed_step = true,
         block_color = {
             I4 = { 0.2, 0.8, 1.0 },
             O4 = { 1.0, 0.9, 0.4 },
@@ -239,6 +240,13 @@ Settings.menu = {
             desc_key = "EZ_READ_DESC",
             get = function() return Settings.display.ez_read end,
             set = function(v) Settings.display.ez_read = v end,
+        },
+        {
+            type = "toggle",
+            text_key = "FIXED_STEP",
+            desc_key = "FIXED_STEP_DESC",
+            get = function() return Settings.display.fixed_step end,
+            set = function(v) Settings.display.fixed_step = v end,
         },
         {
             type = "list",
