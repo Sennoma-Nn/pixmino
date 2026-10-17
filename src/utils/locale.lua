@@ -29,6 +29,21 @@ end
 load_i18n()
 table.sort(locale.langs)
 
+function locale.load_custom()
+    local user_script = require("user_script")
+    local langs = user_script.get_custom_i18n()
+    for id, lang in pairs(langs) do
+        if not locale.t[id] then
+            locale.names[id] = lang.name
+            locale.t[id] = lang.text
+            locale.langs[#locale.langs + 1] = id
+        else
+            print("custom i18n conflict: " .. id)
+        end
+    end
+    table.sort(locale.langs)
+end
+
 function locale.get(key, lang)
     local entry = lang and locale.t[lang] or locale.t[locale.current]
     if not entry then return key end

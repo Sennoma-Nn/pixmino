@@ -75,11 +75,11 @@ function love.load()
         }
     )
 
-    win.W, win.H = love.window.getMode()
+    win.W, win.H       = love.window.getMode()
 
-    Fonts.bold_font = vgafont.load("assets/font/IB-FULL.F08", "cp437")
-    Fonts.comment_font  = vgafont.load("assets/font/PUFFBUB.F08", "cp437")
-    Fonts.ui_fonts = {
+    Fonts.bold_font    = vgafont.load("assets/font/IB-FULL.F08", "cp437")
+    Fonts.comment_font = vgafont.load("assets/font/PUFFBUB.F08", "cp437")
+    Fonts.ui_fonts     = {
         vgafont.load("assets/font/QUADBM/CP897.F08", "jisx0201"),
         vgafont.load("assets/font/QUADBM/CP437.F08", "cp437"),
         vgafont.load("assets/font/QUADBM/ext/BPMF.F08", "bpmf"),
@@ -88,19 +88,20 @@ function love.load()
         vgafont.load("assets/font/MIN_QUAN.F08", "mincn"), -- 這麼做是為了在不載入 quan 字型的情況下能夠顯示語言選擇菜單，否則第一次啟動時非中文用戶必須加載整個字型到記憶體，慢
     }
 
-    game.input_mod = input
+    game.input_mod     = input
     sfx.load()
     console.load()
     core.load()
+
+    user_script.run()
 
     local fullscreen, has_locale = save.load()
     local _ = fullscreen and push:switchFullscreen()
 
     if not has_locale then
+        menu.rebuild_lang_menu()
         menu.switch_to_lang()
     end
-
-    user_script.run()
 end
 
 function love.draw()

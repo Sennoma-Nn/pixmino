@@ -3,6 +3,9 @@
 
 local user_script = {}
 
+local nativefs = require("lib.nativefs")
+local locale = require("src.utils.locale")
+
 local expose_modules = {
     { name = "game",     path = "src.game.game" },
     { name = "draw",     path = "src.game.draw" },
@@ -32,48 +35,85 @@ end
 
 local function run_autoexec(config_dir)
     local autoexec = config_dir .. "/autoexec.lua"
-    local f = io.open(autoexec, "r")
-    if not f then
+
+    local chunk = nativefs.load(autoexec)
+    if not chunk then
         return
     end
-    local content = f:read("*a")
-    f:close()
 
-    local chunk, err = load(content, "@" .. autoexec)
-    if chunk then
-        local env = setmetatable({}, { __index = _G })
-        for name, mod in pairs(modules) do
-            env[name] = mod
-        end
-        env.config_dir = config_dir
-        env.autoexec = autoexec
-        setfenv(chunk, env)
+    local env = setmetatable({}, { __index = _G })
+    for name, mod in pairs(modules) do
+        env[name] = mod
+    end
+    env.config_dir = config_dir
+    env.autoexec = autoexec
+    setfenv(chunk, env)
 
-        local ok, load_err = pcall(chunk)
-        if not ok then
-            print("autoexec.lua error: " .. tostring(load_err))
-        else
-            print("autoexec.lua loaded")
-        end
+    local ok, load_err = pcall(chunk)
+    if not ok then
+        print("autoexec.lua error: " .. tostring(load_err))
     else
-        print("autoexec.lua load error: " .. tostring(err))
+        print("autoexec.lua loaded")
     end
 end
 
-function user_script.run()
+function user_script.config_dir()
     local home = get_home()
     if not home then
+        return nil
+    end
+    if love._os == "Windows" then
+        return home .. "\\pixmino"
+    end
+    return home .. "/.config/pixmino"
+end
+
+function user_script.run()
+    local config_dir = user_script.config_dir()
+    if not config_dir then
         return
     end
 
-    local config_dir = home .. "/.config/pixmino"
-    local d = io.open(config_dir, "r")
-    if not d then
+    if not nativefs.getInfo(config_dir, "directory") then
         return
     end
-    d:close()
+
+    locale.load_custom()
 
     run_autoexec(config_dir)
+end
+
+function user_script.get_custom_i18n()
+    local langs = {}
+
+    local config_dir = user_script.config_dir()
+    if not config_dir then
+        return langs
+    end
+
+    local files = nativefs.getDirectoryItems(config_dir .. "/i18n")
+    for _, f in ipairs(files) do
+        if f:match("%.lua$") then
+            local path = config_dir .. "/i18n/" .. f
+            local chunk = nativefs.load(path)
+            if chunk then
+                local ok, mod = pcall(chunk)
+                if ok
+                    and type(mod) == "table"
+                    and type(mod.info) == "table"
+                    and type(mod.info.id) == "string"
+                    and type(mod.text) == "table"
+                then
+                    langs[mod.info.id] = {
+                        name = mod.info.name or mod.info.id,
+                        text = mod.text,
+                    }
+                end
+            end
+        end
+    end
+
+    return langs
 end
 
 return user_script

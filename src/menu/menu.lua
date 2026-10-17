@@ -113,6 +113,10 @@ local function build_lang_menu()
     return items
 end
 
+function menu.rebuild_lang_menu()
+    menu.data.MENU_LANG = build_lang_menu()
+end
+
 menu.data = {
     MENU_LANG = build_lang_menu(),
     MENU_MAIN = {
