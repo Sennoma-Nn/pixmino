@@ -475,6 +475,12 @@ local function spawn_pos(shape)
     return math.floor(game.pf.width / 2) + s[1], game.pf.height - 1 + s[2]
 end
 
+local function do_preinput()
+    if game.active_settings and game.active_settings.input.preop then
+        game.input_mod.apply_preinput()
+    end
+end
+
 function game.spawn()
     if #game.next == 0 then
         game.ensure_next()
@@ -491,9 +497,7 @@ function game.spawn()
         game.piece.id = 0
     end
 
-    if game.input_mod and game.active_settings and game.active_settings.input.preop then
-        game.input_mod.apply_preinput()
-    end
+    do_preinput()
 
     if collides(game.piece, game.piece.x, game.piece.y, game.piece.dir) then
         return false
@@ -519,6 +523,10 @@ function game.do_hold()
     if game.bone then
         game.piece.color = bone_color
         game.piece.id = 0
+    end
+
+    if game.active_settings and game.active_settings.input.preop then
+        do_preinput()
     end
 end
 
