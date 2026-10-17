@@ -10,6 +10,9 @@ i18n.text = {
 
     BACK_TIP = "⎋ BACK",
 
+    RESET = "RESET",
+    RESET_DESC = "Restore settings to\r\ndefault.",
+
     YES_SYMBOL = "✓",
     NO_SYMBOL = "✕",
 

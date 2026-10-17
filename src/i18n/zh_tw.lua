@@ -10,6 +10,9 @@ i18n.text = {
 
     BACK_TIP = "⎋ 返回",
 
+    RESET = "恢復預設",
+    RESET_DESC = "將設定恢復為預設｡",
+
     YES_SYMBOL = "✓",
     NO_SYMBOL = "✕",
 

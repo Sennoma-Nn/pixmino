@@ -7,7 +7,7 @@ local sfx = require("src.utils.sfx")
 local skin = require("src.game.skin")
 local utils = require("src.utils.utils")
 
-Settings = {
+local default_settings = {
     sound = {
         volume = {
             bgm = 0.4,
@@ -53,6 +53,8 @@ Settings = {
         unlock = false
     }
 }
+
+Settings = utils.deep_clone(default_settings)
 
 Settings.key_actions = { "left", "right", "ccw", "cw", "rot180", "soft_drop", "hard_drop", "hold" }
 Settings.mino_color_keys = { "I4", "O4", "T4", "S4", "Z4", "J4", "L4" }
@@ -112,6 +114,18 @@ local function make_color_value_items(mino_key)
             end,
         }
     end
+
+    items[#items + 1] = {
+        type = "action",
+        text_key = "RESET",
+        desc_key = "RESET_DESC",
+        action = function()
+            local d = default_settings.display.block_color[mino_key]
+            local c = Settings.display.block_color[mino_key]
+            c[1], c[2], c[3] = d[1], d[2], d[3]
+        end,
+    }
+
     return items
 end
 

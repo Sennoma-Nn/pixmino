@@ -10,6 +10,9 @@ i18n.text = {
 
     BACK_TIP = "⎋ ﾓﾄﾞﾙ",
 
+    RESET = "ﾘｾｯﾄ",
+    RESET_DESC = "ｾｯﾃｲｦ ﾃﾞﾌｫﾙﾄﾆ ﾓﾄﾞｽ｡",
+
     YES_SYMBOL = "◯",
     NO_SYMBOL = "✕",
 
