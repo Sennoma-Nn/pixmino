@@ -40,6 +40,12 @@ i18n.text = {
     SP_PUSH = "PUSH",
     SP_PUSH_DESC = "Ulydev:\r\n\nLOVE ﾖｳﾉ ﾗｲﾌﾞﾗﾘ Push｡\r\n(MIT)",
 
+    SP_NATIVEFS = "NATIVEFS",
+    SP_NATIVEFS_DESC = "Engineer Smith:\r\n\nLÖVE ｻﾝﾄﾞﾎﾞｯｸｽ ｶﾞｲﾉ\r\nﾌｧｲﾙ ｼｽﾃﾑ ﾗｲﾌﾞﾗﾘ｡ (MIT)",
+
+    SP_JSON = "JSON",
+    SP_JSON_DESC = "rxi:\r\n\nLua ﾖｳﾉ JSON ﾗｲﾌﾞﾗﾘ｡ (MIT)",
+
     SP_IBFULL = "IB-FULL",
     SP_IBFULL_DESC = "Soda 261:\r\n\nｹﾞｰﾑ ｼﾞｮｳﾎｳ ﾋｮｳｼﾞ ﾖｳﾉ\r\n｢IB-FULL｣ ﾌｫﾝﾄ ｾｲｻｸ｡",
 

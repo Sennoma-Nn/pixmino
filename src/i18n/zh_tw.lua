@@ -40,6 +40,12 @@ i18n.text = {
     SP_PUSH = "PUSH",
     SP_PUSH_DESC = "Ulydev:\r\n\n用於 LÖVE 的 Push 函式庫｡ (MIT)",
 
+    SP_NATIVEFS = "NATIVEFS",
+    SP_NATIVEFS_DESC = "Engineer Smith:\r\n\n存取 LÖVE 沙箱外檔案系統的函式庫｡ (MIT)",
+
+    SP_JSON = "JSON",
+    SP_JSON_DESC = "rxi:\r\n\nLua 的 JSON 函式庫｡ (MIT)",
+
     SP_IBFULL = "IB-FULL",
     SP_IBFULL_DESC = "Soda 261:\r\n\n製作｢IB-FULL｣字型,\r\n用於顯示遊戲資訊｡",
 

@@ -40,6 +40,12 @@ i18n.text = {
     SP_PUSH = "PUSH",
     SP_PUSH_DESC = "Ulydev:\r\n\nLibrary Push for LÖVE.\r\n(MIT)",
 
+    SP_NATIVEFS = "NATIVEFS",
+    SP_NATIVEFS_DESC = "Engineer Smith:\r\n\nAccess files outside the\r\nLÖVE sandbox. (MIT)",
+
+    SP_JSON = "JSON",
+    SP_JSON_DESC = "rxi:\r\n\nJSON library for Lua. (MIT)",
+
     SP_IBFULL = "IB-FULL",
     SP_IBFULL_DESC = 'Soda 261:\r\n\nMade "IB-FULL" font,\r\nfor displaying game stats.',
 

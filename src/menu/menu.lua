@@ -215,6 +215,16 @@ menu.data = {
             action = false
         },
         {
+            text_key = "SP_NATIVEFS",
+            desc_key = "SP_NATIVEFS_DESC",
+            action = false
+        },
+        {
+            text_key = "SP_JSON",
+            desc_key = "SP_JSON_DESC",
+            action = false
+        },
+        {
             text_key = "SP_IBFULL",
             desc_key = "SP_IBFULL_DESC",
             action = false
