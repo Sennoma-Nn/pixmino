@@ -21,7 +21,7 @@ return {
         goal_lines   = {
             { text = "50L",  line = 50,  color = { 1, 1, 1, 0.25 } },
             { text = "100L", line = 100, color = { 1, 1, 1, 0.5 } },
-            { text = "END",  line = 150, color = { 1, 0, 0, 1 } },
+            { text = "CLEAR",  line = 150, color = { 1, 0, 0, 1 } },
         },
         settings     = {
             input = {

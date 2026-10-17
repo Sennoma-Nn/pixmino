@@ -25,7 +25,7 @@ return {
             { text = "1/2", line = 150, color = { 1, 1, 1, 0.5 } },
             { text = "3/4", line = 225, color = { 1, 1, 1, 0.25 } },
             { text = "???", line = 250, color = { 1.0, 0.7, 0.0, 0.5 } },
-            { text = "END", line = 300, color = { 1, 0, 0, 1 } },
+            { text = "CLEAR", line = 300, color = { 1, 0, 0, 1 } },
         },
         settings     = {
             input = {
