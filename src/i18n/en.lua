@@ -161,8 +161,9 @@ i18n.text = {
     SPRINT_DESC = "Clear 40 lines,\r\nAim for speed,\r\nfaster is better!",
 
     MASTER = "MASTER",
-    NO_MOVE = "NO MOVE!?",
     MASTER_DESC = "Clear 300 lines,\r\nMinos drop instantly,\r\nless time to act!",
+
+    NO_MOVE = "NO MOVE!?",
 
     JMP_CTRL_DESC = "Adjust game controls.",
     JMP_KEYS_DESC = "Assign keys to each action.",

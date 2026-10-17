@@ -161,8 +161,9 @@ i18n.text = {
     SPRINT_DESC = "清除40行,\r\n以速度为目标,时间越短越好!",
 
     MASTER = "大师",
-    NO_MOVE = "禁止移动!?",
     MASTER_DESC = "清除300行,\r\n形状直接落地,\r\n操作时间越来越短!",
+
+    NO_MOVE = "禁止移动!?",
 
     JMP_CTRL_DESC = "调整游戏操作｡",
     JMP_KEYS_DESC = "为每个动作分配按键｡",
