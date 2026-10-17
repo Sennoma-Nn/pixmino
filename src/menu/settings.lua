@@ -162,6 +162,16 @@ end
 
 local skin_names = skin.get_list()
 
+function Settings.rebuild_skin_menu()
+    local latest = skin.get_list()
+    for i = #skin_names, 1, -1 do
+        skin_names[i] = nil
+    end
+    for i, name in ipairs(latest) do
+        skin_names[i] = name
+    end
+end
+
 Settings.menu = {
     MENU_SETTINGS = {
         {
