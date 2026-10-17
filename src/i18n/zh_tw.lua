@@ -23,7 +23,7 @@ i18n.text = {
     START_DESC = "開始遊戲!",
 
     ABOUT = "關於",
-    ABOUT_DESC = "關於像素立方｡",
+    ABOUT_DESC = "關於«像素立方»｡",
 
     ABOUT_GAME = "遊戲",
     ABOUT_GAME_DESC = "像素立方 %s\r\n\n使用 LÖVE 開發｡",
