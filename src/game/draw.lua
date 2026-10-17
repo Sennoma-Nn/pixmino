@@ -11,6 +11,13 @@ local skin = require("src.game.skin")
 
 local render = {}
 
+render.info_up_offset_x = 0
+render.info_up_offset_y = 0
+render.info_down_offset_x = 0
+render.info_down_offset_y = 0
+
+render.goal_lines_comment_sep = 0
+
 local next_count = 3
 
 local empty_link = { false, false, false, false, false, false, false, false }
@@ -68,6 +75,8 @@ local function draw_goal_lines(gx, gy, pw, ph, bs)
     if not mode_state or not mode_state.goal_lines then return end
     if not game.pf then return end
 
+    local sep = render.goal_lines_comment_sep
+
     for _, m in ipairs(mode_state.goal_lines) do
         local remaining = m.line - game.clears
         if remaining >= 1 and remaining <= game.pf.height then
@@ -75,7 +84,7 @@ local function draw_goal_lines(gx, gy, pw, ph, bs)
             m.text = m.text or ""
             love.graphics.setColor(unpack(m.color))
             love.graphics.rectangle("fill", gx, py, pw, 1)
-            fontprint.print(Fonts.comment, m.text, gx, py + 1, 1, Colors.goal_lines_comment)
+            fontprint.print(Fonts.comment_font, m.text, gx, py + 1 + sep, 1, Colors.goal_lines_comment)
         end
     end
 end
@@ -233,10 +242,11 @@ end
 
 local function draw_next_hold(font, gx, gy, pw, ph, bw, bs)
     if not game.started then return end
-    local ix = gx + pw + bw + 8
+    local ix = gx + pw + bw + 8 + render.info_up_offset_x
+    local iy = gy + render.info_up_offset_y
 
-    fontprint.print_outlined(font, "NEXT", ix, gy - 2, 1, Colors.white, Colors.out_line)
-    local py = gy + 10
+    fontprint.print_outlined(font, "NEXT", ix, iy - 2, 1, Colors.white, Colors.out_line)
+    local py = iy + 10
     local px = ix
     for i = 1, next_count do
         if game.next[i] then
@@ -303,8 +313,8 @@ local function draw_result_screen(gx, gy, pw, ph, label)
 end
 
 local function draw_game_info(font, gx, gy, pw, ph, bw)
-    local ix = gx + pw + bw + 8
-    local iy = gy + ph + bw - 8
+    local ix = gx + pw + bw + 8 + render.info_down_offset_x
+    local iy = gy + ph + bw - 8 + render.info_down_offset_y
 
 
     local sign = game.time < 0 and "-" or " "
@@ -388,6 +398,7 @@ function render.draw(gx, gy, pw, ph, bw, bs)
     draw_spawn_marker(gx, gy, ph, bs)
     draw_piece(gx, gy, ph, bs)
     draw_spin_mask(gx, gy, ph, bs)
+
     draw_next_hold(Fonts.bold_font, gx, gy, pw, ph, bw, bs)
     draw_game_info(Fonts.bold_font, gx, gy, pw, ph, bw)
 

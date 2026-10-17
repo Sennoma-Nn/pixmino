@@ -90,8 +90,7 @@ do
     _jisx0201_to_utf8 = nil
 end
 
-function vgafont.load(path, codepage)
-    codepage = codepage or "cp437"
+local function build_font(data, codepage)
     local cp = vgafont.codepage_table[codepage]
     if not cp then
         return nil
@@ -99,11 +98,6 @@ function vgafont.load(path, codepage)
 
     local to_utf8 = cp.to_utf8
     local to_code = cp.to_code
-
-    local data, size = love.filesystem.read(path)
-    if not data then
-        return nil
-    end
 
     local bits = {}
     for i = 1, #data do
@@ -204,6 +198,26 @@ function vgafont.load(path, codepage)
         to_utf8       = to_utf8,
         to_code       = to_code,
     }
+end
+
+function vgafont.load(path, codepage)
+    codepage = codepage or "cp437"
+    local data, size = love.filesystem.read(path)
+    if not data then
+        return nil
+    end
+    return build_font(data, codepage)
+end
+
+function vgafont.load_io(path, codepage)
+    codepage = codepage or "cp437"
+    local f = io.open(path, "rb")
+    if not f then
+        return nil
+    end
+    local data = f:read("*a")
+    f:close()
+    return build_font(data, codepage)
 end
 
 function vgafont.char_to_code(font, char)

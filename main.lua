@@ -17,6 +17,7 @@ local core = require("src.debug.core")
 local cio = require("src.debug.console_io")
 local console = require("src.debug.console")
 local launcher = require("src.debug.launcher")
+local user_script = require("user_script")
 
 require("src.menu.settings")
 require("custom_cp")
@@ -77,7 +78,7 @@ function love.load()
     win.W, win.H = love.window.getMode()
 
     Fonts.bold_font = vgafont.load("assets/font/IB-FULL.F08", "cp437")
-    Fonts.comment = vgafont.load("assets/font/PUFFBUB.F08", "cp437")
+    Fonts.comment_font  = vgafont.load("assets/font/PUFFBUB.F08", "cp437")
     Fonts.ui_fonts = {
         vgafont.load("assets/font/QUADBM/CP897.F08", "jisx0201"),
         vgafont.load("assets/font/QUADBM/CP437.F08", "cp437"),
@@ -98,6 +99,8 @@ function love.load()
     if not has_locale then
         menu.switch_to_lang()
     end
+
+    user_script.run()
 end
 
 function love.draw()
