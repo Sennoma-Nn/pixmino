@@ -94,6 +94,8 @@ local function parse(data)
                         dwidth = cur.dwidth,
                         rows   = cur.rows,
                     }
+
+                    -- print(utf8_char(cur.encoding) .. " " .. cur.xoff)
                 end
                 cur = nil
             else
@@ -162,7 +164,7 @@ local function parse(data)
                     for b = 0, 7 do
                         local px = base_x + b
                         if px < e.w and bits[b + 1] == 1 then
-                            local sx = ox + px
+                            local sx = px
                             local sy = ry
                             if sx >= 0 and sx < SLOT_W and sy >= 0 and sy < SLOT_H then
                                 image_data:setPixel(slot_x + sx, slot_y + sy, 1, 1, 1, 1)
