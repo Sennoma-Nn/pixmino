@@ -3,6 +3,7 @@
 
 return {
     get_info = {
+        bg          = "dream",
         level       = "/",
         gravity     = 0,
         lock_delay  = math.huge,

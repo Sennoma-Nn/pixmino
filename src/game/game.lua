@@ -93,6 +93,7 @@ function game.stop()
     game.bone = false
     game.notify = { text = "Never Gonna Give You Up", color = nil, time = 0 }
     BGM = nil
+    BG = "grid"
     sfx.set_bgm_volume(Settings.sound.volume.bgm)
 end
 
@@ -733,6 +734,10 @@ function game.update(dt)
             if bgm ~= nil and game.time >= 0 then
                 BGM = bgm
             end
+            local bg = utils.get_value_if_func_call(info.bg, game)
+
+            if bg ~= nil then BG = bg end
+
             local raw_settings = utils.get_value_if_func_call(info.settings, game)
             local settings = raw_settings and utils.resolve_deep(raw_settings, game)
             if settings then
@@ -753,6 +758,7 @@ function game.update(dt)
             game.level = new_level
             game.gravity = utils.get_value_if_func_call(info.gravity, game) or game.gravity
             game.mode_state.bgm = bgm
+            game.mode_state.bg = bg
             game.mode_state.settings = settings
             game.mode_state.lock_delay = game.lock_delay_frames
             game.mode_state.lock_resets = game.lock_resets_total
