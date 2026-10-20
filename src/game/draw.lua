@@ -351,7 +351,7 @@ local function draw_game_info(font, gx, gy, pw, ph, bw)
         fontprint.print_outlined(font, string.rep("♦", total), ix, iy - 8 * 0, 1, Colors.gray, Colors.out_line)
         fontprint.print_outlined(font, string.rep("♦", left), ix, iy - 8 * 0, 1, Colors.white, Colors.out_line)
     else
-        fontprint.print_outlined(font, "∞", ix, iy - 8 * 0, 1, Colors.white, Colors.out_line)
+        fontprint.print_outlined(font, "♦=∞", ix, iy - 8 * 0, 1, Colors.white, Colors.out_line)
     end
 end
 
