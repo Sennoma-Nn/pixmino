@@ -93,7 +93,6 @@ function game.stop()
     game.bone = false
     game.notify = { text = "Never Gonna Give You Up", color = nil, time = 0 }
     BGM = nil
-    BG = "grid"
     sfx.set_bgm_volume(Settings.sound.volume.bgm)
 end
 

@@ -29,6 +29,10 @@ local env_table = {
 local function switch_to(new_state)
     menu.state = new_state
     menu.selection = menu.selections[new_state] or 1
+
+    if new_state ~= "GAME" then
+        BG = "grid"
+    end
 end
 
 function menu.go_to(new_state)
