@@ -1,9 +1,9 @@
 -- Copyright (C) 2026 Sennoma-Nn
 -- SPDX-License-Identifier: GPL-3.0-or-later
 
-local locale = require("src.utils.locale")
+local locale = require("src.manager.locale")
 local push = require("lib.push")
-local sfx = require("src.utils.sfx")
+local sfx = require("src.manager.sfx")
 local skin = require("src.game.skin")
 local utils = require("src.utils.utils")
 

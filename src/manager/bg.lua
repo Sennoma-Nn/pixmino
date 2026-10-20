@@ -51,8 +51,6 @@ function bg.draw()
     local impl = get_impl()
     if impl and impl.draw then
         impl.draw()
-    else
-        love.graphics.clear(unpack(Colors.background))
     end
 end
 

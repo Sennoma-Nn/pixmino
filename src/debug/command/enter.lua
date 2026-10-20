@@ -5,7 +5,7 @@ local cio     = require("src.debug.console_io")
 local core    = require("src.debug.core")
 local menu    = require("src.menu.menu")
 local game    = require("src.game.game")
-local modes   = require("src.menu.mode")
+local modes   = require("src.manager.mode")
 
 local enter   = {}
 

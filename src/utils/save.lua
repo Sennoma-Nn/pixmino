@@ -4,8 +4,8 @@
 local save = {}
 
 local settings = require("src.menu.settings")
-local locale = require("src.utils.locale")
-local sfx = require("src.utils.sfx")
+local locale = require("src.manager.locale")
+local sfx = require("src.manager.sfx")
 local skin = require("src.game.skin")
 local json = require("lib.json")
 local compatibility = require("src.utils.compatibility")

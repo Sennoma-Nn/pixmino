@@ -5,7 +5,7 @@ local minos            = require("src.game.minos")
 local utils            = require("src.utils.utils")
 local save             = require("src.utils.save")
 local game_debug       = require("src.game.debug")
-local sfx              = require("src.utils.sfx")
+local sfx              = require("src.manager.sfx")
 local skin             = require("src.game.skin")
 
 local next_count       = 3

@@ -4,7 +4,7 @@
 local user_script = {}
 
 local nativefs = require("lib.nativefs")
-local locale = require("src.utils.locale")
+local locale = require("src.manager.locale")
 
 local expose_modules = {
     { name = "game",     path = "src.game.game" },

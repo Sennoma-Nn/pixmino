@@ -5,21 +5,10 @@ local push = require("lib.push")
 
 local dream = {}
 
-local palette = {
-    { 1.0, 0.5, 0.7 },
-    { 1.0, 0.9, 0.5 },
-    { 1.0, 0.6, 0.5 },
-    { 0.6, 0.8, 1.0 },
-    { 0.6, 1.0, 0.9 },
-    { 0.8, 0.6, 1.0 },
-}
-
-local gradient_top = { 0.1, 0.1, 0.2 }
-local gradient_bottom = { 0.2, 0.1, 0.2 }
+local gradient_top = {0.1, 0.1, 0.2}
+local gradient_bottom = {0.2, 0.1, 0.2}
 
 local particles = {}
-local gradient
-local gradient_h = 0
 local w, h = 0, 0
 local t = 0
 
@@ -39,7 +28,8 @@ local function spawn(p, initial)
     p.twinkle_speed = random_range(0.8, 3.0)
     p.twinkle_phase = love.math.random() * math.pi * 2
     p.alpha = random_range(0.18, 0.65)
-    p.color = palette[love.math.random(#palette)]
+    local key = Settings.mino_color_keys[love.math.random(#Settings.mino_color_keys)]
+    p.color = Settings.display.block_color[key]
     return p
 end
 
@@ -51,39 +41,6 @@ local function rebuild()
     for i = 1, count do
         particles[i] = spawn({}, true)
     end
-end
-
-local function ensure_gradient(height)
-    if gradient and gradient_h == height then
-        return gradient
-    end
-
-    local canvas = love.graphics.newCanvas(1, height)
-    local prev_canvas = love.graphics.getCanvas()
-
-    love.graphics.setCanvas(canvas)
-    love.graphics.clear(0, 0, 0, 0)
-    for y = 0, height - 1 do
-        local k = height > 1 and y / (height - 1) or 0
-        love.graphics.setColor(
-            gradient_top[1] + (gradient_bottom[1] - gradient_top[1]) * k,
-            gradient_top[2] + (gradient_bottom[2] - gradient_top[2]) * k,
-            gradient_top[3] + (gradient_bottom[3] - gradient_top[3]) * k,
-            1
-        )
-        love.graphics.rectangle("fill", 0, y, 1, 1)
-    end
-
-    if prev_canvas then
-        love.graphics.setCanvas(prev_canvas)
-    else
-        love.graphics.setCanvas()
-    end
-    love.graphics.setColor(1, 1, 1, 1)
-
-    gradient = canvas
-    gradient_h = height
-    return canvas
 end
 
 function dream.update(dt)
@@ -111,14 +68,27 @@ function dream.update(dt)
     end
 end
 
+local function draw_gradient(width, height)
+    love.graphics.setBlendMode("alpha")
+    for y = 0, height - 1 do
+        local k = height > 1 and y / (height - 1) or 0
+        love.graphics.setColor(
+            gradient_top[1] + (gradient_bottom[1] - gradient_top[1]) * k,
+            gradient_top[2] + (gradient_bottom[2] - gradient_top[2]) * k,
+            gradient_top[3] + (gradient_bottom[3] - gradient_top[3]) * k,
+            1
+        )
+        love.graphics.rectangle("fill", 0, y, width, 1)
+    end
+end
+
 function dream.draw()
     local nw, nh = push:getDimensions()
     if #particles == 0 or nw ~= w or nh ~= h then
         rebuild()
     end
 
-    love.graphics.setColor(1, 1, 1, 1)
-    love.graphics.draw(ensure_gradient(h), 0, 0, 0, w, 1)
+    draw_gradient(nw, nh)
 
     love.graphics.setBlendMode("add")
     for i = 1, #particles do

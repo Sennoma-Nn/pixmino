@@ -1,8 +1,8 @@
 -- Copyright (C) 2026 Sennoma-Nn
 -- SPDX-License-Identifier: GPL-3.0-or-later
 
-local fontprint = require("src.utils.font_print")
-local locale = require("src.utils.locale")
+local fontprint = require("src.manager.font_print")
+local locale = require("src.manager.locale")
 local utils = require("src.utils.utils")
 local push = require("lib.push")
 local settings = require("src.menu.settings")

@@ -9,10 +9,10 @@ local menu = require("src.menu.menu")
 local game = require("src.game.game")
 local render = require("src.game.draw")
 local input = require("src.game.input")
-local modes = require("src.menu.mode")
+local modes = require("src.manager.mode")
 local save = require("src.utils.save")
-local sfx = require("src.utils.sfx")
-local bg = require("src.bg.bg")
+local sfx = require("src.manager.sfx")
+local bg = require("src.manager.bg")
 local core = require("src.debug.core")
 local cio = require("src.debug.console_io")
 local console = require("src.debug.console")
@@ -57,7 +57,6 @@ Colors = {
     piece_border       = { 0, 0, 0, 0.6 },
     ghost_border       = { 1, 1, 1, 0.2 },
     playfield_bg       = { 0, 0, 0, 0.6 },
-    background         = { 0.1, 0.1, 0.15 },
     key                = { 0.8, 0.5, 0, 1 },
 }
 

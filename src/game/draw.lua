@@ -1,11 +1,11 @@
 -- Copyright (C) 2026 Sennoma-Nn
 -- SPDX-License-Identifier: GPL-3.0-or-later
 
-local fontprint = require("src.utils.font_print")
+local fontprint = require("src.manager.font_print")
 local game = require("src.game.game")
 local utils = require("src.utils.utils")
 local menu = require("src.menu.menu")
-local locale = require("src.utils.locale")
+local locale = require("src.manager.locale")
 local input = require("src.game.input")
 local skin = require("src.game.skin")
 

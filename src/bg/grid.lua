@@ -1,6 +1,8 @@
 -- Copyright (C) 2026 Sennoma-Nn
 -- SPDX-License-Identifier: GPL-3.0-or-later
 
+local background = {0.1, 0.1, 0.15}
+
 local grid = {}
 
 local t = 0
@@ -37,7 +39,7 @@ function grid.draw()
     local w = love.graphics.getWidth()
     local h = love.graphics.getHeight()
 
-    love.graphics.clear(unpack(Colors.background))
+    love.graphics.clear(unpack(background))
 
     canvas_a = ensure_canvas(canvas_a, w, h)
     -- canvas_b = ensure_canvas(canvas_b, w, h)
