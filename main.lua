@@ -217,11 +217,15 @@ function love.keypressed(key)
             if key == "escape" then
                 game.close_modal()
             elseif key == "up" then
+                sfx.play("menu_move")
                 game.modal_move(-1)
             elseif key == "down" then
+                sfx.play("menu_move")
                 game.modal_move(1)
             elseif key == "return" or key == "space" then
                 local choice = game.modal_choose()
+                sfx.play("menu_confirm")
+
                 if choice == "quit" then
                     game.stop()
                     menu.back()
