@@ -27,9 +27,9 @@
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="px"
      showgrid="true"
-     inkscape:zoom="0.80664063"
-     inkscape:cx="238.02421"
-     inkscape:cy="164.88136"
+     inkscape:zoom="6.453125"
+     inkscape:cx="196.18402"
+     inkscape:cy="177.8983"
      inkscape:window-width="1920"
      inkscape:window-height="1016"
      inkscape:window-x="0"
@@ -47,7 +47,7 @@
        color="#0099e5"
        opacity="0.14901961"
        empspacing="8"
-       enabled="false"
+       enabled="true"
        visible="true" /></sodipodi:namedview><defs
      id="defs1"><clipPath
        clipPathUnits="userSpaceOnUse"
@@ -199,7 +199,8 @@
            d="m 272,72 v 40 h 8 V 96 h 8 v -8 h -8 v -8 h 8 v -8 h -8 z m 16,8 v 8 h 8 v -8 z" /><path
            id="rect16"
            style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:16;stroke-linecap:square;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
-           d="m 168,72 v 8 h 8 v -8 z m 0,16 v 24 h 8 V 88 Z" /><path
+           d="m 168,80 v 8 h 8 v -8 z m 0,16 v 16 h 8 V 96 Z"
+           sodipodi:nodetypes="cccccccccc" /><path
            id="rect19"
            style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:16;stroke-linecap:square;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
            d="m 184,80 v 8 h 8 v -8 z m 8,8 v 16 h 8 V 88 Z m 8,0 h 8 v -8 h -8 z m 0,16 v 8 h 8 v -8 z m -8,0 h -8 v 8 h 8 z" /><path
