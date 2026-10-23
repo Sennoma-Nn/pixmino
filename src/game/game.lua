@@ -6,7 +6,7 @@ local utils            = require("src.utils.utils")
 local save             = require("src.utils.save")
 local game_debug       = require("src.game.debug")
 local sfx              = require("src.manager.sfx")
-local skin             = require("src.game.skin")
+local skin             = require("src.manager.skin")
 
 local next_count       = 3
 local bone_color       = { 1.0, 0.7, 0.0, 0.4 }

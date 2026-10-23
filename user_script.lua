@@ -80,7 +80,7 @@ function user_script.run()
 
     locale.load_custom()
 
-    local skin = require("src.game.skin")
+    local skin = require("src.manager.skin")
     skin.register_custom(user_script.get_custom_skins())
     Settings.rebuild_skin_menu()
 

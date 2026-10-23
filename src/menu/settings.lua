@@ -4,7 +4,7 @@
 local locale = require("src.manager.locale")
 local push = require("lib.push")
 local sfx = require("src.manager.sfx")
-local skin = require("src.game.skin")
+local skin = require("src.manager.skin")
 local utils = require("src.utils.utils")
 
 local default_settings = {

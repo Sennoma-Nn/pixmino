@@ -7,7 +7,7 @@ local utils = require("src.utils.utils")
 local menu = require("src.menu.menu")
 local locale = require("src.manager.locale")
 local input = require("src.game.input")
-local skin = require("src.game.skin")
+local skin = require("src.manager.skin")
 
 local render = {}
 
