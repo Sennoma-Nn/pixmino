@@ -12,19 +12,21 @@ return {
             return 30 - 0.75 * (lv - 1)
         end,
         lock_resets  = 20,
-        lock_wait    = 6,
+        lock_wait    = function(game)
+            return 12 - 0.2 * (lv - 1)
+        end,
         clear_wait   = function(game)
-            return 15 - 0.4 * (lv - 1)
+            return 16 - 0.2 * (lv - 1)
         end,
         bone         = function(game)
             return lv > 25
         end,
         save_on_over = true,
         goal_lines   = {
-            { text = "1/4", line = 75,  color = { 1, 1, 1, 0.25 } },
-            { text = "1/2", line = 150, color = { 1, 1, 1, 0.5 } },
-            { text = "3/4", line = 225, color = { 1, 1, 1, 0.25 } },
-            { text = "???", line = 250, color = { 1.0, 0.7, 0.0, 0.5 } },
+            { text = "1/4",   line = 75,  color = { 1, 1, 1, 0.25 } },
+            { text = "1/2",   line = 150, color = { 1, 1, 1, 0.5 } },
+            { text = "3/4",   line = 225, color = { 1, 1, 1, 0.25 } },
+            { text = "???",   line = 250, color = { 1.0, 0.7, 0.0, 0.5 } },
             { text = "CLEAR", line = 300, color = { 1, 0, 0, 1 } },
         },
         settings     = {
