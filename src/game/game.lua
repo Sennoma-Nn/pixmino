@@ -41,6 +41,7 @@ game.lock_wait         = 0
 game.clear_wait        = 0
 game.wait              = 0
 game.bone              = false
+game.drop_lock_armed   = false
 
 game.time              = 0
 game.clears            = 0
@@ -91,6 +92,7 @@ function game.stop()
     game.clear_wait = 0
     game.wait = 0
     game.bone = false
+    game.drop_lock_armed = false
     game.notify = { text = "Never Gonna Give You Up", color = nil, time = 0 }
     BGM = nil
     sfx.set_bgm_volume(Settings.sound.volume.bgm)
@@ -345,6 +347,7 @@ local function calc_score(cleared, is_spin, is_mini, is_perfect, b2b_eligible)
 end
 
 local function lock_piece(is_hard)
+    game.drop_lock_armed = false
     local p = game.piece
     for _, cell in ipairs(piece_cells(p)) do
         local row = game.pf_data[cell.y]
@@ -631,7 +634,7 @@ function game.soft_drop()
         game_debug.piece("SOFT", p)
         return true
     end
-    if game.active_settings and game.active_settings.input.drop_lock then
+    if game.active_settings and game.active_settings.input.drop_lock and game.drop_lock_armed then
         lock_piece()
     end
     return false

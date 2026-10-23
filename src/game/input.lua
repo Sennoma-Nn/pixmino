@@ -194,21 +194,27 @@ local function soft_drop_rep(rep, now, old, ms)
 end
 
 function input.update(dt)
-    local k       = active_settings().input.keys
-    local now     = input.now
-    local old     = input.old
-    local rep     = input.rep
-    local ms      = dt * 1000
+    local k              = active_settings().input.keys
+    local now            = input.now
+    local old            = input.old
+    local rep            = input.rep
+    local ms             = dt * 1000
 
-    now.left      = key_down(k.left)
-    now.right     = key_down(k.right)
-    now.soft_drop = key_down(k.soft_drop)
+    now.left             = key_down(k.left)
+    now.right            = key_down(k.right)
+    now.soft_drop        = key_down(k.soft_drop)
     now.soft_drop_bottom = key_down(k.soft_drop_bottom)
-    now.cw        = key_down(k.cw)
-    now.ccw       = key_down(k.ccw)
-    now.rot180    = key_down(k.rot180)
-    now.hold      = key_down(k.hold)
-    now.hard_drop = key_down(k.hard_drop)
+    now.cw               = key_down(k.cw)
+    now.ccw              = key_down(k.ccw)
+    now.rot180           = key_down(k.rot180)
+    now.hold             = key_down(k.hold)
+    now.hard_drop        = key_down(k.hard_drop)
+
+    if now.soft_drop and not old.soft_drop then
+        game.drop_lock_armed = true
+    elseif not now.soft_drop and old.soft_drop then
+        game.drop_lock_armed = false
+    end
 
     soft_drop_rep(rep.soft_drop, now.soft_drop, old.soft_drop, ms)
     tap_action(now.soft_drop_bottom, old.soft_drop_bottom, game.soft_drop_bottom)
