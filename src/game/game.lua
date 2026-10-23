@@ -631,6 +631,9 @@ function game.soft_drop()
         game_debug.piece("SOFT", p)
         return true
     end
+    if game.active_settings and game.active_settings.input.drop_lock then
+        lock_piece()
+    end
     return false
 end
 

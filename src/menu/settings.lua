@@ -19,6 +19,7 @@ local default_settings = {
         arr = 2,
         drop_arr = 2,
         preop = true,
+        drop_lock = false,
         keys = {
             ccw = "z",
             cw = "x",
@@ -384,6 +385,13 @@ Settings.menu = {
             desc_key = "PREOP_DESC",
             get = function() return Settings.input.preop end,
             set = function(v) Settings.input.preop = v end,
+        },
+        {
+            type = "toggle",
+            text_key = "DP_LOCK",
+            desc_key = "DP_LOCK_DESC",
+            get = function() return Settings.input.drop_lock end,
+            set = function(v) Settings.input.drop_lock = v end,
         },
     },
     MENU_SETTINGS_KEYS = make_keys_items(),

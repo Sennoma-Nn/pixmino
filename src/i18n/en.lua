@@ -111,6 +111,9 @@ i18n.text = {
     DP_ARR = "DP.ASP",
     DP_ARR_DESC = "~~ Drop Auto Shift Period ~\r\n\nThe interval between drops\r\nwhile a mino drops\r\ncontinuously.",
 
+    DP_LOCK = "DP.LOCK",
+    DP_LOCK_DESC = "~~ Drop Lock ~~\r\n\nWhen on, soft drop locks\r\nthe mino immediately when\r\nblocked below.",
+
     PREOP = "I*S",
     PREOP_DESC = "~~ Initial ** System ~~\r\n\nHold rotate, move,\r\nor hold keys and\r\nthe action triggers\r\nwhen a new mino spawns.",
 
