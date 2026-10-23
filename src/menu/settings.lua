@@ -27,6 +27,7 @@ local default_settings = {
             hold = "c",
             hard_drop = "space",
             soft_drop = "down",
+            soft_drop_bottom = "up",
             left = "left",
             right = "right",
         }
@@ -57,7 +58,7 @@ local default_settings = {
 
 Settings = utils.deep_clone(default_settings)
 
-Settings.key_actions = { "left", "right", "ccw", "cw", "rot180", "soft_drop", "hard_drop", "hold" }
+Settings.key_actions = { "left", "right", "ccw", "cw", "rot180", "soft_drop", "soft_drop_bottom", "hard_drop", "hold" }
 Settings.mino_color_keys = { "I4", "O4", "T4", "S4", "Z4", "J4", "L4" }
 
 local function make_keys_items()

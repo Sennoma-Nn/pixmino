@@ -152,6 +152,7 @@ i18n.text = {
     HOLD = "HOLD",
     HARD_DROP = "HARD DP.",
     SOFT_DROP = "SOFT DP.",
+    SOFT_DROP_BOTTOM = "SD.BTM.",
     LEFT = "LEFT",
     RIGHT = "RIGHT",
 
@@ -177,6 +178,7 @@ i18n.text = {
     HOLD_DESC = "Hold current mino.",
     HARD_DROP_DESC = "Drop instantly.",
     SOFT_DROP_DESC = "Move mino downward.",
+    SOFT_DROP_BOTTOM_DESC = "Drop to the bottom without\r\nlocking.",
     LEFT_DESC = "Move mino left.",
     RIGHT_DESC = "Move mino right.",
 }

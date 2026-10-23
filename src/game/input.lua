@@ -17,6 +17,7 @@ input.old = {
     left = false,
     right = false,
     soft_drop = false,
+    soft_drop_bottom = false,
     cw = false,
     ccw = false,
     rot180 = false,
@@ -27,6 +28,7 @@ input.now = {
     left = false,
     right = false,
     soft_drop = false,
+    soft_drop_bottom = false,
     cw = false,
     ccw = false,
     rot180 = false,
@@ -201,6 +203,7 @@ function input.update(dt)
     now.left      = key_down(k.left)
     now.right     = key_down(k.right)
     now.soft_drop = key_down(k.soft_drop)
+    now.soft_drop_bottom = key_down(k.soft_drop_bottom)
     now.cw        = key_down(k.cw)
     now.ccw       = key_down(k.ccw)
     now.rot180    = key_down(k.rot180)
@@ -208,6 +211,7 @@ function input.update(dt)
     now.hard_drop = key_down(k.hard_drop)
 
     soft_drop_rep(rep.soft_drop, now.soft_drop, old.soft_drop, ms)
+    tap_action(now.soft_drop_bottom, old.soft_drop_bottom, game.soft_drop_bottom)
     tap_action(now.hard_drop, old.hard_drop, game.hard_drop)
 
     tap_action(now.rot180, old.rot180, game.rotate_180)

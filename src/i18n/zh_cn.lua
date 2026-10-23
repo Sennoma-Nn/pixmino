@@ -152,6 +152,7 @@ i18n.text = {
     HOLD = "暂存",
     HARD_DROP = "硬降",
     SOFT_DROP = "软降",
+    SOFT_DROP_BOTTOM = "瞬降",
     LEFT = "左移",
     RIGHT = "右移",
 
@@ -177,6 +178,7 @@ i18n.text = {
     HOLD_DESC = "当前形状暂存｡",
     HARD_DROP_DESC = "硬降落｡",
     SOFT_DROP_DESC = "软降落｡",
+    SOFT_DROP_BOTTOM_DESC = "降落到最底部,但不立即锁定｡",
     LEFT_DESC = "形状向左移动｡",
     RIGHT_DESC = "形状向右移动｡",
 }

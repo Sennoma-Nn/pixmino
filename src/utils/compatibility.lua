@@ -75,6 +75,7 @@ local function build_settings_from_ini(p)
                 hold = p.key_hold or settings.input.keys.hold,
                 hard_drop = p.key_hard_drop or settings.input.keys.hard_drop,
                 soft_drop = p.key_soft_drop or settings.input.keys.soft_drop,
+                soft_drop_bottom = p.key_soft_drop_bottom or settings.input.keys.soft_drop_bottom,
                 left = p.key_left or settings.input.keys.left,
                 right = p.key_right or settings.input.keys.right,
             }

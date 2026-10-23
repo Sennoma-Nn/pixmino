@@ -152,6 +152,7 @@ i18n.text = {
     HOLD = "ﾎｰﾙﾄﾞ",
     HARD_DROP = "ﾊｰﾄﾞDP.",
     SOFT_DROP = "ｿﾌﾄDP.",
+    SOFT_DROP_BOTTOM = "SD.BTM.",
     LEFT = "ﾋﾀﾞﾘ",
     RIGHT = "ﾐｷﾞ",
 
@@ -177,6 +178,7 @@ i18n.text = {
     HOLD_DESC = "ﾐﾉｦ ﾎｰﾙﾄﾞ｡",
     HARD_DROP_DESC = "ｽｸﾞ ﾗｯｶ｡",
     SOFT_DROP_DESC = "ｼﾀﾍ ﾄﾞﾛｯﾌﾟ｡",
+    SOFT_DROP_BOTTOM_DESC = "ｻｲﾃｲﾌﾞ ﾏﾃﾞ ｵﾄｽｶﾞ ﾛｯｸ ｼﾅｲ｡",
     LEFT_DESC = "ﾋﾀﾞﾘﾍ ﾑｰﾌﾞ｡",
     RIGHT_DESC = "ﾐｷﾞﾍ ﾑｰﾌﾞ｡",
 }

@@ -358,27 +358,21 @@ end
 local function draw_key_info(font)
     if not game.active_settings then return end
     if game.active_settings.display.key_info then
-        local ix = 320 - 8 * 11 - 2
+        local ix = 320 - 8 * 12 - 2
         local iy = 0
         local game_modal = game.modal_active or game.over or game.cleared
+        local i = 1
 
-        fontprint.print_outlined(font, "███████████", ix, iy, 1, Colors.white)
-        fontprint.print(font, "🠸", ix + 10 * 1, iy, 1,
-            (input.now.left and (not game_modal)) and Colors.key or Colors.black)
-        fontprint.print(font, "🠺", ix + 10 * 2, iy, 1,
-            (input.now.right and (not game_modal)) and Colors.key or Colors.black)
-        fontprint.print(font, "🠻", ix + 10 * 3, iy, 1,
-            (input.now.soft_drop and (not game_modal)) and Colors.key or Colors.black)
-        fontprint.print(font, "🡇", ix + 10 * 4, iy, 1,
-            (input.now.hard_drop and (not game_modal)) and Colors.key or Colors.black)
-        fontprint.print(font, "⮀", ix + 10 * 5, iy, 1,
-            (input.now.hold and (not game_modal)) and Colors.key or Colors.black)
-        fontprint.print(font, "↺", ix + 10 * 6, iy, 1,
-            (input.now.ccw and (not game_modal)) and Colors.key or Colors.black)
-        fontprint.print(font, "↻", ix + 10 * 7, iy, 1, (input.now.cw and (not game_modal)) and Colors.key or Colors
-            .black)
-        fontprint.print(font, "🗘", ix + 10 * 8, iy, 1,
-            (input.now.rot180 and (not game_modal)) and Colors.key or Colors.black)
+        fontprint.print_outlined(font, "█████████████", ix, iy, 1, Colors.white)
+        fontprint.print(font, "🠸", ix + 10 * i, iy, 1, (input.now.left and (not game_modal)) and Colors.key or Colors.black); i = i + 1
+        fontprint.print(font, "🠺", ix + 10 * i, iy, 1, (input.now.right and (not game_modal)) and Colors.key or Colors.black); i = i + 1
+        fontprint.print(font, "🠻", ix + 10 * i, iy, 1, (input.now.soft_drop and (not game_modal)) and Colors.key or Colors.black); i = i + 1
+        fontprint.print(font, "🡇", ix + 10 * i, iy, 1, (input.now.hard_drop and (not game_modal)) and Colors.key or Colors.black); i = i + 1
+        fontprint.print(font, "⮟", ix + 10 * i, iy, 1, (input.now.soft_drop_bottom and (not game_modal)) and Colors.key or Colors.black); i = i + 1
+        fontprint.print(font, "⮀", ix + 10 * i, iy, 1, (input.now.hold and (not game_modal)) and Colors.key or Colors.black); i = i + 1
+        fontprint.print(font, "↺", ix + 10 * i, iy, 1, (input.now.ccw and (not game_modal)) and Colors.key or Colors.black); i = i + 1
+        fontprint.print(font, "↻", ix + 10 * i, iy, 1, (input.now.cw and (not game_modal)) and Colors.key or Colors.black); i = i + 1
+        fontprint.print(font, "🗘", ix + 10 * i, iy, 1, (input.now.rot180 and (not game_modal)) and Colors.key or Colors.black); i = i + 1
     end
 end
 

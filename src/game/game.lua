@@ -646,6 +646,19 @@ function game.hard_drop()
     lock_piece(true)
 end
 
+function game.soft_drop_bottom()
+    local p = game.piece
+    if not p then return false end
+    local ny = drop_y(p)
+    local d = p.y - ny
+    if d > 0 then
+        p.y = ny
+        reset_piece_spin(p)
+        game_debug.piece("SOFTBOTTOM", p)
+    end
+    return d > 0
+end
+
 local function apply_gravity(dt)
     local p = game.piece
     if not p then return end
