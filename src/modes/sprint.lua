@@ -1,8 +1,14 @@
 -- Copyright (C) 2026 Sennoma-Nn
 -- SPDX-License-Identifier: GPL-3.0-or-later
 
+local utils = require("src.utils.utils")
+
 return {
     get_info = {
+        record_key   = function()
+            return "sprint_40"
+        end,
+        bast_format  = utils.format_time,
         bgm          = "katyusha",
         level        = 1,
         gravity      = 1 / 64,
@@ -11,7 +17,7 @@ return {
         clear_wait   = 0,
         save_on_over = false,
         goal_lines   = {
-            { text = "1/2", line = 20, color = { 1, 1, 1, 0.5 } },
+            { text = "1/2",   line = 20, color = { 1, 1, 1, 0.5 } },
             { text = "CLEAR", line = 40, color = { 1, 0, 0, 1 } },
         },
         settings     = {

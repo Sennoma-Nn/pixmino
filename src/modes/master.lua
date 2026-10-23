@@ -5,6 +5,8 @@ local lv = 0
 
 return {
     get_info = {
+        record_key   = "master",
+        bast_format  = function(i) return i end,
         bgm          = "katyusha",
         level        = function(game) return lv end,
         gravity      = 1200,

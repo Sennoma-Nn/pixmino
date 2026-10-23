@@ -266,7 +266,9 @@ local function draw_modal(font, gx, gy, pw, ph, title_key)
     love.graphics.setColor(0, 0, 0, 0.6)
     love.graphics.rectangle("fill", gx, gy, pw, ph)
 
-    local mode_name = locale.get(game.mode_key:upper())
+    local info = game.mode and game.mode.get_info
+    local name_key = (info and info.name) or game.mode_key:upper()
+    local mode_name = locale.get(name_key)
     menu.print_with_dim(mode_name, gx + 4, gy + 4, 1, Colors.gray, Colors.out_line, menu.get_dim_config("gray"))
 
     local items = game.get_modal_items()

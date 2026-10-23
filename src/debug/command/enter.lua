@@ -17,8 +17,10 @@ local fg_note = cio.fg(15)
 
 local function mode_list()
     local names = {}
-    for name in pairs(modes) do
-        names[#names + 1] = name
+    for name, mod in pairs(modes) do
+        if type(mod) == "table" then
+            names[#names + 1] = name
+        end
     end
     table.sort(names)
     return table.concat(names, ", ")

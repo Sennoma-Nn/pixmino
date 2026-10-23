@@ -3,6 +3,7 @@
 
 return {
     get_info = {
+        hide        = true,
         bg          = "dream",
         level       = "/",
         gravity     = 0,

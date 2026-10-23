@@ -3,6 +3,7 @@
 
 return {
     get_info = {
+        hide         = true,
         bgm          = "katyusha",
         level        = 1,
         gravity      = 1 / 64,

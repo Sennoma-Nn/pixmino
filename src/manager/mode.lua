@@ -3,7 +3,7 @@
 
 local mode = {}
 
-local function load_modes()
+local function load_builtin()
     local dir = "src/modes"
     local files = love.filesystem.getDirectoryItems(dir)
     for i, j in ipairs(files) do
@@ -17,6 +17,16 @@ local function load_modes()
     end
 end
 
-load_modes()
+function mode.load_custom(custom)
+    for name, mod in pairs(custom or {}) do
+        if mode[name] then
+            print("custom mode conflict (ignored): " .. tostring(name))
+        else
+            mode[name] = mod
+        end
+    end
+end
+
+load_builtin()
 
 return mode

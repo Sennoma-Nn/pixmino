@@ -84,6 +84,12 @@ function user_script.run()
     skin.register_custom(user_script.get_custom_skins())
     Settings.rebuild_skin_menu()
 
+    local mode = require("src.manager.mode")
+    mode.load_custom(user_script.get_custom_modes())
+
+    local menu = require("src.menu.menu")
+    menu.rebuild_start_menu()
+
     run_autoexec(config_dir)
 end
 
@@ -145,6 +151,36 @@ function user_script.get_custom_i18n()
     end
 
     return langs
+end
+
+function user_script.get_custom_modes()
+    local modes = {}
+
+    local config_dir = user_script.config_dir()
+    if not config_dir then
+        return modes
+    end
+
+    local mode_root = config_dir .. "/modes"
+    if not nativefs.getInfo(mode_root, "directory") then
+        return modes
+    end
+
+    local files = nativefs.getDirectoryItems(mode_root)
+    for _, f in ipairs(files) do
+        if f:match("%.lua$") then
+            local basename = f:gsub("%.lua$", "")
+            local chunk = nativefs.load(mode_root .. "/" .. f)
+            if chunk then
+                local ok, mod = pcall(chunk)
+                if ok and type(mod) == "table" then
+                    modes[basename] = mod
+                end
+            end
+        end
+    end
+
+    return modes
 end
 
 return user_script

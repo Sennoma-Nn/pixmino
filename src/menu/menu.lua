@@ -9,6 +9,7 @@ local settings = require("src.menu.settings")
 local save = require("src.utils.save")
 local dbg = require("src.game.debug")
 local sfx = require("src.manager.sfx")
+local modes = require("src.manager.mode")
 
 local menu = {}
 
@@ -126,6 +127,60 @@ function menu.rebuild_lang_menu()
     menu.data.MENU_LANG = build_lang_menu()
 end
 
+local function build_start_menu()
+    local items = {}
+
+    local entries = {}
+    for name, mod in pairs(modes) do
+        if type(mod) ~= "table" then
+        else
+            local info = mod.get_info
+            local info_table = type(info) == "table" and info or {}
+            if not info_table.hide then
+                entries[#entries + 1] = { name = name, info = info_table }
+            end
+        end
+    end
+    table.sort(entries, function(a, b)
+        return a.name < b.name
+    end)
+
+    for i, entry in ipairs(entries) do
+        local name = entry.name
+        local info_table = entry.info
+
+        local item = {
+            mode = name,
+            action = function() menu.start_game(name) end,
+        }
+
+        if info_table.name ~= nil then
+            item.text = info_table.name
+        else
+            item.text_key = name:upper()
+        end
+
+        if info_table.desc ~= nil then
+            item.desc = info_table.desc
+        else
+            item.desc_key = name:upper() .. "_DESC"
+        end
+
+        if info_table.record_key ~= nil then
+            item.record_key = info_table.record_key
+        end
+        item.bast_format = info_table.bast_format
+
+        items[#items + 1] = item
+    end
+
+    return items
+end
+
+function menu.rebuild_start_menu()
+    menu.data.MENU_START = build_start_menu()
+end
+
 menu.data = {
     MENU_LANG = build_lang_menu(),
     MENU_MAIN = {
@@ -158,32 +213,7 @@ menu.data = {
             end
         },
     },
-    MENU_START = {
-        {
-            mode = "marathon",
-            record_key = "marathon",
-            text_key = "MARATHON",
-            desc_key = "MARATHON_DESC",
-            bast_format = function(i) return i end,
-            action = function() menu.start_game("marathon") end
-        },
-        {
-            mode = "sprint",
-            record_key = "sprint_40",
-            text_key = "SPRINT",
-            desc_key = "SPRINT_DESC",
-            bast_format = function(i) return utils.format_time(i) end,
-            action = function() menu.start_game("sprint") end
-        },
-        {
-            mode = "master",
-            record_key = "master",
-            text_key = "MASTER",
-            desc_key = "MASTER_DESC",
-            bast_format = function(i) return i end,
-            action = function() menu.start_game("master") end
-        },
-    },
+    MENU_START = build_start_menu(),
     MENU_ABOUT = {
         {
             text_key = "ABOUT_GAME",
@@ -299,11 +329,12 @@ local function control_desc(it)
 end
 
 local function mode_record_text(it)
-    if not it.record_key then
+    local record_key = utils.get_value_if_func_call(it.record_key)
+    if not record_key then
         return nil
     end
     local label = locale.get("BEST")
-    local record = save.get_record(it.record_key)
+    local record = save.get_record(record_key)
     if record == nil then
         return string.format("%s: /", label)
     end
