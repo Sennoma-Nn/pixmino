@@ -31,9 +31,10 @@ local function switch_to(new_state)
     menu.state = new_state
     menu.selection = menu.selections[new_state] or 1
 
+    sfx.play("menu_confirm")
+
     if new_state ~= "GAME" then
         BG = "grid"
-        sfx.play("menu")
     end
 end
 
@@ -511,11 +512,11 @@ function menu.keypressed(key)
 
     if key == "up" then
         menu.selection = utils.wrap_index(menu.selection - 1, #data)
-        sfx.play("menu")
+        sfx.play("menu_move")
         return true
     elseif key == "down" then
         menu.selection = utils.wrap_index(menu.selection + 1, #data)
-        sfx.play("menu")
+        sfx.play("menu_move")
         return true
     elseif key == "left" or key == "right" then
         if it and it.type ~= "action" and it.type ~= "toggle" then
@@ -526,11 +527,11 @@ function menu.keypressed(key)
                 v = math.floor(v / step + 0.5) * step
                 v = utils.clamp(v, it.min, it.max)
                 it.set(v)
-                sfx.play("menu")
+                sfx.play("menu_move")
             elseif it.type == "list" then
                 local idx = utils.clamp(it.get_index() + delta, 1, #it.items)
                 it.set_index(idx)
-                sfx.play("menu")
+                sfx.play("menu_move")
             end
             return true
         end
