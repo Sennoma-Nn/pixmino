@@ -60,6 +60,9 @@ i18n.text = {
     SP_SFX = "SFX",
     SP_SFX_DESC = 'mOsh:\r\n\n8BIT SFX 库｡ (CC0)',
 
+    SP_DEEPSEEK = "DEEPSEEK",
+    SP_DEEPSEEK_DESC = "DeepSeek:\r\n\n用于代码审查､补全､以及部分代码的编写｡",
+
     PAUSE = "暂停",
     GAME_OVER = "游戏结束",
     CLEAR = "通关",

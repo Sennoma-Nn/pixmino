@@ -60,6 +60,9 @@ i18n.text = {
     SP_SFX = "SFX",
     SP_SFX_DESC = "mOsh:\r\n\n8BIT SFX ﾗｲﾌﾞﾗﾘ｡ (CC0)",
 
+    SP_DEEPSEEK = "DEEPSEEK",
+    SP_DEEPSEEK_DESC = "DeepSeek:\r\n\nｺｰﾄﾞ ﾚﾋﾞｭｰ､ﾎｶﾝ､ｲﾁﾌﾞﾉ ｺｰﾄﾞ\r\nｻｸｾｲﾆ ｼﾖｳ｡",
+
     PAUSE = "ﾎﾟｰｽﾞ",
     GAME_OVER = "ｹﾞｰﾑｵｰﾊﾞｰ",
     CLEAR = "ｸﾘｱ",

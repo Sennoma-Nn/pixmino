@@ -60,6 +60,9 @@ i18n.text = {
     SP_SFX = "SFX",
     SP_SFX_DESC = 'mOsh:\r\n\n8BIT SFX Library. (CC0)',
 
+    SP_DEEPSEEK = "DEEPSEEK",
+    SP_DEEPSEEK_DESC = "DeepSeek:\r\n\nUsed for code review,\r\ncompletion, and writing\r\npart of the code.",
+
     PAUSE = "PAUSED",
     GAME_OVER = "GAME OVER",
     CLEAR = "CLEAR",

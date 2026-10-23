@@ -283,6 +283,11 @@ menu.data = {
             desc_key = "SP_SFX_DESC",
             action = false
         },
+        {
+            text_key = "SP_DEEPSEEK",
+            desc_key = "SP_DEEPSEEK_DESC",
+            action = false
+        },
     },
 }
 
