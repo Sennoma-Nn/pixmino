@@ -4,4 +4,5 @@
 function love.conf(t)
     t.window.title = "Pixmino"
     t.identity = "pixmino"
+    t.window.icon = "assets/icon/icon32.png"
 end

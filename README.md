@@ -1,13 +1,6 @@
-<table>
-    <tr>
-        <td valign="middle">
-            <img src="assets/icon/icon.svg" height="48">
-        </td>
-        <td valign="middle">
-            <img src="assets/doc/title.svg" height="32">
-        </td>
-    </tr>
-</table>
+<span><img src="assets/icon/icon32.svg" height="32"></span>
+<span>&nbsp;&nbsp;</span>
+<span><img src="assets/doc/title.svg" height="32"></span>
 
 ---
 
