@@ -8,6 +8,7 @@ local push = require("lib.push")
 local settings = require("src.menu.settings")
 local save = require("src.utils.save")
 local dbg = require("src.game.debug")
+local sfx = require("src.manager.sfx")
 
 local menu = {}
 
@@ -32,6 +33,7 @@ local function switch_to(new_state)
 
     if new_state ~= "GAME" then
         BG = "grid"
+        sfx.play("menu")
     end
 end
 
@@ -509,9 +511,11 @@ function menu.keypressed(key)
 
     if key == "up" then
         menu.selection = utils.wrap_index(menu.selection - 1, #data)
+        sfx.play("menu")
         return true
     elseif key == "down" then
         menu.selection = utils.wrap_index(menu.selection + 1, #data)
+        sfx.play("menu")
         return true
     elseif key == "left" or key == "right" then
         if it and it.type ~= "action" and it.type ~= "toggle" then
@@ -522,9 +526,11 @@ function menu.keypressed(key)
                 v = math.floor(v / step + 0.5) * step
                 v = utils.clamp(v, it.min, it.max)
                 it.set(v)
+                sfx.play("menu")
             elseif it.type == "list" then
                 local idx = utils.clamp(it.get_index() + delta, 1, #it.items)
                 it.set_index(idx)
+                sfx.play("menu")
             end
             return true
         end
