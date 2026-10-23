@@ -70,7 +70,7 @@ i18n.text = {
     QUIT_DESC = "結束遊戲｡",
 
     SETTINGS = "設定",
-    SETTINGS_DESC = "調整遊戲設定｡\r\n\n🠸 X 🠺 按下 ←/→ 鍵改變\r\n- X - 按下 ↩ 鍵切換\r\n[ X ] 按下 ↩ 鍵後輸入一個按鍵",
+    SETTINGS_DESC = "調整遊戲設定｡\r\n\n◄ X ► 按下 ←/→ 鍵改變\r\n- X - 按下 ↩ 鍵切換\r\n[ X ] 按下 ↩ 鍵後輸入一個按鍵",
 
     JMP_CTRL = "操作",
     JMP_KEYS = "按鍵",
@@ -157,6 +157,7 @@ i18n.text = {
     RIGHT = "右移",
 
     PRESS_KEY_TIP = "請按下按鍵...",
+    CLEAR_KEY_TIP = "按下 ⌦ 鍵清除按鍵綁定｡",
 
     MARATHON = "馬拉松",
     MARATHON_DESC = "消除150列,\r\n以分數為目標,向更高分衝刺!",

@@ -70,7 +70,7 @@ i18n.text = {
     QUIT_DESC = "ｼｭｳﾘｮｳ｡",
 
     SETTINGS = "ｾｯﾃｲ",
-    SETTINGS_DESC = "ｹﾞｰﾑ ｾｯﾃｲｦ ﾁｮｳｾｲ｡\r\n\n🠸 X 🠺 ←/→ ﾃﾞ ｺｳﾓｸｦ ﾍﾝｺｳ\r\n- X - ↩ ﾃﾞ ｷﾘｶｴ\r\n[ X ] ↩ ﾉ ｱﾄﾆ ｷｰｦ ﾆｭｳﾘｮｸ",
+    SETTINGS_DESC = "ｹﾞｰﾑ ｾｯﾃｲｦ ﾁｮｳｾｲ｡\r\n\n◄ X ► ←/→ ﾃﾞ ｺｳﾓｸｦ ﾍﾝｺｳ\r\n- X - ↩ ﾃﾞ ｷﾘｶｴ\r\n[ X ] ↩ ﾉ ｱﾄﾆ ｷｰｦ ﾆｭｳﾘｮｸ",
 
     JMP_CTRL = "ｿｳｻ",
     JMP_KEYS = "ｷｰ",
@@ -157,6 +157,7 @@ i18n.text = {
     RIGHT = "ﾐｷﾞ",
 
     PRESS_KEY_TIP = "ｷｰｦ ｵｼﾃ...",
+    CLEAR_KEY_TIP = "⌦ ｦ ｵｼﾃ ｷｰﾊﾞｲﾝﾃﾞｨﾝｸﾞｦ ｸﾘｱ｡",
 
     MARATHON = "ﾏﾗｿﾝ",
     MARATHON_DESC = "150 ﾗｲﾝｦ ｸﾘｱ､\r\nｽｺｱｦ ﾈﾗｴ､ ﾓｯﾄ ﾀｶｸ!",

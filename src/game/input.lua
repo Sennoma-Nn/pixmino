@@ -48,7 +48,7 @@ local function tap_action(now, old, action)
 end
 
 local function key_down(k)
-    if not k then return false end
+    if not k or k == "" then return false end
     return love.keyboard.isDown(k)
 end
 

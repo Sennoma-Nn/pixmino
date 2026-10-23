@@ -12,6 +12,9 @@ local sfx = require("src.manager.sfx")
 
 local menu = {}
 
+menu.desc_offset_x = 0
+menu.desc_offset_y = 0
+
 menu.state = "MENU_MAIN"
 menu.selection = 1
 menu.selections = {}
@@ -418,8 +421,8 @@ function menu.draw(gx, gy, pw, ph, bw)
     local num_items = #data
     local total_h = num_items * 10
     local start_y = gy + (ph - total_h) / 2
-    local desc_x = gx + pw + bw + 8
-    local desc_y = gy - 1
+    local desc_x = gx + pw + bw + 8 + menu.desc_offset_x
+    local desc_y = gy - 1 + menu.desc_offset_y
 
     for i, it in ipairs(data) do
         local disabled = (it.action == false)
@@ -454,19 +457,18 @@ function menu.draw(gx, gy, pw, ph, bw)
                 local current = control_desc(it)
                 local desc = utils.get_value_if_func_call(it.desc) or (it.desc_key and locale.get(it.desc_key))
                 local desc_valid = desc and desc ~= it.desc_key
+                local formatd_desc = desc_format(desc)
                 local record_txt = it.mode and mode_record_text(it)
                 local y = desc_y
 
                 if desc_valid then
-                    menu.print_with_dim(desc_format(desc), desc_x, y, 1, Colors.white, Colors.out_line,
-                        menu.get_dim_config("white"))
-                    local lines = select(2, desc:gsub("\n", "")) + 1
+                    menu.print_with_dim(formatd_desc, desc_x, y, 1, Colors.white, Colors.out_line, menu.get_dim_config("white"))
+                    local lines = select(2, formatd_desc:gsub("\n", "")) + 1
                     y = y + (lines + 1) * 8
                 end
                 if current then
                     if it.type == "keys" then
-                        menu.print_with_dim(current, desc_x, y, 1, Colors.white, Colors.out_line,
-                            menu.get_dim_config("white"))
+                        menu.print_with_dim(current, desc_x, y, 1, Colors.white, Colors.out_line, menu.get_dim_config("white"))
                     else
                         fontprint.print_outlined(Fonts.bold_font, current, desc_x, y, 1, Colors.white)
                     end
@@ -532,6 +534,11 @@ function menu.keypressed(key)
                 it.set_index(idx)
                 sfx.play("menu_move")
             end
+            return true
+        end
+    elseif key == "delete" then
+        if it and it.type == "keys" then
+            Settings.input.keys[it.key_name] = ""
             return true
         end
     elseif key == "return" or key == "space" then

@@ -70,7 +70,7 @@ i18n.text = {
     QUIT_DESC = "Exit the game.",
 
     SETTINGS = "SETTINGS",
-    SETTINGS_DESC = "Adjust game settings.\r\n\n🠸 X 🠺 ←/→ to change option\r\n- X - ↩ to toggle\r\n[ X ] ↩ then press a key",
+    SETTINGS_DESC = "Adjust game settings.\r\n\n◄ X ► ←/→ to change option\r\n- X - ↩ to toggle\r\n[ X ] ↩ then press a key",
 
     JMP_CTRL = "CONTROLS",
     JMP_KEYS = "KEY",
@@ -157,6 +157,7 @@ i18n.text = {
     RIGHT = "RIGHT",
 
     PRESS_KEY_TIP = "PRESS KEY...",
+    CLEAR_KEY_TIP = "Press ⌦ to clear the key\r\nbinding.",
 
     MARATHON = "MARATHON",
     MARATHON_DESC = "Clear 150 lines,\r\nAim for score,\r\nchase the top!",

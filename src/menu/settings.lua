@@ -58,7 +58,7 @@ local default_settings = {
 
 Settings = utils.deep_clone(default_settings)
 
-Settings.key_actions = { "left", "right", "ccw", "cw", "rot180", "soft_drop", "soft_drop_bottom", "hard_drop", "hold" }
+Settings.key_actions = { "left", "right", "ccw", "cw", "rot180", "soft_drop", "hard_drop", "soft_drop_bottom", "hold" }
 Settings.mino_color_keys = { "I4", "O4", "T4", "S4", "Z4", "J4", "L4" }
 
 local function make_keys_items()
@@ -67,7 +67,13 @@ local function make_keys_items()
         items[#items + 1] = {
             type = "keys",
             text_key = k:upper(),
-            desc_key = (k:upper()) .. "_DESC",
+            desc = "%s\r\n\n%s",
+            desc_format = function(s)
+                local desc_key = (k:upper()) .. "_DESC"
+                local desc_text = locale.get(desc_key)
+                local tip = locale.get("CLEAR_KEY_TIP")
+                return string.format(s, desc_text, tip)
+            end,
             key_name = k,
         }
     end
