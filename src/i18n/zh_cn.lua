@@ -96,6 +96,9 @@ i18n.text = {
     FULLSCREEN = "全屏",
     FULLSCREEN_DESC = "切换全屏｡",
 
+    PLAYFIELD_ALPHA = "场地背景不透明度",
+    PLAYFIELD_ALPHA_DESC = "设置场地背景的不透明度｡",
+
     LANGUAGE = "语言",
     LANGUAGE_DESC = "选择显示语言｡",
 

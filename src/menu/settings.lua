@@ -35,6 +35,7 @@ local default_settings = {
     display = {
         fullscreen = false,
         skin = "block",
+        playfield_alpha = 0.8,
         split_minos = true,
         spawn_indicator = true,
         key_info = true,
@@ -222,6 +223,16 @@ Settings.menu = {
                 push:switchFullscreen()
                 Settings.display.fullscreen = love.window.getFullscreen()
             end,
+        },
+        {
+            type = "value",
+            text_key = "PLAYFIELD_ALPHA",
+            desc_key = "PLAYFIELD_ALPHA_DESC",
+            min = 0,
+            max = 1,
+            step = 0.1,
+            get = function() return Settings.display.playfield_alpha end,
+            set = function(v) Settings.display.playfield_alpha = v end,
         },
         {
             type = "list",

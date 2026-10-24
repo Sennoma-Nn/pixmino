@@ -6,6 +6,8 @@ local push = require("lib.push")
 
 local matrix = {}
 
+local flash = 0
+
 local font_897
 local font_bpmf
 local charset = {}
@@ -87,6 +89,10 @@ local function draw_vignette()
 end
 
 function matrix.update(dt)
+    if flash > 0 then
+        flash = math.max(0, flash - dt * 2)
+    end
+
     for i, col in ipairs(cols) do
         col.timer = col.timer + dt
         while col.timer >= col.interval do
@@ -99,13 +105,17 @@ function matrix.update(dt)
     end
 end
 
+function matrix.on_line_clear(cleared)
+    flash = math.min(1, flash + cleared)
+end
+
 function matrix.draw()
     load_font()
 
     local nw, nh = push:getDimensions()
     if #cols == 0 or nw ~= w or nh ~= h then rebuild() end
 
-    love.graphics.clear(0, 0.05, 0)
+    love.graphics.clear(0, 0.05 + 0.2 * flash, 0)
     draw_vignette()
 
     for j, col in ipairs(cols) do

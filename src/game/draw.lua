@@ -379,7 +379,7 @@ local function draw_key_info(font)
 end
 
 function render.draw(gx, gy, pw, ph, bw, bs)
-    love.graphics.setColor(unpack(Colors.playfield_bg))
+    love.graphics.setColor(0, 0, 0, Settings.display.playfield_alpha)
     love.graphics.rectangle("fill", gx, gy, pw, ph)
 
     love.graphics.setColor(unpack(Colors.white))

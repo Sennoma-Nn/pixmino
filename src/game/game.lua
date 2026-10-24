@@ -7,6 +7,7 @@ local save             = require("src.utils.save")
 local game_debug       = require("src.game.debug")
 local sfx              = require("src.manager.sfx")
 local skin             = require("src.manager.skin")
+local bg               = require("src.manager.bg")
 
 local next_count       = 3
 local bone_color       = { 1.0, 0.7, 0.0, 0.4 }
@@ -310,6 +311,7 @@ local function clear_lines()
     if cleared > 0 then
         game.clears = game.clears + cleared
         call_hook("on_line_clear")
+        bg.notify_clear(cleared)
     end
 
     return cleared

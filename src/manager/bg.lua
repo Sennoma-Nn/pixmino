@@ -54,4 +54,11 @@ function bg.draw()
     end
 end
 
+function bg.notify_clear(cleared)
+    local impl = get_impl()
+    if impl and impl.on_line_clear then
+        impl.on_line_clear(cleared)
+    end
+end
+
 return bg

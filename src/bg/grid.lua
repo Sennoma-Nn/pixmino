@@ -6,6 +6,7 @@ local background = {0.1, 0.1, 0.15}
 local grid = {}
 
 local t = 0
+local burst = 0
 
 local canvas_a
 -- local canvas_b
@@ -32,7 +33,15 @@ local function paint_layer(canvas, w, h, spacing, dx, dy)
 end
 
 function grid.update(dt)
-    t = t + dt
+    if burst > 0 then
+        burst = burst * math.exp(-dt * 4)
+        if burst < 0.01 then burst = 0 end
+    end
+    t = t + dt * (1 + burst * 4)
+end
+
+function grid.on_line_clear(cleared)
+    burst = math.min(1, burst + cleared * 0.5)
 end
 
 function grid.draw()

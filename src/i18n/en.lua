@@ -96,6 +96,9 @@ i18n.text = {
     FULLSCREEN = "FULL SCR.",
     FULLSCREEN_DESC = "Toggle fullscreen display.",
 
+    PLAYFIELD_ALPHA = "PF.ALPHA",
+    PLAYFIELD_ALPHA_DESC = "Set the playfield\r\nbackground opacity.",
+
     LANGUAGE = "LANGUAGE",
     LANGUAGE_DESC = "Select display language.",
 

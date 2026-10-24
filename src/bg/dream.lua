@@ -11,6 +11,7 @@ local gradient_bottom = {0.2, 0.1, 0.2}
 local particles = {}
 local w, h = 0, 0
 local t = 0
+local burst = 0
 
 local function random_range(a, b)
     return a + love.math.random() * (b - a)
@@ -23,11 +24,11 @@ local function spawn(p, initial)
     p.vy = -random_range(3, 14)
     p.size = love.math.random() < 0.5 and 3 or 1
     p.sway_amp = random_range(1, 6)
-    p.sway_speed = random_range(0.3, 1.4)
+    p.sway_speed = random_range(0.3, 1.5)
     p.sway_phase = love.math.random() * math.pi * 2
     p.twinkle_speed = random_range(0.8, 3.0)
     p.twinkle_phase = love.math.random() * math.pi * 2
-    p.alpha = random_range(0.18, 0.65)
+    p.alpha = random_range(0.1, 0.6)
     local key = Settings.mino_color_keys[love.math.random(#Settings.mino_color_keys)]
     p.color = Settings.display.block_color[key]
     return p
@@ -46,6 +47,12 @@ end
 function dream.update(dt)
     t = t + dt
 
+    if burst > 0 then
+        burst = burst * math.exp(-dt * 4)
+        if burst < 0.01 then burst = 0 end
+    end
+    local boost = 1 + burst * 3
+
     local nw, nh = push:getDimensions()
     if nw ~= w or nh ~= h then
         rebuild()
@@ -53,8 +60,8 @@ function dream.update(dt)
 
     for i = 1, #particles do
         local p = particles[i]
-        p.x = p.x + (p.vx + math.sin(t * p.sway_speed + p.sway_phase) * p.sway_amp) * dt
-        p.y = p.y + p.vy * dt
+        p.x = p.x + (p.vx + math.sin(t * p.sway_speed * boost + p.sway_phase) * p.sway_amp * boost) * dt
+        p.y = p.y + p.vy * boost * dt
 
         if p.x < -4 then
             p.x = w + 4
@@ -72,14 +79,19 @@ local function draw_gradient(width, height)
     love.graphics.setBlendMode("alpha")
     for y = 0, height - 1 do
         local k = height > 1 and y / (height - 1) or 0
+        local l = burst / 6
         love.graphics.setColor(
-            gradient_top[1] + (gradient_bottom[1] - gradient_top[1]) * k,
-            gradient_top[2] + (gradient_bottom[2] - gradient_top[2]) * k,
-            gradient_top[3] + (gradient_bottom[3] - gradient_top[3]) * k,
+            gradient_top[1] + (gradient_bottom[1] - gradient_top[1]) * k + l * 0.2,
+            gradient_top[2] + (gradient_bottom[2] - gradient_top[2]) * k + l * 0.2,
+            gradient_top[3] + (gradient_bottom[3] - gradient_top[3]) * k + l * 0.5,
             1
         )
         love.graphics.rectangle("fill", 0, y, width, 1)
     end
+end
+
+function dream.on_line_clear(cleared)
+    burst = math.min(1, burst + cleared * 0.5)
 end
 
 function dream.draw()
