@@ -37,7 +37,7 @@ local function switch_to(new_state)
     sfx.play("menu_confirm")
 
     if new_state ~= "GAME" then
-        BG = "grid"
+        BG = MENU_BG
     end
 end
 

@@ -60,10 +60,12 @@ Colors = {
     key                = { 0.8, 0.5, 0, 1 },
 }
 
+MENU_BG = "dream"
+
 function love.load()
     love.graphics.setDefaultFilter("nearest", "nearest")
     love.math.setRandomSeed(os.time())
-    BG = "grid"
+    BG = MENU_BG
 
     push:setupScreen(
         320 * 1, 180 * 1,

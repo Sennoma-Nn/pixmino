@@ -4,7 +4,6 @@
 return {
     get_info = {
         hide        = true,
-        bg          = "dream",
         level       = "/",
         gravity     = 0,
         lock_delay  = math.huge,

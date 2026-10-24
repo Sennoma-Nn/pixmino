@@ -37,7 +37,7 @@ local function get_impl()
     if impl then
         return impl
     end
-    return impls.grid
+    return impls[MENU_BG] or impls.dream
 end
 
 function bg.update(dt)
