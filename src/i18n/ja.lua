@@ -168,7 +168,7 @@ i18n.text = {
     MARATHON = "ﾏﾗｿﾝ",
     MARATHON_DESC = "150 ﾗｲﾝｦ ｸﾘｱ､\r\nｽｺｱｦ ﾈﾗｴ､ ﾓｯﾄ ﾀｶｸ!",
 
-    SPRINT = "40 ﾗｲﾝ",
+    SPRINT = "ｽﾌﾟﾘﾝﾄ",
     SPRINT_DESC = "40 ﾗｲﾝｦ ｸﾘｱ､\r\nﾊﾔｻｦ ｷｿｴ､ ﾊﾔｲﾎﾄﾞ ｲｲ!",
 
     MASTER = "ﾏｽﾀｰ",

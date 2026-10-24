@@ -168,7 +168,7 @@ i18n.text = {
     MARATHON = "馬拉松",
     MARATHON_DESC = "消除150列,\r\n以分數為目標,向更高分衝刺!",
 
-    SPRINT = "40列",
+    SPRINT = "競速",
     SPRINT_DESC = "消除40列,\r\n以速度為目標,時間越短越好!",
 
     MASTER = "大師",
