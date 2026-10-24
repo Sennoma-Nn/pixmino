@@ -60,7 +60,7 @@ Colors = {
     key                = { 0.8, 0.5, 0, 1 },
 }
 
-MENU_BG = "dream"
+MENU_BG = "matrix"
 
 function love.load()
     love.graphics.setDefaultFilter("nearest", "nearest")
