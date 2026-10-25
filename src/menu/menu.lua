@@ -304,6 +304,11 @@ local function k2symbol(k)
     if k:match("ALT$") then return "⎇" end
     if k == "SPACE" then return "␣" end
     if k == "TAB" then return "⭲" end
+    if k == "KPENTER" then return "⌤" end
+    if k == "HOME" then return "⇱" end
+    if k == "END" then return "⇲" end
+    if k == "PAGEUP" then return "⇞" end
+    if k == "PAGEDOWN" then return "⇟" end
     if k:match("CTRL$") then return "^" end
     if k:match("GUI$") then return "♦" end
     if k == "LEFT" then return "←" end
@@ -414,6 +419,11 @@ function menu.get_sp_key_icon(s)
         ["⎇"] = true,
         ["␣"] = true,
         ['⭲'] = true,
+        ["⌤"] = true,
+        ["⇱"] = true,
+        ["⇲"] = true,
+        ["⇞"] = true,
+        ["⇟"] = true,
         ["♦"] = true,
         ["↑"] = true,
         ["↓"] = true,
