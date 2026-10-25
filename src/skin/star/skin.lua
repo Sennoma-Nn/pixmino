@@ -3,10 +3,12 @@
 
 local skin = {}
 
+local bit = require("bit")
+
 local function hash(x, y)
     local n = x * 374761393 + y * 668265263
-    n = (n ~ (n >> 13)) * 1274126177
-    n = n ~ (n >> 16)
+    n = bit.bxor(n, bit.rshift(n, 13)) * 1274126177
+    n = bit.bxor(n, bit.rshift(n, 16))
     return (n % 100000) / 100000
 end
 
