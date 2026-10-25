@@ -40,7 +40,15 @@ function skin.borders(px, py, bs, link, color)
         love.graphics.rectangle("fill", px + 1 + bs - 2, py + 1 + up_space, 1, h)
     end
 
-    if not down_right then
+    -- 不知道為什麼但是這樣就是對的並且不重複繪製角，我試出來的哈哈哈
+    if (not down_right and right and down) or not (right or down) then
+        -- if not down_right and not (right or down) then
+        --     love.graphics.setColor(1, 1, 0)
+        -- elseif (not down_right and right and down) then
+        --     love.graphics.setColor(1, 0, 0)
+        -- elseif not (right or down) then
+        --     love.graphics.setColor(0, 1, 0)
+        -- end
         love.graphics.rectangle("fill", px + 1 + bs - 2, py + 1 + bs - 2, 1, 1)
     end
 end
