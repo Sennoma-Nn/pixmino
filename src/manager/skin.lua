@@ -16,7 +16,7 @@ function skin.register_custom(customs)
 end
 
 function skin.load(name)
-    local ok, mod = pcall(require, "src.skin." .. name .. ".skin")
+    local ok, mod = pcall(require, "src.skin." .. name)
     if ok and type(mod) == "table" then
         impl = mod
         return impl
@@ -36,10 +36,11 @@ end
 function skin.get_list()
     local names = {}
     local seen = {}
-    for _, item in ipairs(love.filesystem.getDirectoryItems("src/skin")) do
-        if love.filesystem.getInfo("src/skin/" .. item .. "/skin.lua") then
-            names[#names + 1] = item
-            seen[item] = true
+    for i, item in ipairs(love.filesystem.getDirectoryItems("src/skin")) do
+        if item:match("%.lua$") and item ~= "skin.lua" then
+            local basename = item:gsub("%.lua$", "")
+            names[#names + 1] = basename
+            seen[basename] = true
         end
     end
     for name in pairs(custom_skins) do

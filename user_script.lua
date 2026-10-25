@@ -102,17 +102,23 @@ function user_script.get_custom_skins()
     end
 
     local skin_root = config_dir .. "/skin"
-    local dirs = nativefs.getDirectoryItems(skin_root)
-    for _, name in ipairs(dirs) do
-        local path = skin_root .. "/" .. name .. "/skin.lua"
-        local chunk = nativefs.load(path)
-        if chunk then
-            local ok, mod = pcall(chunk)
-            if ok and type(mod) == "table"
-                and type(mod.base) == "function"
-                and type(mod.borders) == "function"
-            then
-                skins[name] = mod
+    if not nativefs.getInfo(skin_root, "directory") then
+        return skins
+    end
+
+    local files = nativefs.getDirectoryItems(skin_root)
+    for _, f in ipairs(files) do
+        if f:match("%.lua$") then
+            local name = f:gsub("%.lua$", "")
+            local chunk = nativefs.load(skin_root .. "/" .. f)
+            if chunk then
+                local ok, mod = pcall(chunk)
+                if ok and type(mod) == "table"
+                    and type(mod.base) == "function"
+                    and type(mod.borders) == "function"
+                then
+                    skins[name] = mod
+                end
             end
         end
     end
