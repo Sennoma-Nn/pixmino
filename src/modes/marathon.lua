@@ -43,7 +43,7 @@ return {
             end
         end,
         on_game_end = function(game)
-            game.set_result({ "SCORES", game.scores })
+            game.set_result({ "SCORE", game.scores })
         end,
         on_game_cleared = function(game)
             local old = game.save.get_record("marathon")
