@@ -139,7 +139,7 @@ i18n.text = {
     SPLIT_MINOS_DESC = "If the middle of a mino\r\nis cleared, the top and\r\nbottom halves will not\r\nconnect together.",
 
     BLOCK_CONNECT = "CONNECT",
-    BLOCK_CONNECT_DESC = "Choose how blocks of\r\nthe same shape connect\r\nto each other.",
+    BLOCK_CONNECT_DESC = "Choose how blocks of\r\nthe same mino connect\r\nto each other.",
 
     MINO_COLOR = "COLOR",
     MINO_COLOR_DESC = "Adjust each mino color.",
