@@ -29,6 +29,24 @@ local function get_link_ls(is_solid)
     }
 end
 
+local function clear_corners(link)
+    link[5] = false
+    link[6] = false
+    link[7] = false
+    link[8] = false
+    return link
+end
+
+local function block_connect_link(link)
+    local mode = game.active_settings.display.block_connect
+    if mode == "none" then
+        return empty_link
+    elseif mode == "four" then
+        return clear_corners(link)
+    end
+    return link
+end
+
 local function solid(m, n, r, c)
     return r >= 1 and r <= n and c >= 1 and c <= n and m[r][c] ~= 0
 end
@@ -67,7 +85,7 @@ end
 local function pf_cell_link(x, y, id)
     local drop_count = game.pf_data[y][x].drop_count
     local func = function(dx, dy) return has_same_block(x + dx, y + dy, id, drop_count) end
-    return get_link_ls(func)
+    return block_connect_link(get_link_ls(func))
 end
 
 local function draw_goal_lines(gx, gy, pw, ph, bs)
@@ -125,7 +143,7 @@ local function draw_mino_borders(gx, gy, ph, bs)
     end
 end
 
-local function draw_matrix_borders(m, origin_px, origin_py, bs, color, base_color)
+local function draw_matrix_borders(m, origin_px, origin_py, bs, color, base_color, link_fn)
     local n = #m
     for r = 1, n do
         for c = 1, n do
@@ -133,8 +151,12 @@ local function draw_matrix_borders(m, origin_px, origin_py, bs, color, base_colo
                 local px = origin_px + (c - 1) * bs
                 local py = origin_py + (r - 1) * bs
                 local border_color = utils.color_blend(utils.strip_a(color), utils.strip_a(base_color), base_color[4])
+                local link = matrix_link(m, r, c)
+                if link_fn then
+                    link = link_fn(link)
+                end
 
-                skin.borders(px, py, bs, matrix_link(m, r, c), border_color)
+                skin.borders(px, py, bs, link, border_color)
             end
         end
     end
@@ -155,10 +177,10 @@ local function draw_piece(gx, gy, ph, bs)
     end
     local cell_links = {}
     for i, cell in ipairs(cells) do
-        cell_links[i] = get_link_ls(function(dx, dyy)
+        cell_links[i] = block_connect_link(get_link_ls(function(dx, dyy)
             local col = cell_set[cell.x + dx]
             return (col and col[cell.y + dyy]) or false
-        end)
+        end))
     end
 
     local ghost_ox, ghost_oy = gx + (p.x - 2) * bs, gy + ph - (p.y + dy + 1) * bs
@@ -170,7 +192,7 @@ local function draw_piece(gx, gy, ph, bs)
             draw_block(gx + (cell.x - 1) * bs, gy + ph - gy2 * bs, bs, ghost_color, false, cell_links[i])
         end
     end
-    draw_matrix_borders(m, ghost_ox, ghost_oy, bs, color, Colors.ghost_border)
+    draw_matrix_borders(m, ghost_ox, ghost_oy, bs, color, Colors.ghost_border, block_connect_link)
 
     local ox, oy = gx + (p.x - 2) * bs, gy + ph - (p.y + 1) * bs
     for i, cell in ipairs(cells) do
@@ -178,7 +200,7 @@ local function draw_piece(gx, gy, ph, bs)
             draw_block(gx + (cell.x - 1) * bs, gy + ph - cell.y * bs, bs, color, false, cell_links[i])
         end
     end
-    draw_matrix_borders(m, ox, oy, bs, color, Colors.piece_border)
+    draw_matrix_borders(m, ox, oy, bs, color, Colors.piece_border, block_connect_link)
 end
 
 local function draw_spin_mask(gx, gy, ph, bs)
@@ -232,11 +254,11 @@ local function draw_preview(shape, px, py, bs, transparent)
     for r = 1, n do
         for c = 1, n do
             if m[r][c] ~= 0 then
-                draw_block(ox + (c - 1) * bs, oy + (r - 1) * bs, bs, color, transparent, matrix_link(m, r, c))
+                draw_block(ox + (c - 1) * bs, oy + (r - 1) * bs, bs, color, transparent, block_connect_link(matrix_link(m, r, c)))
             end
         end
     end
-    draw_matrix_borders(m, ox, oy, bs, color, Colors.mino_border)
+    draw_matrix_borders(m, ox, oy, bs, color, Colors.mino_border, block_connect_link)
     return pv.width
 end
 

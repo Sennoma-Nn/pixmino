@@ -37,6 +37,7 @@ local default_settings = {
         skin = "block",
         playfield_alpha = 0.8,
         split_minos = true,
+        block_connect = "eight",
         spawn_indicator = true,
         key_info = true,
         locale = "en",
@@ -181,6 +182,9 @@ function Settings.rebuild_skin_menu()
     end
 end
 
+local block_connect_values = { "eight", "four", "none" }
+local block_connect_labels = { "SAME (8-WAY)", "SAME (4-WAY)", "NONE" }
+
 Settings.menu = {
     MENU_SETTINGS = {
         {
@@ -262,6 +266,25 @@ Settings.menu = {
             desc_key = "SPLIT_MINOS_DESC",
             get = function() return Settings.display.split_minos end,
             set = function(v) Settings.display.split_minos = v end,
+        },
+        {
+            type = "list",
+            text_key = "BLOCK_CONNECT",
+            desc_key = "BLOCK_CONNECT_DESC",
+            items = block_connect_labels,
+            get_text = block_connect_labels[idx],
+            get_index = function()
+                local current = Settings.display.block_connect
+                for i, value in ipairs(block_connect_values) do
+                    if value == current then
+                        return i
+                    end
+                end
+                return 1
+            end,
+            set_index = function(idx)
+                Settings.display.block_connect = block_connect_values[idx]
+            end,
         },
         {
             type = "toggle",

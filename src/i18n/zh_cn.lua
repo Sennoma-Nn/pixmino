@@ -138,6 +138,9 @@ i18n.text = {
     SPLIT_MINOS = "切断形状",
     SPLIT_MINOS_DESC = "如果把一个形状的中间部分消除,\r\n那么形状的上下两端将不会连接在一起｡",
 
+    BLOCK_CONNECT = "方块连接方式",
+    BLOCK_CONNECT_DESC = "选择相同形状的方块的连接方式｡",
+
     MINO_COLOR = "形状颜色",
     MINO_COLOR_DESC = "调整各形状的颜色｡",
 
