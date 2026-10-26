@@ -12,13 +12,7 @@ function skin.base(px, py, bs, link, color)
         love.graphics.rectangle("fill", px + 1, py + 1, bs - 2, bs)
         love.graphics.rectangle("fill", px + 1 + bs - 2, py + 1, 2, bs - 2)
     else
-        love.graphics.rectangle(
-            "fill",
-            px + 1,
-            py + 1,
-            right and bs or bs - 2,
-            down and bs or bs - 2
-        )
+        love.graphics.rectangle("fill", px + 1, py + 1, right and bs or bs - 2, down and bs or bs - 2)
     end
 end
 
@@ -49,7 +43,14 @@ function skin.borders(px, py, bs, link, color)
         -- elseif not (right or down) then
         --     love.graphics.setColor(0, 1, 0)
         -- end
-        love.graphics.rectangle("fill", px + 1 + bs - 2, py + 1 + bs - 2, 1, 1)
+
+        if not (not down_right and right and down) then
+            love.graphics.rectangle("fill", px + 1 + bs - 2, py + 1 + bs - 2, 1, 1)
+        else
+            -- 這裏是為了讓四向連接的 O 塊內部的邊框能正常顯示
+            love.graphics.rectangle("fill", px + 1 + bs - 2, py + 1 + bs - 2, 2, 1)
+            love.graphics.rectangle("fill", px + 1 + bs - 2, py + 2 + bs - 2, 1, 1)
+        end
     end
 end
 
