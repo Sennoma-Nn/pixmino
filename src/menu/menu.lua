@@ -328,11 +328,10 @@ local function control_desc(it)
         return l .. " " .. tostring(v) .. " " .. r
     elseif it.type == "list" then
         local idx = it.get_index()
-        local text = it.get_text and it.get_text(idx) or it.items[idx]
-        local val = string.upper(tostring(text))
+        local val = string.upper(it.items[idx])
         local l = (idx > 1) and "◄" or " "
         local r = (idx < #it.items) and "►" or " "
-        return l .. " " .. val .. " " .. r
+        return l .. " " .. tostring(val) .. " " .. r
     elseif it.type == "keys" then
         return "[ " .. k2symbol(string.upper(Settings.input.keys[it.key_name])) .. " ]"
     end

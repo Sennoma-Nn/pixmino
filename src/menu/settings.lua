@@ -272,7 +272,6 @@ Settings.menu = {
             text_key = "BLOCK_CONNECT",
             desc_key = "BLOCK_CONNECT_DESC",
             items = block_connect_labels,
-            get_text = block_connect_labels[idx],
             get_index = function()
                 local current = Settings.display.block_connect
                 for i, value in ipairs(block_connect_values) do
