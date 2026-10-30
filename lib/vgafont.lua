@@ -351,7 +351,7 @@ function vgafont.print_outlined(fonts, text, x, y, scale, color, outline_color)
     color = color or {1, 1, 1, 1}
     outline_color = outline_color or {0, 0, 0, 1}
 
-    vgafont._print_ex(fonts, text, x - 1, y - 1, scale, outline_color, true)
+    vgafont._print_ex(fonts, text, x - scale, y - scale, scale, outline_color, true)
     vgafont._print_ex(fonts, text, x, y, scale, color, false)
 end
 

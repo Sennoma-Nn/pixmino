@@ -42,11 +42,11 @@ local function draw_bdf_glyph(bdf, g, x, y, scale, color, outline)
     love.graphics.setColor(unpack(color))
     local img = bdf.image
     if outline then
-        local bx = x + g.ox + 1
-        local by = y + g.oy + 1
+        local bx = x + g.ox + scale
+        local by = y + g.oy + scale
         for dy = -1, 1 do
             for dx = -1, 1 do
-                love.graphics.draw(img, g.quad, bx + dx, by + dy, 0, scale, scale)
+                love.graphics.draw(img, g.quad, bx + dx * scale, by + dy * scale, 0, scale, scale)
             end
         end
     else
@@ -108,7 +108,7 @@ function fontprint.print_outlined(fonts, text, x, y, scale, color, outline_color
     color = color or {1, 1, 1, 1}
     outline_color = outline_color or {0, 0, 0, 1}
 
-    print_ex(fonts, text, x - 1, y - 1, scale, outline_color, true)
+    print_ex(fonts, text, x - scale, y - scale, scale, outline_color, true)
     print_ex(fonts, text, x, y, scale, color, false)
 end
 
