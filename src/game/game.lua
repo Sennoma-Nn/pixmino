@@ -480,9 +480,14 @@ local function spawn_pos(shape)
     return math.floor(game.pf.width / 2) + s[1], game.pf.height - 1 + s[2]
 end
 
+local preinput_busy = false
+
 local function do_preinput()
+    if preinput_busy then return end
     if game.active_settings and game.active_settings.input.preop then
+        preinput_busy = true
         game.input_mod.apply_preinput()
+        preinput_busy = false
     end
 end
 
@@ -796,6 +801,7 @@ function game.update(dt)
 
     if game.wait > 0 then
         game.wait = game.wait - 1
+        game.input_mod.update(dt)
         return
     end
 
@@ -807,6 +813,10 @@ function game.update(dt)
     end
 
     game.ensure_next()
+
+    if game.time < 0 then
+        game.input_mod.update(dt)
+    end
 
     if game.time >= 0 then
         if not game.piece then
