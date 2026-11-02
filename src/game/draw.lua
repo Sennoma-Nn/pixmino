@@ -372,10 +372,14 @@ local function draw_game_info(font, gx, gy, pw, ph, bw)
     fontprint.print_outlined(font, info.time, ix, iy - 8 * 1, 1, Colors.white, Colors.out_line)
 
     if game.lock_resets_total ~= math.huge then
-        fontprint.print_outlined(font, string.rep("♦", total), ix, iy - 8 * 0, 1, Colors.gray, Colors.out_line)
-        fontprint.print_outlined(font, string.rep("♦", left), ix, iy - 8 * 0, 1, Colors.white, Colors.out_line)
+        if game.lock_resets_total <= 15 then
+            fontprint.print_outlined(font, string.rep("♦", total), ix, iy - 8 * 0, 1, Colors.gray, Colors.out_line)
+            fontprint.print_outlined(font, string.rep("♦", left), ix, iy - 8 * 0, 1, Colors.white, Colors.out_line)
+        else
+            fontprint.print_outlined(font, string.format("♦=     %d", left), ix, iy - 8 * 0, 1, Colors.white, Colors.out_line)
+        end
     else
-        fontprint.print_outlined(font, "♦=∞", ix, iy - 8 * 0, 1, Colors.white, Colors.out_line)
+        fontprint.print_outlined(font, "♦=     ∞", ix, iy - 8 * 0, 1, Colors.white, Colors.out_line)
     end
 end
 
