@@ -297,18 +297,27 @@ function love.run()
             dt = love.timer.getDelta()
         end
 
+        local is_updated = false
+
         if Settings and Settings.display and Settings.display.fixed_step then
             if dt > max_step then dt = max_step end
             accumulator = accumulator + dt
             while accumulator >= fixed_dt do
                 if love.update then love.update(fixed_dt) end
                 accumulator = accumulator - fixed_dt
+                is_updated = true
             end
         else
             if love.update then love.update(dt) end
+            is_updated = true
         end
 
-        if love.graphics and love.graphics.isActive() then
+        local need_draw = true
+        if menu and menu.state == "GAME" then
+            need_draw = is_updated
+        end
+
+        if need_draw and love.graphics and love.graphics.isActive() then
             love.graphics.origin()
             love.graphics.clear(love.graphics.getBackgroundColor())
             if love.draw then love.draw() end
