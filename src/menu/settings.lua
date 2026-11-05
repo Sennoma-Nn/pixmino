@@ -38,7 +38,7 @@ local default_settings = {
         playfield_alpha = 0.8,
         split_minos = true,
         block_connect = "eight",
-        spawn_indicator = true,
+        spawn_indicator = "danger",
         key_info = true,
         locale = "en",
         ez_read = true,
@@ -184,6 +184,8 @@ end
 
 local block_connect_values = { "eight", "four", "none" }
 local block_connect_labels = { "SAME (8-WAY)", "SAME (4-WAY)", "NONE" }
+local spawn_mark_values = { false, "danger", true }
+local spawn_mark_labels = { "OFF", "DANGER", "ALWAYS" }
 
 Settings.menu = {
     MENU_SETTINGS = {
@@ -286,11 +288,22 @@ Settings.menu = {
             end,
         },
         {
-            type = "toggle",
+            type = "list",
             text_key = "SPAWN_MARK",
             desc_key = "SPAWN_MARK_DESC",
-            get = function() return Settings.display.spawn_indicator end,
-            set = function(v) Settings.display.spawn_indicator = v end,
+            items = spawn_mark_labels,
+            get_index = function()
+                local current = Settings.display.spawn_indicator
+                for i, value in ipairs(spawn_mark_values) do
+                    if value == current then
+                        return i
+                    end
+                end
+                return 2
+            end,
+            set_index = function(idx)
+                Settings.display.spawn_indicator = spawn_mark_values[idx]
+            end,
         },
         {
             type = "toggle",

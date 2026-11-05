@@ -216,10 +216,23 @@ local function draw_spin_mask(gx, gy, ph, bs)
     end
 end
 
+local function is_danger()
+    if not game.pf then return false end
+    for y = 17, game.pf.height do
+        if game.pf_data[y] then
+            return true
+        end
+    end
+    return false
+end
+
 local function draw_spawn_marker(gx, gy, ph, bs)
     if not game.started then return end
     if not game.pf then return end
-    if not game.active_settings or not game.active_settings.display.spawn_indicator then return end
+
+    local mode = game.active_settings and game.active_settings.display.spawn_indicator
+    if not mode then return end
+    if mode ~= true and not is_danger() then return end
     if not game.next[1] then return end
 
     local shape = game.next[1]
