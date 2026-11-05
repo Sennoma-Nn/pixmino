@@ -13,7 +13,7 @@ return {
         save_on_over = false,
         bone         = true,
         goal_lines   = {
-            { text = "1/2", line = 20, color = { 1, 1, 1, 0.5 } },
+            { text = "HALF", line = 20, color = { 1, 1, 1, 0.5 } },
             { text = "CLEAR", line = 40, color = { 1, 0, 0, 1 } },
         },
         settings     = {
