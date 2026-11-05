@@ -20,6 +20,7 @@ local default_settings = {
         drop_arr = 2,
         preop = true,
         drop_lock = false,
+        blocked_retry = true,
         keys = {
             ccw = "z",
             cw = "x",
@@ -445,6 +446,13 @@ Settings.menu = {
             desc_key = "DP_LOCK_DESC",
             get = function() return Settings.input.drop_lock end,
             set = function(v) Settings.input.drop_lock = v end,
+        },
+        {
+            type = "toggle",
+            text_key = "BMR",
+            desc_key = "BMR_DESC",
+            get = function() return Settings.input.blocked_retry end,
+            set = function(v) Settings.input.blocked_retry = v end,
         },
     },
     MENU_SETTINGS_KEYS = make_keys_items(),

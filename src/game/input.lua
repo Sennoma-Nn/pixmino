@@ -36,8 +36,8 @@ input.now = {
     hard_drop = false,
 }
 input.rep = {
-    left      = { active = false, das_t = 0, arr_t = 0, das_done = false },
-    right     = { active = false, das_t = 0, arr_t = 0, das_done = false },
+    left      = { active = false, blocked = 0, das_t = 0, arr_t = 0, das_done = false },
+    right     = { active = false, blocked = 0, das_t = 0, arr_t = 0, das_done = false },
     soft_drop = { active = false, arr_t = 0 },
 }
 
@@ -50,6 +50,19 @@ end
 local function key_down(k)
     if not k or k == "" then return false end
     return love.keyboard.isDown(k)
+end
+
+local function apply_preinput_axis(rep, move_fn, bmr)
+    local ok = move_fn()
+    if not bmr then return end
+    if ok then
+        rep.blocked = 0
+        if rep.das_done then
+            rep.arr_t = 0
+        end
+    else
+        rep.blocked = rep.das_done and 2 or 1
+    end
 end
 
 function input.apply_preinput()
@@ -89,57 +102,86 @@ function input.apply_preinput()
         if left_down then
             old.left = true
             if not rep.left.active then
-                rep.left.active = true
-                rep.left.das_t = 0
-                rep.left.arr_t = 0
+                rep.left.active   = true
+                rep.left.blocked  = 0
+                rep.left.das_t    = 0
+                rep.left.arr_t    = 0
                 rep.left.das_done = false
             end
         end
         if right_down then
             old.right = true
             if not rep.right.active then
-                rep.right.active = true
-                rep.right.das_t = 0
-                rep.right.arr_t = 0
+                rep.right.active   = true
+                rep.right.blocked  = 0
+                rep.right.das_t    = 0
+                rep.right.arr_t    = 0
                 rep.right.das_done = false
             end
         end
         if left_down then
-            game.move_left()
+            apply_preinput_axis(rep.left, game.move_left, s.input.blocked_retry)
         elseif right_down then
-            game.move_right()
+            apply_preinput_axis(rep.right, game.move_right, s.input.blocked_retry)
         end
     end
 end
 
 local function axis_move(rep, now, old, ms, move_fn)
     if not now then
-        rep.active = false
-        rep.das_t = 0
-        rep.arr_t = 0
+        rep.active   = false
+        rep.blocked  = 0
+        rep.das_t    = 0
+        rep.arr_t    = 0
         rep.das_done = false
         return
     end
+
+    local s   = active_settings()
+    local bmr = s.input.blocked_retry
+
     if not old then
-        rep.active = true
-        rep.das_t = 0
-        rep.arr_t = 0
+        rep.active   = true
+        rep.das_t    = 0
+        rep.arr_t    = 0
         rep.das_done = false
-        move_fn()
+        local ok     = move_fn()
+        rep.blocked  = (bmr and not ok) and 1 or 0
         return
     end
+
     if not rep.active then return end
-    local s = active_settings()
+
+    if rep.blocked == 1 then
+        if not move_fn() then return end
+        rep.blocked  = 0
+        rep.das_t    = 0
+        rep.arr_t    = 0
+        rep.das_done = false
+        return
+    elseif rep.blocked == 2 then
+        if not move_fn() then return end
+        rep.blocked  = 0
+        rep.das_done = true
+        rep.arr_t    = 0
+        return
+    end
+
     local ds = utils.frame_ms(s.input.das)
     local ar = utils.frame_ms(s.input.arr)
 
     if not rep.das_done then
         rep.das_t = rep.das_t + ms
         if rep.das_t >= ds then
-            rep.das_done = true
-            rep.arr_t = 0
-            if move_fn() and ar <= 0 then
-                while move_fn() do end
+            local ok = move_fn()
+            if bmr and not ok then
+                rep.blocked = 2
+            else
+                rep.das_done = true
+                rep.arr_t    = 0
+                if ok and ar <= 0 then
+                    while move_fn() do end
+                end
             end
         end
         return
@@ -152,11 +194,12 @@ local function axis_move(rep, now, old, ms, move_fn)
 
     rep.arr_t = rep.arr_t + ms
     while rep.arr_t >= ar do
-        rep.arr_t = rep.arr_t - ar
         if not move_fn() then
             rep.arr_t = 0
+            if bmr then rep.blocked = 2 end
             break
         end
+        rep.arr_t = rep.arr_t - ar
     end
 end
 
@@ -231,11 +274,13 @@ function input.update(dt)
 
         if right_just_pressed and not left_just_pressed then
             rep.left.active   = false
+            rep.left.blocked  = 0
             rep.left.das_t    = 0
             rep.left.arr_t    = 0
             rep.left.das_done = false
         elseif left_just_pressed and not right_just_pressed then
             rep.right.active   = false
+            rep.right.blocked  = 0
             rep.right.das_t    = 0
             rep.right.arr_t    = 0
             rep.right.das_done = false
@@ -258,6 +303,7 @@ function input.reset()
                 tbl[k] = false
             elseif type(v) == "table" then
                 v.active = false
+                v.blocked = 0
                 v.das_t = 0
                 v.arr_t = 0
                 v.das_done = false
