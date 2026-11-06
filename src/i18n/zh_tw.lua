@@ -9,6 +9,7 @@ i18n.text = {
     SELECT_LANGUAGE = "選擇語言",
 
     BACK_TIP = "⎋ 返回",
+    RESTART_TIP = "變更後重啟生效",
 
     RESET = "恢復預設",
     RESET_DESC = "將設定恢復為預設｡",
@@ -87,11 +88,17 @@ i18n.text = {
     INPUT = "輸入",
     INPUT_DESC = "調整輸入設定｡",
 
-    CONSOLE = "除錯主控臺",
-    CONSOLE_DESC = "開啟除錯主控臺｡",
+    GAME = "遊戲",
+    GAME_DESC = "遊戲的一些雜項設定｡",
+
+    ALLOW_SCRIPT = "允許使用者腳本",
+    ALLOW_SCRIPT_DESC = "允許載入自訂遊戲模式､皮膚､自動運行腳本等,\r\n希望你知道自己在幹什麼｡\r\n如果要載入別人分享的腳本請確保它是安全的,\r\n未經審查的腳本很危險!(真的)",
 
     FIXED_STEP = "固定步長",
-    FIXED_STEP_DESC = "~~ 固定步長 ~~\r\n\n如果你需要進行一些高精度操作,這些操作\r\n可能因為一些不確定的波動影響帶來\r\n不確定性,開啓後會鎖定60Hz執行邏輯\r\n不受螢幕更新率影響｡",
+    FIXED_STEP_DESC = "如果你需要進行一些高精度操作,這些操作\r\n可能因為一些不確定的波動影響帶來\r\n不確定性,開啓後會鎖定60Hz執行邏輯\r\n不受螢幕更新率影響｡",
+
+    CONSOLE = "除錯主控臺",
+    CONSOLE_DESC = "開啟除錯主控臺｡",
 
     FULLSCREEN = "全螢幕",
     FULLSCREEN_DESC = "切換全螢幕｡",

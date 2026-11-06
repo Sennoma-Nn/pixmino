@@ -13,7 +13,7 @@ local compatibility = require("src.utils.compatibility")
 local settings_file = "settings.json"
 local record_file = "record.json"
 
-local settings_roots = { "sound", "input", "display", "debug" }
+local settings_roots = { "sound", "input", "display", "debug", "game" }
 
 local function is_arr(t)
     for k in pairs(t) do

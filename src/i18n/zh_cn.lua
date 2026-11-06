@@ -9,6 +9,7 @@ i18n.text = {
     SELECT_LANGUAGE = "选择语言",
 
     BACK_TIP = "⎋ 返回",
+    RESTART_TIP = "更改后重启生效",
 
     RESET = "恢复默认",
     RESET_DESC = "将设置恢复为默认｡",
@@ -87,11 +88,17 @@ i18n.text = {
     INPUT = "输入",
     INPUT_DESC = "调整输入设置｡",
 
-    CONSOLE = "调试控制台",
-    CONSOLE_DESC = "打开调试控制台｡",
+    GAME = "游戏",
+    GAME_DESC = "游戏的一些杂项设置｡",
+
+    ALLOW_SCRIPT = "允许用户脚本",
+    ALLOW_SCRIPT_DESC = "允许载入自定义游戏模式､皮肤､自动运行脚本等,\r\n希望你知道自己在干什么｡\r\n如果要载入别人分享的脚本请确保它是安全的,\r\n未经审查的脚本很危险!(真的)",
 
     FIXED_STEP = "固定步长",
-    FIXED_STEP_DESC = "~~ 固定步长 ~~\r\n\n如果你需要进行一些高精度操作,这些操作\r\n可能因为一些不确定的波动影响带来\r\n不确定性,开启后会锁定60Hz执行逻辑\r\n不受屏幕刷新率影响｡",
+    FIXED_STEP_DESC = "如果你需要进行一些高精度操作,这些操作\r\n可能因为一些不确定的波动影响带来\r\n不确定性,开启后会锁定60Hz执行逻辑\r\n不受屏幕刷新率影响｡",
+
+    CONSOLE = "调试控制台",
+    CONSOLE_DESC = "打开调试控制台｡",
 
     FULLSCREEN = "全屏",
     FULLSCREEN_DESC = "切换全屏｡",

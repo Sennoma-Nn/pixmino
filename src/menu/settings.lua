@@ -43,7 +43,6 @@ local default_settings = {
         key_info = true,
         locale = "en",
         ez_read = true,
-        fixed_step = true,
         block_color = {
             I4 = { 0.9, 0.3, 0.3 },
             O4 = { 0.2, 0.4, 0.9 },
@@ -56,6 +55,10 @@ local default_settings = {
     },
     debug = {
         unlock = false
+    },
+    game = {
+        fixed_step = true,
+        allow_user_script = false
     }
 }
 
@@ -210,6 +213,12 @@ Settings.menu = {
         },
         {
             type = "action",
+            text_key = "GAME",
+            desc_key = "GAME_DESC",
+            jmp = "MENU_SETTINGS_GAME",
+        },
+        {
+            type = "action",
             text_key = "CONSOLE",
             desc_key = "CONSOLE_DESC",
             action = function()
@@ -218,6 +227,25 @@ Settings.menu = {
             display = function()
                 return Settings.debug.unlock
             end
+        },
+    },
+    MENU_SETTINGS_GAME = {
+        {
+            type = "toggle",
+            text_key = "ALLOW_SCRIPT",
+            desc = "%s\r\n\n%s",
+            desc_format = function(s)
+                return string.format(s, locale.get("ALLOW_SCRIPT_DESC"), locale.get("RESTART_TIP"))
+            end,
+            get = function() return Settings.game.allow_user_script end,
+            set = function(v) Settings.game.allow_user_script = v end,
+        },
+        {
+            type = "toggle",
+            text_key = "FIXED_STEP",
+            desc_key = "FIXED_STEP_DESC",
+            get = function() return Settings.game.fixed_step end,
+            set = function(v) Settings.game.fixed_step = v end,
         },
     },
     MENU_SETTINGS_DISPLAY = {
@@ -319,13 +347,6 @@ Settings.menu = {
             desc_key = "EZ_READ_DESC",
             get = function() return Settings.display.ez_read end,
             set = function(v) Settings.display.ez_read = v end,
-        },
-        {
-            type = "toggle",
-            text_key = "FIXED_STEP",
-            desc_key = "FIXED_STEP_DESC",
-            get = function() return Settings.display.fixed_step end,
-            set = function(v) Settings.display.fixed_step = v end,
         },
         {
             type = "list",

@@ -9,6 +9,7 @@ i18n.text = {
     SELECT_LANGUAGE = "SELECT LANGUAGE",
 
     BACK_TIP = "⎋ BACK",
+    RESTART_TIP = "Restart to take effect.",
 
     RESET = "RESET",
     RESET_DESC = "Restore settings to\r\ndefault.",
@@ -87,11 +88,17 @@ i18n.text = {
     INPUT = "INPUT",
     INPUT_DESC = "Adjust input settings.",
 
-    CONSOLE = "CONSOLE",
-    CONSOLE_DESC = "Open the Debug console.",
+    GAME = "GAME",
+    GAME_DESC = "Some miscellaneous game\r\nsettings.",
+
+    ALLOW_SCRIPT = "MOD",
+    ALLOW_SCRIPT_DESC = "Allow loading custom modes,\r\nskins, auto script, etc.\r\nMake sure you know what\r\nyou're doing.\r\nIf you load scripts shared\r\nby others, make sure they\r\nare safe - unaudited script\r\nare dangerous! (REALLY)",
 
     FIXED_STEP = "FIX STEP",
-    FIXED_STEP_DESC = "~~ Fixed Step ~~\r\n\nIf you need precise\r\nactions, those may become\r\nunstable due to uncertain\r\nfluctuations.\r\nTurn on to lock logic at a\r\nfixed 60Hz, independent of\r\nscreen refresh rate.",
+    FIXED_STEP_DESC = "If you need precise\r\nactions, those may become\r\nunstable due to uncertain\r\nfluctuations.\r\nTurn on to lock logic at a\r\nfixed 60Hz, independent of\r\nscreen refresh rate.",
+
+    CONSOLE = "CONSOLE",
+    CONSOLE_DESC = "Open the Debug console.",
 
     FULLSCREEN = "FULL SCR.",
     FULLSCREEN_DESC = "Toggle fullscreen display.",

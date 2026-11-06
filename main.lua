@@ -94,10 +94,12 @@ function love.load()
     console.load()
     core.load()
 
-    user_script.run()
-
     local fullscreen, has_locale = save.load()
     local _ = fullscreen and push:switchFullscreen()
+
+    if Settings.game.allow_user_script then
+        user_script.run()
+    end
 
     if not has_locale then
         menu.rebuild_lang_menu()
@@ -299,7 +301,7 @@ function love.run()
 
         local is_updated = false
 
-        if Settings and Settings.display and Settings.display.fixed_step then
+        if Settings and Settings.game and Settings.game.fixed_step then
             if dt > max_step then dt = max_step end
             accumulator = accumulator + dt
             while accumulator >= fixed_dt do
