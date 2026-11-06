@@ -25,16 +25,16 @@ return {
         end,
         save_on_over = true,
         goal_lines   = {
-            { text = "100L",   line = 100,  color = { 1, 1, 1, 0.25 } },
-            { text = "HALF",   line = 150, color = { 1, 1, 1, 0.5 } },
-            { text = "200L",   line = 200, color = { 1, 1, 1, 0.25 } },
+            { text = "100L",  line = 100, color = { 1, 1, 1, 0.25 } },
+            { text = "HALF",  line = 150, color = { 1, 1, 1, 0.5 } },
+            { text = "200L",  line = 200, color = { 1, 1, 1, 0.25 } },
             { text = "???",   line = 250, color = { 1.0, 0.7, 0.0, 0.5 } },
             { text = "CLEAR", line = 300, color = { 1, 0, 0, 1 } },
         },
         settings     = {
             input = {
                 das = function(game)
-                    return 10 - 0.2 * (lv - 1)
+                    return 6 - 0.1 * (lv - 1)
                 end,
                 arr = function(game)
                     if lv > 15 then return 1 end
