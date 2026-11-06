@@ -37,9 +37,8 @@ return {
                     return 10 - 0.2 * (lv - 1)
                 end,
                 arr = function(game)
-                    if lv > 20 then return 1 end
-                    if lv > 10 then return 2 end
-                    return 3
+                    if lv > 15 then return 1 end
+                    return 2
                 end,
             },
         },
