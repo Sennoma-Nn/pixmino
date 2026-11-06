@@ -120,6 +120,9 @@ i18n.text = {
     DP_LOCK = "DP.LOCK",
     DP_LOCK_DESC = "~~ Drop Lock ~~\r\n\nWhen on, soft drop locks\r\nthe mino immediately when\r\nblocked below.",
 
+    BMR = "BLK.RETRY",
+    BMR_DESC = "~~ Blocked Move Retry ~~\r\n\nWhen a move is blocked,\r\nit does not enter\r\nASD/ASP waiting.\r\nSolves roll-fail under\r\nhigh gravity / high ASP.",
+
     PREOP = "I*S",
     PREOP_DESC = "~~ Initial ** System ~~\r\n\nHold rotate, move,\r\nor hold keys and\r\nthe action triggers\r\nwhen a new mino spawns.",
 
