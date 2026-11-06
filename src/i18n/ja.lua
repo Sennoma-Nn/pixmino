@@ -10,6 +10,8 @@ i18n.text = {
 
     BACK_TIP = "⎋ ﾓﾄﾞﾙ",
     RESTART_TIP = "ﾍﾝｺｳｺﾞ ｻｲｷﾄﾞｳ ﾕｳｺｳ",
+    PRESS_KEY_TIP = "ｷｰｦ ｵｼﾃ...",
+    CLEAR_KEY_TIP = "⌦ ｦ ｵｼﾃ ｷｰﾊﾞｲﾝﾃﾞｨﾝｸﾞｦ ｸﾘｱ｡",
 
     RESET = "ﾘｾｯﾄ",
     RESET_DESC = "ｾｯﾃｲｦ ﾃﾞﾌｫﾙﾄﾆ ﾓﾄﾞｽ｡",
@@ -174,9 +176,6 @@ i18n.text = {
     SOFT_DROP_BOTTOM = "SD.BTM.",
     LEFT = "ﾋﾀﾞﾘ",
     RIGHT = "ﾐｷﾞ",
-
-    PRESS_KEY_TIP = "ｷｰｦ ｵｼﾃ...",
-    CLEAR_KEY_TIP = "⌦ ｦ ｵｼﾃ ｷｰﾊﾞｲﾝﾃﾞｨﾝｸﾞｦ ｸﾘｱ｡",
 
     MARATHON = "ﾏﾗｿﾝ",
     MARATHON_DESC = "150 ﾗｲﾝｦ ｸﾘｱ､\r\nｽｺｱｦ ﾈﾗｴ､ ﾓｯﾄ ﾀｶｸ!",

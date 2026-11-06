@@ -10,6 +10,8 @@ i18n.text = {
 
     BACK_TIP = "⎋ BACK",
     RESTART_TIP = "Restart to take effect.",
+    PRESS_KEY_TIP = "PRESS KEY...",
+    CLEAR_KEY_TIP = "Press ⌦ to clear the key\r\nbinding.",
 
     RESET = "RESET",
     RESET_DESC = "Restore settings to\r\ndefault.",
@@ -174,9 +176,6 @@ i18n.text = {
     SOFT_DROP_BOTTOM = "SD.BTM.",
     LEFT = "LEFT",
     RIGHT = "RIGHT",
-
-    PRESS_KEY_TIP = "PRESS KEY...",
-    CLEAR_KEY_TIP = "Press ⌦ to clear the key\r\nbinding.",
 
     MARATHON = "MARATHON",
     MARATHON_DESC = "Clear 150 lines,\r\nAim for score,\r\nchase the top!",

@@ -10,6 +10,8 @@ i18n.text = {
 
     BACK_TIP = "⎋ 返回",
     RESTART_TIP = "變更後重啟生效",
+    PRESS_KEY_TIP = "請按下按鍵...",
+    CLEAR_KEY_TIP = "按下 ⌦ 鍵清除按鍵綁定｡",
 
     RESET = "恢復預設",
     RESET_DESC = "將設定恢復為預設｡",
@@ -174,9 +176,6 @@ i18n.text = {
     SOFT_DROP_BOTTOM = "瞬降",
     LEFT = "左移",
     RIGHT = "右移",
-
-    PRESS_KEY_TIP = "請按下按鍵...",
-    CLEAR_KEY_TIP = "按下 ⌦ 鍵清除按鍵綁定｡",
 
     MARATHON = "馬拉松",
     MARATHON_DESC = "消除150列,\r\n以分數為目標,向更高分衝刺!",
