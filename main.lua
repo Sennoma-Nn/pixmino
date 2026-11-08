@@ -170,6 +170,8 @@ local function is_settings_menu()
 end
 
 function love.keypressed(key)
+    local k = Settings.input.keys
+
     if key == "f4" then
         push:switchFullscreen()
         Settings.display.fullscreen = love.window.getFullscreen()
@@ -200,11 +202,11 @@ function love.keypressed(key)
             return
         end
         if game.over then
-            if key == "up" then
+            if key == k.menu_up then
                 game.modal_move(-1)
-            elseif key == "down" then
+            elseif key == k.menu_down then
                 game.modal_move(1)
-            elseif key == "return" or key == "space" then
+            elseif key == "return" or key == "space" or key == "kpenter" then
                 if game.modal_choose() == "restart" then
                     game.stop()
                 else
@@ -220,13 +222,13 @@ function love.keypressed(key)
         if game.modal_active then
             if key == "escape" then
                 game.close_modal()
-            elseif key == "up" then
+            elseif key == k.menu_up then
                 sfx.play("menu_move")
                 game.modal_move(-1)
-            elseif key == "down" then
+            elseif key == k.menu_down then
                 sfx.play("menu_move")
                 game.modal_move(1)
-            elseif key == "return" or key == "space" then
+            elseif key == "return" or key == "space" or key == "kpenter" then
                 local choice = game.modal_choose()
                 sfx.play("menu_confirm")
 

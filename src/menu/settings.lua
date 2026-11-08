@@ -31,6 +31,12 @@ local default_settings = {
             soft_drop_bottom = "up",
             left = "left",
             right = "right",
+            menu_up = "up",
+            menu_down = "down",
+            menu_next = "right",
+            menu_prev = "left",
+            menu_reset = "backspace",
+            menu_delete = "",
         }
     },
     display = {
@@ -65,22 +71,29 @@ local default_settings = {
 Settings = utils.deep_clone(default_settings)
 
 Settings.key_actions = { "left", "right", "ccw", "cw", "rot180", "soft_drop", "hard_drop", "soft_drop_bottom", "hold" }
+Settings.menu_key_actions = { "menu_up", "menu_down", "menu_next", "menu_prev", "menu_reset", "menu_delete" }
 Settings.mino_color_keys = { "I4", "O4", "T4", "S4", "Z4", "J4", "L4" }
 
-local function make_keys_items()
+local function make_keys_items(actions)
     local items = {}
-    for i, k in ipairs(Settings.key_actions) do
+    for i, k in ipairs(actions) do
+        local key = k
         items[#items + 1] = {
             type = "keys",
-            text_key = k:upper(),
+            text_key = key:upper(),
             desc = "%s\r\n\n%s",
             desc_format = function(s)
-                local desc_key = (k:upper()) .. "_DESC"
+                local desc_key = (key:upper()) .. "_DESC"
                 local desc_text = locale.get(desc_key)
-                local tip = locale.get("CLEAR_KEY_TIP")
-                return string.format(s, desc_text, tip)
+                local del = Settings.input.keys.menu_delete
+                if del and del ~= "" then
+                    local tip = string.format(locale.get("CLEAR_KEY_TIP"), utils.k2symbol(string.upper(del)))
+                    return string.format(s, desc_text, tip)
+                end
+                return desc_text
             end,
-            key_name = k,
+            key_name = key,
+            default = function() return default_settings.input.keys[key] end,
         }
     end
     return items
@@ -125,6 +138,9 @@ local function make_color_value_items(mino_key)
             end,
             set = function(v)
                 Settings.display.block_color[mino_key][ii] = v
+            end,
+            default = function()
+                return default_settings.display.block_color[mino_key][ii]
             end,
         }
     end
@@ -239,6 +255,7 @@ Settings.menu = {
             end,
             get = function() return Settings.game.allow_user_script end,
             set = function(v) Settings.game.allow_user_script = v end,
+            default = function() return default_settings.game.allow_user_script end,
         },
         {
             type = "toggle",
@@ -246,6 +263,7 @@ Settings.menu = {
             desc_key = "FIXED_STEP_DESC",
             get = function() return Settings.game.fixed_step end,
             set = function(v) Settings.game.fixed_step = v end,
+            default = function() return default_settings.game.fixed_step end,
         },
     },
     MENU_SETTINGS_DISPLAY = {
@@ -254,10 +272,13 @@ Settings.menu = {
             text_key = "FULLSCREEN",
             desc_key = "FULLSCREEN_DESC",
             get = function() return Settings.display.fullscreen end,
-            set = function()
-                push:switchFullscreen()
-                Settings.display.fullscreen = love.window.getFullscreen()
+            set = function(v)
+                if love.window.getFullscreen() ~= v then
+                    push:switchFullscreen()
+                end
+                Settings.display.fullscreen = v
             end,
+            default = function() return default_settings.display.fullscreen end,
         },
         {
             type = "value",
@@ -268,6 +289,7 @@ Settings.menu = {
             step = 0.1,
             get = function() return Settings.display.playfield_alpha end,
             set = function(v) Settings.display.playfield_alpha = v end,
+            default = function() return default_settings.display.playfield_alpha end,
         },
         {
             type = "list",
@@ -284,6 +306,7 @@ Settings.menu = {
                 Settings.display.skin = skin_names[i]
                 skin.load(Settings.display.skin)
             end,
+            default = function() return default_settings.display.skin end,
         },
         {
             type = "action",
@@ -297,12 +320,14 @@ Settings.menu = {
             desc_key = "SPLIT_MINOS_DESC",
             get = function() return Settings.display.split_minos end,
             set = function(v) Settings.display.split_minos = v end,
+            default = function() return default_settings.display.split_minos end,
         },
         {
             type = "list",
             text_key = "BLOCK_CONNECT",
             desc_key = "BLOCK_CONNECT_DESC",
             items = block_connect_labels,
+            values = block_connect_values,
             get_index = function()
                 local current = Settings.display.block_connect
                 for i, value in ipairs(block_connect_values) do
@@ -315,12 +340,14 @@ Settings.menu = {
             set_index = function(idx)
                 Settings.display.block_connect = block_connect_values[idx]
             end,
+            default = function() return default_settings.display.block_connect end,
         },
         {
             type = "list",
             text_key = "SPAWN_MARK",
             desc_key = "SPAWN_MARK_DESC",
             items = spawn_mark_labels,
+            values = spawn_mark_values,
             get_index = function()
                 local current = Settings.display.spawn_indicator
                 for i, value in ipairs(spawn_mark_values) do
@@ -333,6 +360,7 @@ Settings.menu = {
             set_index = function(idx)
                 Settings.display.spawn_indicator = spawn_mark_values[idx]
             end,
+            default = function() return default_settings.display.spawn_indicator end,
         },
         {
             type = "toggle",
@@ -340,6 +368,7 @@ Settings.menu = {
             desc_key = "KEY_INFO_DESC",
             get = function() return Settings.display.key_info end,
             set = function(v) Settings.display.key_info = v end,
+            default = function() return default_settings.display.key_info end,
         },
         {
             type = "toggle",
@@ -347,6 +376,7 @@ Settings.menu = {
             desc_key = "EZ_READ_DESC",
             get = function() return Settings.display.ez_read end,
             set = function(v) Settings.display.ez_read = v end,
+            default = function() return default_settings.display.ez_read end,
         },
         {
             type = "list",
@@ -363,6 +393,7 @@ Settings.menu = {
                 Settings.display.locale = locale.langs[i]
                 locale.current = locale.langs[i]
             end,
+            default = function() return default_settings.display.locale end,
         },
     },
     MENU_SETTINGS_SOUND = {
@@ -378,6 +409,7 @@ Settings.menu = {
                 Settings.sound.volume.bgm = v
                 sfx.set_bgm_volume(v)
             end,
+            default = function() return default_settings.sound.volume.bgm end,
         },
         {
             type = "value",
@@ -391,6 +423,7 @@ Settings.menu = {
                 Settings.sound.volume.sfx = v
                 sfx.set_sfx_volume(v)
             end,
+            default = function() return default_settings.sound.volume.sfx end,
         },
     },
     MENU_SETTINGS_CTRL = {
@@ -423,9 +456,15 @@ Settings.menu = {
 
         {
             type = "action",
-            text_key = "JMP_KEYS",
+            text_key = "JMP_GAME_KEYS",
             desc_key = "JMP_KEYS_DESC",
             jmp = "MENU_SETTINGS_KEYS",
+        },
+        {
+            type = "action",
+            text_key = "JMP_MENU_KEYS",
+            desc_key = "JMP_KEYS_DESC",
+            jmp = "MENU_SETTINGS_MENU_KEYS",
         },
         {
             type = "value",
@@ -435,6 +474,7 @@ Settings.menu = {
             max = 20,
             get = function() return Settings.input.das end,
             set = function(v) Settings.input.das = v end,
+            default = function() return default_settings.input.das end,
         },
         {
             type = "value",
@@ -444,6 +484,7 @@ Settings.menu = {
             max = 20,
             get = function() return Settings.input.arr end,
             set = function(v) Settings.input.arr = v end,
+            default = function() return default_settings.input.arr end,
         },
         {
             type = "value",
@@ -453,6 +494,7 @@ Settings.menu = {
             max = 20,
             get = function() return Settings.input.drop_arr end,
             set = function(v) Settings.input.drop_arr = v end,
+            default = function() return default_settings.input.drop_arr end,
         },
         {
             type = "toggle",
@@ -460,6 +502,7 @@ Settings.menu = {
             desc_key = "PREOP_DESC",
             get = function() return Settings.input.preop end,
             set = function(v) Settings.input.preop = v end,
+            default = function() return default_settings.input.preop end,
         },
         {
             type = "toggle",
@@ -467,6 +510,7 @@ Settings.menu = {
             desc_key = "DP_LOCK_DESC",
             get = function() return Settings.input.drop_lock end,
             set = function(v) Settings.input.drop_lock = v end,
+            default = function() return default_settings.input.drop_lock end,
         },
         {
             type = "toggle",
@@ -474,9 +518,11 @@ Settings.menu = {
             desc_key = "BMR_DESC",
             get = function() return Settings.input.blocked_retry end,
             set = function(v) Settings.input.blocked_retry = v end,
+            default = function() return default_settings.input.blocked_retry end,
         },
     },
-    MENU_SETTINGS_KEYS = make_keys_items(),
+    MENU_SETTINGS_KEYS = make_keys_items(Settings.key_actions),
+    MENU_SETTINGS_MENU_KEYS = make_keys_items(Settings.menu_key_actions),
 }
 
 for state, items in pairs(make_color_menu()) do

@@ -11,7 +11,7 @@ i18n.text = {
     BACK_TIP = "⎋ ﾓﾄﾞﾙ",
     RESTART_TIP = "ﾍﾝｺｳｺﾞ ｻｲｷﾄﾞｳ ﾕｳｺｳ",
     PRESS_KEY_TIP = "ｷｰｦ ｵｼﾃ...",
-    CLEAR_KEY_TIP = "⌦ ｦ ｵｼﾃ ｷｰﾊﾞｲﾝﾃﾞｨﾝｸﾞｦ ｸﾘｱ｡",
+    CLEAR_KEY_TIP = "%s ｦ ｵｼﾃ ｷｰﾊﾞｲﾝﾃﾞｨﾝｸﾞｦ ｸﾘｱ｡",
 
     RESET = "ﾘｾｯﾄ",
     RESET_DESC = "ｾｯﾃｲｦ ﾃﾞﾌｫﾙﾄﾆ ﾓﾄﾞｽ｡",
@@ -79,7 +79,8 @@ i18n.text = {
     SETTINGS_DESC = "ｹﾞｰﾑ ｾｯﾃｲｦ ﾁｮｳｾｲ｡\r\n\n◄ X ► ←/→ ﾃﾞ ｺｳﾓｸｦ ﾍﾝｺｳ\r\n- X - ↩ ﾃﾞ ｷﾘｶｴ\r\n[ X ] ↩ ﾉ ｱﾄﾆ ｷｰｦ ﾆｭｳﾘｮｸ",
 
     JMP_CTRL = "ｿｳｻ",
-    JMP_KEYS = "ｷｰ",
+    JMP_GAME_KEYS = "ｹﾞｰﾑ ｷｰ",
+    JMP_MENU_KEYS = "ﾒﾆｭｰ ｷｰ",
 
     DISPLAY = "ﾋｮｳｼﾞ",
     DISPLAY_DESC = "ﾋｮｳｼﾞ ｾｯﾃｨﾝｸﾞｦ ﾁｮｳｾｲ｡",
@@ -177,6 +178,13 @@ i18n.text = {
     LEFT = "ﾋﾀﾞﾘ",
     RIGHT = "ﾐｷﾞ",
 
+    MENU_UP = "ｳｴ",
+    MENU_DOWN = "ｼﾀ",
+    MENU_NEXT = "ﾂｷﾞ",
+    MENU_PREV = "ﾏｴ",
+    MENU_RESET = "ﾘｾｯﾄ",
+    MENU_DELETE = "ｻｸｼﾞｮ",
+
     MARATHON = "ﾏﾗｿﾝ",
     MARATHON_DESC = "150 ﾗｲﾝｦ ｸﾘｱ､\r\nｽｺｱｦ ﾈﾗｴ､ ﾓｯﾄ ﾀｶｸ!",
 
@@ -200,6 +208,13 @@ i18n.text = {
     SOFT_DROP_BOTTOM_DESC = "ｻｲﾃｲﾌﾞ ﾏﾃﾞ ｵﾄｽｶﾞ ﾛｯｸ ｼﾅｲ｡",
     LEFT_DESC = "ﾋﾀﾞﾘﾍ ﾑｰﾌﾞ｡",
     RIGHT_DESC = "ﾐｷﾞﾍ ﾑｰﾌﾞ｡",
+
+    MENU_UP_DESC = "ｾﾝﾀｸｦ ｳｴﾍ｡",
+    MENU_DOWN_DESC = "ｾﾝﾀｸｦ ｼﾀﾍ｡",
+    MENU_NEXT_DESC = "ﾂｷﾞﾉ ｱﾀｲ｡",
+    MENU_PREV_DESC = "ﾏｴﾉ ｱﾀｲ｡",
+    MENU_RESET_DESC = "ﾃﾞﾌｫﾙﾄ ﾆ ﾓﾄﾞｽ｡",
+    MENU_DELETE_DESC = "ｷｰ ﾊﾞｲﾝﾃﾞｨﾝｸﾞｦ ｸﾘｱ｡",
 }
 
 return i18n

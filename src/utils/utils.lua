@@ -155,4 +155,28 @@ function utils.to_block_symbol(ab)
     return t[ab]
 end
 
+function utils.k2symbol(k)
+    if k == "" then return "φ" end
+    if k == "RETURN" then return "↩" end
+    if k:match("SHIFT$") then return "⇧" end
+    if k == "CAPSLOCK" then return "⇪" end
+    if k == "BACKSPACE" then return "⌫" end
+    if k == "DELETE" then return "⌦" end
+    if k:match("ALT$") then return "⎇" end
+    if k == "SPACE" then return "␣" end
+    if k == "TAB" then return "⭲" end
+    if k == "KPENTER" then return "⌤" end
+    if k == "HOME" then return "⇱" end
+    if k == "END" then return "⇲" end
+    if k == "PAGEUP" then return "⇞" end
+    if k == "PAGEDOWN" then return "⇟" end
+    if k:match("CTRL$") then return "^" end
+    if k:match("GUI$") then return "♦" end
+    if k == "LEFT" then return "←" end
+    if k == "RIGHT" then return "→" end
+    if k == "UP" then return "↑" end
+    if k == "DOWN" then return "↓" end
+    return k
+end
+
 return utils

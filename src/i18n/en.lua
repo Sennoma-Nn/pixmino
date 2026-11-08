@@ -11,7 +11,7 @@ i18n.text = {
     BACK_TIP = "⎋ BACK",
     RESTART_TIP = "Restart to take effect.",
     PRESS_KEY_TIP = "PRESS KEY...",
-    CLEAR_KEY_TIP = "Press ⌦ to clear the key\r\nbinding.",
+    CLEAR_KEY_TIP = "Press %s to clear the key\r\nbinding.",
 
     RESET = "RESET",
     RESET_DESC = "Restore settings to\r\ndefault.",
@@ -79,7 +79,8 @@ i18n.text = {
     SETTINGS_DESC = "Adjust game settings.\r\n\n◄ X ► ←/→ to change option\r\n- X - ↩ to toggle\r\n[ X ] ↩ then press a key",
 
     JMP_CTRL = "CONTROLS",
-    JMP_KEYS = "KEY",
+    JMP_GAME_KEYS = "GAME KEY",
+    JMP_MENU_KEYS = "MENU KEY",
 
     DISPLAY = "DISPLAY",
     DISPLAY_DESC = "Adjust display settings.",
@@ -177,6 +178,13 @@ i18n.text = {
     LEFT = "LEFT",
     RIGHT = "RIGHT",
 
+    MENU_UP = "UP",
+    MENU_DOWN = "DOWN",
+    MENU_NEXT = "NEXT",
+    MENU_PREV = "PREV",
+    MENU_RESET = "RESET",
+    MENU_DELETE = "DELETE",
+
     MARATHON = "MARATHON",
     MARATHON_DESC = "Clear 150 lines,\r\nAim for score,\r\nchase the top!",
 
@@ -200,6 +208,13 @@ i18n.text = {
     SOFT_DROP_BOTTOM_DESC = "Drop to the bottom without\r\nlocking.",
     LEFT_DESC = "Move mino left.",
     RIGHT_DESC = "Move mino right.",
+
+    MENU_UP_DESC = "Move selection up.",
+    MENU_DOWN_DESC = "Move selection down.",
+    MENU_NEXT_DESC = "Next value / item.",
+    MENU_PREV_DESC = "Previous value / item.",
+    MENU_RESET_DESC = "Restore default value.",
+    MENU_DELETE_DESC = "Clear key binding.",
 }
 
 return i18n

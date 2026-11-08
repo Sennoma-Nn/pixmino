@@ -295,29 +295,6 @@ for state, items in pairs(settings.menu) do
     menu.data[state] = items
 end
 
-local function k2symbol(k)
-    if k == "RETURN" then return "↩" end
-    if k:match("SHIFT$") then return "⇧" end
-    if k == "CAPSLOCK" then return "⇪" end
-    if k == "BACKSPACE" then return "⌫" end
-    if k == "DELETE" then return "⌦" end
-    if k:match("ALT$") then return "⎇" end
-    if k == "SPACE" then return "␣" end
-    if k == "TAB" then return "⭲" end
-    if k == "KPENTER" then return "⌤" end
-    if k == "HOME" then return "⇱" end
-    if k == "END" then return "⇲" end
-    if k == "PAGEUP" then return "⇞" end
-    if k == "PAGEDOWN" then return "⇟" end
-    if k:match("CTRL$") then return "^" end
-    if k:match("GUI$") then return "♦" end
-    if k == "LEFT" then return "←" end
-    if k == "RIGHT" then return "→" end
-    if k == "UP" then return "↑" end
-    if k == "DOWN" then return "↓" end
-    return k
-end
-
 local function control_desc(it)
     if it.type == "toggle" then
         return it.get() and "- ON -" or "- OFF -"
@@ -333,7 +310,7 @@ local function control_desc(it)
         local r = (idx < #it.items) and "►" or " "
         return l .. " " .. tostring(val) .. " " .. r
     elseif it.type == "keys" then
-        return "[ " .. k2symbol(string.upper(Settings.input.keys[it.key_name])) .. " ]"
+        return "[ " .. utils.k2symbol(string.upper(Settings.input.keys[it.key_name])) .. " ]"
     end
     return nil
 end
@@ -389,6 +366,7 @@ function menu.get_sp_punctuation(s)
         ["("] = true,
         [")"] = true,
         ["/"] = true,
+        ["φ"] = true,
         ["\\"] = true,
         ["\r"] = true,
         ["\n"] = true,
@@ -554,17 +532,19 @@ function menu.keypressed(key)
 
     local it = data[menu.selection]
 
-    if key == "up" then
+    local k = Settings.input.keys
+
+    if key == k.menu_up then
         menu.selection = utils.wrap_index(menu.selection - 1, #data)
         sfx.play("menu_move")
         return true
-    elseif key == "down" then
+    elseif key == k.menu_down then
         menu.selection = utils.wrap_index(menu.selection + 1, #data)
         sfx.play("menu_move")
         return true
-    elseif key == "left" or key == "right" then
+    elseif key == k.menu_prev or key == k.menu_next then
         if it and it.type ~= "action" and it.type ~= "toggle" then
-            local delta = (key == "right") and 1 or -1
+            local delta = (key == k.menu_next) and 1 or -1
             if it.type == "value" then
                 local step = it.step or 1
                 local v = utils.clamp(it.get() + delta * step, it.min, it.max)
@@ -579,12 +559,30 @@ function menu.keypressed(key)
             end
             return true
         end
-    elseif key == "delete" then
+    elseif key == k.menu_delete then
         if it and it.type == "keys" then
             Settings.input.keys[it.key_name] = ""
             return true
         end
-    elseif key == "return" or key == "space" then
+    elseif key == k.menu_reset then
+        if it and it.default then
+            if it.type == "keys" then
+                Settings.input.keys[it.key_name] = it.default()
+            elseif it.type == "list" then
+                local dv = it.default()
+                local list = it.values or it.items
+                for i, v in ipairs(list) do
+                    if v == dv then
+                        it.set_index(i)
+                        break
+                    end
+                end
+            else
+                it.set(it.default())
+            end
+            return true
+        end
+    elseif key == "return" or key == "space" or key == "kpenter" then
         if it.type == "toggle" then
             it.set(not it.get())
             return true

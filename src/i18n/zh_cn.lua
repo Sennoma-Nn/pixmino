@@ -11,7 +11,7 @@ i18n.text = {
     BACK_TIP = "⎋ 返回",
     RESTART_TIP = "更改后重启生效",
     PRESS_KEY_TIP = "请按下按键...",
-    CLEAR_KEY_TIP = "按下 ⌦ 键清除按键绑定｡",
+    CLEAR_KEY_TIP = "按下 %s 键清除按键绑定｡",
 
     RESET = "恢复默认",
     RESET_DESC = "将设置恢复为默认｡",
@@ -79,7 +79,8 @@ i18n.text = {
     SETTINGS_DESC = "调整游戏设置｡\r\n\n◄ X ► 按下 ←/→ 键改变\r\n- X - 按下 ↩ 键切换\r\n[ X ] 按下 ↩ 键后输入一个按键",
 
     JMP_CTRL = "操作",
-    JMP_KEYS = "按键",
+    JMP_GAME_KEYS = "游戏按键",
+    JMP_MENU_KEYS = "菜单按键",
 
     DISPLAY = "显示",
     DISPLAY_DESC = "调整显示设置｡",
@@ -177,6 +178,13 @@ i18n.text = {
     LEFT = "左移",
     RIGHT = "右移",
 
+    MENU_UP = "菜单上",
+    MENU_DOWN = "菜单下",
+    MENU_NEXT = "下一项",
+    MENU_PREV = "上一项",
+    MENU_RESET = "恢复默认",
+    MENU_DELETE = "删除按键",
+
     MARATHON = "马拉松",
     MARATHON_DESC = "清除150行,\r\n以分数为目标,向更高分冲刺!",
 
@@ -200,6 +208,13 @@ i18n.text = {
     SOFT_DROP_BOTTOM_DESC = "降落到最底部,但不立即锁定｡",
     LEFT_DESC = "形状向左移动｡",
     RIGHT_DESC = "形状向右移动｡",
+
+    MENU_UP_DESC = "向上移动选择项｡",
+    MENU_DOWN_DESC = "向下移动选择项｡",
+    MENU_NEXT_DESC = "下一个数值或项目｡",
+    MENU_PREV_DESC = "上一个数值或项目｡",
+    MENU_RESET_DESC = "恢复为默认值｡",
+    MENU_DELETE_DESC = "清除按键绑定｡",
 }
 
 return i18n
