@@ -9,7 +9,7 @@ i18n.text = {
     SELECT_LANGUAGE = "ｹﾞﾝｺﾞ ｾﾝﾀｸ",
 
     BACK_TIP = "⎋ ﾓﾄﾞﾙ",
-    RESTART_TIP = "ﾍﾝｺｳｺﾞ ｻｲｷﾄﾞｳ ﾕｳｺｳ",
+    RESTART_TIP = "ﾍﾝｺｳﾊ ｻｲｷﾄﾞｳｺﾞﾆ ﾕｳｺｳﾆ ﾅﾘﾏｽ",
     PRESS_KEY_TIP = "ｷｰｦ ｵｼﾃ...",
     CLEAR_KEY_TIP = "%s ｦ ｵｼﾃ ｷｰﾊﾞｲﾝﾃﾞｨﾝｸﾞｦ ｸﾘｱ｡",
 
@@ -35,7 +35,7 @@ i18n.text = {
     ENVIRONMENT_DESC = "ｶﾝｷｮｳ:\r\n\nLOVE   %s\r\n%s\r\n%s\r\nOS     %s\r\n\nGOTO FORWARD   %s\r\nGOTO BACKWARD  %s\r\nBIT OPERATOR   %s\r\nIDIV OPERATOR  %s",
 
     SOURCE = "ｿｰｽ",
-    SOURCE_DESC = "ｿｰｽ ｺｰﾄﾞ:\r\n\nGitHub:\r\nSennoma-Nn/pixmino\r\n\nGPLv3 ﾗｲｾﾝｽﾃﾞ ﾊｲﾌ｡\r\n🄯 2026 Sennoma-Nn",
+    SOURCE_DESC = "ｿｰｽ ｺｰﾄﾞ:\r\n\nGitHub:\r\nSennoma-Nn/pixmino\r\n\nGPLv3 ﾗｲｾﾝｽﾃﾞ ｺｳｶｲ｡\r\n🄯 2026 Sennoma-Nn",
 
     SP_THANKS = "SP.ｻﾝｸｽ",
     SP_THANKS_DESC = "ｽﾍﾟｼｬﾙ ｻﾝｸｽ",
@@ -92,10 +92,10 @@ i18n.text = {
     INPUT_DESC = "ｲﾝﾌﾟｯﾄ ｾｯﾃｨﾝｸﾞｦ ﾁｮｳｾｲ｡",
 
     GAME = "ｹﾞｰﾑ",
-    GAME_DESC = "ｹﾞｰﾑﾉ ｻﾞﾂｺｳ ｾｯﾃｲ｡",
+    GAME_DESC = "ｹﾞｰﾑﾉ ｿﾉﾀ ｾｯﾃｲ｡",
 
     ALLOW_SCRIPT = "MOD ｷｮｶ",
-    ALLOW_SCRIPT_DESC = "ｶｽﾀﾑ ﾓｰﾄﾞ､ｽｷﾝ､AUTO\r\nｽｸﾘﾌﾟﾄﾅﾄﾞﾉ ﾛｰﾄﾞｦ ｷｮｶ｡\r\nﾔｯﾃｲﾙｺﾄｦ ﾘｶｲ｡\r\nﾀﾆﾝﾉ ｽｸﾘﾌﾟﾄﾊ ｱﾝｾﾞﾝﾅﾉｦ ｶｸﾆﾝ｡\r\nﾐｼﾝｻﾉ ｽｸﾘﾌﾟﾄﾊ ｷｹﾝ!(ﾎﾝﾄ)",
+    ALLOW_SCRIPT_DESC = "ｶｽﾀﾑﾓｰﾄﾞ･ｽｷﾝ･ｵｰﾄｽｸﾘﾌﾟﾄﾅﾄﾞﾉ\r\nﾛｰﾄﾞｦ ｷｮｶｼﾏｽ｡\r\nﾅﾆｦ ｼﾃｲﾙｶ ﾘｶｲｼﾀｳｴﾃﾞ\r\nﾂｶｯﾃｸﾀﾞｻｲ｡\r\nﾀﾆﾝﾉ ｽｸﾘﾌﾟﾄﾊ ｱﾝｾﾞﾝｶ\r\nﾋﾄﾂﾋﾄﾂ ｶｸﾆﾝｼﾃｸﾀﾞｻｲ｡\r\nﾐﾚﾋﾞｭｰﾉ ｽｸﾘﾌﾟﾄﾊ\r\nﾎﾝﾄｳﾆ ｷｹﾝﾃﾞｽ!",
 
     FIXED_STEP = "ｺﾃｲｽﾃｯﾌﾟ",
     FIXED_STEP_DESC = "ｺｳｾｲﾄﾞﾉ ｿｳｻｶﾞ ﾋﾂﾖｳﾅ ﾊﾞｱｲ､\r\nﾌｶｸﾃｲﾅ ﾕﾗｷﾞ ﾆﾖﾘ ﾔﾔ\r\nﾌｱﾝﾃｲﾆ ﾅﾙｺﾄｶﾞ ｱﾙ｡ ONﾆｽﾙﾄ\r\nﾛｼﾞｯｸｦ 60Hzﾆ ｺﾃｲｼﾃ ｼﾞｯｺｳ｡\r\nﾘﾌﾚｯｼｭ ﾚｰﾄﾆ ｴｲｷｮｳ ｻﾚﾅｲ｡",
@@ -125,19 +125,19 @@ i18n.text = {
     ARR_DESC = "‾‾ Auto Shift Period ‾‾\r\n\nﾐﾉｶﾞ ｲｯﾃｲ ｿｸﾄﾞﾃﾞ\r\nｼﾞﾄﾞｳ ﾚﾝｿﾞｸｲﾄﾞｳｽﾙｱｲﾀﾞﾉ\r\nｲﾄﾞｳ ｶﾝｶｸ｡",
 
     DP_ARR = "DP.ASP",
-    DP_ARR_DESC = "‾‾ Drop Auto Shift Period ‾\r\n\nｿﾌﾄﾄﾞﾛｯﾌﾟｦ ｵｼﾃ ｶｲｼｽﾙ\r\nﾚﾝｿﾞｸ ｶｺｳﾉ､ﾌﾀﾂﾉ ｶｺｳﾉ\r\nｱｲﾀﾞﾉ ｼﾞｶﾝ｡",
+    DP_ARR_DESC = "‾‾ Drop Auto Shift Period ‾\r\n\nｿﾌﾄﾄﾞﾛｯﾌﾟｦ ｵｼﾃｶﾗ ﾊｼﾞﾏﾙ\r\nﾚﾝｿﾞｸ ｶｺｳﾉ 2ｶｲﾉ\r\nｶｺｳ ﾉ ｱｲﾀﾞﾉ ｼﾞｶﾝﾃﾞｽ｡",
 
     DP_LOCK = "DP.LOCK",
-    DP_LOCK_DESC = "‾‾ Drop Lock ‾‾\r\n\nONﾆ ｽﾙﾄ､ ｿﾌﾄﾄﾞﾛｯﾌﾟﾃﾞ\r\nｼﾀﾆ ﾌﾞﾛｯｸｶﾞ ｱﾙﾄ, ｽｸﾞ ﾛｯｸ｡",
+    DP_LOCK_DESC = "‾‾ Drop Lock ‾‾\r\n\nONﾆ ｽﾙﾄ､ ｿﾌﾄﾄﾞﾛｯﾌﾟﾃﾞ\r\nｼﾀﾆ ﾌﾞﾛｯｸｶﾞ ｱﾙﾄ､ ｽｸﾞ ﾛｯｸ｡",
 
     BMR = "BLK.RETRY",
-    BMR_DESC = "‾‾ ｲﾄﾞｳ ﾌﾞﾛｯｸ ﾘﾄﾗｲ ‾‾\r\n\r\nｲﾄﾞｳｶﾞ ﾌﾞﾛｯｸ ｻﾚﾀﾄｷ\r\nASD/ASP ﾏﾁﾆ ﾊｲﾗﾅｲ｡\r\nｺｳｼﾞｭｳﾘｮｸ･ｺｳASPﾃﾞﾉ\r\nｺﾛｹﾞ ｼｯﾊﾟｲｦ ｶｲｹﾂ｡",
+    BMR_DESC = "‾‾ ｲﾄﾞｳ ﾌﾞﾛｯｸ ﾘﾄﾗｲ ‾‾\r\n\r\nｲﾄﾞｳｶﾞ ﾌﾞﾛｯｸ ｻﾚﾀﾄｷ\r\nASD/ASP ﾏﾁﾆ ﾊｲﾗﾅｲ｡\r\nｺｳｼﾞｭｳﾘｮｸ･ｺｳASPﾃﾞﾉ\r\nﾉﾎﾞﾘﾉ ｼｯﾊﾟｲｦ ﾌｾｷﾞﾏｽ｡",
 
     PREOP = "ｾﾝｺｳ",
     PREOP_DESC = "‾‾ ｾﾝｺｳﾆｭｳﾘｮｸ ‾‾\r\n\nｱﾀﾗｼｲﾐﾉｶﾞ ｽﾎﾟｰﾝｽﾙﾄｷﾆ ｷｰｦ\r\nｵｻｴﾃ ｲﾙﾄ ｶｲﾃﾝ･ｲﾄﾞｳ･ﾎｰﾙﾄﾞｶﾞ\r\nﾊﾂﾄﾞｳ｡",
 
     SPAWN_MARK = "ｽﾎﾟｰﾝ",
-    SPAWN_MARK_DESC = "ﾌｨｰﾙﾄﾞｼﾞｮｳﾆ ﾂｷﾞﾉ ﾐﾉｶﾞ\r\nﾃﾞﾙ ｲﾁﾄ ﾐﾉｦ ﾏｰｸ｡",
+    SPAWN_MARK_DESC = "ﾌｨｰﾙﾄﾞｼﾞｮｳﾆ ﾂｷﾞﾉ ﾐﾉｶﾞ\r\nﾃﾞﾙ ｲﾁﾄ ｶﾀﾁｦ ﾏｰｸ｡",
 
     KEY_INFO = "ｷｰﾋｮｳｼﾞ",
     KEY_INFO_DESC = "ﾌﾟﾚｲﾁｭｳ ｶﾞﾒﾝ ｼﾞｮｳﾌﾞﾆ\r\nｵｼﾀ ｷｰｦ ﾋｮｳｼﾞ｡",
@@ -192,7 +192,7 @@ i18n.text = {
     SPRINT_DESC = "40 ﾗｲﾝｦ ｸﾘｱ､\r\nﾊﾔｻｦ ｷｿｴ､ ﾊﾔｲﾎﾄﾞ ｲｲ!",
 
     MASTER = "ﾏｽﾀｰ",
-    MASTER_DESC = "300 ﾗｲﾝｦ ｸﾘｱ､\r\nﾌﾞﾛｯｸｶﾞ ﾁｮｸｾﾂ ﾗｯｶ､\r\nｿｳｻ ｼﾞｶﾝｶﾞ ﾐｼﾞｶｸ ﾅﾙ!",
+    MASTER_DESC = "300 ﾗｲﾝｦ ｸﾘｱ､\r\nﾐﾉｶﾞ ｿｸｻﾞﾆ ﾗｯｶ､\r\nｿｳｻ ｼﾞｶﾝｶﾞ ﾐｼﾞｶｸ ﾅﾙ!",
 
     NO_MOVE = "ｲﾄﾞｳﾌﾉｳ!?",
 
@@ -211,8 +211,8 @@ i18n.text = {
 
     MENU_UP_DESC = "ｾﾝﾀｸｦ ｳｴﾍ｡",
     MENU_DOWN_DESC = "ｾﾝﾀｸｦ ｼﾀﾍ｡",
-    MENU_NEXT_DESC = "ﾂｷﾞﾉ ｱﾀｲ｡",
-    MENU_PREV_DESC = "ﾏｴﾉ ｱﾀｲ｡",
+    MENU_NEXT_DESC = "ﾂｷﾞﾉ ｱﾀｲ/ｺｳﾓｸ｡",
+    MENU_PREV_DESC = "ﾏｴﾉ ｱﾀｲ/ｺｳﾓｸ｡",
     MENU_RESET_DESC = "ﾃﾞﾌｫﾙﾄ ﾆ ﾓﾄﾞｽ｡",
     MENU_DELETE_DESC = "ｷｰ ﾊﾞｲﾝﾃﾞｨﾝｸﾞｦ ｸﾘｱ｡",
 }

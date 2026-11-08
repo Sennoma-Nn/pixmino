@@ -95,7 +95,7 @@ i18n.text = {
     GAME_DESC = "Some miscellaneous game\r\nsettings.",
 
     ALLOW_SCRIPT = "MOD",
-    ALLOW_SCRIPT_DESC = "Allow loading custom modes,\r\nskins, auto script, etc.\r\nMake sure you know what\r\nyou're doing.\r\nIf you load scripts shared\r\nby others, make sure they\r\nare safe - unaudited script\r\nare dangerous! (REALLY)",
+    ALLOW_SCRIPT_DESC = "Allow loading custom modes,\r\nskins, auto scripts, etc.\r\nMake sure you know what\r\nyou're doing.\r\nIf you load scripts shared\r\nby others, make sure they\r\nare safe, unaudited scripts\r\nare dangerous! (REALLY)",
 
     FIXED_STEP = "FIX STEP",
     FIXED_STEP_DESC = "If you need precise\r\nactions, those may become\r\nunstable due to uncertain\r\nfluctuations.\r\nTurn on to lock logic at a\r\nfixed 60Hz, independent of\r\nscreen refresh rate.",
@@ -131,7 +131,7 @@ i18n.text = {
     DP_LOCK_DESC = "~~ Drop Lock ~~\r\n\nWhen on, soft drop locks\r\nthe mino immediately when\r\nblocked below.",
 
     BMR = "BLK.RETRY",
-    BMR_DESC = "~~ Blocked Move Retry ~~\r\n\nWhen a move is blocked,\r\nit does not enter\r\nASD/ASP waiting.\r\nSolves roll-fail under\r\nhigh gravity / high ASP.",
+    BMR_DESC = "~~ Blocked Move Retry ~~\r\n\nWhen a move is blocked,\r\nit does not enter\r\nASD/ASP waiting.\r\nSolves climb-fail under\r\nhigh gravity / high ASP.",
 
     PREOP = "I*S",
     PREOP_DESC = "~~ Initial ** System ~~\r\n\nHold rotate, move,\r\nor hold keys and\r\nthe action triggers\r\nwhen a new mino spawns.",
