@@ -137,7 +137,7 @@ i18n.text = {
     PREOP_DESC = "~~ 预输入 ~~\r\n\n新的形状入场时\r\n提前按住按键立即触发\r\n旋转､移动或暂存｡",
 
     SPAWN_MARK = "出生标记",
-    SPAWN_MARK_DESC = "在场地上标记下个形状的出現位置｡",
+    SPAWN_MARK_DESC = "在场地上标记下个形状的出现位置｡",
 
     KEY_INFO = "按键显示",
     KEY_INFO_DESC = "游戏中在画面上方显示当前按下的按键｡",
