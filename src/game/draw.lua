@@ -116,7 +116,9 @@ local function draw_playfield_cells(gx, gy, ph, bs)
             for x = 1, game.pf.width do
                 local cell = row[x]
                 if cell then
-                    draw_block(gx + (x - 1) * bs, py, bs, cell.color, false, pf_cell_link(x, y, cell.id))
+                    if cell.color[4] == nil or cell.color[4] > 0 then
+                        draw_block(gx + (x - 1) * bs, py, bs, cell.color, false, pf_cell_link(x, y, cell.id))
+                    end
                 end
             end
         end
@@ -133,10 +135,10 @@ local function draw_mino_borders(gx, gy, ph, bs)
                 local cell = row[x]
                 if cell then
                     local px = gx + (x - 1) * bs
-                    local border_color = utils.color_blend(utils.strip_a(cell.color), utils.strip_a(Colors.mino_border),
-                        Colors.mino_border[4])
-
-                    skin.borders(px, py, bs, pf_cell_link(x, y, cell.id), border_color)
+                    if cell.color[4] == nil or cell.color[4] > 0 then
+                        local border_color = utils.color_blend(utils.strip_a(cell.color), utils.strip_a(Colors.mino_border), Colors.mino_border[4])
+                        skin.borders(px, py, bs, pf_cell_link(x, y, cell.id), border_color)
+                    end
                 end
             end
         end
@@ -183,24 +185,26 @@ local function draw_piece(gx, gy, ph, bs)
         end))
     end
 
-    local ghost_ox, ghost_oy = gx + (p.x - 2) * bs, gy + ph - (p.y + dy + 1) * bs
-    for i, cell in ipairs(cells) do
-        local gy2 = cell.y + dy
-        if gy2 >= 1 and gy2 <= game.pf.height then
-            local ghost_color = utils.strip_a(color)
-            ghost_color[4] = 0.25
-            draw_block(gx + (cell.x - 1) * bs, gy + ph - gy2 * bs, bs, ghost_color, false, cell_links[i])
+    if game.piece.color[4] == nil or game.piece.color[4] > 0 then
+        local ghost_ox, ghost_oy = gx + (p.x - 2) * bs, gy + ph - (p.y + dy + 1) * bs
+        for i, cell in ipairs(cells) do
+            local gy2 = cell.y + dy
+            if gy2 >= 1 and gy2 <= game.pf.height then
+                local ghost_color = utils.strip_a(color)
+                ghost_color[4] = 0.25
+                draw_block(gx + (cell.x - 1) * bs, gy + ph - gy2 * bs, bs, ghost_color, false, cell_links[i])
+            end
         end
-    end
-    draw_matrix_borders(m, ghost_ox, ghost_oy, bs, color, Colors.ghost_border, block_connect_link)
+        draw_matrix_borders(m, ghost_ox, ghost_oy, bs, color, Colors.ghost_border, block_connect_link)
 
-    local ox, oy = gx + (p.x - 2) * bs, gy + ph - (p.y + 1) * bs
-    for i, cell in ipairs(cells) do
-        if cell.y >= 1 and cell.y <= game.pf.height then
-            draw_block(gx + (cell.x - 1) * bs, gy + ph - cell.y * bs, bs, color, false, cell_links[i])
+        local ox, oy = gx + (p.x - 2) * bs, gy + ph - (p.y + 1) * bs
+        for i, cell in ipairs(cells) do
+            if cell.y >= 1 and cell.y <= game.pf.height then
+                draw_block(gx + (cell.x - 1) * bs, gy + ph - cell.y * bs, bs, color, false, cell_links[i])
+            end
         end
+        draw_matrix_borders(m, ox, oy, bs, color, Colors.piece_border, block_connect_link)
     end
-    draw_matrix_borders(m, ox, oy, bs, color, Colors.piece_border, block_connect_link)
 end
 
 local function draw_spin_mask(gx, gy, ph, bs)
