@@ -59,12 +59,13 @@ local ccw              = { ["0"] = "L", ["L"] = "2", ["2"] = "R", ["R"] = "0" }
 local half             = { ["0"] = "2", ["2"] = "0", ["R"] = "L", ["L"] = "R" }
 
 function game.reset()
-    game.time   = -1.5
-    game.clears = 0
-    game.scores = 0
-    game.level  = 1
-    game.ren    = -1
-    game.b2b    = 0
+    game.time     = -1.5
+    game.clears   = 0
+    game.scores   = 0
+    game.level    = 1
+    game.ren      = -1
+    game.b2b      = 0
+    game.piece_id = 1
 end
 
 function game.load_settings(override)
@@ -433,7 +434,10 @@ end
 local function refill_bag()
     local bag = utils.shuffle({ "I", "O", "T", "S", "Z", "J", "L" })
     for _, s in ipairs(bag) do
-        game.bag[#game.bag + 1] = s
+        game.bag[#game.bag + 1] = {
+            shape = s,
+            color = utils.deep_clone(utils.get_value_if_func_call(minos[s].color)),
+        }
     end
 end
 
@@ -444,15 +448,23 @@ local function take_bag()
     return table.remove(game.bag, 1)
 end
 
-function game.ensure_next()
-    while #game.next < next_count do
-        game.next[#game.next + 1] = take_bag()
-    end
+local function get_id()
+    local id = game.piece_id
+    game.piece_id = game.piece_id + 1
+    return id
 end
 
-local function get_id()
-    game.piece_id = game.piece_id + 1
-    return game.piece_id
+function game.ensure_next()
+    while #game.next < next_count do
+        local entry = take_bag()
+        if game.bone then
+            entry.color = bone_color
+            entry.id = 0
+        else
+            entry.id = get_id()
+        end
+        game.next[#game.next + 1] = entry
+    end
 end
 
 local function reset_piece_spin(piece)
@@ -460,14 +472,14 @@ local function reset_piece_spin(piece)
     piece.spin.mini = false
 end
 
-local function new_piece(shape, x, y)
+local function new_piece(entry, x, y)
     return {
-        id = get_id(),
-        shape = shape,
+        id = entry.id,
+        shape = entry.shape,
         dir = "0",
         x = x,
         y = y,
-        color = utils.get_value_if_func_call(minos[shape].color),
+        color = entry.color,
         lock_delay = game.lock_delay_frames / 60,
         lock_resets = game.lock_resets_total,
         drop_sum = 0,
@@ -495,17 +507,12 @@ function game.spawn()
     if #game.next == 0 then
         game.ensure_next()
     end
-    local shape = table.remove(game.next, 1)
-    local x, y = spawn_pos(shape)
-    game.piece = new_piece(shape, x, y)
+    local entry = table.remove(game.next, 1)
+    local x, y = spawn_pos(entry.shape)
+    game.piece = new_piece(entry, x, y)
     game.can_hold = true
     game.ensure_next()
     game_debug.piece("SPAWN", game.piece)
-
-    if game.bone then
-        game.piece.color = bone_color
-        game.piece.id = 0
-    end
 
     do_preinput()
 
@@ -520,20 +527,19 @@ function game.do_hold()
     local old_rst = game.piece.lock_resets
     local prev_shape = game.piece.shape
     local held = game.hold
-    game.hold = prev_shape
+    game.hold = {
+        shape = prev_shape,
+        color = utils.deep_clone(game.piece.color),
+        id = game.piece.id,
+    }
 
-    local new_shape = held or table.remove(game.next, 1)
-    local x, y = spawn_pos(new_shape)
-    game.piece = new_piece(new_shape, x, y)
+    local entry = held or table.remove(game.next, 1)
+    local x, y = spawn_pos(entry.shape)
+    game.piece = new_piece(entry, x, y)
     game.piece.lock_resets = math.min(old_rst + 2, game.lock_resets_total)
     game.ensure_next()
     game.can_hold = false
     game_debug.piece("HOLD", game.piece)
-
-    if game.bone then
-        game.piece.color = bone_color
-        game.piece.id = 0
-    end
 
     if game.active_settings and game.active_settings.input.preop then
         do_preinput()

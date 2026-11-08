@@ -169,7 +169,7 @@ local function draw_piece(gx, gy, ph, bs)
     local p = game.piece
     local m = game.get_matrix(p.shape, p.dir)
     local dy = game.drop_y(p) - p.y
-    local color = game.bone and game.bone_color or p.color
+    local color = p.color
 
     local cells = game.piece_cells(p)
     local cell_set = {}
@@ -239,7 +239,7 @@ local function draw_spawn_marker(gx, gy, ph, bs)
     if mode ~= true and not is_danger() then return end
     if not game.next[1] then return end
 
-    local shape = game.next[1]
+    local shape = game.next[1].shape
     local x0, y0 = game.spawn_point(shape)
     local m = game.get_matrix(shape, "0")
     local n = #m
@@ -260,10 +260,10 @@ local function draw_spawn_marker(gx, gy, ph, bs)
     end
 end
 
-local function draw_preview(shape, px, py, bs, transparent)
-    local mino = game.shapes[shape]
+local function draw_preview(entry, px, py, bs, transparent)
+    local mino = game.shapes[entry.shape]
     local m = mino.shapes
-    local color = game.bone and game.bone_color or utils.get_value_if_func_call(mino.color)
+    local color = entry.color
     local pv = mino.preview
     local ox = px + pv.offset[1] * bs
     local oy = py - pv.offset[2] * bs
