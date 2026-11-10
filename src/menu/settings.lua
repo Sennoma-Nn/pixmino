@@ -1,6 +1,7 @@
 -- Copyright (C) 2026 Sennoma-Nn
 -- SPDX-License-Identifier: GPL-3.0-or-later
 
+local bg = require("src.manager.bg")
 local locale = require("src.manager.locale")
 local push = require("lib.push")
 local sfx = require("src.manager.sfx")
@@ -42,6 +43,7 @@ local default_settings = {
     display = {
         fullscreen = false,
         skin = "block",
+        bg = "auto",
         playfield_alpha = 0.8,
         split_minos = true,
         block_connect = "eight",
@@ -207,6 +209,13 @@ local block_connect_labels = { "SAME (8-WAY)", "SAME (4-WAY)", "NONE" }
 local spawn_mark_values = { false, "danger", true }
 local spawn_mark_labels = { "OFF", "DANGER", "ALWAYS" }
 
+local bg_values = { "auto" }
+local bg_labels = { "AUTO" }
+for i, name in ipairs(bg.get_list()) do
+    bg_values[#bg_values + 1] = name
+    bg_labels[#bg_labels + 1] = name:upper()
+end
+
 Settings.menu = {
     MENU_SETTINGS = {
         {
@@ -307,6 +316,26 @@ Settings.menu = {
                 skin.load(Settings.display.skin)
             end,
             default = function() return default_settings.display.skin end,
+        },
+        {
+            type = "list",
+            text_key = "BACKGROUND",
+            desc_key = "BACKGROUND_DESC",
+            items = bg_labels,
+            values = bg_values,
+            get_index = function()
+                local current = Settings.display.bg
+                for i, value in ipairs(bg_values) do
+                    if value == current then
+                        return i
+                    end
+                end
+                return 1
+            end,
+            set_index = function(idx)
+                Settings.display.bg = bg_values[idx]
+            end,
+            default = function() return default_settings.display.bg end,
         },
         {
             type = "action",

@@ -106,6 +106,9 @@ i18n.text = {
     FULLSCREEN = "全螢幕",
     FULLSCREEN_DESC = "切換全螢幕｡",
 
+    BACKGROUND = "背景",
+    BACKGROUND_DESC = "選擇背景｡",
+
     PLAYFIELD_ALPHA = "場地背景不透明度",
     PLAYFIELD_ALPHA_DESC = "設定場地背景的不透明度｡",
 

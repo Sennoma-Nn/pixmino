@@ -303,7 +303,7 @@ function love.run()
 
         local is_updated = false
 
-        if Settings and Settings.game and Settings.game.fixed_step then
+        if Settings.game.fixed_step then
             if dt > max_step then dt = max_step end
             accumulator = accumulator + dt
             while accumulator >= fixed_dt do

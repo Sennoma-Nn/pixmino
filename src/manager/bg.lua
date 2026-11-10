@@ -33,6 +33,14 @@ function bg.get_list()
 end
 
 local function get_impl()
+    local forced = Settings.display.bg
+    if forced and forced ~= "auto" then
+        local impl = impls[forced]
+        if impl then
+            return impl
+        end
+    end
+
     local impl = BG and impls[BG]
     if impl then
         return impl

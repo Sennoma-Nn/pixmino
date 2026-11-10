@@ -106,6 +106,9 @@ i18n.text = {
     FULLSCREEN = "ﾌﾙｽｸﾘｰﾝ",
     FULLSCREEN_DESC = "ﾌﾙｽｸﾘｰﾝ ﾋｮｳｼﾞｦ ｷﾘｶｴ｡",
 
+    BACKGROUND = "ﾊｲｹｲ",
+    BACKGROUND_DESC = "ﾊｲｹｲｦ ｾﾝﾀｸ｡",
+
     PLAYFIELD_ALPHA = "PF.ｱﾙﾌｧ",
     PLAYFIELD_ALPHA_DESC = "ﾌｨｰﾙﾄﾞ ﾊｲｹｲﾉ ﾌﾄｳﾒｲﾄﾞｦ ｾｯﾃｲ｡",
 
