@@ -67,6 +67,7 @@ log() {
 
 SCRIPT_DIR=$(CDPATH="" cd -- "$(dirname -- "$0")" && pwd)
 change_dir "$SCRIPT_DIR"/..
+[ -f ./main.lua ] || error 1 "Project root not found."
 
 log "Clear old build files."
 [ -d ./build ] && rm -rf ./build
