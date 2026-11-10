@@ -1,10 +1,10 @@
 <span><img src="assets/icon/icon32.svg" height="32"></span>
 <span>&nbsp;&nbsp;</span>
-<span><img src="assets/doc/title.svg" height="32"></span>
+<span><img src="doc/title.svg" height="32"></span>
 
 ---
 
-![Cover](/assets/doc/cover.svg)
+![Cover](doc/cover.svg)
 
 ---
 
