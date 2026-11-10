@@ -601,8 +601,6 @@ local function rotate_to(nd, no_kick)
     local rotated = false
     local wallkicked = false
 
-    reset_piece_spin(p)
-
     local kicked, wk = try_wallkick(p, nd, no_kick)
     if kicked then
         rotated = true
@@ -615,6 +613,7 @@ local function rotate_to(nd, no_kick)
     end
 
     if rotated then
+        reset_piece_spin(p)
         game_debug.piece("ROT", p)
         local is_spin, is_mini = check_spin(p)
         p.spin.activation = is_spin
