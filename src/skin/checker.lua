@@ -10,7 +10,7 @@ function skin.base(px, py, bs, link, color)
     love.graphics.rectangle("fill", px, py, bs, bs)
 
     local size = 4
-    love.graphics.setColor(0, 0, 0, 0.18 * a)
+    love.graphics.setColor(0, 0, 0, 0.1 * a)
     for cy = 0, bs - 1, size do
         for cx = 0, bs - 1, size do
             local ix = math.floor((px + cx) / size)
