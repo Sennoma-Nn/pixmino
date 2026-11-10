@@ -1,7 +1,7 @@
 -- Copyright (C) 2026 Sennoma-Nn
 -- SPDX-License-Identifier: GPL-3.0-or-later
 
-GAMEVER = "v0.1.3 EVALUATION"
+GAMEVER = "v0.1.3"
 
 local push = require("lib.push")
 local vgafont = require("lib.vgafont")
