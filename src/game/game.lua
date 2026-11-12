@@ -43,6 +43,7 @@ game.clear_wait        = 0
 game.wait              = 0
 game.bone              = false
 game.drop_lock_armed   = false
+game.wallkick          = "prs"
 
 game.time              = 0
 game.clears            = 0
@@ -574,8 +575,8 @@ end
 
 local function try_wallkick(piece, nd, no_kick)
     local from = piece.dir
-    local prs = minos[piece.shape].wallkick and minos[piece.shape].wallkick.prs
-    local moves = prs and prs[from .. ">" .. nd]
+    local wkt = minos[piece.shape].wallkick and minos[piece.shape].wallkick[game.wallkick]
+    local moves = wkt and wkt[from .. ">" .. nd]
     if not moves then return false, false end
 
     local limit = no_kick and 1 or #moves
